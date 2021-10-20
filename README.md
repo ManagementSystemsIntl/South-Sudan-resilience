@@ -8,3 +8,7 @@ This repository presents exploratory and preparatory analysis of the USAID resil
 
 Following [(Tango International 2018)](https://www.fsnnetwork.org/sites/default/files/Methodology_Guide_Nov2018508.pdf), the Aspirations Index is a summative index comprising 13 measurement items relating to people's aspirations, confidence to adapt, and a sense of control over one's life. The South Sudan baseline selected nine of the 13 items and created a summary index. This output reviews this summative index and conducts further tests to assess the potential for index creation through factor analysis. 
 
+[**Incidence of Trauma**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South-Sudan-resilience---Trauma-explore.html)
+
+The survey asks six questions relating to problems with thoughts, feelings, behavior, relationships, physical symptoms, and physical functioning. A generalized incidence of trauma variable takes on the value one if the respondent reports any of these problems, zero otherwise. This output explores the possibility of hidden structure within the trauma variables, with an interest to creating a generalized measure of ongoing stress from the household's environment. 
+
