@@ -22,7 +22,7 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-dat <- here(read_dta(here("data/local/SSD resilience baseline prepared.dta")))
+dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
 
 # svyrdat <- dat %>%
@@ -45,7 +45,7 @@ The survey asks six questions pertaining to the incidence of trauma. The prepara
 
 ```{r}
 
-acl <- here(read_csv("data/contextual/Violent_Events_by_EA.csv")) %>%
+acl <- read_csv(here("data/contextual/Violent_Events_by_EA.csv")) %>%
   as.data.frame()
 
 str(acl)
