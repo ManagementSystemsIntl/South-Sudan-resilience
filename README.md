@@ -10,5 +10,10 @@ Following [(Tango International 2018)](https://www.fsnnetwork.org/sites/default/
 
 [**Incidence of Trauma**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South-Sudan-resilience---Trauma-explore.html)
 
-The survey asks six questions relating to problems with thoughts, feelings, behavior, relationships, physical symptoms, and physical functioning. A generalized incidence of trauma variable takes on the value one if the respondent reports any of these problems, zero otherwise. This output explores the possibility of hidden structure within the trauma variables, with an interest to creating a generalized measure of ongoing stress from the household's environment. 
+The survey asks six questions relating to problems with thoughts, feelings, behavior, relationships, physical symptoms, and physical functioning. A generalized incidence of trauma variable takes on the value one if the respondent reports any of these problems, zero otherwise. This output explores the possibility of hidden structure within the trauma variables, with an interest in creating a generalized measure of ongoing stress from the household's environment. 
+
+[**Contextual data**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South-Sudan-resilience---contextual-data-explore.html)
+
+Environmental forces may play a role in affecting household resilience, and modeling that influence may help stakeholders better understand household resilience. The study team gathered three sources of contextual data: conflict event data, a measure of human displacement by county, and the length of paved roads by county. This output  explores this contextual information to assess its suitability for incorporating into descriptive models of household resilience. 
+
 
