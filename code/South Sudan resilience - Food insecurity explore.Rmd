@@ -1,0 +1,58 @@
+---
+title: "Food insecurity explore"
+author: "Dan Killian"
+date: "10/26/2021"
+output: 
+  bookdown::html_document2:
+    number_sections: true
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: paper
+    fig.caption: true
+    code_folding: hide
+    df_print: kable
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+# standard figure size and generate clean output
+knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+
+source(here("code/00 South Sudan resilience - prep.R"))
+
+dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+
+
+# svyrdat <- dat %>%
+#   as_survey_design(ids = ea,
+#                    strata=county,
+#                    weights=final_wt1)
+```
+
+# Introduction
+
+The South Sudan Monitoring and Evaluation Support Project (MESP) is conducting a household resilience survey in 13 counties. The purpose of this household survey is to obtain baseline data in the target areas for the indicators included in the Mission's Performance Management Plan (PMP) and the Community Roadmap, in support of USAID/South Sudan's Strategic Framework (2020-2024).
+
+MESP has completed data collection in six counties, and as of October 2021 is carrying out data collection in the remaining seven counties. The study team is currently reviewing the data from six counties in advance of analysis of the full set of 13 counties. This document is one of a series of documents to review various measures and indices relating to resilience.
+
+# Food insecurity 
+
+Food insecurity is the lack of confidence that the household will consistently maintain the caloric and dietary needs of its members. The South Sudan resilience baseline asks questions about food insecurity across two different temporal windows: 12 months and four weeks. The following survey items address the issue of food insecurity.
+
+```{r}
+
+fies_items <- dat %>%
+  select(q_422:q_435)
+
+head(fies_items)
+map(fies_items, frq)
+
+
+```
+
+```{r}
+map(fies_items, function(x) mean(x, na.rm=T))
+
+```

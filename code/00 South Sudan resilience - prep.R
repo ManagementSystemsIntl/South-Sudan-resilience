@@ -11,7 +11,11 @@ packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr
 
 lapply(packages, library, character.only=T)
 
-# font_add_google("Source Sans Pro", "sans-serif")
+# font_import()
+# loadfonts(device="win")
+# windwsFonts()
+
+font_add_google("Source Sans Pro", "sans-serif")
 
 options(digits=3, scipen=8)
 #options(digits=8, scipen=9)
@@ -115,16 +119,16 @@ revcode <- function(x) {
 
 # data ----
 
-#dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_weighted.dta"))
+dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_weighted.dta"))
 
-# dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
-# 
-# svydat <- svydesign(data = dat,
-#                     ids = ~ea,
-#                     weights= ~final_wt1,
-#                     strata = ~county)
-# 
-# svyrdat <- dat %>%
-#   as_survey_design(ids = ea,
-#                    strata=county,
-#                    weights=final_wt1)
+dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+
+svydat <- svydesign(data = dat,
+                     ids = ~ea,
+                     weights= ~final_wt1,
+                     strata = ~county)
+
+ svyrdat <- dat %>%
+   as_survey_design(ids = ea,
+                    strata=county,
+                    weights=final_wt1)
