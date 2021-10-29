@@ -22,7 +22,31 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta")) %>%
+  mutate(id=1:3563)
+
+# frq_disag <- function(object, disaggregate, item, label, media) {
+#   temp <- object %>%
+#     group_by({{disaggregate}}) %>%
+#     summarize(Percent=mean({{item}}, na.rm=T),
+#               se=std.error({{item}}, na.rm=T)) %>%
+#     mutate(var_name={{label}},
+#            Media={{media}},
+#            lower=Percent-1.96*se,
+#            upper=Percent+1.96*se)
+#   temp
+# }
+
+svy_disag <- function(design, disaggregate, item, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(item={{item}},
+           label={{label}},
+           lower=Value-1.96*se,
+           upper=Value+1.96*se)
+  temp
+}
 
 
 # svyrdat <- dat %>%
@@ -43,16 +67,337 @@ Food insecurity is the lack of confidence that the household will consistently m
 
 ```{r}
 
-fies_items <- dat %>%
-  select(q_422:q_435)
+fies <- dat %>%
+  select(q_422:q_429)
 
-head(fies_items)
-map(fies_items, frq)
+svy_disag <- function(design, disaggregate, item, varname, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(#item={{item}},
+           var_name={{varname}},
+           label={{label}},
+           lower=Value-1.96*Value_se,
+           upper=Value+1.96*Value_se)
+  temp
+}
 
+q422 <- svy_disag(svyrdat, "", q_422, "worried", "Worried about not enough to eat") %>%
+  select(4,5,2,6,7)
+
+#q422
+
+q423 <- svy_disag(svyrdat, "", q_423, "unhealthy", "Unable to eat healthy") %>%
+  select(4,5,2,6,7)
+
+#q423
+
+q424 <- svy_disag(svyrdat, "", q_424, "few_foods", "Ate few kinds of foods") %>%
+  select(4,5,2,6,7)
+
+#q424
+
+q425 <- svy_disag(svyrdat, "", q_425, "skip", "Skipped a meal") %>%
+  select(4,5,2,6,7)
+
+#q425
+
+q426 <- svy_disag(svyrdat, "", q_426, "ate_less", "Ate less than needed") %>%
+  select(4,5,2,6,7)
+
+#q426
+
+q427 <- svy_disag(svyrdat, "", q_427, "no_food", "Did not have food") %>%
+  select(4,5,2,6,7)
+
+#q427
+
+q428 <- svy_disag(svyrdat, "", q_428, "not_eat", "Did not eat") %>%
+  select(4,5,2,6,7)
+
+#q428
+
+q429 <- svy_disag(svyrdat, "", q_429, "fast", "Went a day without eating") %>%
+  select(4,5,2,6,7)
+
+#q429
+
+fies_items <- do.call(rbind, 
+                      list(q422,
+                           q423,
+                           q424,
+                           q425,
+                           q426,
+                           q427,
+                           q428,
+                           q429))
+
+
+fies_items
+
+write.csv(fies_items, "output/tables/food insecurity/fies items.csv")
+
+fies_items_gt <- fies_items %>%
+  gt() %>%
+  fmt_percent(3:5,
+              decimals=1)
+```
+
+```{r echo=F, fig.cap="Items comprising Food Insecurity Experience Scale (FIES)"}
+fies_items_gt
+
+```
+We can create an index value that is simply the sum of items the respondent agrees to. This has already been calculated under the variable 'fies_raw'. 
+
+```{r}
+frq(dat$fies_raw)
+```
+A great majority of respondents agreed with all eight items, raising questions about the suitability of this data for scale construction. We'll proceed to see what happens and to illustrate the methods. 
+
+First, let's take a look at the conditional probabilities for each possible scale value. 
+
+
+
+We can add transform the item proportions into odds and log-odds to help with further analysis. 
+
+```{r}
+fies_items <- fies_items %>%
+  mutate(odds=Value/(1-Value),
+         logits=log(odds)) %>%
+  select(-(4:5))
+
+fies_items
+```
+How well do the logits map to the original scale value of the sum of items? 
+
+```{r}
+ggplot(fies_items, aes())
+```
+
+
+
+```{r}
+f2 <- dat %>%
+  select(q_430:q_435)
+
+head(f2)
+map(f2, frq)
+```
+
+
+
+
+# Analytical models
+
+## FAO models
+
+```{r}
+library(ltm)
+library(eRm)
+library(RM.weights)
+
+names(dat)
+names(fies_items)
+
+rash <- fies_items %>%
+  select(1:8)
+
+rash <- dat %>%
+  select(q_422:q_429) %>%
+#  as.data.frame() %>%
+  map(., as.numeric) %>%
+  as.data.frame() %>%
+  na.omit()
+
+rash <- map(rash, as.numeric) %>%
+  as.matrix()
+
+str(rash)
+
+rash2 <- dat %>%
+  select(q_422:q_429, hh_wt)
+
+head(rash)
+
+r1 <- RM.w(rash)
+str(rash)
+
+r1
+summary(r1)
 
 ```
 
 ```{r}
-map(fies_items, function(x) mean(x, na.rm=T))
+r1$b
+```
+
+# LTM package
+
+```{r}
+library(ltm)
+
+descript(fies)
 
 ```
+```{r}
+plot(descript(fies))
+```
+
+## ltm
+
+``` {r}
+
+l1 <- ltm(fies ~ z1)
+l1
+summary(l1)
+```
+
+```{r}
+plot(l1, type="ICC")
+```
+
+```{r}
+plot(l1, type="IIC")
+```
+```{r}
+plot(l1_scores, type="loadings")
+```
+```{r}
+plot(l1, 
+     type="IIC", 
+     items=0)
+```
+
+
+
+```{r}
+person.fit(l1)
+```
+
+
+```{r}
+
+l1_scores <- factor.scores(l1)
+
+
+l1_scores_dat <- l1_scores$score.dat
+
+sum(l1_scores_dat$Obs)
+
+ggplot(l1_scores_dat, aes(z1, weight=Obs)) + 
+  geom_density() +
+  scale_x_continuous(limits=c(-2.5,.5))
+
+```
+```{r}
+plot(l1_scores)
+```
+```{r}
+
+```
+
+
+
+```{r}
+describe(dat$fies)
+
+
+
+```
+
+
+## rasch 
+
+```{r}
+r1 <- rasch(fies)
+summary(r1)
+```
+
+```{r}
+coef(r1)
+```
+```{r}
+
+```
+
+
+# Dietary diversity 
+
+```{r}
+
+#frq(dat$fies_raw)
+
+diet <- dat %>%
+select(q_403:q_419)
+
+fa.parallel(diet)
+
+fa_diet_6 <- fa(diet,
+nfactors=6)
+
+fa_diet_6
+```
+
+
+```{r}
+fa_diet_6_scores <- data.frame(fa_diet_6$scores) 
+
+dat2 <- dat %>%
+cbind(fa_diet_6_scores)
+
+ggplot(dat2, aes(MR3, fies_raw)) + 
+geom_point() + 
+stat_smooth(method="lm")
+
+```
+
+
+```{r}
+l1 <- lm(fies_raw ~ MR1 + MR2 + MR3 + MR4 + MR5 + MR6,
+data=dat2)
+
+summary(l1)
+```
+
+```{r}
+inc <- dat %>%
+select(q_401_a_bin,
+q_401_b_bin,
+q_401_c_bin,
+q_401_d_bin,
+q_401_e_bin,
+q_401_f_bin,
+q_401_g_bin,
+q_401_h_bin,
+q_401_i_bin,
+q_401_j_bin,
+q_401_k_bin,
+q_401_j_bin,
+q_401_k_bin,
+q_401_l_bin,
+q_401_m_bin,
+q_401_n_bin,
+q_401_o_bin,
+q_401_p_bin,
+q_401_q_bin,
+q_401_r_bin,
+q_401_s_bin,
+q_401_t_bin,
+q_401_u_bin)
+
+str(inc)
+head(inc)
+
+fa.parallel(inc
+, cor="tet")
+
+```
+
+```{r}
+fa_inc_6 <- fa(inc,
+nfactors=6)
+
+fa_inc_6
+
+```
+
