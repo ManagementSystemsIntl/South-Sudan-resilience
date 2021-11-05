@@ -117,7 +117,7 @@ q428 <- svy_disag(svyrdat, "", q_428, "not_eat", "Did not eat") %>%
 
 #q428
 
-q429 <- svy_disag(svyrdat, "", q_429, "fast", "Went a day without eating") %>%
+q429 <- svy_disag(svyrdat, "", q_429, "wholeday", "Went a day without eating") %>%
   select(4,5,2,6,7)
 
 #q429
@@ -133,14 +133,17 @@ fies_items <- do.call(rbind,
                            q429))
 
 
-fies_items
+# fies_items
+# 
+# write.csv(fies_items, here("output/tables/food insecurity/fies items.csv"))
+# 
+# fies_items_gt <- fies_items %>%
+#   gt() %>%
+#   fmt_percent(3:5,
+#               decimals=1)
+# 
+# gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
 
-write.csv(fies_items, "output/tables/food insecurity/fies items.csv")
-
-fies_items_gt <- fies_items %>%
-  gt() %>%
-  fmt_percent(3:5,
-              decimals=1)
 ```
 
 ```{r echo=F, fig.cap="Items comprising Food Insecurity Experience Scale (FIES)"}
@@ -150,42 +153,53 @@ fies_items_gt
 We can create an index value that is simply the sum of items the respondent agrees to. This has already been calculated under the variable 'fies_raw'. 
 
 ```{r}
-frq(dat$fies_raw)
+frq(dat$fies_raw) %>% kable()
+
 ```
-A great majority of respondents agreed with all eight items, raising questions about the suitability of this data for scale construction. We'll proceed to see what happens and to illustrate the methods. 
-
-First, let's take a look at the conditional probabilities for each possible scale value. 
-
-
-
-We can add transform the item proportions into odds and log-odds to help with further analysis. 
+A great majority of respondents agreed with all eight items, raising questions about the suitability of this data for scale construction. The weighted mean scale value is 7.7. Here is the mean scale value across county. 
 
 ```{r}
-fies_items <- fies_items %>%
-  mutate(odds=Value/(1-Value),
-         logits=log(odds)) %>%
-  select(-(4:5))
 
-fies_items
+fies_mn <- svyrdat %>%
+  group_by() %>%
+  summarize(fies=survey_mean(fies_raw, na.rm=T)) %>%
+  select(1) %>%
+  unlist()
+
+#fies_mn # 7.73
+
+fies_county <- svyrdat %>%
+  group_by(county) %>%
+  summarize(fies=survey_mean(fies_raw, na.rm=T)) %>%
+  mutate(lower=fies-1.96*fies_se,
+         upper=fies+1.96*fies_se) %>%
+  select(1,2,4,5)
+
+#fies_county
+
+a <- ggplot(fies_county, aes(fies, county)) + 
+  geom_vline(aes(xintercept=fies_mn), color="darkgoldenrod2", size=1, alpha=.8) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), color=medium_blue, width=0) + 
+  geom_label(aes(label=round(fies,2)), color=medium_blue, size=3) + 
+  scale_x_continuous(limits=c(6,8),
+                     breaks=5:8) + 
+  labs(x="",
+       y="")
 ```
-How well do the logits map to the original scale value of the sum of items? 
+
+```{r echo=F, fig.cap="Food insecurity experience scale (FIES), by county"}
+a
+```
 
 ```{r}
-ggplot(fies_items, aes())
+# f2 <- dat %>%
+#   select(q_430:q_435)
+# 
+# head(f2)
+# map(f2, frq)
 ```
 
-
-
-```{r}
-f2 <- dat %>%
-  select(q_430:q_435)
-
-head(f2)
-map(f2, frq)
-```
-
-
-
+Let's look at how well this data can be fit into an item response theory framework. 
 
 # Analytical models
 
@@ -317,8 +331,131 @@ summary(r1)
 coef(r1)
 ```
 ```{r}
+plot(r1, 
+     type="ICC",
+     legend=T)
+```
+
+```{r}
+plot(r1, 
+     type="IIC",
+     legend=T)
+```
+
+```{r}
+plot(r1, 
+     type="IIC",
+     items=0) 
+```
+```{r}
+r1_scores <- factor.scores(r1, method="EAP")$score.dat
+head(r1_scores)
 
 ```
+
+```{r}
+fies_index <- fies %>%
+  mutate(id=1:3563) %>%
+  merge(r1_scores) %>%
+  rename(fies_index=z1)
+
+head(fies_index)
+
+describe(fies_index$fies_index)
+
+ggplot(fies_index, aes(fies_index)) + 
+  geom_density() + 
+  scale_x_continuous(limits=c(-2,.75))
+
+```
+```{r}
+r1_pfit <- person.fit(r1)
+summary(r1_pfit)
+```
+
+## TAM package
+
+```{r}
+library(TAM)
+library(WrightMap)
+citation("WrightMap")
+```
+
+```{r}
+t1 <- tam(fies)
+```
+```{r}
+summary(t1)
+```
+
+```{r}
+t1_itemfit <- tam.fit(t1)
+
+summary(t1_itemfit)
+
+```
+
+```{r}
+IRT.WrightMap(t1)
+```
+
+Not good results. No variation in item difficulty. 
+
+```{r}
+t1_scores <- tam.wle(t1) %>%
+  as.data.frame() %>%
+  mutate(theta_2 = theta+10)
+
+head(t1_scores)
+```
+
+```{r}
+raw_test <- dat %>%
+  select(id, fies_raw)
+```
+
+```{r}
+ggplot(t1_scores, aes(theta)) + 
+  geom_density() + 
+  scale_x_continuous(limits=c(-8,0))
+```
+
+
+
+```{r}
+out <- t1_scores %>%
+  group_by(PersonScores) %>%
+  summarize(theta=mean(theta, na.rm=T),
+            error=mean(error, na.rm=T)) %>%
+  mutate(theta_2 = theta + 10)
+
+out
+```
+
+
+```{r}
+t1_persfit <- tam.personfit(t1)
+summary(t1_persfit)
+
+```
+
+```{r}
+dat <- dat %>%
+  mutate(fies_index_tam = t1_scores$theta_2)
+
+describe(dat$fies_raw)
+describe(dat$fies_index_tam)
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
 
 
 # Dietary diversity 

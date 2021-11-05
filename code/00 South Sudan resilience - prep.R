@@ -119,16 +119,45 @@ revcode <- function(x) {
 
 # data ----
 
-dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_weighted.dta"))
+#dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_weighted.dta"))
 
-dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+dat_wt <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
-svydat <- svydesign(data = dat,
+dat <- read_dta(here("data/local/SSD resilience baseline prepared (4 Nov 2021).dta"))
+
+datNames <- data.frame(names(dat))
+
+svydat <- svydesign(data = dat_wt,
                      ids = ~ea,
                      weights= ~final_wt1,
                      strata = ~county)
 
- svyrdat <- dat %>%
+ svyrdat <- dat_wt %>%
    as_survey_design(ids = ea,
                     strata=county,
                     weights=final_wt1)
+ 
+ 
+ # colors
+ 
+ # color_names <- c("USAID_blue","USAID_red","rich_black","medium_blue","light_blue", "web_blue","dark_red","dark_gray","medium_gray","light_gray")
+ # 
+ # color_id <- c("#002F6C", "#BA0C2F", "#212721", "#0067B9","#A7C6ED", "#205493","#651D32", "#6C6463", "#8C8985", "#CFCDC9")
+ # 
+ # USAID_palette <- data.frame(color=color_names,
+ #                             id=color_id)
+ # 
+ # USAID_palette
+ 
+ usaid_blue <- "#002F6C"
+ usaid_red <- "#BA0C2F"
+ rich_black <- "#212721"
+ medium_blue <- "#0067B9"
+ light_blue <- "#A7C6ED"
+ web_blue <- "#205493"
+ dark_red <- "#651D32"
+ dark_grey <- "#6C6463"
+ medium_grey <- "#8C8985"
+ light_grey <- "#CFCDC9"
+ 
+ 

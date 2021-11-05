@@ -1,0 +1,101 @@
+---
+title: "Shocks explore"
+author: "Dan Killian"
+date: "10/28/2021"
+output: 
+  bookdown::html_document2:
+    number_sections: true
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: paper
+    fig.caption: true
+    code_folding: hide
+    df_print: kable
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+# standard figure size and generate clean output
+knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+
+source(here("code/00 South Sudan resilience - prep.R"))
+
+#dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+
+dat <- read_dta(here("data/local/SSD resilience baseline prepared (4 Nov 2021).dta"))
+
+# frq_disag <- function(object, disaggregate, item, label, media) {
+#   temp <- object %>%
+#     group_by({{disaggregate}}) %>%
+#     summarize(Percent=mean({{item}}, na.rm=T),
+#               se=std.error({{item}}, na.rm=T)) %>%
+#     mutate(var_name={{label}},
+#            Media={{media}},
+#            lower=Percent-1.96*se,
+#            upper=Percent+1.96*se)
+#   temp
+# }
+
+svy_disag <- function(design, disaggregate, item, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(item={{item}},
+           label={{label}},
+           lower=Value-1.96*se,
+           upper=Value+1.96*se)
+  temp
+}
+
+
+# svyrdat <- dat %>%
+#   as_survey_design(ids = ea,
+#                    strata=county,
+#                    weights=final_wt1)
+```
+
+# Introduction
+
+The South Sudan Monitoring and Evaluation Support Project (MESP) is conducting a household resilience survey in 13 counties. The purpose of this household survey is to obtain baseline data in the target areas for the indicators included in the Mission's Performance Management Plan (PMP) and the Community Roadmap, in support of USAID/South Sudan's Strategic Framework (2020-2024).
+
+MESP has completed data collection in six counties, and as of October 2021 is carrying out data collection in the remaining seven counties. The study team is currently reviewing the data from six counties in advance of analysis of the full set of 13 counties. This document is one of a series of documents to review various measures and indices relating to resilience.
+
+# Shocks and stressers
+
+```{r}
+
+frq(dat$q_439)
+map(dat[,163:211], frq)
+
+```
+
+
+```{r}
+
+frq(dat$q_436)
+frq(dat$flood_severity)
+
+dat <- dat %>%
+  mutate(shock_flood = q_436,
+         #flood_ec = q_437,
+         #flood_cons = q_438,
+         shock_drought = q_439,
+         #drought_ec = q_440,
+         #drought_cons = q_441,
+         shock_erosion = q_442,
+         shock_lost_land = q_445,
+         shock_food_price = q_448,
+         shock_theft = q_451,
+         shock_crop_inputs = q_455,
+         shock_crop_disease = q_458,
+         shock_crop_pests = q_461,
+         shock_crop_theft = q_464,
+         shock_livestock_inputs = q_468,
+         shock_livestock_disease = q_471,
+         shock_livestock_theft = q_474,
+         shock_livestock_
+         )
+
+```
