@@ -123,7 +123,7 @@ revcode <- function(x) {
 
 dat_wt <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
-dat <- read_dta(here("data/local/SSD resilience baseline prepared (4 Nov 2021).dta"))
+dat <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
 
 datNames <- data.frame(names(dat))
 
@@ -132,7 +132,7 @@ svydat <- svydesign(data = dat_wt,
                      weights= ~final_wt1,
                      strata = ~county)
 
- svyrdat <- dat_wt %>%
+svyrdat <- dat_wt %>%
    as_survey_design(ids = ea,
                     strata=county,
                     weights=final_wt1)
@@ -160,4 +160,4 @@ svydat <- svydesign(data = dat_wt,
  medium_grey <- "#8C8985"
  light_grey <- "#CFCDC9"
  
- 
+ shock_key <- read_csv(here("output/tables/shocks/shock key.csv"))
