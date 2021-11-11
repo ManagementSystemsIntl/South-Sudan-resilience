@@ -30,11 +30,18 @@ shck_mn <- dat %>%
   set_names(nm=c("var_name","freq")) %>%
   cbind(shock_key)
 
-#shck_mn
+shck_mn
 
 shock_key <- shock_key %>%
-  mutate(var_name=shck_mn$var_name)
+  mutate(var_name=shck_mn$var_name) %>%
+  as.data.frame()
 
 shock_key
+str(shock_key)
 
-write_csv(shock_key, here("output/tables/shocks/shock key.csv"))
+write_csv(shock_key, "output/tables/shocks/shock key.csv")
+
+getwd()
+
+## Shock severity, by county ---- 
+

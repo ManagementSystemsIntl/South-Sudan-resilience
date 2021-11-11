@@ -67,166 +67,30 @@ MESP has completed data collection in six counties, and as of October 2021 is ca
 
 # Shocks and stressers
 
-```{r}
-
-#frq(dat$q_439)
-#map(dat[,163:211], frq)
-
-```
-
-
-```{r}
-
-#frq(dat$q_436)
-#frq(dat$flood_severity)
-
-dat <- dat %>%
-  mutate(shock_flood = ifelse(is.na(q_436), 0,q_436),
-         #flood_ec = q_437,
-         #flood_cons = q_438,
-         shock_drought = ifelse(is.na(q_439), 0, q_439),
-         #drought_ec = q_440,
-         #drought_cons = q_441,
-         shock_erosion = ifelse(is.na(q_442), 0, q_442),
-         shock_lostland = ifelse(is.na(q_445), 0, q_445),
-         shock_foodprice = ifelse(is.na(q_448), 0, q_448),
-         shock_theft = ifelse(is.na(q_451), 0, q_451),
-         shock_cropinputs = ifelse(is.na(q_455), 0, q_455),
-         shock_cropdisease = ifelse(is.na(q_458), 0, q_458),
-         shock_croppests = ifelse(is.na(q_461), 0, q_461),
-         shock_croptheft = ifelse(is.na(q_464), 0, q_464),
-         shock_livestockinputs = ifelse(is.na(q_468), 0, q_468),
-         shock_livestockdisease = ifelse(is.na(q_471), 0, q_471),
-         shock_livestocktheft = ifelse(is.na(q_474), 0, q_474),
-         #shock_nosell = ifelse(is.na(q_477), 0, q_477),
-         #shock_illness = ifelse(is.na(q_480), 0, q_480),
-         #shock_death = ifelse(is.na(q_484), 0, q_484),
-         shock_nosell = q_477,
-         shock_illness = q_480,
-         shock_death = q_484,
-         shocks = shock_flood + 
-           shock_drought + 
-           shock_erosion + 
-           shock_lostland + 
-           shock_foodprice + 
-           shock_theft + 
-           shock_cropinputs + 
-           shock_cropdisease + 
-           shock_croppests + 
-           shock_croptheft + 
-           shock_livestockinputs + 
-           shock_livestockdisease + 
-           shock_livestocktheft + 
-           shock_nosell + 
-           shock_illness + 
-           shock_death)
-
-```
-
-
-```{r}
-
-dat_wt <- dat_wt %>%
-  mutate(shock_flood = ifelse(is.na(q_436), 0,q_436),
-         #flood_ec = q_437,
-         #flood_cons = q_438,
-         shock_drought = ifelse(is.na(q_439), 0, q_439),
-         #drought_ec = q_440,
-         #drought_cons = q_441,
-         shock_erosion = ifelse(is.na(q_442), 0, q_442),
-         shock_lostland = ifelse(is.na(q_445), 0, q_445),
-         shock_foodprice = ifelse(is.na(q_448), 0, q_448),
-         shock_theft = ifelse(is.na(q_451), 0, q_451),
-         shock_cropinputs = ifelse(is.na(q_455), 0, q_455),
-         shock_cropdisease = ifelse(is.na(q_458), 0, q_458),
-         shock_croppests = ifelse(is.na(q_461), 0, q_461),
-         shock_croptheft = ifelse(is.na(q_464), 0, q_464),
-         shock_livestockinputs = ifelse(is.na(q_468), 0, q_468),
-         shock_livestockdisease = ifelse(is.na(q_471), 0, q_471),
-         shock_livestocktheft = ifelse(is.na(q_474), 0, q_474),
-         #shock_nosell = ifelse(is.na(q_477), 0, q_477),
-         #shock_illness = ifelse(is.na(q_480), 0, q_480),
-         #shock_death = ifelse(is.na(q_484), 0, q_484),
-         shock_nosell = q_477,
-         shock_illness = q_480,
-         shock_death = q_484,
-         shocks = shock_flood + 
-           shock_drought + 
-           shock_erosion + 
-           shock_lostland + 
-           shock_foodprice + 
-           shock_theft + 
-           shock_cropinputs + 
-           shock_cropdisease + 
-           shock_croppests + 
-           shock_croptheft + 
-           shock_livestockinputs + 
-           shock_livestockdisease + 
-           shock_livestocktheft + 
-           shock_nosell + 
-           shock_illness + 
-           shock_death)
-
-svydat <- svydesign(data = dat_wt,
-                     ids = ~ea,
-                     weights= ~final_wt1,
-                     strata = ~county)
-
-svyrdat <- dat_wt %>%
-   as_survey_design(ids = ea,
-                    strata=county,
-                    weights=final_wt1)
-
-#frq(dat$shocks)
-#frq(dat$q_484)
-#frq(dat$shock_death)
-
-```
-
 ## Overall incidence of shocks
 
+Unweighted
+
 ```{r}
 
-shck_mn <- dat %>%
-  select(shock_flood:shock_death) %>%
-  summarize_all(mean, na.rm=T) %>%
-  t() %>%
-  as.data.frame() %>%
-  rownames_to_column() %>%
-  set_names(nm=c("var_name","freq")) %>%
-  left_join(shock_key)
-  
-#shck_mn
-
-shck_svy <- svyrdat %>%
-  select(shock_flood:shock_death) %>%
-  summarize_all(survey_mean, na.rm=T) %>%
-  t() %>%
-  as.data.frame() %>%
-  rownames_to_column() %>%
-  set_names(nm=c("var_name","freq"))
-
-shck_mn_svy <- shck_svy %>%
-  filter(row_number() %% 2 ==1) %>%
-  rename(mn=freq) %>%
-  cbind(shock_key)
-
-shck_se_svy <- shck_svy %>%
-  filter(row_number() %% 2 == 0) %>%
-  rename(se=freq) %>%
-  cbind(shock_key)
-
-shck_mn_se_svy <- shck_mn_svy %>%
-  mutate(se=shck_se_svy$se,
-         lower=mn-1.96*se,
-         upper=mn+1.96*se) %>%
-  select(1,3,4,2,6,7)
+# shck_mn <- dat %>%
+#   select(shock_flood:shock_death) %>%
+#   summarize_all(mean, na.rm=T) %>%
+#   t() %>%
+#   as.data.frame() %>%
+#   rownames_to_column() %>%
+#   set_names(nm=c("var_name","freq")) %>%
+#   left_join(shock_key) %>%
+#   select(1,3,4,2) %>%
+#   arrange(desc(freq))
+#   
+# shck_mn
 
 shck_mn_se <- dat %>%
   select(shock_flood:shock_death) %>%
   summarize(across(everything(),
                    list(mn = ~mean(.,na.rm=T), se = ~std.error(.,na.rm=T)))) %>%
-#                   .names="{.col}.{.fn}")) %>%
+#                   .names="{.col}.{.fn}")) %>% # name the separator from summarize
   pivot_longer(cols=1:32,
                names_to=c("discard", "var_name","measure"),
                names_sep="_",
@@ -235,9 +99,10 @@ shck_mn_se <- dat %>%
   pivot_wider(names_from=measure,
               values_from=value) %>%
   mutate(lower=mn-1.96*se,
-         upper=mn+1.96*se) %>%
-  cbind(shock_key) %>%
-  select(1,6,7,2:5) %>%
+         upper=mn+1.96*se,
+         shock_lab=shock_labs,
+         shock=1:16) %>%
+  select(1,7,6, 2:5) %>%
   mutate(overall_rank = rank(-mn)) %>%
   arrange(desc(mn))
 
@@ -246,9 +111,6 @@ shck_mn_se <- dat %>%
 shck_mn_se
 
 ```
-
-Unweighted
-
 ```{r}
 
 ggplot(shck_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) + 
@@ -262,6 +124,37 @@ ggplot(shck_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) +
 ```
 
 Weighted
+
+```{r}
+
+shck_svy <- svyrdat %>%
+  select(shock_flood:shock_death) %>%
+  summarize_all(survey_mean, na.rm=T) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column() %>%
+  set_names(nm=c("var_name","freq"))
+
+shck_mn_svy <- shck_svy %>%
+  filter(row_number() %% 2 ==1) %>%
+  rename(mn=freq) %>%
+  mutate(shock_lab=shock_labs)
+
+shck_se_svy <- shck_svy %>%
+  filter(row_number() %% 2 == 0) %>%
+  rename(se=freq) %>%
+  mutate(shock_lab=shock_labs) %>%
+  select(-1)
+
+shck_mn_se_svy <- shck_mn_svy %>%
+  left_join(shck_se_svy) %>%
+  mutate(lower=mn-1.96*se,
+         upper=mn+1.96*se) %>%
+  select(1,3,2,4:6)
+
+shck_mn_se_svy
+
+```
 
 ```{r}
 
@@ -299,7 +192,7 @@ shck_state_mn_se <- dat %>%
   arrange(state,desc(mn)) %>%
   ungroup() 
   
-#shck_state_mn_se
+shck_state_mn_se
 
 #write_csv(shck_state_mn_se, here("output/tables/shocks/shock incidence by state, unweighted.csv"))
 
@@ -352,7 +245,7 @@ shck_county_mn_se <- dat %>%
 
 ```
 
-```{r fig.height=10, fig.width=9}
+```{r fig.height=10, fig.width=11}
 
 ggplot(shck_county_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) + 
   geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
@@ -362,7 +255,7 @@ ggplot(shck_county_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) +
   scale_x_continuous(labels=percent,
                      limits=c(0,1)) +
   facet_wrap(~state + county,
-             ncol=4) +
+             ncol=5) +
   faceted
 
 ```
@@ -397,6 +290,85 @@ ML4: food prices, illness
 
 
 
+
+
+## Shock severity
+
+## Overall severity of shocks
+
+Unweighted
+
+```{r}
+
+# shck_mn <- dat %>%
+#   select(shock_flood:shock_death) %>%
+#   summarize_all(mean, na.rm=T) %>%
+#   t() %>%
+#   as.data.frame() %>%
+#   rownames_to_column() %>%
+#   set_names(nm=c("var_name","freq")) %>%
+#   left_join(shock_key) %>%
+#   select(1,3,4,2) %>%
+#   arrange(desc(freq))
+#   
+# shck_mn
+
+shck_mn_se <- dat %>%
+  select(shock_flood:shock_death) %>%
+  summarize(across(everything(),
+                   list(mn = ~mean(.,na.rm=T), se = ~std.error(.,na.rm=T)))) %>%
+#                   .names="{.col}.{.fn}")) %>% # name the separator from summarize
+  pivot_longer(cols=1:32,
+               names_to=c("discard", "var_name","measure"),
+               names_sep="_",
+               values_to="value") %>%
+  select(-1) %>%
+  pivot_wider(names_from=measure,
+              values_from=value) %>%
+  mutate(lower=mn-1.96*se,
+         upper=mn+1.96*se,
+         shock_lab=shock_labs,
+         shock=1:16) %>%
+  select(1,7,6, 2:5) %>%
+  mutate(overall_rank = rank(-mn)) %>%
+  arrange(desc(mn))
+
+#write_csv(shck_mn_se, here("output/tables/shocks/shock incidence overall, unweighted.csv"))
+  
+shck_mn_se
+
+```
+
+
+```{r}
+
+sev_county <- dat %>%
+  select(state, county, shock_flood:shock_death) %>%
+  group_by(state, county) %>%
+  summarize(across(shock_flood:shock_death,
+                   list(mn = ~mean(., na.rm=T), se = ~std.error(., na.rm=T)))) %>%
+  pivot_longer(cols=3:34,
+               names_to=c("discard", "var_name","measure"),
+               names_sep="_",
+               values_to="value") %>%
+  select(-3) %>%
+  pivot_wider(names_from=measure,
+              values_from=value) %>%
+  mutate(lower=mn-1.96*se,
+         upper=mn+1.96*se) %>%
+  ungroup() %>%
+  mutate(shock_lab=rep(shock_labs,13)) %>%
+  select(1,2, 3, 8, 4:7) %>%
+  group_by(county) %>%
+  mutate(county_rank=rank(-mn)) %>%
+  arrange(county, desc(mn)) %>%
+  ungroup() 
+  
+#shck_state_mn_se
+
+#write_csv(shck_county_mn_se, here("output/tables/shocks/shock incidence by county, unweighted.csv"))
+
+```
 
 ## Shock exposure
 
