@@ -20,13 +20,13 @@ knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, c
 
 library(here)
 
-knitr::opts_knit$set(root.dir=here()) # doesn't seem to work
+#knitr::opts_knit$set(root.dir=here()) # doesn't seem to work
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
 #dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
-dat <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
+#dat <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
 
 # frq_disag <- function(object, disaggregate, item, label, media) {
 #   temp <- object %>%
@@ -192,7 +192,7 @@ shck_state_mn_se <- dat %>%
   arrange(state,desc(mn)) %>%
   ungroup() 
   
-shck_state_mn_se
+#shck_state_mn_se
 
 #write_csv(shck_state_mn_se, here("output/tables/shocks/shock incidence by state, unweighted.csv"))
 
@@ -209,7 +209,6 @@ ggplot(shck_state_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) +
                      limits=c(0,1)) +
   facet_wrap(~state) +
   faceted
-
 
 ```
 
@@ -288,8 +287,25 @@ ML5: illness, death
 
 ML4: food prices, illness
 
+```{r}
+fa_shocks_4 <- fa(shocks,
+                  nfactors=4,
+                  cor="tet",
+                  scores="tenBerge",
+                  fm="ml")
 
+fa_shocks_4
+```
 
+ML2: Crop related
+
+ML3: Erosion, loss of land, flood, food prices
+
+ML1: Livestock related
+
+ML4: Theft, illness, death
+
+Explains 74 percent of the variance. Uninterpretable Tucker Lewis fit score and unacceptable RMSEA score (.6). 
 
 
 ## Shock severity
@@ -313,60 +329,202 @@ Unweighted
 #   
 # shck_mn
 
-shck_mn_se <- dat %>%
-  select(shock_flood:shock_death) %>%
+sev_mn_se <- dat %>%
+  select(flood_severity:death_severity) %>%
   summarize(across(everything(),
                    list(mn = ~mean(.,na.rm=T), se = ~std.error(.,na.rm=T)))) %>%
-#                   .names="{.col}.{.fn}")) %>% # name the separator from summarize
   pivot_longer(cols=1:32,
                names_to=c("discard", "var_name","measure"),
                names_sep="_",
                values_to="value") %>%
-  select(-1) %>%
+#  select(-1) %>%
   pivot_wider(names_from=measure,
               values_from=value) %>%
   mutate(lower=mn-1.96*se,
          upper=mn+1.96*se,
          shock_lab=shock_labs,
          shock=1:16) %>%
-  select(1,7,6, 2:5) %>%
+  select(1,8, 7,3:6) %>%
   mutate(overall_rank = rank(-mn)) %>%
   arrange(desc(mn))
 
-#write_csv(shck_mn_se, here("output/tables/shocks/shock incidence overall, unweighted.csv"))
+#write_csv(sev_mn_se, here("output/tables/shocks/shock severity overall, unweighted.csv"))
   
-shck_mn_se
+sev_mn_se
+
+```
+
+```{r}
+
+ggplot(sev_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+  geom_point(size=3, color=light_blue) +
+  labs(x="",
+       y="") + 
+  scale_x_continuous(limits=c(0,8),
+                     breaks=0:8)
 
 ```
 
 
+Weighted
+
+Weighted
+
+```{r}
+
+sev_svy <- svyrdat %>%
+  select(flood_severity:death_severity) %>%
+  summarize_all(survey_mean, na.rm=T) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column() %>%
+  set_names(nm=c("var_name","freq"))
+
+sev_mn_svy <- sev_svy %>%
+  filter(row_number() %% 2 ==1) %>%
+  rename(mn=freq) %>%
+  mutate(shock_lab=shock_labs)
+
+sev_se_svy <- sev_svy %>%
+  filter(row_number() %% 2 == 0) %>%
+  rename(se=freq) %>%
+  mutate(shock_lab=shock_labs) %>%
+  select(-1)
+
+sev_mn_se_svy <- sev_mn_svy %>%
+  left_join(sev_se_svy) %>%
+  mutate(lower=mn-1.96*se,
+         upper=mn+1.96*se) %>%
+  select(1,3,2,4:6)
+
+sev_mn_se_svy
+
+```
+
+```{r}
+
+ggplot(sev_mn_se_svy, aes(x=mn, y=fct_reorder(shock_lab, mn))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+  geom_point(size=3, color=light_blue) +
+  labs(x="",
+       y="") + 
+  scale_x_continuous(limits=c(0,8),
+                     breaks=0:8)
+
+```
+
+
+
+## Shock severity, by county
+
+Unweighted
+
 ```{r}
 
 sev_county <- dat %>%
-  select(state, county, shock_flood:shock_death) %>%
-  group_by(state, county) %>%
-  summarize(across(shock_flood:shock_death,
+  select(region, state, county, flood_severity:death_severity) %>%
+  group_by(region, state, county) %>%
+  summarize(across(flood_severity:death_severity,
                    list(mn = ~mean(., na.rm=T), se = ~std.error(., na.rm=T)))) %>%
-  pivot_longer(cols=3:34,
-               names_to=c("discard", "var_name","measure"),
+  pivot_longer(cols=4:35,
+               names_to=c("var_name","discard", "measure"),
                names_sep="_",
                values_to="value") %>%
-  select(-3) %>%
+  select(-5) %>%
   pivot_wider(names_from=measure,
               values_from=value) %>%
   mutate(lower=mn-1.96*se,
          upper=mn+1.96*se) %>%
   ungroup() %>%
   mutate(shock_lab=rep(shock_labs,13)) %>%
-  select(1,2, 3, 8, 4:7) %>%
+  select(1:4, 9, 5:8) %>%
   group_by(county) %>%
   mutate(county_rank=rank(-mn)) %>%
   arrange(county, desc(mn)) %>%
   ungroup() 
-  
-#shck_state_mn_se
 
-#write_csv(shck_county_mn_se, here("output/tables/shocks/shock incidence by county, unweighted.csv"))
+sev_county
+
+#write_csv(sev_county, here("output/tables/shocks/shock severity by county, unweighted.csv"))
+
+```
+
+```{r fig.height=10, fig.width=11}
+
+ggplot(sev_county, aes(x=mn, y=fct_reorder(shock_lab, mn))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+  geom_point(size=3, color=light_blue) +
+  labs(x="",
+       y="") + 
+  scale_x_continuous(limits=c(0,8),
+                     breaks=0:8) +
+  facet_wrap(~region + state + county,
+             ncol=5) +
+  faceted
+
+```
+
+## Shock clustering, weighted by severity
+
+```{r}
+sev <- dat %>%
+  select(flood_severity:death_severity)
+
+fa.parallel(sev)
+```
+
+```{r}
+fa_sev_4 <- fa(sev,
+                  nfactors=4,
+                  scores="tenBerge",
+                  fm="ml")
+
+fa_sev_4
+```
+ML1: livestock, inability to sell, illness and death
+
+ML2: crop related
+
+ML3: erosion, loss of land, flood, food prices
+
+ML4: theft
+
+```{r}
+fa_sev_3 <- fa(sev,
+                  nfactors=3,
+                  scores="tenBerge",
+                  fm="ml")
+
+fa_sev_3
+```
+ML2: livestock, inability sell, illness and death
+
+ML1: crop related
+
+ML3: erosion, loss of land, flood, food prices
+
+Explains 56 percent of the variance. Acceptable Tucker Lewis fit score (.92). RMSEA score of .08 is a little high but probably acceptable. 
+
+```{r}
+fa_sev_3_scores <- fa_sev_3$scores %>%
+  as.data.frame() %>%
+  set_names(nm=c("shock_sev_livestock", "shock_sev_crops","shocks_sev_drought"))
+
+head(fa_sev_3_scores)
+describe(fa_sev_3_scores)
+
+```
+```{r}
+dat <- dat %>%
+  mutate(shock_sev_livestock=fa_sev_3_scores$shock_sev_livestock,
+         shock_sev_crops = fa_sev_3_scores$shock_sev_crops,
+         shock_sev_drought=fa_sev_3_scores$shocks_sev_drought)
+
+ggplot(dat) + 
+  geom_density(aes(shock_sev_livestock), color=usaid_red) + 
+  geom_density(aes(shock_sev_crops), color=usaid_blue) +
+  geom_density(aes(shock_sev_drought), color=light_blue)
 
 ```
 
@@ -413,7 +571,8 @@ ggplot(expos, aes(x=exposure, y=fct_reorder(county, exposure))) +
   geom_point(size=3, color=light_blue) +
   labs(x="",
        y="") + 
-  scale_x_continuous(limits=c(0,144)) 
+  scale_x_continuous(limits=c(0,128),
+                     breaks=seq(0,125,25)) 
 
 ```
 
@@ -423,7 +582,7 @@ ggplot(expos, aes(x=exposure, y=fct_reorder(county, exposure))) +
   geom_point(size=3, color=light_blue) +
   labs(x="",
        y="") + 
-  scale_x_continuous(limits=c(0,144),
+  scale_x_continuous(limits=c(0,128),
                      breaks=seq(0,125,25)) +
   facet_wrap(~state,
              scales="free",
@@ -450,10 +609,213 @@ ggplot(expos_wt, aes(x=exposure, y=fct_reorder(county, exposure))) +
   geom_point(size=3, color=light_blue) +
   labs(x="",
        y="") + 
-  scale_x_continuous(limits=c(0,144)) 
+  scale_x_continuous(limits=c(0,128),
+                     breaks=seq(0,125,25)) 
 
 ```
 
 # Ability to recover
 
-# 
+```{r}
+frq(dat$ability_recover)
+```
+
+
+```{r}
+rec_county <- dat %>%
+  group_by(region, state, county) %>%
+  summarize(rec = mean(ability_recover, na.rm=T),
+            se = std.error(ability_recover, na.rm=T)) %>%
+  arrange(desc(rec))  %>%
+  mutate(lower=rec-1.96*se,
+         upper=rec+1.96*se)
+
+rec_county
+```
+```{r fig.height=8, fig.width=8}
+
+ggplot(rec_county, aes(x=rec, y=fct_reorder(county, rec))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+  geom_point(size=3, color=light_blue) +
+  labs(x="",
+       y="") + 
+  scale_x_continuous(limits=c(2,6),
+                     breaks=2:6)
+
++
+  facet_wrap(~region + state,
+             ncol=5,
+             scales="free") +
+  faceted
+
+```
+
+```{r}
+rec_lang <- dat %>%
+  group_by(q_211) %>%
+  summarize(rec = mean(ability_recover, na.rm=T),
+            se = std.error(ability_recover, na.rm=T)) %>%
+  arrange(desc(rec))  %>%
+  mutate(lower=rec-1.96*se,
+         upper=rec+1.96*se)
+
+rec_lang
+```
+
+
+
+```{r}
+ggplot(rec_lang, aes(x=rec, y=reorder(as.numeric(q_211), rec))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+  geom_point(size=3, color=light_blue) +
+  labs(x="",
+       y="") + 
+  scale_x_continuous(limits=c(2,6),
+                     breaks=2:6)
+
++
+  facet_wrap(~region + state,
+             ncol=5,
+             scales="free") +
+  faceted
+```
+
+
+## ARSSI
+
+Exploration of indicator table presentation
+
+```{r}
+frq(dat$arssi)
+```
+
+
+```{r}
+
+arssi_mn <- svyrdat %>%
+  group_by() %>%
+  summarize(Value=survey_mean(arssi, na.rm=T)) %>%
+  mutate(Lower=Value-Value_se*1.96,
+         Upper=Value+Value_se*1.96,
+         Disaggregate="Overall",
+         `Disaggregate type`="Overall") %>%
+  select(5,6,1,3:4)
+
+arssi_mn
+
+```
+
+```{r}
+
+arssi_reg <- svyrdat %>%
+  group_by(`Disaggregate type`=region) %>%
+  summarize(Value=survey_mean(arssi, na.rm=T)) %>%
+  mutate(Lower=Value-Value_se*1.96,
+         Upper=Value+Value_se*1.96,
+         Disaggregate="Region") %>%
+  select(6,1,2,4:5)
+
+arssi_reg
+
+```
+
+```{r}
+
+arssi_state <- svyrdat %>%
+  group_by(`Disaggregate type`=state) %>%
+  summarize(Value=survey_mean(arssi, na.rm=T)) %>%
+  mutate(Lower=Value-Value_se*1.96,
+         Upper=Value+Value_se*1.96,
+         Disaggregate="State") %>%
+  select(6, 1, 2, 4:5)
+
+arssi_state
+
+```
+
+```{r}
+
+arssi_county <- svyrdat %>%
+  group_by(`Disaggregate type`=county) %>%
+#  group_by(Region=region, State=state, County=county) %>%
+  summarize(Value=survey_mean(arssi, na.rm=T)) %>%
+  mutate(Lower=Value-Value_se*1.96,
+         Upper=Value+Value_se*1.96,
+         Disaggregate="County") %>%
+  select(6,1,2,4:5)
+
+arssi_county
+
+```
+
+```{r}
+ind_arssi <- do.call(rbind, list(arssi_mn,
+                                 arssi_reg,
+                                 arssi_state,
+                                 arssi_county))
+
+#ind_arssi
+
+#write_csv(ind_arssi, here("output/tables/shocks/indicator - arssi.csv"))
+
+ind_arssi_gt <- ind_arssi %>%
+  gt() %>%
+  tab_source_note(source_note="Ability to recover from shocks and stresses")
+
+ind_arssi_gt
+
+#gtsave(ind_arssi_gt, here("output/tables/shocks/indicator 26 - arssi.rtf"))
+
+```
+
+
+# Food security and shocks
+
+```{r}
+l1 <- lm(fies_raw ~ shock_exposure_index,
+         data=dat)
+
+summary(l1)
+```
+
+```{r}
+l2 <- lm(fies_raw ~ shock_sev_livestock + shock_sev_crops + shock_sev_drought,
+         data=dat)
+
+summary(l2)
+```
+
+```{r}
+ggplot(dat, aes(x=shock_sev_drought, y=fies_raw)) + 
+  geom_point(size=.5, alpha=.3, color=light_blue) + 
+  stat_smooth(color=light_blue)
+```
+
+```{r}
+ggplot(dat, aes(x=shock_sev_drought, y=fies_raw)) + 
+  stat_smooth(color=light_blue, se=F) + 
+  stat_smooth(aes(shock_sev_livestock), color=usaid_red, se=F) + 
+  stat_smooth(aes(shock_sev_crops), color=usaid_blue, se=F) + 
+  scale_x_continuous(limits=c(-2,2)) + 
+  scale_y_continuous(limits=c(4,8),
+                     breaks=1:8)
+```
+
+```{r}
+ggplot(dat, aes(x=shock_sev_drought, y=fies_raw)) + 
+  geom_point(size=.5, alpha=.3, color=light_blue) + 
+  stat_smooth(color=light_blue)
+```
+
+
+
+
+
+```{r}
+ggplot(dat, aes(x=shock_drought, y=fies_raw)) + 
+  geom_point(size=.5, alpha=.3, color=light_blue) + 
+  stat_smooth(color=light_blue,
+              method="lm")
+```
+
+

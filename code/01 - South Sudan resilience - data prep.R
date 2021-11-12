@@ -7,6 +7,15 @@ raw <- read_dta("data/local/mesp_household_baseline_hh_survey_scored_combined_13
 
 write_dta(raw, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
 
+frq(dat$state)
+
+dat_wt <- dat_wt %>%
+  mutate(region=case_when(state=="Eastern Equatoria" ~ "Equatoria",
+                          state=="Western Bahr-El-Ghazel" ~ "Bahr el Ghazal",
+                          TRUE ~ "Greater Upper Nile"))
+
+
+frq(dat$region)
 
 # shocks ---- 
 
@@ -56,9 +65,19 @@ dat <- dat %>%
            shock_livestocktheft + 
            shock_nosell + 
            shock_illness + 
-           shock_death)
+           shock_death,
+         ) %>%
+  rename(littlerain_severity = little_rain_severity,
+         lossland_severity = loss_land_severity,
+         foodpriceinc_severity = food_price_inc_severity,
+         aginput_severity = ag_input_severity,
+         cropdisease_severity = crop_disease_severity,
+         croptheft_severity=crop_theft_severity,
+         livestockinput_severity = livestock_input_severity,
+         livestockdisease_severity = livestock_disease_severity,
+         livestocktheft_severity = livestock_theft_severity,
+         nosell_severity = no_sell_crop_severity)
 
-write_dta(dat, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
 
 ## shocks weighted dataset ---- 
 
@@ -103,6 +122,10 @@ dat_wt <- dat_wt %>%
            shock_nosell + 
            shock_illness + 
            shock_death)
+
+## save prepared data ---- 
+
+write_dta(dat, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
 
 write_dta(dat_wt, "data/local/SSD resilience baseline prepared.dta")
 

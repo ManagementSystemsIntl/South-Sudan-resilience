@@ -161,3 +161,22 @@ svyrdat <- dat_wt %>%
  light_grey <- "#CFCDC9"
  
  shock_key <- read_csv(here("output/tables/shocks/shock key.csv"))
+ 
+ shock_labs <- c("Floods",
+                 "Drought",
+                 "Erosion",
+                 "Loss of land",
+                 "Increase in food prices",
+                 "Theft", 
+                 "No crop inputs",
+                 "Crop disease",
+                 "Crop pests",
+                 "Crop theft",
+                 "No livestock inputs",
+                 "Livestock disease",
+                 "Livestock theft",
+                 "Unable to sell",
+                 "Illness in household",
+                 "Death in household")
+ 
+ 

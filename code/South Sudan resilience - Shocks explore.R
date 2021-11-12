@@ -1,22 +1,7 @@
 # South Sudan resilience
 # Shocks explore
 
-shock_labs <- c("Floods",
-                "Drought",
-                "Erosion",
-                "Loss of land",
-                "Increase in food prices",
-                "Theft", 
-                "No crop inputs",
-                "Crop disease",
-                "Crop pests",
-                "Crop theft",
-                "No livestock inputs",
-                "Livestock disease",
-                "Livestock theft",
-                "Unable to sell",
-                "Illness in household",
-                "Death in household")
+
 
 shock_key <- data.frame(shock=1:16,
                         shock_lab = shock_labs)
