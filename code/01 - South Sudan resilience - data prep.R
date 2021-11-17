@@ -17,6 +17,50 @@ dat_wt <- dat_wt %>%
 
 frq(dat$region)
 
+# social norms ---- 
+
+frq(dat$q_802)
+frq(dat$q_802_bin)
+
+frq(dat$q_803)
+frq(dat$q_803_bin)
+
+dat <- dat %>% 
+  mutate(against_cattleraid = case_when(q_802_bin == 0 ~ 1,
+                                        q_802_bin == 1 ~ 0,
+                                        TRUE ~ NA_real_),
+         against_earlymarriage = case_when(q_803_bin == 0 ~ 1,
+                                        q_803_bin == 1 ~ 0,
+                                        TRUE ~ NA_real_))
+
+frq(dat$against_cattleraid)
+frq(dat$against_earlymarriage)
+
+## Cattle raiding ---- 
+
+
+
+
+## Gender-based violence ---- 
+
+frq(dat$q_820)
+
+
+## Girls' education ---- 
+
+
+## Bride price ---- 
+
+
+## Trafficking in persons ---- 
+
+
+
+
+
+
+
+
 # shocks ---- 
 
 frq(dat$q_439)
