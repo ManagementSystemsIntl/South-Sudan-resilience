@@ -121,18 +121,21 @@ revcode <- function(x) {
 
 #dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_weighted.dta"))
 
-dat_wt <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+#dat_wt <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
-dat <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
+dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta")) %>%
+  filter(!is.na(final_wt1))
+
+dat_unw <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
 
 datNames <- data.frame(names(dat))
 
-svydat <- svydesign(data = dat_wt,
+svydat <- svydesign(data = dat,
                      ids = ~ea,
                      weights= ~final_wt1,
                      strata = ~county)
 
-svyrdat <- dat_wt %>%
+svyrdat <- dat %>%
    as_survey_design(ids = ea,
                     strata=county,
                     weights=final_wt1)

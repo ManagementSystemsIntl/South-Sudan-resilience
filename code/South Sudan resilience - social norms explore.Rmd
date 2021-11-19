@@ -36,6 +36,11 @@ MESP has completed data collection in six counties, and as of October 2021 is ca
 # Social norms
 
 ```{r}
+frq(dat$)
+```
+
+
+```{r}
 
 norms <- dat %>%
   select()
@@ -50,7 +55,10 @@ norms <- dat %>%
 
 ```
 
-## Gender-based violence
+## Early marriage
+
+
+## Girls' education
 
 ```{r}
 
@@ -65,13 +73,37 @@ geduc <- dat %>%
 
 map(geduc, frq)
 
+```
 
+```{r}
 
 fa.parallel(geduc,
             cor="poly")
 
 
 ```
+
+Parellel analysis suggests three factors, one component
+
+```{r}
+
+fa_geduc_3 <- fa(geduc,
+                 nfactors=3,
+                 cor="poly",
+                 fm="ml")
+
+fa_geduc_3
+```
+```{r}
+
+fa_geduc_2 <- fa(geduc,
+                 nfactors=2,
+                 cor="poly",
+                 fm="ml")
+
+fa_geduc_2
+```
+
 
 ```{r}
 
@@ -95,9 +127,129 @@ ggplot(dat, aes(fac_geduc)) +
   geom_density()
 
 ```
+Unweighted
 
-## Girls' education
+```{r}
+
+describe(dat$fac_geduc)
+
+geduc_mn <- mean(dat$fac_geduc, na.rm=T) %>%
+  unlist()
+
+#geduc_mn
+
+geduc_cnty <- dat %>%
+  group_by(region, state, county) %>%
+  summarize(geduc=mean(fac_geduc, na.rm=T),
+            se=std.error(fac_geduc, na.rm=T)) %>%
+  mutate(lower=geduc - 1.96*se,
+         upper=geduc + 1.96*se) %>%
+  as.data.frame()
+
+geduc_cnty
+str(geduc_cnty)
+  
+ggplot(geduc_cnty, aes(geduc, fct_reorder(county, geduc))) + 
+  geom_vline(aes(xintercept=geduc_mn), color="darkgoldenrod2", size=1, alpha=.8) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), color=medium_blue, width=0) + 
+  geom_label(aes(label=round(geduc,2)), color=medium_blue, size=3) + 
+  scale_x_continuous(limits=c(-.75,.75),
+                     breaks=seq(-1,1,.25)) + 
+  labs(x="",
+       y="")
+
+# ggsave(here("output/viz/girls education/geduc by county.png"),
+#        device="png",
+#        type="cairo",
+#        height=5,
+#        width=7)
+```
+Weighted
+
+```{r}
+geduc_mn <- svyrdat %>%
+  group_by() %>%
+  summarize(geduc=survey_mean(fac_geduc, na.rm=T)) %>%
+  select(1) %>%
+  unlist()
+
+geduc_mn # -.0726
+
+svyrdat %>%
+  survey_mean(geduc)
+
+geduc_cnty <- svyrdat %>%
+  group_by(county) %>%
+  summarize(geduc=survey_mean(fac_geduc, na.rm=T)) %>%
+  mutate(lower=geduc-1.96*geduc_se,
+         upper=geduc+1.96*geduc_se) %>%
+  select(1,2,4,5)
+
+geduc_cnty
+
+```
+
+
+```{r}
+
+ggplot(geduc_cnty, aes(geduc, fct_reorder(county, geduc))) + 
+  geom_vline(aes(xintercept=geduc_mn), color="darkgoldenrod2", size=1, alpha=.8) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), color=medium_blue, width=0) + 
+  geom_label(aes(label=round(geduc,2)), color=medium_blue, size=3) + 
+  scale_x_continuous(limits=c(-.75,.75),
+                     breaks=seq(-1,1,.25)) + 
+  labs(x="",
+       y="")
+
+# ggsave(here("output/viz/girls education/geduc by county.png"),
+#        device="png",
+#        type="cairo",
+#        height=5,
+#        width=7)
+
+
+```
+
 
 ## Bride price
+
+```{r}
+frq(dat$q_824)
+```
+```{r}
+bride <- dat %>%
+  select(#against_cattleraid,
+         #against_earlymarriage,
+         q824_rec,
+         q825_rec,
+         q827_rec)
+
+head(bride)
+
+fa.parallel(bride,
+            cor="poly")
+```
+
+```{r}
+fa_bride2 <- fa(bride,
+                nfactors=2,
+                cor="mixed",
+               scores="tenBerge",
+               fm="ml")
+
+fa_bride2
+```
+
+
+```{r}
+fa_bride <- fa(bride,
+               cor="poly",
+               scores="tenBerge",
+               fm="ml")
+
+fa_bride
+```
+
+
 
 ## Trafficking in persons

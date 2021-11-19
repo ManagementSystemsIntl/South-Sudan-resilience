@@ -25,16 +25,32 @@ frq(dat$q_802_bin)
 frq(dat$q_803)
 frq(dat$q_803_bin)
 
+#dat$q_824[dat$q_824==5] <- 4
+
 dat <- dat %>% 
   mutate(against_cattleraid = case_when(q_802_bin == 0 ~ 1,
                                         q_802_bin == 1 ~ 0,
                                         TRUE ~ NA_real_),
          against_earlymarriage = case_when(q_803_bin == 0 ~ 1,
                                         q_803_bin == 1 ~ 0,
-                                        TRUE ~ NA_real_))
+                                        TRUE ~ NA_real_),
+         q824_rec = (diff(range(q_824, na.rm=T)) + 2) - q_824,
+         q825_rec = (diff(range(q_825, na.rm=T)) + 2) - q_825,
+         q827_rec = (diff(range(q_827, na.rm=T)) + 2) - q_827)
+
+
+                                           q_803_bin == 1 ~ 0,
+                                           TRUE ~ NA_real_),
+         against_earlymarriage = case_when(q_803_bin == 0 ~ 1,
+                                           q_803_bin == 1 ~ 0,
+                                           TRUE ~ NA_real_),
+         against_earlymarriage = case_when(q_803_bin == 0 ~ 1,
+                                           q_803_bin == 1 ~ 0,
+                                           TRUE ~ NA_real_))
 
 frq(dat$against_cattleraid)
 frq(dat$against_earlymarriage)
+frq(dat$q824_rec)
 
 ## Cattle raiding ---- 
 
