@@ -20,7 +20,7 @@ knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, c
 
 library(here)
 
-#knitr::opts_knit$set(root.dir=here()) # doesn't seem to work
+knitr::opts_knit$set(root.dir="~/South Sudan resilience - MSI") # doesn't seem to work
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
@@ -60,6 +60,8 @@ norms <- dat %>%
 
 ## Girls' education
 
+### Prep
+
 ```{r}
 
 frq(dat$q_814)
@@ -85,6 +87,8 @@ fa.parallel(geduc,
 
 Parellel analysis suggests three factors, one component
 
+### Three factors
+
 ```{r}
 
 fa_geduc_3 <- fa(geduc,
@@ -94,6 +98,8 @@ fa_geduc_3 <- fa(geduc,
 
 fa_geduc_3
 ```
+### Two factors
+
 ```{r}
 
 fa_geduc_2 <- fa(geduc,
@@ -103,7 +109,7 @@ fa_geduc_2 <- fa(geduc,
 
 fa_geduc_2
 ```
-
+### One factor
 
 ```{r}
 
@@ -164,6 +170,52 @@ ggplot(geduc_cnty, aes(geduc, fct_reorder(county, geduc))) +
 #        height=5,
 #        width=7)
 ```
+
+```{r}
+ggplot(dat, aes(fac_geduc)) + 
+  stat_halfeye(fill=light_blue) +
+  facet_wrap(~region) +
+  faceted
+```
+
+```{r}
+ggplot(dat, aes(fac_geduc, county)) + 
+  stat_halfeye(fill=light_blue,
+               color="dodgerblue") +
+  scale_x_continuous(limits=c(-2,1.2)) +
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/girls education/geduc county halfeye.png"),
+       device="png",
+       type="cairo",
+       height=5,
+       width=7)
+```
+
+```{r fig.width=8, fig.height=7}
+ggplot(dat, aes(fac_geduc, county)) +
+  geom_density_ridges2(quantile_lines=T,
+                       quantiles=2,
+                       color="dodgerblue2",
+                       fill=light_blue,
+                       alpha=.6,
+                       scale=.9,
+                       rel_min_height=.01,
+                       jittered_points = TRUE,
+    position = position_points_jitter(width = 0.05, height = 0),
+    point_shape = '|', point_size = 1.4, point_alpha = 1, alpha = 0.6) +
+  scale_x_continuous(limits=c(-2,2)) +
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/girls education/geduc county ridges.png"),
+       device="png",
+       type="cairo",
+       height=5,
+       width=7)
+```
+
 Weighted
 
 ```{r}
