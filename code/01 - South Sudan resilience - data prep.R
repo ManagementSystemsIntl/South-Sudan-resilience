@@ -185,9 +185,9 @@ dat_wt <- dat_wt %>%
 
 ## save prepared data ---- 
 
-write_dta(dat, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
+write_dta(dat_unw, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
 
-write_dta(dat_wt, "data/local/SSD resilience baseline prepared.dta")
+write_dta(dat, "data/local/SSD resilience baseline prepared.dta")
 
 
 

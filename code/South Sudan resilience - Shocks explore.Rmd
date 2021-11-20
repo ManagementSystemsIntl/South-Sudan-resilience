@@ -214,6 +214,8 @@ ggplot(shck_state_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) +
 
 ## Incidence of shocks, by county
 
+Unweighted
+
 ```{r}
 
 shck_county_mn_se <- dat %>%
@@ -258,6 +260,38 @@ ggplot(shck_county_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) +
   faceted
 
 ```
+
+```{r}
+
+shck_county_svy <- svyrdat %>%
+  select(region, state, county, shock_flood:shock_death) %>%
+  group_by(region, state, county) %>%
+  summarize(across(shock_flood:shock_death,
+                   list(mn = ~mean(., na.rm=T), se = ~std.error(., na.rm=T)))) %>%
+  pivot_longer(cols=4:35,
+               names_to=c("discard", "Shock","Measure"),
+               names_sep="_",
+               values_to="value") %>%
+  select(-4) %>%
+  pivot_wider(names_from=Measure,
+              values_from=value) %>%
+  mutate(lower=mn-1.96*se,
+         upper=mn+1.96*se) %>%
+  ungroup() %>%
+  mutate(shock_lab=rep(shock_labs,9)) %>% # use 13 with full data
+  select(1:4,9, 5:8) %>%
+  group_by(county) %>%
+  mutate(county_rank=rank(-mn)) %>%
+  arrange(county, desc(mn)) %>%
+  ungroup() 
+  
+shck_county_svy
+
+#write_csv(shck_county_svy, here("output/tables/shocks/shock incidence by county, weighted.csv"))
+
+```
+
+
 ## Shock clustering
 
 ```{r}
@@ -537,6 +571,26 @@ ggplot(dat, aes(shock_exposure_index)) +
 ```
 
 ```{r}
+
+ggplot(geduc_cnty, aes(geduc, fct_reorder(county, geduc))) + 
+  geom_vline(aes(xintercept=geduc_mn), color="darkgoldenrod2", size=1, alpha=.8) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), color=medium_blue, width=0) + 
+  geom_label(aes(label=round(geduc,2)), color=medium_blue, size=3) + 
+  scale_x_continuous(limits=c(-.75,.75),
+                     breaks=seq(-1,1,.25)) + 
+  labs(x="",
+       y="")
+
+# ggsave(here("output/viz/girls education/geduc by county.png"),
+#        device="png",
+#        type="cairo",
+#        height=5,
+#        width=7)
+
+
+```
+
+```{r}
 ggplot(dat, aes(shock_exposure_index)) + 
   #geom_bar() + 
   geom_density(color=light_blue) +
@@ -555,7 +609,7 @@ ggplot(dat, aes(shock_exposure_index)) +
 
 ```{r}
 expos <- dat %>%
-  group_by(state, county) %>%
+  group_by(region, state, county) %>%
   summarize(exposure=mean(shock_exposure_index, na.rm=T),
             se=std.error(shock_exposure_index, na.rm=T)) %>%
   mutate(lower=exposure-1.96*se,
@@ -601,17 +655,28 @@ expos_wt <- svyrdat %>%
          upper=exposure+1.96*exposure_se)
 
 expos_wt
+
+write_csv(expos_wt, here("output/tables/shock exposure by county weighted.csv"))
 ```
 
 ```{r}
 ggplot(expos_wt, aes(x=exposure, y=fct_reorder(county, exposure))) + 
-  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=medium_blue) +
   geom_point(size=3, color=light_blue) +
+  geom_label(aes(label=round(exposure,0)), 
+             color=medium_blue, 
+             size=3,
+             label.padding=unit(.2, "lines")) +
   labs(x="",
        y="") + 
   scale_x_continuous(limits=c(0,128),
                      breaks=seq(0,125,25)) 
 
+ggsave(here("output/viz/shocks/shock exposure by county weighted.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=6)
 ```
 
 # Ability to recover

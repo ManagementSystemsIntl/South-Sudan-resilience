@@ -14,26 +14,110 @@ output:
     df_print: kable
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+# standard figure size and generate clean output
+knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+
+#knitr::opts_knit$set(root.dir="~/South Sudan resilience - MSI") # doesn't seem to work
+
+source(here("code/00 South Sudan resilience - prep.R"))
+
+
 ```
 
-## R Markdown
+# Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+The South Sudan Monitoring and Evaluation Support Project (MESP) is conducting a household resilience survey in 13 counties. The purpose of this household survey is to obtain baseline data in the target areas for the indicators included in the Mission's Performance Management Plan (PMP) and the Community Roadmap, in support of USAID/South Sudan's Strategic Framework (2020-2024).
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+MESP has completed data collection in six counties, and as of October 2021 is carrying out data collection in the remaining seven counties. The study team is currently reviewing the data from six counties in advance of analysis of the full set of 13 counties. This document is one of a series of documents to review various measures and indices relating to resilience.
 
-```{r cars}
-summary(cars)
+# Resilience
+
+```{r}
+dat <- dat %>%
+  mutate(log_exposure = log(shock_exposure_index+1))
+describe(dat$log_exposure)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+frq(dat$resil_c)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+frq(dat$ability_recover)
+```
+
+```{r}
+describe(dat$arssi)
+```
+
+```{r}
+ggplot(dat, aes(shock_exposure_index, arssi)) + 
+  geom_point() + 
+  stat_smooth()
+```
+
+```{r}
+ggplot(dat, aes(log_exposure, arssi)) + 
+  geom_point() + 
+  stat_smooth()
+```
+
+```{r}
+ggplot(dat, aes(shock_exposure_index, ability_recover)) + 
+  geom_point() + 
+  stat_smooth(method="lm")
+```
+
+```{r}
+ggplot(dat, aes(log_exposure, ability_recover)) + 
+  geom_point() + 
+  stat_smooth(method="lm")
+```
+
+
+
+```{r}
+l1 <- stan_glm(ability_recover ~ log_exposure,
+               data=dat)
+
+summary(l1, digits=3)
+```
+```{r}
+l2 <- stan_polr(ordered(ability_recover) ~ log_exposure,
+               method="probit",
+               prior=R2(.25),
+               data=dat)
+
+summary(l2, digits=3)
+```
+
+### Ordered probit
+
+```{r}
+p1 <- polr(ordered(ability_recover) ~ log_exposure,
+          method="probit",
+          data=dat)
+
+summary(p2)
+```
+
+```{r}
+b2 <- brm(ability_recover ~ log_exposure,
+          family=cumulative("probit"),
+          backend="cmdstanr",
+          data=dat)
+```
+
+
+```{r}
+c1 <- stan_glm(resil_c ~ shock_exposure_index,
+               data=dat)
+
+summary(c1, digits=3)
+```
+

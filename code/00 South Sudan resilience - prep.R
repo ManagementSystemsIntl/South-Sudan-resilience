@@ -123,8 +123,10 @@ revcode <- function(x) {
 
 #dat_wt <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
-dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta")) %>%
-  filter(!is.na(final_wt1))
+#dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta")) %>%
+#  filter(!is.na(final_wt1))
+
+dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
 dat_unw <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
 
