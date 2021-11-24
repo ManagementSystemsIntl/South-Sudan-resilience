@@ -20,42 +20,8 @@ knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, c
 
 library(here)
 
-#knitr::opts_knit$set(root.dir=here()) # doesn't seem to work
-
 source(here("code/00 South Sudan resilience - prep.R"))
 
-#dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
-
-#dat <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
-
-# frq_disag <- function(object, disaggregate, item, label, media) {
-#   temp <- object %>%
-#     group_by({{disaggregate}}) %>%
-#     summarize(Percent=mean({{item}}, na.rm=T),
-#               se=std.error({{item}}, na.rm=T)) %>%
-#     mutate(var_name={{label}},
-#            Media={{media}},
-#            lower=Percent-1.96*se,
-#            upper=Percent+1.96*se)
-#   temp
-# }
-
-svy_disag <- function(design, disaggregate, item, label) {
-  temp <- design %>%
-    group_by({{disaggregate}}) %>%
-    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
-    mutate(item={{item}},
-           label={{label}},
-           lower=Value-1.96*se,
-           upper=Value+1.96*se)
-  temp
-}
-
-
-# svyrdat <- dat %>%
-#   as_survey_design(ids = ea,
-#                    strata=county,
-#                    weights=final_wt1)
 ```
 
 
@@ -679,6 +645,66 @@ ggsave(here("output/viz/shocks/shock exposure by county weighted.png"),
        width=6)
 ```
 
+```{r}
+s1 <- stan_glmer(shock_exposure_index ~ (1|county),
+                 cores=8,
+                 data=dat)
+
+summary(s1, digits=3)
+```
+
+```{r}
+s1_out <- s1 %>%
+  as.data.frame() %>%
+  set_names(nm=c("Intercept", county_labs2, "sigma", "county_sigma"))
+head(s1_out)
+```
+
+```{r}
+s1L <- s1_out %>%
+  pivot_longer(cols=2:10,
+               values_to = "exposure_dev",
+               names_to = "County") %>%
+  mutate(Exposure = Intercept + exposure_dev)
+
+head(s1L)
+
+```
+
+```{r}
+cnty_mns <- s1L %>%
+  group_by(County) %>%
+  summarize(Exposure=mean(Exposure))
+cnty_mns
+```
+
+```{r}
+
+ggplot(s1L, aes(Exposure, fct_reorder(County, Exposure))) + 
+  geom_vline(xintercept=0, color="darkgrey", size=1, alpha=.6) +
+  geom_vline(xintercept=47.3, color="darkgoldenrod2", size=1, alpha=.8, linetype="dashed") +
+  stat_halfeye(fill="cadetblue2",color="blue", alpha=.7) +
+  scale_x_continuous(limits=c(0,80),
+                     breaks=seq(0,80,20)) +
+  labs(x="Shock exposure",
+       y="") 
+#  geom_label(data=cnty_mns, aes(label=round(Exposure,0), x=Exposure), 
+#             color="blue",
+#             label.padding = unit(.2, "lines"))
+
+ggsave("viz/2021-1/loans/loan timeliness, by office (13 Oct 2021).png",
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r}
+
+```
+
+
 # Ability to recover
 
 ```{r}
@@ -840,8 +866,42 @@ ind_arssi_gt
 l1 <- lm(fies_raw ~ shock_exposure_index,
          data=dat)
 
-summary(l1)
+summary(l1) # se .000715
 ```
+
+```{r}
+surv1 <- svyglm(fies_raw ~ shock_exposure_index,
+                design=svydat)
+summary(surv1) # se .00159
+```
+```{r}
+.000715/.00159
+
+.00159/.000715
+
+.000715*2.22
+
+```
+
+They survey weighted error is 2.2 times the unweighted error. How does this compare to a Bayesian multilevel model? 
+
+```{r}
+s1_fies <- stan_glm(fies_raw ~ shock_exposure_index,
+                      chains=8,
+                      cores=8,
+                      data=dat)
+
+summary(s1_fies, digits=5) # se .00071
+```
+```{r}
+s2_fies <- stan_glmer(fies_raw ~ shock_exposure_index + (1|county/ea),
+                      chains=8,
+                      cores=8,
+                      data=dat)
+
+summary(s2_fies, digits=5) # se .00085
+```
+
 
 ```{r}
 l2 <- lm(fies_raw ~ shock_sev_livestock + shock_sev_crops + shock_sev_drought,
@@ -881,6 +941,116 @@ ggplot(dat, aes(x=shock_drought, y=fies_raw)) +
   geom_point(size=.5, alpha=.3, color=light_blue) + 
   stat_smooth(color=light_blue,
               method="lm")
+```
+
+```{r}
+
+surv2 <- svyglm(fies_raw ~ shock_exposure_index + donor_act,
+                design=svydat)
+summary(surv2) 
+```
+
+```{r}
+ins_surv3 <- svyglm(fies_raw ~ shock_exposure_index + donor_act + as.factor(county),
+                design=svydat)
+summary(ins_surv3) 
+```
+
+```{r}
+ins_surv4 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + as.factor(county),
+                design=svydat)
+summary(ins_surv4) 
+```
+
+```{r}
+ins_surv5 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv5) 
+```
+```{r}
+ins_surv6 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv6) 
+```
+
+```{r}
+ins_surv7 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      aspirations_index +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv7) 
+```
+```{r}
+ins_surv8 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      aspirations_index +
+                      grp_participate +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv8) 
+```
+```{r}
+ins_surv9 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      aspirations_index +
+                      grp_participate +
+                      ews_participate +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv9) 
+```
+
+```{r}
+ins_surv10 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      aspirations_index +
+                      grp_participate +
+                      warn_sum +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv10) 
+```
+```{r}
+ins_surv11 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      aspirations_index +
+                      grp_participate +
+                      ews_participate +
+                      emerg_plan + 
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv11) 
+```
+
+```{r}
+ins_surv12 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act + 
+                      bonding_capital_raw +
+                      bridging_capital_raw +
+                      aspirations_index +
+                      grp_participate +
+                      ews_participate +
+                      emerg_plan +
+                      conflict +
+                      as.factor(county),
+                design=svydat)
+summary(ins_surv12) 
+```
+
+
+
+```{r}
+
 ```
 
 

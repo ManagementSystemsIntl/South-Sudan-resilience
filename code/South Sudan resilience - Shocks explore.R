@@ -30,3 +30,33 @@ getwd()
 
 ## Shock severity, by county ---- 
 
+frq(dat$fies_raw)
+
+describe(dat$fies_raw)
+
+fies_mn <- dat %>%
+  mean(fies_raw, na.rm=T)
+
+fies_mn <- mean(dat$fies_raw, na.rm=T)
+
+fies_mn
+
+?ggplot
+
+ggplot(dat, aes(fies_raw)) + 
+  geom_vline(xintercept=fies_mn, size=2, color="darkgoldenrod3", alpha=.6) +
+  geom_bar(fill=medium_blue, width=.5) +
+  scale_x_continuous(breaks=0:8) +
+  labs(x="",
+       y="",
+       caption="Mean value 7.7") +
+  scale_y_continuous(labels=comma)
+
++ 
+  theme(axis.text.y=element_blank())
+
+ggsave("output/viz/food security/fies unweighted bar.png",
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)

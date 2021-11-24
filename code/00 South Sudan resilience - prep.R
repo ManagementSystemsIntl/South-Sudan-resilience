@@ -184,4 +184,44 @@ svyrdat <- dat %>%
                  "Illness in household",
                  "Death in household")
  
+ county_labs <- c("Akobo",
+                  "Budi",
+                  "Duk",
+                  "Leer",
+                  "Mayendit",
+                  "Paynijar",
+                  "Pibor",
+                  "Uror",
+                  "Wau")
+
+ county_labs2 <- c("Akobo (Nile)",
+                  "Budi (Equa)",
+                  "Duk (Nile)",
+                  "Leer (Nile)",
+                  "Mayendit (Nile)",
+                  "Paynijar (Nile)",
+                  "Pibor (Nile)",
+                  "Uror (Nile)",
+                  "Wau (Ghazel)")
  
+ reg_county_labs <- c("Greater Upper Nile - Akobo",
+                       "Equatoria - Budi",
+                       "Greater Upper Nile - Duk",
+                       "Greater Upper Nile - Leer",
+                       "Greater Upper Nile - Mayendit",
+                       "Greater Upper Nile - Paynijar",
+                       "Greater Upper Nile - Pibor",
+                       "Greater Upper Nile - Uror",
+                       "Bahr El Ghazel - Wau")
+
+ 
+ cnty_key <- data.frame(cnty_code = 1:9,
+                        county_lab=county_labs,
+                        reg_cnty_lab=reg_county_labs)
+
+ cnty_key 
+ 
+ 
+ 
+ 
+  

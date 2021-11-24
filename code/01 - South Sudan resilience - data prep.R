@@ -3,9 +3,10 @@
 
 # prep ---- 
 
-raw <- read_dta("data/local/mesp_household_baseline_hh_survey_scored_combined_13Oct_9Nov2021.dta")
+raw <- read_dta("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta") %>%
+  filter(!is.na(final_wt1))
 
-write_dta(raw, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
+write_dta(raw, "data/local/SSD resilience baseline prepared.dta")
 
 frq(dat$state)
 
@@ -182,6 +183,37 @@ dat_wt <- dat_wt %>%
            shock_nosell + 
            shock_illness + 
            shock_death)
+
+## donor activity ---- 
+
+dat <- dat %>%
+  mutate(donor_act = q_504)
+
+frq(dat$donor_act)
+
+## 6. Conflict and Resilience --- 
+
+frq(dat$q_607_b)
+
+dat <- dat %>%
+  mutate(warn_hazards = ifelse(q_607_a==1, 1,0),
+         warn_weather = ifelse(q_607_b==1,1,0),
+         warn_rainfall = ifelse(q_607_c==1,1,0),
+         warn_water = ifelse(q_607_d==1,1,0),
+         warn_livestock = ifelse(q_607_e==1,1,0),
+         warn_crops = ifelse(q_607_f==1,1,0),
+         warn_animalprices = ifelse(q_607_g==1,1,0),
+         warn_prices = ifelse(q_607_h==1,1,0),
+         warn_grazing = ifelse(q_607_i==1,1,0),
+         warn_conflict = ifelse(q_607_j==1,1,0),
+         warn_foodprices = ifelse(q_607_k==1,1,0),
+         warn_sum = warn_hazards + warn_weather + warn_rainfall + warn_water + warn_livestock + warn_crops + warn_animalprices + warn_prices + 
+           warn_grazing + warn_conflict + warn_foodprices,
+         emerg_plan = q_610,
+         conflict=q_601)
+
+frq(dat$warn_weather)
+frq(dat$warn_sum)
 
 ## save prepared data ---- 
 
