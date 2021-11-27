@@ -165,6 +165,54 @@ svyrdat <- dat %>%
  medium_grey <- "#8C8985"
  light_grey <- "#CFCDC9"
  
+ inc_labs <- c("Farm/crop production",
+               "Cattle production/sales",
+               "Goat production/sales",
+               "Sheep production/sales",
+               "Fishing and sales",
+               "Ag wage labor in village",
+               "Ag wage labor outside village",
+               "Wage labor in village",
+               "Wage labor outside village",
+               "Salaried work",
+               "Wild bush sales",
+               "Honey production/sales",
+               "Petty trade other products",
+               "Petty trade own products",
+               "Other self-employment ag",
+               "Other self-employment non-ag",
+               "Rental of land/property",
+               "Remittances",
+               "Gifts/inheritance",
+               "Food / cash safety net")
+ 
+ inc_labs2 <- c("a. Farm/crop production",
+               "b. Cattle production/sales",
+               "c. Goat production/sales",
+               "d. Sheep production/sales",
+               "e. Fishing and sales",
+               "f. Ag wage labor in village",
+               "g. Ag wage labor outside village",
+               "h. Wage labor in village",
+               "i. Wage labor outside village",
+               "j. Salaried work",
+               "k. Wild bush sales",
+               "l. Honey production/sales",
+               "m. Petty trade other products",
+               "n. Petty trade own products",
+               "o. Other self-employment ag",
+               "p. Other self-employment non-ag",
+               "q. Rental of land/property",
+               "r. Remittances",
+               "s. Gifts/inheritance",
+               "t. Food / cash safety net")
+ 
+ inc_key <- data.frame(inc_code=1:20,
+                       varname=names(inc),
+                       inc_lab=inc_labs,
+                       inc_lab2=inc_labs2)
+ 
+ 
  shock_key <- read_csv(here("output/tables/shocks/shock key.csv"))
  
  shock_labs <- c("Floods",

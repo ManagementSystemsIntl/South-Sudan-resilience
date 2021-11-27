@@ -24,7 +24,6 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-
 ```
 
 # Introduction
@@ -34,6 +33,372 @@ The South Sudan Monitoring and Evaluation Support Project (MESP) is conducting a
 MESP has completed data collection in six counties, and as of October 2021 is carrying out data collection in the remaining seven counties. The study team is currently reviewing the data from six counties in advance of analysis of the full set of 13 counties. This document is one of a series of documents to review various measures and indices relating to resilience.
 
 # Resilience
+
+## Absorptive capacity
+
+```{r}
+
+grps <- dat %>%
+  select(grp_water:grp_animalherding)
+
+map(grps, frq)
+
+```
+
+
+```{r}
+frq(dat$grp_sum)
+```
+
+```{r}
+ggplot(dat, aes(grp_sum)) +
+  geom_bar(fill=light_blue,
+           width=.5)
+```
+### Community group participation
+
+```{r}
+
+library(ltm)
+
+l1 <- ltm(grps ~ z1)
+
+l1
+#summary(l1)
+
+```
+
+Credit, savings, and self-help groups have the highest 'difficulty'
+
+Cattle protection and animal herding have the highest discrimination
+
+
+```{r}
+plot(l1, type="ICC")
+```
+
+```{r}
+plot(l1, type="IIC")
+```
+
+```{r}
+plot(l1, type="IIC",
+     items=0)
+```
+```{r}
+
+fa.parallel(grps,
+            cor="tet")
+
+# 5 factors, 3 components
+
+fa_grps_5 <- fa(grps,
+                 nfactors=5,
+                 scores="tenBerge",
+                 fm="ml",
+                 cor="tet")
+
+
+fa_grps_5
+
+```
+
+ML3: cattle herding, cattle protection, cattle raiding, animal herding
+
+ML4: women group, mothers group, religious group
+
+ML1: savings group, credit group
+
+ML5: natural resource management, self-help, land management
+
+ML2: sports, youth
+
+Captures 75 percent of the variance of all items
+
+Fit statistics good but not great (Tucker-Lewis 86 percent, RMSEA .13)
+
+```{r}
+prin_grps <- principal(grps)
+prin_grps
+```
+
+```{r}
+prin_grps_scrs <- data.frame(prin_grps$scores)
+describe(prin_grps_scrs)
+```
+
+```{r}
+dat <- dat %>%
+  mutate(grp_participate_comp=prin_grps_scrs$PC1)
+
+ggplot(dat, aes(grp_participate_comp)) + 
+  geom_density()
+```
+```{r}
+g1 <- svyglm(fies_raw ~ grp_participate_comp + shock_exposure_index + 
+               as.factor(county),
+             design=svydat)
+
+summary(g1)
+```
+
+
+### Bonding social capital
+
+```{r}
+frq(dat$bonding_capital_raw)
+```
+
+```{r}
+bond <- dat %>%
+  select(q_490,
+         rc_q_491,
+         q_494,
+         rc_q_495)
+
+map(bond, frq)
+```
+
+```{r}
+
+irt_bond <- ltm(bond ~ z1)
+
+irt_bond
+
+#summary(l1)
+
+```
+
+```{r}
+plot(irt_bond, type="ICC")
+```
+
+```{r}
+plot(irt_bond, type="IIC")
+```
+
+```{r}
+plot(irt_bond, 
+     type="IIC",
+     items=0)
+```
+
+```{r}
+
+fa.parallel(bond,
+            cor="tet")
+
+# 2 factors, 1 components
+
+fa_bond_2 <- fa(bond,
+                nfactors=2,
+                scores="tenBerge",
+                fm="ml",
+                cor="tet")
+
+
+fa_bond_2
+
+```
+
+```{r}
+
+fa_bond_1 <- fa(bond,
+                nfactors=1,
+                #scores="tenBerge",
+                fm="ml",
+                cor="tet")
+
+
+fa_bond_1
+
+```
+
+
+
+```{r}
+prin_bond <- principal(bond)
+prin_bond
+```
+```{r}
+frq(dat$bonding_capital_raw)
+
+dat <- dat %>%
+  mutate(bonding_capital_comp = prin_bond$scores)
+
+describe(dat$bonding_capital_comp)
+
+```
+```{r}
+ggplot(dat, aes(bonding_capital_comp)) + 
+  geom_density()
+```
+```{r}
+ggplot(dat, aes(bonding_capital_raw)) + 
+  geom_bar()
+```
+
+```{r}
+g2 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_comp + shock_exposure_index + 
+               as.factor(county),
+             design=svydat)
+
+summary(g2)
+```
+
+### Access to savings / remittances
+
+```{r}
+library(sjPlot)
+
+frq(dat$q_401_a)
+frq(dat$q_401_a_bin)
+
+inc <- dat %>%
+  select(q_401_a_bin,
+         q_401_b_bin,
+         q_401_c_bin,
+         q_401_d_bin,
+         q_401_e_bin,
+         q_401_f_bin,
+         q_401_g_bin,
+         q_401_h_bin,
+         q_401_i_bin,
+         q_401_j_bin,
+         q_401_k_bin,
+         q_401_l_bin,
+         q_401_m_bin,
+         q_401_n_bin,
+         q_401_o_bin,
+         q_401_p_bin,
+         q_401_q_bin,
+         q_401_r_bin,
+         q_401_s_bin,
+         q_401_t_bin)
+
+map(inc, frq)
+#sjt.stackfrq(inc)
+
+```
+
+```{r}
+fa.parallel(inc,
+            cor="tet")
+```
+7 factors, 5 components
+
+#### 7 factors
+
+```{r}
+fa_inc_7 <- fa(inc,
+               nfactors=7,
+               scores="tenBerge",
+               fm="ml",
+               cor="tet")
+fa_inc_7
+```
+```{r}
+fa_inc_7_ldngs <- as.matrix(fa_inc_7$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:8) %>%
+  left_join(inc_key) %>%
+  select(1,9:11, everything()) %>%
+  pivot_longer(cols=5:11,
+               names_to="factor",
+               values_to="loading") %>%
+  #arrange(factor) %>%
+  mutate(significance=ifelse(loading>.3999, "Significant loading", ""))
+
+fa_inc_7_ldngs
+
+```
+```{r fig.width=8.4}
+ggplot(fa_inc_7_ldngs, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color=significance)) + 
+  #geom_bar() + 
+  geom_point() +
+  scale_color_manual(values=c("grey60", medium_blue)) +
+  scale_x_continuous(breaks=seq(0,1,.5)) +
+  scale_y_discrete(breaks=1:20,
+                     labels=inc_labs) +
+  facet_wrap(~factor, nrow=1) +
+  faceted +
+  theme(legend.position="none") +
+  labs(x="",
+       y="")
+```
+
+```{r}
+fa_inc_7
+fa_inc_7_ldngs
+
+```
+
+
+dat <- dat %>%
+  mutate()
+
+```
+
+
+```{r}
+g3 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_comp + q_401_q_bin + q_401_r_bin + 
+               shock_exposure_index + 
+               as.factor(county),
+             design=svydat)
+
+summary(g3)
+```
+
+#### 5 factors
+
+```{r}
+fa_inc_5 <- fa(inc,
+               nfactors=5,
+               scores="tenBerge",
+               fm="ml",
+               cor="tet")
+fa_inc_5
+```
+
+```{r}
+fa_inc_5_ldngs <- as.matrix(fa_inc_5$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:6) %>%
+  left_join(inc_key) %>%
+  select(1,7:9, everything()) %>%
+  pivot_longer(cols=5:9,
+               names_to="factor",
+               values_to="loading") %>%
+  #arrange(factor) %>%
+  mutate(significance=ifelse(loading>.3999, "Significant loading", ""))
+
+fa_inc_5_ldngs
+
+```
+
+```{r fig.width=8.4}
+ggplot(fa_inc_5_ldngs, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color=significance)) + 
+  #geom_bar() + 
+  geom_point() +
+  scale_color_manual(values=c("grey60", medium_blue)) +
+  scale_x_continuous(breaks=seq(0,1,.5)) +
+  scale_y_discrete(breaks=1:20,
+                     labels=inc_labs) +
+  facet_wrap(~factor, nrow=1) +
+  faceted +
+  theme(legend.position="none") +
+  labs(x="",
+       y="")
+```
+
+
+
+### stuff
+
 
 ```{r}
 dat <- dat %>%
@@ -96,6 +461,8 @@ l2 <- stan_polr(ordered(ability_recover) ~ log_exposure,
 summary(l2, digits=3)
 ```
 
+
+### 
 ### Ordered probit
 
 ```{r}

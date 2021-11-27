@@ -23,10 +23,10 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-svyrdat <- dat %>%
-  as_survey_design(ids = ea,
-                   strata=county,
-                   weights=final_wt1)
+# svyrdat <- dat %>%
+#   as_survey_design(ids = ea,
+#                    strata=county,
+#                    weights=final_wt1)
 
 ```
 
@@ -214,7 +214,7 @@ svyrdat %>%
 The distribution of the weighted scale values. 
 
 ```{r}
-ggplot(dat, aes(aspirations_index2)) + 
+ggplot(dat, aes(aspirations_index2, weight=final_wt1)) + 
   geom_bar(width=.2, fill="dodgerblue2") + 
   geom_vline(xintercept=3.9, size=1, color="darkgoldenrod2") + 
   geom_vline(xintercept=4, size=1, color="turquoise") +

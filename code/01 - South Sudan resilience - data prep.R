@@ -9,6 +9,7 @@ raw <- read_dta("data/local/mesp_household_baseline_hh_survey_combined_weighted.
 write_dta(raw, "data/local/SSD resilience baseline prepared.dta")
 
 frq(dat$state)
+frq(dat$region)
 
 dat_wt <- dat_wt %>%
   mutate(region=case_when(state=="Eastern Equatoria" ~ "Equatoria",
@@ -17,6 +18,25 @@ dat_wt <- dat_wt %>%
 
 
 frq(dat$region)
+
+# aspirations ---- 
+
+dat <- dat %>%
+  mutate(asp1 = ifelse(q_629==1, 1,0),
+         asp2 = ifelse(q_630==1, 1,0),
+         asp3 = case_when(q_634 < 4 ~ 1,
+                          q_634 > 3 ~0,
+                          TRUE ~ NA_real_),
+         asp4 = case_when(q_635 < 4 ~ 1,
+                          q_635 > 3 ~ 0,
+                          TRUE ~ NA_real_),
+         asp5 = ifelse(q_632==1, 1,0),
+         asp6 = ifelse(q_633==6, NA,
+                       ifelse(q_633==4 | q_633==5, 1, 0)),
+         aspirations_index2 = asp1 + asp2 + asp3 + asp4 + asp5 + asp6,
+         aspirations_index2_cen = scale(aspirations_index2))
+
+frq(dat$aspirations_index2)
 
 # social norms ---- 
 
@@ -214,6 +234,40 @@ dat <- dat %>%
 
 frq(dat$warn_weather)
 frq(dat$warn_sum)
+
+# 5. Community group participation
+
+frq(dat$q_501a)
+
+dat <- dat %>%
+  mutate(grp_water = ifelse(q_501a==1, 1,0),
+         grp_land = ifelse(q_501b==1,1,0),
+         grp_resource = ifelse(q_501c==1, 1,0),
+         grp_credit = ifelse(q_501d==1, 1,0),
+         grp_savings = ifelse(q_501e==1, 1,0),
+         grp_help = ifelse(q_501f==1, 1,0),
+         grp_relig = ifelse(q_501g==1, 1,0),
+         grp_mother = ifelse(q_501h==1, 1,0),
+         grp_women = ifelse(q_501i==1, 1,0),
+         grp_youth = ifelse(q_501j==1, 1,0),
+         grp_sports = ifelse(q_501k==1, 1,0),
+         grp_disaster = ifelse(q_501l==1, 1,0),
+         grp_raiding = ifelse(q_501m==1, 1,0),
+         grp_herding = ifelse(q_501n==1, 1,0),
+         grp_cattleprotect = ifelse(q_501o==1, 1,0),
+         grp_animalherding = ifelse(q_501p==1, 1,0)) %>%
+  rowwise() %>%
+  mutate(grp_sum = sum(c_across(grp_water:grp_animalherding))) %>%
+  ungroup()
+
+str(dat)
+
+frq(dat$grp_water)
+frq(dat$grp_herding)
+frq(dat$grp_sum)
+
+
+
 
 ## save prepared data ---- 
 
