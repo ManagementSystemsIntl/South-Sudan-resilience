@@ -8,16 +8,28 @@ raw <- read_dta("data/local/mesp_household_baseline_hh_survey_combined_weighted.
 
 write_dta(raw, "data/local/SSD resilience baseline prepared.dta")
 
+frq(dat$county)
 frq(dat$state)
 frq(dat$region)
+frq(raw$q_206)
 
-dat_wt <- dat_wt %>%
-  mutate(region=case_when(state=="Eastern Equatoria" ~ "Equatoria",
-                          state=="Western Bahr-El-Ghazel" ~ "Bahr el Ghazal",
-                          TRUE ~ "Greater Upper Nile"))
-
+# dat_wt <- dat_wt %>%
+#   mutate(region=case_when(state=="Eastern Equatoria" ~ "Equatoria",
+#                           state=="Western Bahr-El-Ghazel" ~ "Bahr el Ghazal",
+#                           TRUE ~ "Greater Upper Nile"))
+# 
 
 frq(dat$region)
+
+# background ---- 
+
+dat <- dat %>%
+  mutate(locality = as_character(q_206),
+         urban=ifelse(q_206==2, 1,0),
+         hh_sex = as_character(hh_head_sex))
+
+frq(dat$locality)
+frq(dat$urban)
 
 # aspirations ---- 
 
@@ -211,30 +223,6 @@ dat <- dat %>%
 
 frq(dat$donor_act)
 
-## 6. Conflict and Resilience --- 
-
-frq(dat$q_607_b)
-
-dat <- dat %>%
-  mutate(warn_hazards = ifelse(q_607_a==1, 1,0),
-         warn_weather = ifelse(q_607_b==1,1,0),
-         warn_rainfall = ifelse(q_607_c==1,1,0),
-         warn_water = ifelse(q_607_d==1,1,0),
-         warn_livestock = ifelse(q_607_e==1,1,0),
-         warn_crops = ifelse(q_607_f==1,1,0),
-         warn_animalprices = ifelse(q_607_g==1,1,0),
-         warn_prices = ifelse(q_607_h==1,1,0),
-         warn_grazing = ifelse(q_607_i==1,1,0),
-         warn_conflict = ifelse(q_607_j==1,1,0),
-         warn_foodprices = ifelse(q_607_k==1,1,0),
-         warn_sum = warn_hazards + warn_weather + warn_rainfall + warn_water + warn_livestock + warn_crops + warn_animalprices + warn_prices + 
-           warn_grazing + warn_conflict + warn_foodprices,
-         emerg_plan = q_610,
-         conflict=q_601)
-
-frq(dat$warn_weather)
-frq(dat$warn_sum)
-
 # 5. Community group participation
 
 frq(dat$q_501a)
@@ -267,7 +255,48 @@ frq(dat$grp_herding)
 frq(dat$grp_sum)
 
 
+## 6. Conflict and Resilience --- 
 
+frq(dat$q_607_b)
+
+dat <- dat %>%
+  mutate(warn_hazards = ifelse(q_607_a==1, 1,0),
+         warn_weather = ifelse(q_607_b==1,1,0),
+         warn_rainfall = ifelse(q_607_c==1,1,0),
+         warn_water = ifelse(q_607_d==1,1,0),
+         warn_livestock = ifelse(q_607_e==1,1,0),
+         warn_crops = ifelse(q_607_f==1,1,0),
+         warn_animalprices = ifelse(q_607_g==1,1,0),
+         warn_prices = ifelse(q_607_h==1,1,0),
+         warn_grazing = ifelse(q_607_i==1,1,0),
+         warn_conflict = ifelse(q_607_j==1,1,0),
+         warn_foodprices = ifelse(q_607_k==1,1,0),
+         warn_sum = warn_hazards + warn_weather + warn_rainfall + warn_water + warn_livestock + warn_crops + warn_animalprices + warn_prices + 
+           warn_grazing + warn_conflict + warn_foodprices,
+         emerg_plan = q_610,
+         conflict=q_601)
+
+frq(dat$warn_weather)
+frq(dat$warn_sum)
+
+
+## 6. Emergency action plans ---- 
+
+dat <- dat %>%
+  mutate(emerg1 = ifelse(is.na(q_610), 0, q_610),
+         emerg2 = ifelse(is.na(q_611), 0, q_611),
+         emerg3 = case_when(q_612>2 ~ 1,
+                            is.na(q_612) ~ 0,
+                            q_612 < 3 ~ 0),
+         emerg4 = case_when(q_501l == 1 ~ 1,
+                            q_501l > 1 ~ 0,
+                            is.na(q_501l) ~ 0,
+                            TRUE ~ 0),
+         emerg_sum = emerg1 + emerg2 + emerg3 + emerg4)
+
+frq(dat$q_501l)
+frq(dat$emerg4)
+frq(dat$emerg_sum)
 
 ## save prepared data ---- 
 

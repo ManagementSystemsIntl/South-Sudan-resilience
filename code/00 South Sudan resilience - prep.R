@@ -7,7 +7,7 @@ packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr
               "readxl", "sjmisc", "sjPlot", "sjstats", "sjlabelled", "skimr","labelled", "texreg", "janitor","psych","dplyr",
               "tidyverse", "viridis", "here", "ggridges", "ggthemes", "DT", "jtools", "huxtable", "stringi", "gghighlight",
               "plm", "brms", "rstan", "rstanarm","tidybayes","texreg","gt","gtsummary","huxtable","stargazer", "gsynth",
-              "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest")
+              "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest", "ltm")
 
 lapply(packages, library, character.only=T)
 
@@ -128,7 +128,7 @@ revcode <- function(x) {
 
 dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
 
-dat_unw <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
+#dat_unw <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
 
 datNames <- data.frame(names(dat))
 
@@ -206,13 +206,18 @@ svyrdat <- dat %>%
                "r. Remittances",
                "s. Gifts/inheritance",
                "t. Food / cash safety net")
- 
- inc_key <- data.frame(inc_code=1:20,
-                       varname=names(inc),
-                       inc_lab=inc_labs,
-                       inc_lab2=inc_labs2)
- 
- 
+
+inc_key <- read_csv(here("output/tables/inc key.csv"))
+  
+# inc_key <- data.frame(inc_code=1:20,
+#                        varname=names(inc),
+#                        inc_lab=inc_labs,
+#                        inc_lab2=inc_labs2)
+#  
+# write_csv(inc_key, here("output/tables/inc key.csv"))
+#  
+#  
+
  shock_key <- read_csv(here("output/tables/shocks/shock key.csv"))
  
  shock_labs <- c("Floods",

@@ -267,6 +267,7 @@ shocks <- dat %>%
 fa.parallel(shocks,
             cor="tet")
 ```
+5 factors, 4 components 
 
 ```{r}
 fa_shocks_5 <- fa(shocks,
@@ -473,6 +474,55 @@ sev <- dat %>%
 
 fa.parallel(sev)
 ```
+5 factors, 3 components
+
+```{r}
+fa_sev_5 <- fa(sev,
+                  nfactors=5,
+                  scores="tenBerge",
+                  fm="ml")
+
+fa_sev_5
+```
+
+ML2: crop disease, crop pests, ag inputs, crop theft
+
+ML1: Livestock input, livestock disease, unable to sell, livestock theft
+
+ML3: Erosion, loss of land, flood, food prices
+
+ML4: Illness and death
+
+ML5: Theft
+
+Explains 63 percent of the variance. Fit statistics sufficient (Tucker Lewis .98, RMSEA .044)
+
+```{r}
+fa_sev_5_scores <- fa_sev_5$scores %>%
+  as.data.frame() %>%
+  set_names(nm=c("shock_sev_crops", "shock_sev_livestock","shocks_sev_drought", "shocks_sev_illdeath", "shocks_sev_theft"))
+
+#head(fa_sev_5_scores)
+describe(fa_sev_5_scores)
+
+```
+
+```{r}
+dat <- dat %>%
+  mutate(shock_sev_crops=fa_sev_5_scores$shock_sev_crops,
+         shock_sev_livestock = fa_sev_5_scores$shock_sev_livestock,
+         shock_sev_drought=fa_sev_5_scores$shocks_sev_drought,
+         shock_sev_illdeath = fa_sev_5_scores$shock_sev_illdeath,
+         shock_sev_theft = fa_sev_5_scores$shock_sev_theft,)
+
+ggplot(dat) + 
+  geom_density(aes(shock_sev_livestock), color=usaid_red) + 
+  geom_density(aes(shock_sev_crops), color=usaid_blue) +
+  geom_density(aes(shock_sev_drought), color=light_blue)
+
+```
+
+
 
 ```{r}
 fa_sev_4 <- fa(sev,
@@ -489,6 +539,8 @@ ML2: crop related
 ML3: erosion, loss of land, flood, food prices
 
 ML4: theft
+
+Explains 59 percent of variance. Fit statistics sufficient (Tucker Lewis .95, RMSEA .06). 
 
 ```{r}
 fa_sev_3 <- fa(sev,
@@ -535,6 +587,93 @@ ggplot(dat) +
 ggplot(dat, aes(shock_exposure_index)) + 
   geom_density(color=light_blue)
 ```
+```{r}
+ltm_shck <- ltm(shocks ~ z1)
+ltm_shck
+```
+
+
+```{r}
+prin_sev <- principal(sev)
+prin_sev
+```
+
+```{r}
+
+prin_sev_scrs <- prin_sev$scores %>%
+  as.data.frame()
+
+#str(prin_sev_scrs)
+
+dat <- dat %>%
+  mutate(shock_exposure_comp = prin_sev_scrs$PC1)
+
+ggplot(dat, aes(shock_exposure_comp)) + 
+  geom_density()
+
+```
+```{r}
+ggplot(dat, aes(shock_exposure_index, shock_exposure_comp)) + 
+  geom_point(color=light_blue, size=.7) + 
+  stat_smooth()
+```
+
+# Dietary diversity 
+
+```{r}
+
+diet <- dat %>%
+  select(q_403:q_404,
+         vegetable:meat,
+         q_413:q_419)
+
+map(diet, frq)
+```
+
+```{r}
+ltm_diet <- ltm(diet ~ z1)
+ltm_diet
+```
+
+```{r}
+plot(ltm_diet, type="ICC")
+```
+
+```{r}
+plot(ltm_diet, type="IIC")
+```
+
+```{r}
+plot(ltm_diet, 
+     type="IIC",
+     items=0)
+```
+
+```{r}
+prin_diet <- principal(diet,
+                       cor="tet")
+prin_diet
+```
+
+```{r}
+prin_diet_scrs <- prin_diet$scores %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(hdds_comp=prin_diet_scrs$PC1)
+
+ggplot(dat, aes(hdds_comp)) +
+  geom_density()
+
+```
+
+```{r}
+ggplot(dat, aes(hdds, hdds_comp)) + 
+  geom_point(color=light_blue, size=.8) + 
+  stat_smooth() + 
+  scale_x_continuous(breaks=1:12)
+```
+
 
 ```{r}
 

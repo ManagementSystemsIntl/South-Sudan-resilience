@@ -26,3 +26,224 @@ source(here("code/00 South Sudan resilience - prep.R"))
 
 
 ```
+
+
+# Aspirations
+
+```{r}
+asp_cnty_wt <- svyrdat %>%
+  group_by(region, county) %>%
+  summarize(asp = survey_mean(aspirations_index2, na.rm=T)) %>%
+  mutate(lower=asp-1.96*asp_se,
+         upper=asp+1.96*asp_se)
+
+asp_cnty_wt
+
+write_csv(asp_cnty_wt, here("output/tables/aspirations county weighted.csv"))
+
+```
+
+# Food security
+
+## overall
+
+```{r}
+fies_wt <- svyrdat %>%
+  group_by() %>%
+  summarize(fies = survey_mean(fies_raw, na.rm=T)) %>%
+  mutate(lower=fies-1.96*fies_se,
+         upper=fies+1.96*fies_se,
+         Disaggregate="Overall",
+         `Disaggregate type` = "Overall") %>%
+  select(5,6,everything())
+
+fies_wt
+
+write_csv(fies_wt, here("output/tables/food insecurity/food insecurity index overall weighted.csv"))
+```
+
+## locality
+
+```{r}
+fies_locality_wt <- svyrdat %>%
+  group_by(locality) %>%
+  summarize(fies = survey_mean(fies_raw, na.rm=T)) %>%
+  mutate(lower=fies-1.96*fies_se,
+         upper=fies+1.96*fies_se,
+         Disaggregate = "Locality") %>%
+  rename(`Disaggregate type` = locality) %>%
+  select(6,everything())
+
+fies_locality_wt
+
+write_csv(fies_cnty_wt, here("output/tables/food insecurity/food insecurity index locality weighted.csv"))
+
+```
+
+## hh sex
+
+```{r}
+fies_sex_wt <- svyrdat %>%
+  group_by(hh_sex) %>%
+  summarize(fies = survey_mean(fies_raw, na.rm=T)) %>%
+  mutate(lower=fies-1.96*fies_se,
+         upper=fies+1.96*fies_se,
+         Disaggregate = "Head of household sex") %>%
+  rename(`Disaggregate type` = hh_sex) %>%
+  select(6,everything()) %>%
+  na.omit()
+
+fies_sex_wt
+
+write_csv(fies_cnty_wt, here("output/tables/food insecurity/food insecurity index hh sex weighted.csv"))
+
+```
+
+## county
+
+```{r}
+fies_cnty_wt <- svyrdat %>%
+  group_by(county) %>%
+  summarize(fies = survey_mean(fies_raw, na.rm=T)) %>%
+  mutate(lower=fies-1.96*fies_se,
+         upper=fies+1.96*fies_se,
+         Disaggregate = "County") %>%
+  rename(`Disaggregate type` = county) %>%
+  select(6,everything())
+
+fies_cnty_wt
+
+write_csv(fies_cnty_wt, here("output/tables/food insecurity/food insecurity index county weighted.csv"))
+
+```
+
+## fies with all disags
+
+```{r}
+
+fies_all <- do.call(rbind, list(fies_wt,
+                                fies_locality_wt,
+                                fies_sex_wt,
+                                fies_cnty_wt))
+
+fies_all
+
+```
+
+
+# Dietary diversity
+
+## overall
+
+```{r}
+hdds_wt <- svyrdat %>%
+  group_by() %>%
+  summarize(hdds = survey_mean(hdds, na.rm=T)) %>%
+  mutate(lower=hdds-1.96*hdds_se,
+         upper=hdds+1.96*hdds_se,
+         Disaggregate="Overall",
+         `Disaggregate type` = "Overall") %>%
+  select(5,6,everything())
+
+hdds_wt
+
+write_csv(hdds_wt, here("output/tables/food insecurity/hdds overall weighted.csv"))
+```
+
+## locality
+
+```{r}
+hdds_locality_wt <- svyrdat %>%
+  group_by(locality) %>%
+  summarize(hdds = survey_mean(hdds, na.rm=T)) %>%
+  mutate(lower=hdds-1.96*hdds_se,
+         upper=hdds+1.96*hdds_se,
+         Disaggregate = "Locality") %>%
+  rename(`Disaggregate type` = locality) %>%
+  select(6,everything())
+
+hdds_locality_wt
+
+write_csv(hdds_cnty_wt, here("output/tables/food insecurity/hdds locality weighted.csv"))
+
+```
+
+## hh sex
+
+```{r}
+hdds_sex_wt <- svyrdat %>%
+  group_by(hh_sex) %>%
+  summarize(hdds = survey_mean(hdds, na.rm=T)) %>%
+  mutate(lower=hdds-1.96*hdds_se,
+         upper=hdds+1.96*hdds_se,
+         Disaggregate = "Head of household sex") %>%
+  rename(`Disaggregate type` = hh_sex) %>%
+  select(6,everything()) %>%
+  na.omit()
+
+hdds_sex_wt
+
+write_csv(hdds_cnty_wt, here("output/tables/food insecurity/hdds hh sex weighted.csv"))
+
+```
+
+
+## county
+
+```{r}
+
+hdds_cnty_wt <- svyrdat %>%
+  group_by(county) %>%
+  summarize(hdds = survey_mean(hdds, na.rm=T)) %>%
+  mutate(lower=hdds-1.96*hdds_se,
+         upper=hdds+1.96*hdds_se,
+         Disaggregate = "County") %>%
+  rename(`Disaggregate type` = county) %>%
+  select(6,everything())
+
+hdds_cnty_wt
+
+write_csv(hdds_cnty_wt, here("output/tables/food insecurity/dietary diversity county weighted.csv"))
+
+```
+
+```{r}
+fies_theme <- 
+```
+
+## hdds with all disags
+
+```{r}
+
+hdds_all <- do.call(rbind, list(hdds_wt,
+                                hdds_locality_wt,
+                                hdds_sex_wt,
+                                hdds_cnty_wt))
+
+hdds_all
+
+```
+# Aggregated indicators
+
+```{r}
+fies_hdds <- fies_all %>%
+  select(1:3) %>%
+  left_join(hdds_all[,1:3])
+
+fies_hdds
+
+write_csv(fies_hdds, here("output/tables/food insecurity/food security hdds disags weighted.csv"))
+```
+
+
+```{r}
+fies_hdds_gt <- fies_hdds %>%
+  gt(groupname_col = "Disaggregate")
+
+fies_hdds_gt
+
+gtsave(fies_hdds_gt, here("output/tables/food insecurity/food security hdds disags weighted.rtf"))
+
+```
+
+

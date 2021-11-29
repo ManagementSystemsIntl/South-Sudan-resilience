@@ -36,6 +36,8 @@ MESP has completed data collection in six counties, and as of October 2021 is ca
 
 ## Absorptive capacity
 
+### Community group participation
+
 ```{r}
 
 grps <- dat %>%
@@ -55,11 +57,11 @@ ggplot(dat, aes(grp_sum)) +
   geom_bar(fill=light_blue,
            width=.5)
 ```
-### Community group participation
+
 
 ```{r}
 
-library(ltm)
+#library(ltm)
 
 l1 <- ltm(grps ~ z1)
 
@@ -107,18 +109,19 @@ ML3: cattle herding, cattle protection, cattle raiding, animal herding
 
 ML4: women group, mothers group, religious group
 
-ML1: savings group, credit group
+ML2: savings group, credit group
 
-ML5: natural resource management, self-help, land management
+ML1: sports, youth 
 
-ML2: sports, youth
+ML5: natural resource management, self-help, water, land management
 
 Captures 75 percent of the variance of all items
 
-Fit statistics good but not great (Tucker-Lewis 86 percent, RMSEA .13)
+Fit statistics good but not great (Tucker-Lewis 86 percent, RMSEA .14)
 
 ```{r}
-prin_grps <- principal(grps)
+prin_grps <- principal(grps,
+                       cor="tet")
 prin_grps
 ```
 
@@ -140,6 +143,12 @@ g1 <- svyglm(fies_raw ~ grp_participate_comp + shock_exposure_index +
              design=svydat)
 
 summary(g1)
+```
+```{r}
+ggplot(dat, aes(grp_sum, grp_participate_comp)) +
+  geom_point(color=light_blue) + 
+  stat_smooth() +
+  scale_x_continuous(breaks=1:16)
 ```
 
 
@@ -229,10 +238,24 @@ dat <- dat %>%
 describe(dat$bonding_capital_comp)
 
 ```
+
 ```{r}
 ggplot(dat, aes(bonding_capital_comp)) + 
   geom_density()
 ```
+
+```{r}
+frq(dat$bonding_capital_comp)
+```
+
+
+```{r}
+ggplot(dat, aes(bonding_capital_raw, bonding_capital_comp)) + 
+  geom_point(color=light_blue) + 
+  stat_smooth()
+```
+
+
 ```{r}
 ggplot(dat, aes(bonding_capital_raw)) + 
   geom_bar()
@@ -297,6 +320,9 @@ fa_inc_7 <- fa(inc,
                cor="tet")
 fa_inc_7
 ```
+
+ML4: 
+
 ```{r}
 fa_inc_7_ldngs <- as.matrix(fa_inc_7$loadings) %>%
   unclass() %>%
@@ -304,22 +330,60 @@ fa_inc_7_ldngs <- as.matrix(fa_inc_7$loadings) %>%
   rownames_to_column("varname") %>%
   select(1:8) %>%
   left_join(inc_key) %>%
-  select(1,9:11, everything()) %>%
+  select(1,9:11, everything()) 
+
+fa_inc_7_ldngs
+
+```
+
+ML4: d/c/b sheep/goat/cattle production/sales
+
+ML5: petty trade / other employment
+
+ML1: Ag wage labor
+
+ML6: property rental / salaried work
+
+ML3: Wage labor 
+
+ML7: Wild bush / inheritance / safety net
+
+ML2: Farmer
+
+```{r}
+fa_inc_7_scores <- data.frame(fa_inc_7$scores)
+
+dat <- dat %>%
+  mutate(inc_fac_livestocksales=fa_inc_7_scores$ML4,
+         inc_fac_pettytrade=fa_inc_7_scores$ML5,
+         inc_fac_agwage=fa_inc_7_scores$ML1,
+         inc_fac_proprent=fa_inc_7_scores$ML6,
+         inc_fac_wage=fa_inc_7_scores$ML3,
+         inc_fac_safetynet=fa_inc_7_scores$ML7,
+         inc_fac_farmer=fa_inc_7_scores$ML2)
+```
+
+
+```{r}
+fa_inc_7_ldngsL <- fa_inc_7_ldngs %>% 
   pivot_longer(cols=5:11,
                names_to="factor",
                values_to="loading") %>%
   #arrange(factor) %>%
   mutate(significance=ifelse(loading>.3999, "Significant loading", ""))
 
-fa_inc_7_ldngs
+#fa_inc_7_ldngsL
 
 ```
+
+
 ```{r fig.width=8.4}
-ggplot(fa_inc_7_ldngs, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color=significance)) + 
+ggplot(fa_inc_7_ldngsL, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color=significance)) + 
   #geom_bar() + 
   geom_point() +
   scale_color_manual(values=c("grey60", medium_blue)) +
-  scale_x_continuous(breaks=seq(0,1,.5)) +
+  scale_x_continuous(limits=c(.4,1),
+                     breaks=c(.4,.8)) +
   scale_y_discrete(breaks=1:20,
                      labels=inc_labs) +
   facet_wrap(~factor, nrow=1) +
@@ -328,19 +392,13 @@ ggplot(fa_inc_7_ldngs, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color
   labs(x="",
        y="")
 ```
-
 ```{r}
-fa_inc_7
-fa_inc_7_ldngs
-
+ggsave(here("output/viz/fa inc 7 loadings.png"),
+       device="png",
+       type="cairo",
+       height=5,
+       width=10)
 ```
-
-
-dat <- dat %>%
-  mutate()
-
-```
-
 
 ```{r}
 g3 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_comp + q_401_q_bin + q_401_r_bin + 
@@ -394,6 +452,369 @@ ggplot(fa_inc_5_ldngs, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color
   labs(x="",
        y="")
 ```
+
+
+
+
+### Shock preparedness and mitigation
+
+Nothing from the TANGO manual, but from our instrument we have early warning systems and emergency action plans
+
+#### Early warning system
+
+```{r}
+ews <- dat %>%
+  select(warn_hazards:warn_foodprices)
+
+map(ews, frq)
+
+```
+
+```{r}
+ltm_ews <- ltm(ews ~ z1)
+ltm_ews
+```
+
+Price warnings least common; water, crops, and livestock most common
+
+animal prices, general prices, and grazing highest discrimination
+
+```{r}
+ews_prin <- principal(ews)
+ews_prin
+```
+
+```{r}
+dat <- dat %>%
+  mutate(ews_comp=ews_prin$scores)
+
+describe(dat$ews_comp)
+```
+
+```{r}
+ews_prin$weights
+```
+```{r}
+ggplot(dat, aes(ews_comp)) +
+  geom_density()
+```
+
+
+```{r}
+ggplot(dat, aes(x=ews_comp)) + 
+  stat_smooth(aes(y=warn_animalprices), color=light_blue, se=F) + 
+  stat_smooth(aes(y=warn_prices), color=medium_blue, se=F) + 
+  stat_smooth(aes(y=warn_grazing), color=usaid_red, se=F) +
+  stat_smooth(aes(y=warn_livestock), color=dark_red, se=F) + 
+  stat_smooth(aes(y=warn_crops), color=rich_black, se=F) + 
+  stat_smooth(aes(y=warn_hazards), color=light_grey, se=F) 
+  #geom_point(aes(y=warn_animalprices), color=light_blue) +
+  #geom_point(aes(y=warn_prices), color=medium_blue)
+
+```
+```{r}
+ggplot(dat, aes(y=ews_comp)) + 
+  geom_point(aes(x=warn_sum), color=dark_grey, size=.6) + 
+  stat_smooth(aes(x=warn_sum), color=dark_grey, se=F) +
+  scale_x_continuous(breaks=1:11)
+
+```
+
+#### Emergency action plans
+
+```{r}
+frq(dat$q_612)
+```
+
+```{r}
+emerg <- dat %>%
+  select(emerg1:emerg4)
+head(emerg)
+```
+
+```{r}
+ltm_emerg <- ltm(emerg ~ z1)
+ltm_emerg
+```
+
+```{r}
+plot(ltm_emerg, type="ICC")
+```
+
+```{r}
+plot(ltm_emerg, type="IIC")
+```
+
+```{r}
+plot(ltm_emerg, 
+     type="IIC",
+     items=0)
+```
+```{r}
+ltm_emerg2 <- ltm(emerg[,1:3] ~ z1)
+ltm_emerg2
+```
+
+```{r}
+plot(ltm_emerg2, type="ICC")
+```
+```{r}
+plot(ltm_emerg2, type="IIC")
+```
+
+```{r}
+plot(ltm_emerg2, 
+     type="IIC",
+     items=0)
+```
+
+```{r}
+prin_emerg <- principal(emerg)
+prin_emerg
+```
+
+```{r}
+weights(prin_emerg)
+```
+```{r}
+dat <- dat %>%
+  mutate(emerg_comp = prin_emerg$scores)
+
+describe(dat$emerg_comp)
+
+ggplot(dat, aes(emerg_comp)) + 
+  geom_density()
+```
+
+
+
+```{r}
+prin_emerg2 <- principal(emerg[,1:3])
+prin_emerg2
+```
+
+
+```{r}
+dat <- dat %>%
+  mutate(emerg_comp2 = prin_emerg2$scores)
+
+describe(dat$emerg_comp2)
+
+ggplot(dat, aes(emerg_comp2)) + 
+  geom_density()
+```
+
+```{r}
+ggplot(dat, aes(emerg_comp, emerg_sum)) + 
+  geom_point(color="blue") + 
+  stat_smooth(method="lm")
+```
+
+### Humanitarian assistance 
+
+```{r}
+frq(dat$donor_act)
+```
+
+### Modeling components of absorptive capacity
+
+```{r}
+
+abs1 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_raw + q_401_r_bin + 
+                 ews_comp + emerg_sum + donor_act +
+               shock_exposure_comp,
+             design=svydat)
+
+summary(abs1)
+
+```
+
+```{r}
+
+abs2 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_raw + q_401_r_bin + 
+               ews_comp + emerg_sum + donor_act +
+               shock_exposure_comp + as.factor(county),
+             design=svydat)
+
+summary(abs2)
+
+```
+### Absorptive capacity factor analysis
+
+```{r}
+absorp <- dat %>%
+  select(grp_participate_comp,
+         bonding_capital_raw,
+         access_remittances=q_401_r_bin,
+         ews_comp,
+         emerg_sum,
+         donor_act)
+
+fa.parallel(absorp,
+            cor="mixed")
+```
+3 factors, 2 components
+
+```{r}
+fa_absorp_3 <- fa(absorp,
+                  nfactors=3,
+                  scores="tenBerge",
+                  fm="ml",
+                  cor="mixed")
+
+fa_absorp_3
+```
+ML1: civil society / group participation
+
+ML2: Emergency planning
+
+ML3: donor activity, bonding capital
+
+50 percent of variance explained. No fit statistics. 
+
+```{r}
+fa_absorp_3_scrs <- fa_absorp_3$scores %>%
+  as.data.frame() %>%
+  set_names(nm=c("Group_participation", "Emergency_planning", "Donor_activity"))
+
+dat <- dat %>%
+  mutate(Group_participation=fa_absorp_3_scrs$Group_participation,
+         Emergency_planning = fa_absorp_3_scrs$Emergency_planning,
+         Donor_activity = fa_absorp_3_scrs$Donor_activity)
+
+```
+
+#### Absorptive factors factor analysis
+
+```{r}
+absorp_facs <- dat %>%
+  select(Group_participation,
+         Emergency_planning,
+         Donor_activity)
+
+fa.parallel(absorp_facs)
+```
+
+1 factor, 1 component
+
+```{r}
+fac_absorp_facs <- fa(absorp_facs,
+                      #scores="tenBerg",
+                      fm="ml")
+
+fac_absorp_facs
+
+```
+45 percent of variance explained. No fit statistics. 
+
+```{r}
+prin_absorp_facs <- principal(absorp_facs)
+prin_absorp_facs
+```
+
+62 percent of variance explained
+
+
+```{r}
+prin_absorp_facs_scrs <- prin_absorp_facs$scores %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(Absorptive_Capacity = prin_absorp_facs_scrs$PC1)
+
+#describe(dat$Absorptive_Capacity)
+
+quantile(dat$Absorptive_Capacity, probs=seq(0,1,.25), na.rm=T)
+
+```
+
+```{r}
+dat <- dat %>%
+  mutate(Absorptive_Type = case_when(Absorptive_Capacity < -.79 ~ "Low",
+                                     Absorptive_Capacity > .61 ~ "High",
+                                     TRUE ~ "Middle"))
+frq(dat$Absorptive_Type)
+
+```
+
+
+
+```{r}
+ggplot(dat, aes(shock_exposure_comp, fies_raw, color=Absorptive_Type)) + 
+  #geom_point() + 
+  stat_smooth(se=F) 
++
+  scale_y_continuous(limits=c(7.5,8),
+                     breaks=6:8)
+
+```
+```{r}
+
+abs3 <- svyglm(fies_raw ~ Absorptive_Capacity +
+               shock_exposure_comp + as.factor(county),
+             design=svydat)
+
+summary(abs3)
+
+```
+```{r}
+
+abs4 <- svyglm(fies_raw ~ Group_participation +
+                 Emergency_planning + 
+                 Donor_activity + 
+               shock_exposure_comp + as.factor(county),
+             design=svydat)
+
+summary(abs4)
+
+```
+
+
+
+```{r}
+
+abs5 <- svyglm(ability_recover ~ Group_participation +
+                 Emergency_planning + 
+                 Donor_activity + 
+               shock_exposure_comp + as.factor(county),
+             design=svydat)
+
+summary(abs5)
+
+```
+
+```{r}
+
+abs6 <- svyolr(ordered(ability_recover) ~ Group_participation +
+                 Emergency_planning + 
+                 Donor_activity + 
+               shock_exposure_comp + as.factor(county),
+               method="probit",
+               design=svydat)
+
+summary(abs6)
+
+```
+
+```{r}
+
+abs7 <- svyolr(ordered(ability_recover) ~ grp_participate_comp + bonding_capital_raw + q_401_r_bin + 
+               ews_comp + emerg_sum + donor_act +
+               shock_exposure_comp,
+               method="probit",
+               design=svydat)
+
+summary(abs7)
+
+```
+
+
+
+```{r}
+
+```
+
+
 
 
 
