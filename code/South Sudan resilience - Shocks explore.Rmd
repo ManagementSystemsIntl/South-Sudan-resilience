@@ -491,16 +491,16 @@ ML1: Livestock input, livestock disease, unable to sell, livestock theft
 
 ML3: Erosion, loss of land, flood, food prices
 
-ML4: Illness and death
+ML5: Illness and death
 
-ML5: Theft
+ML4: Theft
 
 Explains 63 percent of the variance. Fit statistics sufficient (Tucker Lewis .98, RMSEA .044)
 
 ```{r}
 fa_sev_5_scores <- fa_sev_5$scores %>%
   as.data.frame() %>%
-  set_names(nm=c("shock_sev_crops", "shock_sev_livestock","shocks_sev_drought", "shocks_sev_illdeath", "shocks_sev_theft"))
+  set_names(nm=c("shock_sev_crops", "shock_sev_livestock","shock_sev_drought", "shock_sev_illdeath", "shock_sev_theft"))
 
 #head(fa_sev_5_scores)
 describe(fa_sev_5_scores)
@@ -511,7 +511,7 @@ describe(fa_sev_5_scores)
 dat <- dat %>%
   mutate(shock_sev_crops=fa_sev_5_scores$shock_sev_crops,
          shock_sev_livestock = fa_sev_5_scores$shock_sev_livestock,
-         shock_sev_drought=fa_sev_5_scores$shocks_sev_drought,
+         shock_sev_drought=fa_sev_5_scores$shock_sev_drought,
          shock_sev_illdeath = fa_sev_5_scores$shock_sev_illdeath,
          shock_sev_theft = fa_sev_5_scores$shock_sev_theft,)
 
@@ -568,15 +568,15 @@ describe(fa_sev_3_scores)
 
 ```
 ```{r}
-dat <- dat %>%
-  mutate(shock_sev_livestock=fa_sev_3_scores$shock_sev_livestock,
-         shock_sev_crops = fa_sev_3_scores$shock_sev_crops,
-         shock_sev_drought=fa_sev_3_scores$shocks_sev_drought)
+# dat <- dat %>%
+#   mutate(shock_sev_livestock=fa_sev_3_scores$shock_sev_livestock,
+#          shock_sev_crops = fa_sev_3_scores$shock_sev_crops,
+#          shock_sev_drought=fa_sev_3_scores$shocks_sev_drought)
 
-ggplot(dat) + 
-  geom_density(aes(shock_sev_livestock), color=usaid_red) + 
-  geom_density(aes(shock_sev_crops), color=usaid_blue) +
-  geom_density(aes(shock_sev_drought), color=light_blue)
+ggplot(dat, aes(y=shock_exposure_index)) + 
+  stat_smooth(aes(shock_sev_livestock), se=F, color=usaid_red) + 
+  stat_smooth(aes(shock_sev_crops), se=F, color=usaid_blue) +
+  stat_smooth(aes(shock_sev_drought), se=F, color=light_blue)
 
 ```
 
@@ -591,6 +591,35 @@ ggplot(dat, aes(shock_exposure_index)) +
 ltm_shck <- ltm(shocks ~ z1)
 ltm_shck
 ```
+
+```{r}
+shock_facs <- dat %>%
+  select(shock_sev_crops,
+         shock_sev_livestock,
+         shock_sev_drought,
+         shock_sev_illdeath,
+         shock_sev_theft)
+
+fa.parallel(shock_facs)
+```
+
+```{r}
+prin_shock_facs <- principal(shock_facs)
+prin_shock_facs
+```
+
+```{r}
+prin_shock_facs_scrs <- prin_shock_facs$scores %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(shock_facs_comp=prin_shock_facs_scrs$PC1)
+
+ggplot(dat, aes(shock_facs_comp)) + 
+  geom_density()
+
+```
+
 
 
 ```{r}
@@ -613,7 +642,7 @@ ggplot(dat, aes(shock_exposure_comp)) +
 
 ```
 ```{r}
-ggplot(dat, aes(shock_exposure_index, shock_exposure_comp)) + 
+ggplot(dat, aes(shock_exposure_index, shock_facs_comp)) + 
   geom_point(color=light_blue, size=.7) + 
   stat_smooth()
 ```

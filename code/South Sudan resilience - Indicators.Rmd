@@ -62,6 +62,11 @@ fies_wt
 write_csv(fies_wt, here("output/tables/food insecurity/food insecurity index overall weighted.csv"))
 ```
 
+```{r}
+#ggplot(dat, aes())
+```
+
+
 ## locality
 
 ```{r}
@@ -246,4 +251,193 @@ gtsave(fies_hdds_gt, here("output/tables/food insecurity/food security hdds disa
 
 ```
 
+# Donor activity
+
+## by payam
+
+```{r}
+
+donor_payam_wt <- svyrdat %>%
+  group_by(county, payam) %>%
+  summarize(donor_activity = survey_mean(donor_act, na.rm=T)) %>%
+  mutate(lower=donor_activity-1.96*donor_activity_se,
+         upper=donor_activity+1.96*donor_activity_se) 
+%>%
+  arrange(desc(donor_activity))
+
+donor_payam_wt
+
+write_csv(donor_payam_wt, here("output/tables/humanitarian assistance payam weighted.csv"))
+
+```
+
+```{r}
+
+disast_payam_wt <- svyrdat %>%
+  group_by(county, payam) %>%
+  summarize(disaster_plan = survey_mean(grp_disaster, na.rm=T)) %>%
+  mutate(lower=disaster_plan-1.96*disaster_plan_se,
+         upper=disaster_plan+1.96*disaster_plan_se) 
+#%>%
+#  arrange(desc(disaster_plan))
+
+disast_payam_wt
+
+write_csv(donor_payam_wt, here("output/tables/disaster plan payam weighted.csv"))
+
+```
+
+```{r}
+donor_payam <- donor_payam_wt %>%
+  select(1:3) %>%
+  left_join(disast_payam_wt[,1:3])
+
+donor_payam
+
+write_csv(donor_payam, here("output/tables/donor activity payam weighted.csv"))
+
+```
+
+
+Variance decomposition
+
+```{r}
+l1 <- lmer(donor_act ~ (1|region),
+           data=dat)
+
+summary(l1)
+```
+
+```{r}
+ranef(l1)
+```
+```{r}
+library(performance)
+performance::icc(l1)
+```
+
+
+
+
+```{r}
+l2 <- lmer(donor_act ~ (1|region) + (1|state),
+           data=dat)
+
+summary(l2)
+
+```
+
+```{r}
+ranef(l2)
+```
+
+```{r}
+icc(l2,
+    by_group=T)
+```
+
+```{r}
+l3 <- lmer(donor_act ~ (1|region/state),
+           data=dat)
+
+summary(l3)
+
+```
+
+```{r}
+icc(l3,
+    by_group=T)
+```
+
+```{r}
+l4 <- lmer(donor_act ~ (1|county),
+           data=dat)
+
+summary(l4)
+
+```
+
+```{r}
+ranef(l4)
+```
+
+```{r}
+icc(l4,
+    by_group=T)
+```
+
+```{r}
+l5 <- lmer(donor_act ~ (1|county) + (1|payam),
+           data=dat)
+
+summary(l5)
+
+```
+
+```{r}
+ranef(l5)
+```
+
+
+```{r}
+icc(l5,
+    by_group=T)
+```
+
+```{r}
+l6 <- lmer(donor_act ~ (1|payam),
+           data=dat)
+
+summary(l6)
+
+```
+
+```{r}
+ranef(l6)
+```
+
+```{r}
+icc(l6)
+```
+
+```{r}
+l7 <- lmer(donor_act ~ (1|county) + (1|payam) + (1|boma),
+           data=dat)
+
+summary(l7)
+
+```
+
+```{r}
+ranef(l7)
+```
+
+```{r}
+icc(l7, 
+    by_group=T)
+```
+
+```{r}
+l8 <- lmer(donor_act ~ (1|county) + (1|payam) + (1|boma) + (1|ea_str),
+           data=dat)
+
+summary(l8)
+
+```
+
+```{r}
+ranef(l8)
+```
+
+```{r}
+icc(l8,
+    by_group=T)
+```
+
+
+
+```{r}
+frq(dat$donor_act)
+frq(dat$payam)
+```
 

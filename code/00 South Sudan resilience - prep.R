@@ -274,7 +274,28 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 
  cnty_key 
  
- 
+ diet_labs <- c("cereals",
+                "roots/tubers",
+                "Vit A vegetables",
+                "leafy greens",
+                "other vegetables",
+                "Vit A fruits",
+                "Other fruits",
+                "Organ meat",
+                "Domesticated meat",
+                "Bush meat",
+                "Eggs",
+                "Seafood",
+                "Legumes",
+                "Milk products",
+                "Oil and fats",
+                "Sweets",
+                "Spices/condiments")
+
+ diet_key <- data.frame(diet_code=1:17,
+                        diet_lab=diet_labs) 
+
+ diet_key 
  
  
   

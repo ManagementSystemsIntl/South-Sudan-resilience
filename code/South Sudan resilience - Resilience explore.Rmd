@@ -120,6 +120,50 @@ Captures 75 percent of the variance of all items
 Fit statistics good but not great (Tucker-Lewis 86 percent, RMSEA .14)
 
 ```{r}
+fa_grps_5_scrs <- fa_grps_5$scores %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(grp_fac_cattle = fa_grps_5_scrs$ML3,
+         grp_fac_women = fa_grps_5_scrs$ML4,
+         grp_fac_finance = fa_grps_5_scrs$ML2,
+         grp_fac_sports = fa_grps_5_scrs$ML1,
+         grp_fac_nature = fa_grps_5_scrs$ML5)
+
+grp_facs <- dat %>%
+  select(grp_fac_cattle:grp_fac_nature)
+
+fa.parallel(grp_facs)
+
+```
+```{r}
+fa_grp_fac <-fa(grp_facs,
+                 scores="tenBerge",
+                 fm="ml")
+
+fa_grp_fac
+
+```
+
+```{r}
+prin_grp_facs <- principal(grp_facs)
+prin_grp_facs
+```
+```{r}
+prin_grp_facs_scrs <- data.frame(prin_grp_facs$scores)
+describe(prin_grp_facs_scrs)
+```
+
+```{r}
+dat <- dat %>%
+  mutate(grp_facs_comp=prin_grp_facs_scrs$PC1)
+
+ggplot(dat, aes(grp_facs_comp)) + 
+  geom_density()
+```
+
+
+```{r}
 prin_grps <- principal(grps,
                        cor="tet")
 prin_grps
@@ -226,14 +270,18 @@ fa_bond_1
 
 
 ```{r}
-prin_bond <- principal(bond)
+prin_bond <- principal(bond,
+                       cor="tet")
 prin_bond
 ```
 ```{r}
 frq(dat$bonding_capital_raw)
 
+prin_bond_scrs <- prin_bond$scores %>%
+  as.data.frame()
+
 dat <- dat %>%
-  mutate(bonding_capital_comp = prin_bond$scores)
+  mutate(bonding_capital_comp = prin_bond_scrs$PC1)
 
 describe(dat$bonding_capital_comp)
 
@@ -330,7 +378,7 @@ fa_inc_7_ldngs <- as.matrix(fa_inc_7$loadings) %>%
   rownames_to_column("varname") %>%
   select(1:8) %>%
   left_join(inc_key) %>%
-  select(1,9:11, everything()) 
+  select(9,11, 2:8) 
 
 fa_inc_7_ldngs
 
@@ -342,13 +390,14 @@ ML5: petty trade / other employment
 
 ML1: Ag wage labor
 
-ML6: property rental / salaried work
+ML3: Wage labor
 
-ML3: Wage labor 
-
-ML7: Wild bush / inheritance / safety net
+ML6: property rental / remittances / salaried work
 
 ML2: Farmer
+
+ML7: inheritance / safety net
+
 
 ```{r}
 fa_inc_7_scores <- data.frame(fa_inc_7$scores)
@@ -357,16 +406,16 @@ dat <- dat %>%
   mutate(inc_fac_livestocksales=fa_inc_7_scores$ML4,
          inc_fac_pettytrade=fa_inc_7_scores$ML5,
          inc_fac_agwage=fa_inc_7_scores$ML1,
-         inc_fac_proprent=fa_inc_7_scores$ML6,
          inc_fac_wage=fa_inc_7_scores$ML3,
-         inc_fac_safetynet=fa_inc_7_scores$ML7,
-         inc_fac_farmer=fa_inc_7_scores$ML2)
+         inc_fac_proprent=fa_inc_7_scores$ML6,
+         inc_fac_farmer=fa_inc_7_scores$ML2,
+         inc_fac_safetynet=fa_inc_7_scores$ML7)
 ```
 
 
 ```{r}
 fa_inc_7_ldngsL <- fa_inc_7_ldngs %>% 
-  pivot_longer(cols=5:11,
+  pivot_longer(cols=3:9,
                names_to="factor",
                values_to="loading") %>%
   #arrange(factor) %>%
@@ -401,7 +450,7 @@ ggsave(here("output/viz/fa inc 7 loadings.png"),
 ```
 
 ```{r}
-g3 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_comp + q_401_q_bin + q_401_r_bin + 
+g3 <- svyglm(fies_raw ~ grp_facs_comp + bonding_capital_comp + q_401_q_bin + q_401_r_bin + 
                shock_exposure_index + 
                as.factor(county),
              design=svydat)
@@ -480,13 +529,18 @@ Price warnings least common; water, crops, and livestock most common
 animal prices, general prices, and grazing highest discrimination
 
 ```{r}
-ews_prin <- principal(ews)
+ews_prin <- principal(ews,
+                      cor="tet")
 ews_prin
 ```
 
 ```{r}
+
+ews_prin_scrs <- ews_prin$scores %>%
+  as.data.frame()
+
 dat <- dat %>%
-  mutate(ews_comp=ews_prin$scores)
+  mutate(ews_comp=ews_prin_scrs$PC1)
 
 describe(dat$ews_comp)
 ```
@@ -569,7 +623,8 @@ plot(ltm_emerg2,
 ```
 
 ```{r}
-prin_emerg <- principal(emerg)
+prin_emerg <- principal(emerg,
+                        cor="tet")
 prin_emerg
 ```
 
@@ -577,8 +632,12 @@ prin_emerg
 weights(prin_emerg)
 ```
 ```{r}
+
+prin_emerg_scrs <- prin_emerg$scores %>%
+  as.data.frame()
+
 dat <- dat %>%
-  mutate(emerg_comp = prin_emerg$scores)
+  mutate(emerg_comp = prin_emerg_scrs$PC1)
 
 describe(dat$emerg_comp)
 
@@ -595,8 +654,12 @@ prin_emerg2
 
 
 ```{r}
+
+prin_emerg2_scrs <- prin_emerg2$scores %>%
+  as.data.frame()
+
 dat <- dat %>%
-  mutate(emerg_comp2 = prin_emerg2$scores)
+  mutate(emerg_comp2 = prin_emerg2_scrs$PC1)
 
 describe(dat$emerg_comp2)
 
@@ -620,9 +683,9 @@ frq(dat$donor_act)
 
 ```{r}
 
-abs1 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_raw + q_401_r_bin + 
+abs1 <- svyglm(fies_raw ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
                  ews_comp + emerg_sum + donor_act +
-               shock_exposure_comp,
+               shock_facs_comp,
              design=svydat)
 
 summary(abs1)
@@ -631,19 +694,77 @@ summary(abs1)
 
 ```{r}
 
-abs2 <- svyglm(fies_raw ~ grp_participate_comp + bonding_capital_raw + q_401_r_bin + 
+abs2 <- svyglm(fies_raw ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
                ews_comp + emerg_sum + donor_act +
-               shock_exposure_comp + as.factor(county),
+               shock_facs_comp + urban + as.factor(county),
              design=svydat)
 
 summary(abs2)
 
 ```
+```{r}
+tidy_out(abs2, letters[1:21])
+
+abs2_t <- tidy(abs2) %>%
+    mutate(lower = estimate - 1.96*std.error,
+           upper = estimate + 1.96*std.error,
+           color=case_when(lower > 0 ~ "#002F6C",
+                           upper < 0 ~ "#BA0C2F",
+                           TRUE ~ "#8C8985")) %>%
+  .[1:9,] %>%
+  filter(term!="(Intercept)") %>%
+  mutate(term2 = c("Group participation (-1 to 3)",
+                   "Bonding social capital (0-4)",
+                   "Access to remittances",
+                   "Early warning systems (-1 to 2)",
+                   "Emergency planning (0-3)",
+                   "Humanitarian assistance",
+                   "Shock exposure (-1 to 3)",
+                   "Urban locality")) %>%
+  select(term, term2, everything())
+
+abs2_t
+
+```
+
+```{r}
+ggplot(abs2_t, aes(x=estimate, y=fct_reorder(term2, -estimate)), color = color, fill = color) +
+    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
+    geom_errorbarh(aes(xmin=lower, xmax=upper), color=abs2_t$color, height=0, size=1.2, alpha = 0.7) +
+    geom_label(aes(label=round(estimate,2)),color = abs2_t$color, size=4.5) +
+    scale_x_continuous(breaks=seq(-1,1,.5),
+                       limits=c(-1,1)) +
+#                       labels = scales::percent_format(accuracy=1)) +
+    labs(x = "", y = "",
+         title="Absorptive capacity measures\nand food insecurity",
+         caption="Each coefficient shows the effect on food insecurity,\nfor every one-unit change in the predictor variable")
+
+ggsave(here("output/viz/fies absorptive regplot.png"),
+            device="png",
+            type="cairo",
+            height=4,
+            width=7)
+```
+
+
+```{r}
+
+abs3 <- svyglm(shock_facs_comp ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
+               ews_comp + emerg_sum + donor_act +
+               urban + as.factor(county),
+               design=svydat)
+
+summary(abs3)
+
+```
+
+
+
 ### Absorptive capacity factor analysis
 
 ```{r}
 absorp <- dat %>%
-  select(grp_participate_comp,
+  select(grp_facs_comp,
          bonding_capital_raw,
          access_remittances=q_401_r_bin,
          ews_comp,
@@ -664,13 +785,29 @@ fa_absorp_3 <- fa(absorp,
 
 fa_absorp_3
 ```
-ML1: civil society / group participation
+ML2: group participation, emergency planning, early warning system
 
-ML2: Emergency planning
+ML1: bonding social capital
 
 ML3: donor activity, bonding capital
 
-50 percent of variance explained. No fit statistics. 
+46 percent of variance explained. No fit statistics. 
+
+```{r}
+prin_absorp <- principal(absorp,
+                         cor="mixed")
+prin_absorp
+```
+
+```{r}
+prin_absorp_scrs <- prin_absorp$scores %>%
+  as.data.frame()
+
+dat <- dat %>% 
+  mutate(absorb_comp = prin_absorp_scrs$PC1)
+
+```
+
 
 ```{r}
 fa_absorp_3_scrs <- fa_absorp_3$scores %>%
@@ -725,33 +862,49 @@ dat <- dat %>%
 #describe(dat$Absorptive_Capacity)
 
 quantile(dat$Absorptive_Capacity, probs=seq(0,1,.25), na.rm=T)
+quantile(dat$absorb_comp, probs=seq(0,1,.25), na.rm=T)
 
 ```
 
 ```{r}
 dat <- dat %>%
-  mutate(Absorptive_Type = case_when(Absorptive_Capacity < -.79 ~ "Low",
-                                     Absorptive_Capacity > .61 ~ "High",
+  mutate(#Absorptive_Type = case_when(Absorptive_Capacity < -.79 ~ "Low",
+          #                           Absorptive_Capacity > .61 ~ "High",
+           #                          TRUE ~ "Middle"),
+         absorb_comp_type = case_when(absorb_comp < -.72 ~ "Low",
+                                     absorb_comp > .61 ~ "High",
                                      TRUE ~ "Middle"))
 frq(dat$Absorptive_Type)
+frq(dat$absorb_comp_type)
 
 ```
 
 
 
 ```{r}
-ggplot(dat, aes(shock_exposure_comp, fies_raw, color=Absorptive_Type)) + 
+ggplot(dat, aes(shock_facs_comp, ability_recover, color=absorb_comp_type)) + #Absorptive_Type)) + 
   #geom_point() + 
-  stat_smooth(se=F) 
-+
-  scale_y_continuous(limits=c(7.5,8),
-                     breaks=6:8)
+  stat_smooth(se=F) +
+  scale_y_continuous(limits=c(2,6),
+                     breaks=2:6) + 
+  scale_color_manual(values=c(medium_blue, usaid_red, medium_grey)) + 
+  labs(x="Shock exposure",
+       y="Ability\nto\nrecover",
+       title="Absorptive capacity affects the relationship\nbetween shocks and the ability to recover") +
+  theme(axis.title.y=element_text(angle=0, vjust=.5),
+        legend.title=element_blank())
+
+ggsave(here("output/viz/ability to recover shocks absorp.png"),
+            device="png",
+            type="cairo",
+            height=4,
+            width=7)
 
 ```
 ```{r}
 
-abs3 <- svyglm(fies_raw ~ Absorptive_Capacity +
-               shock_exposure_comp + as.factor(county),
+abs3 <- svyglm(fies_raw ~ absorb_comp + #Absorptive_Capacity +
+               shock_facs_comp + urban + as.factor(county),
              design=svydat)
 
 summary(abs3)
@@ -798,13 +951,53 @@ summary(abs6)
 
 ```{r}
 
-abs7 <- svyolr(ordered(ability_recover) ~ grp_participate_comp + bonding_capital_raw + q_401_r_bin + 
+abs7 <- svyolr(ordered(ability_recover) ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
                ews_comp + emerg_sum + donor_act +
-               shock_exposure_comp,
+               shock_facs_comp,
                method="probit",
                design=svydat)
 
 summary(abs7)
+
+```
+
+```{r}
+
+abs8 <- svyolr(ordered(ability_recover) ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
+               ews_comp + emerg_sum + donor_act +
+               shock_facs_comp + urban + as.factor(county),
+               method="probit",
+               design=svydat)
+
+summary(abs8)
+
+```
+
+```{r}
+
+abs10 <- svyglm(ability_recover ~ absorb_comp + #Absorptive_Capacity +
+               shock_facs_comp + urban + as.factor(county),
+             design=svydat)
+
+summary(abs10)
+
+```
+```{r}
+plotreg(abs10,
+        omit.coef = "(Intercept)")
+```
+
+
+```{r}
+
+frq(dat$resil_c)
+
+abs9 <- svyglm(resil_c ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
+               ews_comp + emerg_sum + donor_act +
+               shock_facs_comp + as.factor(county) + urban,
+               design=svydat)
+
+summary(abs9)
 
 ```
 

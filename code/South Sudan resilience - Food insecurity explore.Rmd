@@ -133,16 +133,16 @@ fies_items <- do.call(rbind,
                            q429))
 
 
-# fies_items
+fies_items
 # 
-# write.csv(fies_items, here("output/tables/food insecurity/fies items.csv"))
+write.csv(fies_items, here("output/tables/food insecurity/fies items.csv"))
 # 
-# fies_items_gt <- fies_items %>%
-#   gt() %>%
-#   fmt_percent(3:5,
-#               decimals=1)
-# 
-# gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
+fies_items_gt <- fies_items %>%
+  gt() %>%
+  fmt_percent(3:5,
+              decimals=1)
+
+gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
 
 ```
 
@@ -150,10 +150,20 @@ fies_items <- do.call(rbind,
 fies_items_gt
 
 ```
+
+```{r}
+svyrdat %>%
+  group_by(fies_cat) %>%
+  summarize(survey_mean())
+```
+
+
+
 We can create an index value that is simply the sum of items the respondent agrees to. This has already been calculated under the variable 'fies_raw'. 
 
 ```{r}
-frq(dat$fies_raw) %>% kable()
+ggplot(dat, aes(fies_raw, weight=final_wt1)) + 
+  geom_bar()
 
 ```
 A great majority of respondents agreed with all eight items, raising questions about the suitability of this data for scale construction. The weighted mean scale value is 7.7. Here is the mean scale value across county. 
@@ -163,11 +173,39 @@ A great majority of respondents agreed with all eight items, raising questions a
 fies_mn <- svyrdat %>%
   group_by() %>%
   summarize(fies=survey_mean(fies_raw, na.rm=T)) %>%
+  mutate(lower=fies - 1.96*fies_se,
+         upper=fies + 1.96*fies_se,
+         measure="")
+
   select(1) %>%
   unlist()
 
-#fies_mn # 7.73
+fies_mn # 7.58
 
+```
+
+```{r}
+ggplot(fies_mn, aes(fies, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=8, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=round(fies,1)), color=medium_blue, size=8) +
+  scale_x_continuous(limits=c(0,8),
+                     breaks=0:8) +
+  labs(x="",
+       y="") +
+  geom_ribbon(aes(xmin=1, xmax=3))
+
+ggsave(here("output/viz/food security/fies overall weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=4)
+
+```
+
+
+```{r}
 fies_county <- svyrdat %>%
   group_by(county) %>%
   summarize(fies=survey_mean(fies_raw, na.rm=T)) %>%
@@ -194,7 +232,7 @@ a
 ```{r}
 # f2 <- dat %>%
 #   select(q_430:q_435)
-# 
+
 # head(f2)
 # map(f2, frq)
 ```
@@ -462,18 +500,54 @@ describe(dat$fies_index_tam)
 
 ```{r}
 
-#frq(dat$fies_raw)
+# frq(dat$fies_raw)
 
 diet <- dat %>%
 select(q_403:q_419)
 
+map(diet, frq)
+
+```
+
+```{r}
 fa.parallel(diet)
+```
+
+6 factors, 3 components
+
+```{r}
 
 fa_diet_6 <- fa(diet,
-nfactors=6)
+                nfactors=6,
+                scores="tenBerge",
+                fm="ml",
+                cor="tet")
 
 fa_diet_6
 ```
+
+```{r}
+fa_diet_6_ldngs <- fa_diet_6$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(food=diet_labs) %>%
+  select(1,8,2:7)
+
+fa_diet_6_ldngs
+```
+
+ML3: meat, bush meat, organ meat, eggs, seafood
+
+ML5: Vit A fruits, other fruits, roots/tubers, sweets
+
+ML6: oil/fats, milk products
+
+ML1: Vit A veggies, roots/tubers
+
+ML2: seafood
+
+ML4: spices, cereals, other veggies
 
 
 ```{r}
@@ -482,9 +556,27 @@ fa_diet_6_scores <- data.frame(fa_diet_6$scores)
 dat2 <- dat %>%
 cbind(fa_diet_6_scores)
 
-ggplot(dat2, aes(MR3, fies_raw)) + 
-geom_point() + 
-stat_smooth(method="lm")
+ggplot(dat2, aes(ML3, hdds)) + 
+#geom_point() + 
+stat_smooth(se=F, color="dodgerblue2") +
+  stat_smooth(aes(y=ML5), se=F, color=light_grey) +
+  stat_smooth(aes(y=ML6), se=F, color=light_blue) +
+  stat_smooth(aes(y=ML1), se=F, color=usaid_red) +
+  stat_smooth(aes(y=ML2), se=F, color=usaid_blue) +
+  stat_smooth(aes(y=ML4), se=F, color=dark_grey) +
+  scale_x_continuous(limits=c(-1.5,1.7),
+                     breaks=seq(-1.5,1.5,.5)) +
+  scale_y_continuous(breaks=0:12) + 
+  labs(x="Dietary diversity factors",
+       y="HDDS") + 
+  theme(axis.title.y=element_text(angle=0, vjust=.5)) + 
+  annotate("text", x=.8, y=9, label="Meat, eggs, seafood", color="dodgerblue2")
+
+ggsave(here("output/viz/food security/HHDS factors.png"),
+       type="cairo",
+       device="png",
+       height=4,
+       width=7)
 
 ```
 
