@@ -1,0 +1,209 @@
+region,state,county,variable,conf_lab,percent,se
+Great Upper Nile,Jonglei,Akobo,conf_revenge,Revenge,0.7838138035312058,0.050632959833818346
+Great Upper Nile,Jonglei,Akobo,conf_cattle,Cattle,0.6527542237805795,0.060122321215857547
+Great Upper Nile,Jonglei,Akobo,conf_raid,Cattle raid,0.5633176213408888,0.08266363670355212
+Great Upper Nile,Jonglei,Akobo,conf_migration,Migration route,0.3977742034804783,0.09140714369340791
+Great Upper Nile,Jonglei,Akobo,conf_elope,Elopement,0.3734778704925616,0.07155825715039912
+Great Upper Nile,Jonglei,Akobo,conf_pasture,Pasture,0.2663547839244195,0.08013470042237374
+Great Upper Nile,Jonglei,Akobo,conf_water,Water,0.2648399723773945,0.0807040516254944
+Great Upper Nile,Jonglei,Akobo,conf_goat,Goat,0.23465801771729813,0.051114483063944435
+Great Upper Nile,Jonglei,Akobo,conf_dowry,Dowry,0.21755007528269013,0.05536763270496156
+Great Upper Nile,Jonglei,Akobo,conf_gbv,Gender based violence,0.21718604075971265,0.04917270438362978
+Great Upper Nile,Jonglei,Akobo,conf_livelihood,Livelihood,0.14066697875834153,0.045430413048005186
+Great Upper Nile,Jonglei,Akobo,conf_fishing,Fishing grudge,0.13740404285470217,0.04914333439857408
+Great Upper Nile,Jonglei,Akobo,conf_ag,Agriculture,0.0895248960701912,0.03121001863095646
+Great Upper Nile,Jonglei,Akobo,conf_boundary,Boundary,0.06930884250901934,0.026408049027940268
+Great Upper Nile,Jonglei,Akobo,conf_land,Land,0.0348594555110648,0.017055612816502985
+Great Upper Nile,Jonglei,Akobo,conf_forestry,Forestry,0.02052532979406911,0.0119068645159001
+Great Upper Nile,Upper Nile,Baliet,conf_land,Land,0.6363036050612965,0.0841849305763597
+Great Upper Nile,Upper Nile,Baliet,conf_boundary,Boundary,0.6129461020287146,0.09148147880578282
+Great Upper Nile,Upper Nile,Baliet,conf_dowry,Dowry,0.6124259193782804,0.1010997384100014
+Great Upper Nile,Upper Nile,Baliet,conf_cattle,Cattle,0.551899921576615,0.10279733650670474
+Great Upper Nile,Upper Nile,Baliet,conf_goat,Goat,0.5331713809377923,0.10138890674222883
+Great Upper Nile,Upper Nile,Baliet,conf_livelihood,Livelihood,0.4717864909639321,0.0971122646776751
+Great Upper Nile,Upper Nile,Baliet,conf_gbv,Gender based violence,0.4391152603268174,0.10458606288658134
+Great Upper Nile,Upper Nile,Baliet,conf_pasture,Pasture,0.3991984856577067,0.09503437532505256
+Great Upper Nile,Upper Nile,Baliet,conf_fishing,Fishing grudge,0.3622832959170388,0.09629593116675976
+Great Upper Nile,Upper Nile,Baliet,conf_water,Water,0.3375525799598762,0.10476391053721196
+Great Upper Nile,Upper Nile,Baliet,conf_ag,Agriculture,0.33245185733532034,0.089801619604985
+Great Upper Nile,Upper Nile,Baliet,conf_elope,Elopement,0.20702622640102428,0.07124379601247399
+Great Upper Nile,Upper Nile,Baliet,conf_raid,Cattle raid,0.14420514740022228,0.05786261420339897
+Great Upper Nile,Upper Nile,Baliet,conf_migration,Migration route,0.13169335206775873,0.04302125410161325
+Great Upper Nile,Upper Nile,Baliet,conf_forestry,Forestry,0.09708187031700408,0.05386896242105049
+Great Upper Nile,Upper Nile,Baliet,conf_revenge,Revenge,0.0841132034567087,0.05035304855760747
+Equatoria,Eastern Equatoria,Budi,conf_goat,Goat,0.5827400743717089,0.0731733993903724
+Equatoria,Eastern Equatoria,Budi,conf_cattle,Cattle,0.5820708006720401,0.07612119582567312
+Equatoria,Eastern Equatoria,Budi,conf_gbv,Gender based violence,0.5049837429440609,0.08697581428774069
+Equatoria,Eastern Equatoria,Budi,conf_raid,Cattle raid,0.5014211634308601,0.080802692586661
+Equatoria,Eastern Equatoria,Budi,conf_boundary,Boundary,0.48354931899852804,0.08498604766281023
+Equatoria,Eastern Equatoria,Budi,conf_land,Land,0.47633709287072185,0.08529273966104979
+Equatoria,Eastern Equatoria,Budi,conf_pasture,Pasture,0.37894218465522006,0.09610180193840583
+Equatoria,Eastern Equatoria,Budi,conf_water,Water,0.3736692287972696,0.09537198024878366
+Equatoria,Eastern Equatoria,Budi,conf_revenge,Revenge,0.36460966478859275,0.09717916757589927
+Equatoria,Eastern Equatoria,Budi,conf_fishing,Fishing grudge,0.3327625746278979,0.07543452935641033
+Equatoria,Eastern Equatoria,Budi,conf_dowry,Dowry,0.32100370151609947,0.09092150980287195
+Equatoria,Eastern Equatoria,Budi,conf_ag,Agriculture,0.3177663141920139,0.08918386444525012
+Equatoria,Eastern Equatoria,Budi,conf_migration,Migration route,0.29795510929574337,0.08368888770118423
+Equatoria,Eastern Equatoria,Budi,conf_livelihood,Livelihood,0.29227547869431547,0.08735771943267764
+Equatoria,Eastern Equatoria,Budi,conf_forestry,Forestry,0.27490397883845163,0.09174595512726329
+Equatoria,Eastern Equatoria,Budi,conf_elope,Elopement,0.027022897388903865,0.02169826744343392
+Great Upper Nile,Jonglei,Duk,conf_cattle,Cattle,0.70474295162298894,0.07054495202465548
+Great Upper Nile,Jonglei,Duk,conf_livelihood,Livelihood,0.6094103013064659,0.1070822868824197
+Great Upper Nile,Jonglei,Duk,conf_dowry,Dowry,0.6082507377875344,0.09077470835535209
+Great Upper Nile,Jonglei,Duk,conf_gbv,Gender based violence,0.5621287186207973,0.09305060875438631
+Great Upper Nile,Jonglei,Duk,conf_goat,Goat,0.5427878893370868,0.09891638730026597
+Great Upper Nile,Jonglei,Duk,conf_migration,Migration route,0.534003863176354,0.10286229539607317
+Great Upper Nile,Jonglei,Duk,conf_ag,Agriculture,0.506462018337671,0.0968348554912945
+Great Upper Nile,Jonglei,Duk,conf_fishing,Fishing grudge,0.4875611596682045,0.10106794445216064
+Great Upper Nile,Jonglei,Duk,conf_water,Water,0.48335926822217534,0.10807169001461593
+Great Upper Nile,Jonglei,Duk,conf_raid,Cattle raid,0.47326781429297166,0.11998109375048001
+Great Upper Nile,Jonglei,Duk,conf_elope,Elopement,0.4645651309068361,0.10179303793693219
+Great Upper Nile,Jonglei,Duk,conf_revenge,Revenge,0.4495618684403123,0.10672459157333139
+Great Upper Nile,Jonglei,Duk,conf_pasture,Pasture,0.43304729678994447,0.10669233372806461
+Great Upper Nile,Jonglei,Duk,conf_land,Land,0.423593270339828,0.11297296986410899
+Great Upper Nile,Jonglei,Duk,conf_forestry,Forestry,0.3457459015282341,0.12410321921966375
+Great Upper Nile,Jonglei,Duk,conf_boundary,Boundary,0.1912124159393386,0.09016263841334876
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_boundary,Boundary,0.5670141535079366,0.06623566232243452
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_pasture,Pasture,0.5353951415180176,0.06818723000054766
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_goat,Goat,0.47970784954975393,0.048806394966093146
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_cattle,Cattle,0.4274027716395252,0.0580768038070305
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_land,Land,0.4021521549205014,0.06136268156208011
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_water,Water,0.4020123585844779,0.06956079110623198
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_ag,Agriculture,0.2984522482285667,0.05774620234219419
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_migration,Migration route,0.2549701981959166,0.05338511365867154
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_livelihood,Livelihood,0.2453302429459,0.04364120289765655
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_revenge,Revenge,0.22210026012898665,0.055009220297458854
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_dowry,Dowry,0.21169886094076715,0.051335867179532625
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_raid,Cattle raid,0.19815716213918996,0.050282620854687717
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_gbv,Gender based violence,0.19754604526168368,0.0438078828623553
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_forestry,Forestry,0.15504998514620077,0.055504079286452145
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_elope,Elopement,0.14827305931078066,0.05170703166527367
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,conf_fishing,Fishing grudge,0.11037547842964311,0.044121367711531065
+Equatoria,Eastern Equatoria,Kapoeta North,conf_cattle,Cattle,0.7654447202399143,0.027936139686289368
+Equatoria,Eastern Equatoria,Kapoeta North,conf_raid,Cattle raid,0.710708357950808,0.029761690738223705
+Equatoria,Eastern Equatoria,Kapoeta North,conf_water,Water,0.6549022507533017,0.039586429750277305
+Equatoria,Eastern Equatoria,Kapoeta North,conf_gbv,Gender based violence,0.6502828005470938,0.033787617706707046
+Equatoria,Eastern Equatoria,Kapoeta North,conf_goat,Goat,0.5962350728486675,0.03068360830758154
+Equatoria,Eastern Equatoria,Kapoeta North,conf_pasture,Pasture,0.5887298285344602,0.030047000290373833
+Equatoria,Eastern Equatoria,Kapoeta North,conf_livelihood,Livelihood,0.512004604522922,0.05597685146663399
+Equatoria,Eastern Equatoria,Kapoeta North,conf_dowry,Dowry,0.5101702216855113,0.05468252013738632
+Equatoria,Eastern Equatoria,Kapoeta North,conf_revenge,Revenge,0.4807852500921215,0.03549077444642099
+Equatoria,Eastern Equatoria,Kapoeta North,conf_migration,Migration route,0.45096076699078513,0.02904030245418046
+Equatoria,Eastern Equatoria,Kapoeta North,conf_elope,Elopement,0.4477976371478165,0.03059697141138838
+Equatoria,Eastern Equatoria,Kapoeta North,conf_boundary,Boundary,0.4259502201795435,0.03838867282754442
+Equatoria,Eastern Equatoria,Kapoeta North,conf_ag,Agriculture,0.4074505128381495,0.04016415467398337
+Equatoria,Eastern Equatoria,Kapoeta North,conf_forestry,Forestry,0.2769579590276523,0.03392043539475412
+Equatoria,Eastern Equatoria,Kapoeta North,conf_land,Land,0.2536146586443732,0.04929650198644901
+Equatoria,Eastern Equatoria,Kapoeta North,conf_fishing,Fishing grudge,0.17506477300418935,0.014366745045277326
+Great Upper Nile,Unity,Leer,conf_raid,Cattle raid,0.823102026408315,0.037463317727000234
+Great Upper Nile,Unity,Leer,conf_elope,Elopement,0.6909428235216922,0.05764605784768724
+Great Upper Nile,Unity,Leer,conf_cattle,Cattle,0.6890632553321864,0.06934140402604091
+Great Upper Nile,Unity,Leer,conf_land,Land,0.6773329244786669,0.07136918079533217
+Great Upper Nile,Unity,Leer,conf_ag,Agriculture,0.6382324435737389,0.10358329413975008
+Great Upper Nile,Unity,Leer,conf_goat,Goat,0.6037449569803842,0.05500274660554307
+Great Upper Nile,Unity,Leer,conf_dowry,Dowry,0.5948597687059118,0.04010218676343545
+Great Upper Nile,Unity,Leer,conf_revenge,Revenge,0.5688053343806089,0.05068042688313538
+Great Upper Nile,Unity,Leer,conf_pasture,Pasture,0.42944797084858377,0.05266058875001092
+Great Upper Nile,Unity,Leer,conf_water,Water,0.41246238007767927,0.06449250576276828
+Great Upper Nile,Unity,Leer,conf_livelihood,Livelihood,0.37174609826745736,0.06785949956047028
+Great Upper Nile,Unity,Leer,conf_forestry,Forestry,0.35019236507239604,0.06842187865169364
+Great Upper Nile,Unity,Leer,conf_gbv,Gender based violence,0.3188240535753136,0.03467055423556305
+Great Upper Nile,Unity,Leer,conf_boundary,Boundary,0.26825225662460084,0.05290974379018757
+Great Upper Nile,Unity,Leer,conf_migration,Migration route,0.1998083929229818,0.03991918967697923
+Great Upper Nile,Unity,Leer,conf_fishing,Fishing grudge,0.15459410527672707,0.0579448385904891
+Great Upper Nile,Unity,Mayendit,conf_revenge,Revenge,0.5584417323973606,0.053212807361404324
+Great Upper Nile,Unity,Mayendit,conf_cattle,Cattle,0.48959446788396266,0.07498569628959095
+Great Upper Nile,Unity,Mayendit,conf_goat,Goat,0.37232841964555813,0.07766662036646191
+Great Upper Nile,Unity,Mayendit,conf_raid,Cattle raid,0.337328483211846,0.0590251293473518
+Great Upper Nile,Unity,Mayendit,conf_water,Water,0.2562403995339952,0.038690690735329776
+Great Upper Nile,Unity,Mayendit,conf_dowry,Dowry,0.24455415625939642,0.06441081226409527
+Great Upper Nile,Unity,Mayendit,conf_elope,Elopement,0.22977886012066326,0.0509934277014813
+Great Upper Nile,Unity,Mayendit,conf_land,Land,0.1776536472649474,0.06869411747697954
+Great Upper Nile,Unity,Mayendit,conf_livelihood,Livelihood,0.13439423901369835,0.04379231905517676
+Great Upper Nile,Unity,Mayendit,conf_pasture,Pasture,0.09393862609874155,0.03731803690714414
+Great Upper Nile,Unity,Mayendit,conf_migration,Migration route,0.08370841450680518,0.035280816970825024
+Great Upper Nile,Unity,Mayendit,conf_gbv,Gender based violence,0.06662506330310362,0.035219033802204855
+Great Upper Nile,Unity,Mayendit,conf_boundary,Boundary,0.06518787939329383,0.032147761745285254
+Great Upper Nile,Unity,Mayendit,conf_forestry,Forestry,0.06058056114972984,0.029594396287933606
+Great Upper Nile,Unity,Mayendit,conf_fishing,Fishing grudge,0.03591072923860593,0.020174588519907135
+Great Upper Nile,Unity,Mayendit,conf_ag,Agriculture,0.03020711069934969,0.019388198591400882
+Great Upper Nile,Unity,Paynijar,conf_revenge,Revenge,0.7113952297796042,0.08323684384914161
+Great Upper Nile,Unity,Paynijar,conf_elope,Elopement,0.45862723314106585,0.11657596381418833
+Great Upper Nile,Unity,Paynijar,conf_cattle,Cattle,0.3946216721871524,0.11156031550456677
+Great Upper Nile,Unity,Paynijar,conf_raid,Cattle raid,0.35090607928602935,0.10473512237030343
+Great Upper Nile,Unity,Paynijar,conf_dowry,Dowry,0.3010284115834948,0.10085426963611688
+Great Upper Nile,Unity,Paynijar,conf_gbv,Gender based violence,0.25934949812266134,0.10314309424858949
+Great Upper Nile,Unity,Paynijar,conf_water,Water,0.2477578451787744,0.11195779597552893
+Great Upper Nile,Unity,Paynijar,conf_land,Land,0.21776682973325004,0.11385580498202945
+Great Upper Nile,Unity,Paynijar,conf_pasture,Pasture,0.20411965858675493,0.11103573667791486
+Great Upper Nile,Unity,Paynijar,conf_migration,Migration route,0.1922190967877392,0.10697892428980167
+Great Upper Nile,Unity,Paynijar,conf_forestry,Forestry,0.19173320433218308,0.11358965716510701
+Great Upper Nile,Unity,Paynijar,conf_boundary,Boundary,0.1795097043172117,0.10900920284193943
+Great Upper Nile,Unity,Paynijar,conf_goat,Goat,0.17562887872046173,0.10155135278627721
+Great Upper Nile,Unity,Paynijar,conf_ag,Agriculture,0.1504764222567401,0.10216424136370857
+Great Upper Nile,Unity,Paynijar,conf_livelihood,Livelihood,0.1483459590964662,0.09777325401993876
+Great Upper Nile,Unity,Paynijar,conf_fishing,Fishing grudge,0.14023768975658335,0.09700612337156794
+Great Upper Nile,Jonglei,Pibor,conf_revenge,Revenge,0.9478629606000805,0.020875685687169302
+Great Upper Nile,Jonglei,Pibor,conf_cattle,Cattle,0.9149856689558097,0.02037398453417604
+Great Upper Nile,Jonglei,Pibor,conf_raid,Cattle raid,0.897769503254337,0.016113143212373688
+Great Upper Nile,Jonglei,Pibor,conf_gbv,Gender based violence,0.8827662444381562,0.02700336411651776
+Great Upper Nile,Jonglei,Pibor,conf_elope,Elopement,0.8723139721882989,0.031291968563211196
+Great Upper Nile,Jonglei,Pibor,conf_dowry,Dowry,0.8693583410060788,0.032498922899193296
+Great Upper Nile,Jonglei,Pibor,conf_goat,Goat,0.8599929951758447,0.03459614274651403
+Great Upper Nile,Jonglei,Pibor,conf_pasture,Pasture,0.8573537384232472,0.02725541450737421
+Great Upper Nile,Jonglei,Pibor,conf_water,Water,0.8550772688686417,0.03216001469729903
+Great Upper Nile,Jonglei,Pibor,conf_livelihood,Livelihood,0.8534093054723322,0.02852400548276754
+Great Upper Nile,Jonglei,Pibor,conf_ag,Agriculture,0.7685914653109438,0.03316951109338653
+Great Upper Nile,Jonglei,Pibor,conf_boundary,Boundary,0.7537257999739678,0.02706256405271123
+Great Upper Nile,Jonglei,Pibor,conf_migration,Migration route,0.7344658408888726,0.03312914615957028
+Great Upper Nile,Jonglei,Pibor,conf_forestry,Forestry,0.7077365082450808,0.03670430104120611
+Great Upper Nile,Jonglei,Pibor,conf_fishing,Fishing grudge,0.6794091818547563,0.027559388764249387
+Great Upper Nile,Jonglei,Pibor,conf_land,Land,0.6015994074612343,0.03585451315756224
+Great Upper Nile,Upper Nile,Ulang,conf_revenge,Revenge,0.858642379817499,0.05958367663860554
+Great Upper Nile,Upper Nile,Ulang,conf_livelihood,Livelihood,0.680250947182742,0.1382626645228605
+Great Upper Nile,Upper Nile,Ulang,conf_elope,Elopement,0.25945240962857163,0.14058370575393586
+Great Upper Nile,Upper Nile,Ulang,conf_cattle,Cattle,0.25869385544117746,0.1169370118780164
+Great Upper Nile,Upper Nile,Ulang,conf_raid,Cattle raid,0.22462050055472504,0.12552429366247828
+Great Upper Nile,Upper Nile,Ulang,conf_gbv,Gender based violence,0.21758853306483153,0.12000340213507557
+Great Upper Nile,Upper Nile,Ulang,conf_dowry,Dowry,0.20056326076137304,0.1178850763247973
+Great Upper Nile,Upper Nile,Ulang,conf_goat,Goat,0.19556454642955606,0.11617851181444702
+Great Upper Nile,Upper Nile,Ulang,conf_ag,Agriculture,0.18400814813682023,0.10643424271866588
+Great Upper Nile,Upper Nile,Ulang,conf_fishing,Fishing grudge,0.16758093238118943,0.10026607079421337
+Great Upper Nile,Upper Nile,Ulang,conf_water,Water,0.16632609863171444,0.1002068040680767
+Great Upper Nile,Upper Nile,Ulang,conf_pasture,Pasture,0.1617654895080052,0.09784035923382539
+Great Upper Nile,Upper Nile,Ulang,conf_land,Land,0.16080395386321197,0.09716323012520836
+Great Upper Nile,Upper Nile,Ulang,conf_boundary,Boundary,0.1561154786859827,0.09632537840987518
+Great Upper Nile,Upper Nile,Ulang,conf_migration,Migration route,0.1501483282936005,0.09423854654333838
+Great Upper Nile,Upper Nile,Ulang,conf_forestry,Forestry,0.14418117790121832,0.09257103688412796
+Great Upper Nile,Jonglei,Uror,conf_water,Water,0.799816050499611,0.04706532355483795
+Great Upper Nile,Jonglei,Uror,conf_gbv,Gender based violence,0.3426689080578688,0.08493215686600158
+Great Upper Nile,Jonglei,Uror,conf_raid,Cattle raid,0.20816343561974246,0.054285798926779545
+Great Upper Nile,Jonglei,Uror,conf_cattle,Cattle,0.20158503912272216,0.05397782026670007
+Great Upper Nile,Jonglei,Uror,conf_elope,Elopement,0.17177885380983518,0.043102450980433915
+Great Upper Nile,Jonglei,Uror,conf_fishing,Fishing grudge,0.14502237187363454,0.05159838587370447
+Great Upper Nile,Jonglei,Uror,conf_livelihood,Livelihood,0.13058685473652332,0.045402860621407845
+Great Upper Nile,Jonglei,Uror,conf_revenge,Revenge,0.12528103665903906,0.03152272450987262
+Great Upper Nile,Jonglei,Uror,conf_land,Land,0.12130111581652694,0.033355136328046625
+Great Upper Nile,Jonglei,Uror,conf_pasture,Pasture,0.10638506005581706,0.044909406041804434
+Great Upper Nile,Jonglei,Uror,conf_migration,Migration route,0.06856768915568641,0.035996871024236335
+Great Upper Nile,Jonglei,Uror,conf_dowry,Dowry,0.06693258506723121,0.02307154192525594
+Great Upper Nile,Jonglei,Uror,conf_boundary,Boundary,0.0416986070033449,0.032390155730948354
+Great Upper Nile,Jonglei,Uror,conf_goat,Goat,0.04150468124751942,0.016472483287665755
+Great Upper Nile,Jonglei,Uror,conf_ag,Agriculture,0.03151572986413586,0.018446025767942215
+Great Upper Nile,Jonglei,Uror,conf_forestry,Forestry,0.011516784408241767,0.007277386318579023
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_land,Land,0.5480309341385304,0.09646324134399498
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_water,Water,0.3597932589459235,0.09251575961643921
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_livelihood,Livelihood,0.2753768540612829,0.061345935976882066
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_gbv,Gender based violence,0.23619855671572998,0.05538371508296791
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_dowry,Dowry,0.2259721346895151,0.060150473573171145
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_pasture,Pasture,0.1985503918783653,0.06646986324452028
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_boundary,Boundary,0.19142944409080082,0.04469278086478921
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_cattle,Cattle,0.18276513415246676,0.04844516408232684
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_elope,Elopement,0.18267885209463625,0.0533033441553244
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_forestry,Forestry,0.1754189047358187,0.06844588069318308
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_ag,Agriculture,0.16511897276012408,0.058627769161554745
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_migration,Migration route,0.15927543466544952,0.04733222461911893
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_raid,Cattle raid,0.13354678707876336,0.055036209596776534
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_goat,Goat,0.13079081263769343,0.05443250762121032
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_revenge,Revenge,0.1127395331349282,0.03795217254748515
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,conf_fishing,Fishing grudge,0.10216697675015618,0.043012861430964736

@@ -313,7 +313,7 @@ Explains 74 percent of the variance. Uninterpretable Tucker Lewis fit score and 
 
 ## Overall severity of shocks
 
-Unweighted
+Weighted
 
 ```{r}
 
@@ -367,9 +367,6 @@ ggplot(sev_mn_se, aes(x=mn, y=fct_reorder(shock_lab, mn))) +
 
 ```
 
-
-Weighted
-
 Weighted
 
 ```{r}
@@ -406,18 +403,65 @@ sev_mn_se_svy
 ```{r}
 
 ggplot(sev_mn_se_svy, aes(x=mn, y=fct_reorder(shock_lab, mn))) + 
+  geom_vline(xintercept=c(4,6), size=1, linetype="dashed", color=dark_grey) +
   geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
-  geom_point(size=3, color=light_blue) +
+#  geom_point(size=3, color=light_blue) +
+  geom_label(aes(label=round(mn,1)), 
+             color=medium_blue,
+             label.padding=unit(.125, "lines")) +
   labs(x="",
        y="") + 
   scale_x_continuous(limits=c(0,8),
-                     breaks=0:8)
+                     breaks=0:8) +
+  annotate("text", x=5, y=6.5, label="Severe", color=dark_grey) +
+  annotate("text", x=7, y=6.5, label="Extremely\nsevere", color=dark_grey)
+# 
+#   geom_rect(aes(xmin=4, xmax=6.5, ymin=0, ymax=16),
+#             fill="salmon")
+
+ggsave(here("output/viz/shocks/shock severity weighted.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
 
 ```
 
 
 
 ## Shock severity, by county
+
+Weighted
+
+```{r}
+
+sev_cnty_svy <- svyrdat %>%
+  select(region, state, county, flood_severity:death_severity) %>%
+  group_by(region, state, county) %>%
+  summarize(across(flood_severity:death_severity,
+                   list(mn = ~mean(., na.rm=T), se = ~std.error(., na.rm=T)))) %>%
+  pivot_longer(cols=4:35,
+               names_to=c("Shock", "discard","Measure"),
+               names_sep="_",
+               values_to="value") %>%
+  select(-5) %>%
+  pivot_wider(names_from=Measure,
+              values_from=value) %>%
+  mutate(lower=mn-1.96*se,
+         upper=mn+1.96*se) %>%
+  ungroup() %>%
+  mutate(shock_lab=rep(shock_labs,13)) %>% # use 13 with full data
+  select(1:4,9, 5:8) %>%
+  group_by(county) %>%
+  mutate(county_rank=rank(-mn)) %>%
+  arrange(county, desc(mn)) %>%
+  ungroup() 
+  
+sev_cnty_svy
+
+#write_csv(sev_cnty_svy, here("output/tables/shocks/shock severity by county, weighted.csv"))
+
+```
 
 Unweighted
 
@@ -582,11 +626,92 @@ ggplot(dat, aes(y=shock_exposure_index)) +
 
 ## Shock exposure
 
+```{r}
+exposure_mn <- svyrdat %>%
+  #group_by() %>%
+  summarize(#exposure=survey_mean(shock_exposure_index),
+            exposure_med=survey_median(shock_exposure_index)) 
+%>%
+  mutate(lower=exposure-1.96*exposure_se,
+         upper=exposure+1.96*exposure_se)
+
+exposure_mn
+
+svyrdat %>%
+  summarize(a = survey_quantile(shock_exposure_index)) 
+              
+              survey_median(shock_exposure_index))
+            ,
+                              vartype=c("ci")))
+
+median(dat$shock_exposure_index)
+
+```
+
 
 ```{r}
-ggplot(dat, aes(shock_exposure_index)) + 
-  geom_density(color=light_blue)
+ggplot(dat, aes(shock_exposure_index, weights=final_wt1)) + 
+#  geom_vline(xintercept=c(46.9, 51.6), linetype="dotdash", size=.5, alpha=.6) +
+  geom_vline(xintercept=64, color=medium_grey, linetype="dotdash", size=1, alpha=.6) +
+  annotate("text", x=75, y=.0035, label="Severe\nexposure", color=dark_grey) +
+  geom_vline(xintercept=49.2, size=1.5, color="darkgoldenrod2", alpha=.6) + 
+  geom_density(color=medium_blue, fill=light_blue, alpha=.4) +
+  scale_x_continuous(limits=c(0,128),
+                     breaks=seq(0,120,10)) +
+  labs(x="",
+       y="") +
+  theme(axis.text.y=element_blank())
+
+ggsave(here("output/viz/shocks/shock index weighted.png"),
+       device="png",
+       type="cairo",
+       height=3,
+       width=6)
+
 ```
+```{r}
+ggplot(dat, aes(shock_exposure_index, weights=final_wt1)) +
+  geom_bar()
+```
+
+```{r}
+ggplot(dat, aes(shock_exposure_index, weights=final_wt1)) + 
+  geom_vline(xintercept=0, color=medium_grey, size=1, alpha=.5) +
+  #geom_vline(xintercept=40, color="darkgoldenrod3", size=2) +
+  geom_density_ridges(aes(y=region),
+                      scale=.9,
+                      color=medium_blue,
+                      fill=light_blue,
+                      alpha=.8,
+                      quantile_lines = TRUE,
+                      quantiles=2) +
+                      #jittered_points = TRUE,
+                      #position = position_points_jitter(width = 0, height = 0),
+                      #point_shape = '|', point_size = 1, point_alpha = 1, alpha = 0.7) +
+  scale_x_continuous(limits=c(0,128),
+                     breaks=seq(0,125,25)) +
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/shocks/shock exposure region weighted.png"),
+       type="cairo",
+       device="png",
+       height=3,
+       width=5)
+```
+
+```{r}
+
+ggplot(dat, aes(shock_exposure_index, weights=final_wt1)) + 
+  stat_halfeye(.width=c(0,0), fill=medium_blue, alpha=.6) +
+  geom_linerangeh(aes(xmin=46.9, xmax=51.6, y=.1)) +
+  scale_x_continuous(limits=c(0,128),
+                     breaks=seq(0,128,25))
+
+
+```
+
+
 ```{r}
 ltm_shck <- ltm(shocks ~ z1)
 ltm_shck
@@ -877,6 +1002,128 @@ ggsave("viz/2021-1/loans/loan timeliness, by office (13 Oct 2021).png",
 
 ```{r}
 frq(dat$ability_recover)
+```
+
+
+
+```{r}
+
+```
+
+```{r}
+
+arssi_mn <- svyrdat %>%
+  group_by() %>%
+  summarize(arssi=survey_mean(arssi, na.rm=T)) %>%
+  mutate(lower=arssi - 1.96*arssi_se,
+         upper=arssi + 1.96*arssi_se,
+         measure="")
+
+arssi_mn # 7.58
+
+```
+
+```{r}
+
+arssi_cat <- svyrdat %>%
+  group_by(ability_recover) %>%
+  summarize(arssi=survey_mean()) %>%
+  mutate(lower=arssi - 1.96*arssi_se,
+         upper=arssi + 1.96*arssi_se,
+         measure="")
+
+  select(1) %>%
+  unlist()
+
+arssi_cat # 7.58
+
+```
+
+
+```{r}
+ggplot(arssi_mn, aes(arssi, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=1.9, xend=6.2, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=round(arssi,1)), color=medium_blue, size=6) +
+  scale_x_continuous(limits=c(1.9, 6.2),
+                     breaks=2:6) +
+  labs(x="",
+       y="") 
+
+
+ggsave(here("output/viz/shocks/arssi weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=3)
+
+```
+
+```{r}
+ggplot(fies_mn, aes(fies, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=8, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=round(fies,1)), color=medium_blue, size=8) +
+  scale_x_continuous(limits=c(0,8),
+                     breaks=0:8) +
+  labs(x="",
+       y="") +
+  geom_ribbon(aes(xmin=1, xmax=3))
+
+ggsave(here("output/viz/shocks/fies overall weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=4)
+
+```
+
+
+```{r}
+arssi1 <- svyrdat %>%
+  group_by(rc_q_488) %>%
+  summarize(Response=survey_mean()) %>%
+  na.omit() %>%
+  select(2) %>%
+  mutate(Category =c("Worse than before", "Same as before","Better than before"),
+         Item = "Current ability to meet food needs") %>%
+  select(3, 2,1)
+
+arssi1
+
+arssi2 <- svyrdat %>%
+  group_by(rc_q_489) %>%
+  summarize(Response=survey_mean()) %>%
+  na.omit() %>%
+  select(2) %>%
+  mutate(Category =c("Worse than before", "Same as before","Better than before"),
+         Item = "Future ability to meet food needs") %>%
+  select(3,2,1)
+
+arssi2
+
+```
+
+```{r}
+
+arssi <- arssi1 %>%
+  rbind(arssi2) %>%
+  mutate(Score=rep(1:3,2)) 
+  #relocate(Score, .after=Category)
+
+arssi
+
+arssi_gt <- arssi %>%
+  gt() %>%
+  fmt_percent(3,
+              decimals=1)
+
+arssi_gt
+
+gtsave(arssi_gt, here("output/tables/shocks/arssi weighted.rtf"))
+
 ```
 
 
@@ -1215,10 +1462,206 @@ ins_surv12 <- svyglm(fies_raw ~ shock_exposure_index + hdds + donor_act +
 summary(ins_surv12) 
 ```
 
+# Conflict
 
+```{r}
+frq(dat$q_601)
+```
 
 ```{r}
 
+conflict_mn <- svyrdat %>%
+  group_by() %>%
+  summarize(conflict=survey_mean(q_601, na.rm=T)) %>%
+  mutate(lower=conflict - 1.96*conflict_se,
+         upper=conflict + 1.96*conflict_se,
+         measure="")
+
+conflict_mn # 7.58
+
 ```
+
+```{r}
+ggplot(conflict_mn, aes(conflict, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=1, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=paste(round(conflict,3)*100, "%", sep="")), color=medium_blue, size=5) +
+  scale_x_continuous(limits=c(0,1),
+                     breaks=seq(0,1,.2),
+                     labels=percent) +
+  labs(x="Incidence of conflict",
+       y="") 
+
+
+ggsave(here("output/viz/shocks/conflict weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=3.7)
+
+```
+
+
+```{r}
+frq(dat$q_601)
+frq(dat$q_602_1)
+
+conf_temp <- svyrdat %>%
+  summarize(conf_land = survey_mean(q_602_1, na.rm=T),
+            conf_water = survey_mean(q_602_2, na.rm=T),
+            conf_pasture = survey_mean(q_602_3, na.rm=T),
+            conf_forestry = survey_mean(q_602_4, na.rm=T),
+            conf_cattle = survey_mean(q_602_5, na.rm=T),
+            conf_goat = survey_mean(q_602_6, na.rm=T),
+            conf_migration = survey_mean(q_602_7, na.rm=T),
+            conf_boundary = survey_mean(q_602_8, na.rm=T),
+            conf_revenge = survey_mean(q_602_9, na.rm=T),
+            conf_dowry = survey_mean(q_602_10, na.rm=T),
+            conf_elope = survey_mean(q_602_11, na.rm=T),
+            conf_raid = survey_mean(q_602_12, na.rm=T),
+            conf_fishing = survey_mean(q_602_13, na.rm=T),
+            conf_gbv = survey_mean(q_602_14, na.rm=T),
+            conf_livelihood = survey_mean(q_602_15, na.rm=T),
+            conf_ag = survey_mean(q_602_16, na.rm=T))
+
+conf_temp
+```
+
+```{r}
+conf_types_mn <- conf_temp %>%
+  select(!contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("conflict") %>%
+  rename(percent=V1)
+
+conf_types_mn
+
+conf_types_se <- conf_temp %>%
+  select(contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("conflict") %>%
+  rename(se=V1)
+
+conf_types_se
+
+conf_types <- conf_types_mn %>%
+  cbind(conf_types_se[,2]) %>%
+  rename(se=3) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         conf_lab=conf_labs) %>%
+  select(1,6,everything()) %>%
+  arrange(desc(percent))
+
+
+conf_types
+
+```
+
+```{r}
+ggplot(conf_types, aes(x=percent, y=fct_reorder(conf_lab, percent))) + 
+#  geom_point() + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=medium_blue, ) + 
+  geom_label(aes(label=paste(round(percent,2)*100, "%", sep="")), 
+             size=5, color="white", fill=medium_blue, label.padding = unit(.17, "lines")) +
+  scale_x_continuous(labels=percent,
+                     limits=c(0,1),
+                     breaks=seq(0,1,.2)) + 
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/conflicts weighted.png"),
+       device="png",
+       type="cairo",
+       height=5,
+       width=7)
+```
+
+
+## by county
+
+```{r}
+frq(dat$q_601)
+frq(dat$q_602_1)
+
+conf_cnty_temp <- svyrdat %>%
+  group_by(region, state, county) %>%
+  summarize(conf_land = survey_mean(q_602_1, na.rm=T),
+            conf_water = survey_mean(q_602_2, na.rm=T),
+            conf_pasture = survey_mean(q_602_3, na.rm=T),
+            conf_forestry = survey_mean(q_602_4, na.rm=T),
+            conf_cattle = survey_mean(q_602_5, na.rm=T),
+            conf_goat = survey_mean(q_602_6, na.rm=T),
+            conf_migration = survey_mean(q_602_7, na.rm=T),
+            conf_boundary = survey_mean(q_602_8, na.rm=T),
+            conf_revenge = survey_mean(q_602_9, na.rm=T),
+            conf_dowry = survey_mean(q_602_10, na.rm=T),
+            conf_elope = survey_mean(q_602_11, na.rm=T),
+            conf_raid = survey_mean(q_602_12, na.rm=T),
+            conf_fishing = survey_mean(q_602_13, na.rm=T),
+            conf_gbv = survey_mean(q_602_14, na.rm=T),
+            conf_livelihood = survey_mean(q_602_15, na.rm=T),
+            conf_ag = survey_mean(q_602_16, na.rm=T))
+
+conf_cnty_temp
+```
+
+```{r}
+conf_cnty_types_mn <- conf_cnty_temp %>%
+  select(!contains("se")) %>%
+  melt() %>%
+  mutate(conf_lab=rep(conf_labs,each=13)) %>%
+  rename(percent=value)
+
+
+conf_cnty_types_mn
+
+
+conf_cnty_types_se <- conf_cnty_temp %>%
+  select(county, 
+         contains("se")) %>%
+  melt() %>%
+  rename(se=value,
+         se_var=variable)
+
+conf_cnty_types_se
+
+conf_cnty_types <- conf_cnty_types_mn %>%
+  cbind(conf_cnty_types_se[,5]) %>%
+  select(1:3, 4,6,5,se=7) %>%
+  arrange(county, desc(percent))
+
+
+write_csv(conf_cnty_types, here("output/tables/shocks/conflict types by county weighted.csv"))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

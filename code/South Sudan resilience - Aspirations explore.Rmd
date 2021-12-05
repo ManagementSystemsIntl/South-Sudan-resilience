@@ -171,28 +171,81 @@ In the exploratory analysis that follows, both weighted or unweighted frequencie
 Following [(Tango International 2018)](https://www.fsnnetwork.org/sites/default/files/Methodology_Guide_Nov2018508.pdf){target="blank"}, the Aspirations index comprises six binary choice survey items, in which respondents either affirm or deny statements relating to their sense of agency in life, or whether the household has concrete plans for the future. The following table shows these items and their overall weighted frequencies. 
 
 ```{r}
-asp <- svyrdat %>%
+asp_temp <- svyrdat %>%
   group_by() %>%
-  summarize(asp1=mean(asp1, na.rm=T),
-            asp2=mean(asp2, na.rm=T),
-            asp3=mean(asp3, na.rm=T),
-            asp4=mean(asp4, na.rm=T),
-            asp5=mean(asp5, na.rm=T),
-            asp6=mean(asp6, na.rm=T)) %>%
+  summarize(asp1=survey_mean(asp1, na.rm=T),
+            asp2=survey_mean(asp2, na.rm=T),
+            asp3=survey_mean(asp3, na.rm=T),
+            asp4=survey_mean(asp4, na.rm=T),
+            asp5=survey_mean(asp5, na.rm=T),
+            asp6=survey_mean(asp6, na.rm=T)) 
+
+```
+
+
+```{r}
+
+asp_mn <- asp_temp %>%
+  select(!contains("se")) %>%
   t() %>%
   as.data.frame() %>%
-  rownames_to_column("var_name") %>%
-  mutate(item_num = c("q_629", "q_630", "q_634", "q_635", "q_632", "q_633"), 
-         Description=c("Each person is responsible for his/her own success or failure in life",
-                       "To be successful one needs to work very hard rather than rely on luck",
-                        "My experience in life has been that was is going to happen will happen (reverse-coded)",
-                        "It is not always good for me to plan too far ahead because many things turn out to be a matter of good or bad fortune (reverse-coded)",
-                        "Hopeful for children's future",
-                        "Desire for their children to graduate from secondary school")) %>%
-   select(var_name, item_num, Description, Percent=V1)
+  rownames_to_column("item") %>%
+  rename(percent=V1)
 
-asp
+asp_mn
+
+asp_se <- asp_temp %>%
+  select(contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+#  rownames_to_column("conflict") %>%
+  rename(se=V1)
+
+asp_se
+
+asp_sum <- asp_mn %>%
+  cbind(asp_temp[,2]) %>%
+  rename(se=3) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         varname = c("q_629", "q_630", "q_634", "q_635", "q_632", "q_633"), 
+         Description=c("Each person is responsible for\nhis/her own success or failure in life",
+                       "To be successful one needs to work\nvery hard rather than rely on luck",
+                        "What is going to happen\nwill happen (reverse-coded)",
+                        "Many things turn out to be a matter\nof good or bad fortune (reverse-coded)",
+                        "Hopeful for children's future",
+                        "Desire for children to graduate\nfrom secondary school")) %>%
+   select(1, 6:7, everything())
+
+asp_sum
+
 ```
+
+
+```{r}
+ggplot(asp_sum, aes(x=percent, y=fct_reorder(Description, percent))) + 
+#  geom_point() + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=medium_blue, ) + 
+  geom_label(aes(label=paste(round(percent,2)*100, "%", sep="")), 
+             size=5, color="white", fill=medium_blue, label.padding = unit(.17, "lines")) +
+  scale_x_continuous(labels=percent,
+                     limits=c(0,1),
+                     breaks=seq(0,1,.2)) + 
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/aspiration items weighted.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r}
+
+```
+
+
 Note the low values for the reverse coded items, suggesting some combination of acquiescence bias (uncritically affirming the implicit premise of the question) or lack of comprehension of a reverse-coded question in which the respondent must disagree with the implicit premise in order to communicate their stance. These reverse-coded items should be considered more critically for inclusion in any index computation. 
 
 A simple summation of the six binary items provides an ordered scale ranging from 0-6. 
@@ -201,9 +254,17 @@ The simple mean and other descriptives
 
 ```{r}
 describe(dat$aspirations_index2)
+
+Asp_mn <- svyrdat %>%
+  summarize(Asp=survey_mean(aspirations_index2, na.rm=T)) %>%
+  mutate(lower=Asp-1.96*Asp_se,
+         upper=Asp+1.96*Asp_se,
+         measure="")
+
+Asp_mn
 ```
 
-The overall weighted value is 3.9 out of six, with a margin of 0.12. The median is four.   
+The overall weighted value is 3.8 out of six, with a margin of 0.084. The median is four.   
 
 ```{r}
 svyrdat %>%
@@ -214,12 +275,55 @@ svyrdat %>%
 The distribution of the weighted scale values. 
 
 ```{r}
-ggplot(dat, aes(aspirations_index2, weight=final_wt1)) + 
+a <- ggplot(dat, aes(aspirations_index2, weight=final_wt1)) + 
   geom_bar(width=.2, fill="dodgerblue2") + 
-  geom_vline(xintercept=3.9, size=1, color="darkgoldenrod2") + 
-  geom_vline(xintercept=4, size=1, color="turquoise") +
-  scale_x_continuous(breaks=0:6)
+#  geom_vline(xintercept=3.9, size=1, color="darkgoldenrod2") + 
+#  geom_vline(xintercept=4, size=1, color="turquoise") +
+  scale_x_continuous(breaks=0:6) + 
+  labs(x="",
+       y="") +
+  theme(axis.text.y=element_blank())
+
+,
+        axis.text.x=element_blank())
+a
 ```
+```{r}
+b <- ggplot(Asp_mn, aes(Asp, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=6, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=round(Asp,1)), color=medium_blue, size=6) +
+  scale_x_continuous(limits=c(0, 6),
+                     breaks=0:6) +
+#  scale_y_discrete(limits=c(.8,1.2),
+#                   breaks=seq(1,1,0)) +
+  labs(x="",
+       y="") +
+  theme(axis.text.x=element_blank())
+
+b
+
+ggsave(here("output/viz/shocks/arssi weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=3)
+```
+
+```{r}
+library(patchwork)
+a / b
+
+ggsave(here("output/viz/aspirations weighted.png"),
+       device="png",
+       type="cairo",
+       height=3,
+       width=4)
+
+```
+
+
 
 Unweighted values by county. 
 
@@ -294,7 +398,7 @@ asp_alpha <- dat %>%
 
 asp_alpha
 ```
-A reliability (alpha) value of .29 is unacceptable for index formation. This will also exhibit itself in the loadings of an exploratory factor analysis (EFA). 
+A reliability (alpha) value of .28 is unacceptable for index formation. This will also exhibit itself in the loadings of an exploratory factor analysis (EFA). 
 
 ```{r}
 asp_fa <- dat %>%
@@ -303,6 +407,24 @@ asp_fa <- dat %>%
 
 asp_fa
 ```
+
+```{r}
+
+asp_fa_scrs <- asp_fa$scores %>%
+  #as.matrix %>%
+  unlist() %>%
+  as.data.frame
+
+#head(asp_fa_scrs)
+
+dat <- dat %>%
+  mutate(asp_fac = asp_fa_scrs$MR1)
+
+ggplot(dat, aes(asp_fac)) + 
+  geom_density()
+
+```
+
 
 Only two of the six items have loadings exceeding 0.4, while the reverse-coded items have negative loadings. Let's try again without the reverse-coded items. 
 
@@ -334,7 +456,42 @@ asp2_fa <- dat %>%
 
 asp2_fa
 ```
+
 The loadings aren't terrible, but measures of fit such as Root Mean Square Error of Approximation (RMSEA) and Tucker Lewis Index (TLI) indicate that the factor model should not be used. 
+
+### Aspirations component
+
+```{r}
+
+asp <- dat %>%
+  select(asp1:asp6)
+
+asp_pc <- principal(asp,
+                    cor="tet")
+asp_pc_scrs <- asp_pc$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(asp_pc = asp_pc_scrs$PC1)
+
+ggplot(dat, aes(asp_pc)) +
+  geom_density()
+```
+
+## Determinants of aspirations
+
+```{r}
+asp1 <- svyolr(ordered(aspirations_index2) ~ urban + hh_sex + household_members + as.factor(county),
+               method="probit",
+               design=svyrdat)
+
+summary(asp1)
+
+```
+
+
+# Locus of control
 
 Let's include measures from the locus of control, which is a sub-index of the aspirations index. These items are attitudinal statements: 
 
@@ -389,7 +546,7 @@ asp4_alpha <- dat %>%
 
 asp4_alpha
 ```
-Reliability of .68, that's good enough for an index. 
+Reliability of .71, that's good enough for an index. 
 
 ```{r}
 asp4_fa <- dat %>%

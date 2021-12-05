@@ -114,6 +114,17 @@ revcode <- function(x) {
   out
 }
 
+print_factors <- function(x) {
+  print(paste("The factors of",x,"are:"))
+  for(i in 1:x) {
+    if((x %% i) == 0) {
+      print(i)
+    }
+  }
+}
+
+print_factors(105)
+
 #revcode(1:5)
 
 
@@ -294,8 +305,33 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 
  diet_key <- data.frame(diet_code=1:17,
                         diet_lab=diet_labs) 
-
- diet_key 
  
+ 
+ conf_labs <- c("Land",
+                "Water",
+                "Pasture",
+                "Forestry",
+                "Cattle",
+                "Goat",
+                "Migration route",
+                "Boundary",
+                "Revenge",
+                "Dowry",
+                "Elopement",
+                "Cattle raid",
+                "Fishing grudge",
+                "Gender based violence",
+                "Livelihood",
+                "Agriculture")
+
+# conf_key <- data.frame(varname=conf_types_mn$conflict,
+#                         conf_key=1:16,
+#                         conf_lab=conf_labs)
+#  
+# write_csv(conf_key, "output/tables/conf_key.csv")
+
+conf_key <- read_csv("output/tables/conf_key.csv")
+ 
+conf_key 
  
   

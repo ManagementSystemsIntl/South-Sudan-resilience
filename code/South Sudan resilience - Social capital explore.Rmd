@@ -22,13 +22,9 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-dat <- dat %>%
-  mutate(id=1:6564)
+#dat <- dat %>%
+#  mutate(id=1:6564)
 
-dat_wt <- dat_wt %>%
-  mutate(id=1:3563)
-
-           ```
 ```
 
 # Introduction
@@ -46,6 +42,82 @@ frq(dat$bonding_capital_raw)
 ```{r}
 frq(dat$bonding_capital_score)
 ```
+
+
+```{r}
+socap <- dat %>%
+  select(q_490, rc_q_491, q_494, rc_q_495,
+         q_492, rc_q_493, q_496, rc_q_497)
+
+
+socap_temp <- svyrdat %>%
+  summarize(q490 = survey_mean(q_490, na.rm=T),
+            q491 = survey_mean(rc_q_491, na.rm=T),
+            q494 = survey_mean(q_494, na.rm=T),
+            q495 = survey_mean(rc_q_495, na.rm=T),
+            q492 = survey_mean(q_492, na.rm=T),
+            q493 = survey_mean(rc_q_493, na.rm=T),
+            q496 = survey_mean(q_496, na.rm=T),
+            q497 = survey_mean(rc_q_497, na.rm=T))
+
+socap_temp
+
+socap_mn <- socap_temp %>%
+  select(!contains("se")) %>%
+  melt() %>%
+  mutate(type = c(rep("Bonding", 4), rep("Bridging", 4)),
+         item = c("Able to lean on\nrelatives in community",
+                  "Able to help\nrelatives in community",
+                  "Able to lean on\nnon-relatives in community",
+                  "Able to help\nnon-relatives in community",
+                  "Able to lean on relatives\noutside community",
+                  "Able to help relatives\noutside community",
+                  "Able to lean on non-relatives\nliving outside community",
+                  "Able to help non-relatives\nliving outside community")) %>%
+  select(1,3,4,2)
+         
+         
+socap_mn
+
+socap_sum <- socap_mn %>%
+  cbind(socap_se[,2]) %>%
+  rename(percent=value,
+         se = 5) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se)
+
+socap_sum
+
+#write_csv(conf_cnty_types, here("output/tables/shocks/conflict types by county weighted.csv"))
+
+```
+
+
+```{r}
+ggplot(socap_sum, aes(x=percent, y=fct_reorder(item, percent))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=medium_blue, ) + 
+  geom_label(aes(label=paste(round(percent,2)*100, "%", sep="")), 
+             size=5, color="white", fill=medium_blue, label.padding = unit(.17, "lines")) +
+  scale_x_continuous(labels=percent,
+                     limits=c(0,1),
+                     breaks=seq(0,1,.2)) + 
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/socap items weighted.png"),
+       device="png",
+       type="cairo",
+       height=5,
+       width=7)
+```
+
+
+
+
+
+
+
+
 
 
 
