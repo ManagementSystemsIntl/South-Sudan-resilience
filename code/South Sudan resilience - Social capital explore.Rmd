@@ -66,18 +66,23 @@ socap_mn <- socap_temp %>%
   select(!contains("se")) %>%
   melt() %>%
   mutate(type = c(rep("Bonding", 4), rep("Bridging", 4)),
-         item = c("Able to lean on\nrelatives in community",
-                  "Able to help\nrelatives in community",
-                  "Able to lean on\nnon-relatives in community",
-                  "Able to help\nnon-relatives in community",
-                  "Able to lean on relatives\noutside community",
-                  "Able to help relatives\noutside community",
-                  "Able to lean on non-relatives\nliving outside community",
-                  "Able to help non-relatives\nliving outside community")) %>%
+         item = c("Able to lean on relatives\nin community (Bonding)",
+                  "Able to help relatives\nin community (Bonding)",
+                  "Able to lean on non-relatives\nin community (Bonding)",
+                  "Able to help non-relatives\nin community (Bonding)",
+                  "Able to lean on relatives\noutside community (Bridging)",
+                  "Able to help relatives\noutside community (Bridging)",
+                  "Able to lean on non-relatives\n outside community (Bridging)",
+                  "Able to help non-relatives\n outside community (Bridging)")) %>%
   select(1,3,4,2)
          
-         
-socap_mn
+
+socap_se <- socap_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+  rename(se=value)
+
+socap_se
 
 socap_sum <- socap_mn %>%
   cbind(socap_se[,2]) %>%
@@ -88,7 +93,7 @@ socap_sum <- socap_mn %>%
 
 socap_sum
 
-#write_csv(conf_cnty_types, here("output/tables/shocks/conflict types by county weighted.csv"))
+write_csv(socap_sum, here("output/tables/social capital/social capital weighted.csv"))
 
 ```
 
@@ -104,7 +109,7 @@ ggplot(socap_sum, aes(x=percent, y=fct_reorder(item, percent))) +
   labs(x="",
        y="")
 
-ggsave(here("output/viz/socap items weighted.png"),
+ggsave(here("output/viz/social capital/socap items weighted.png"),
        device="png",
        type="cairo",
        height=5,
@@ -112,13 +117,286 @@ ggsave(here("output/viz/socap items weighted.png"),
 ```
 
 
+```{r}
+ggplot(dat, aes(bonding_capital_raw)) + 
+  geom_bar()
+
+```
+
+
+```{r}
+describe(dat$bridging_capital_raw)
+
+bond_mn <- svyrdat %>%
+  summarize(bond=survey_mean(bonding_capital_raw, na.rm=T)) %>%
+#            bridge = survey_mean(bridging_capital_raw, na.rm=T)) %>%
+  mutate(lower=bond-1.96*bond_se,
+         upper=bond+1.96*bond_se,
+         measure="Bonding",
+         y=1) %>%
+  rename(value=bond,
+         se=2)
+
+bond_mn
+```
+
+```{r}
+describe(dat$bridging_capital_raw)
+
+bridge_mn <- svyrdat %>%
+  summarize(bridge = survey_mean(bridging_capital_raw, na.rm=T)) %>%
+  mutate(lower=bridge-1.96*bridge_se,
+         upper=bridge+1.96*bridge_se,
+         measure="Bridging",
+         y=1.5) %>%
+  rename(value=bridge,
+         se=2)
+
+bridge_mn
+```
+
+```{r}
+socap_mn <- bond_mn %>%
+  rbind(bridge_mn) %>%
+  relocate(5, .before=value)
+
+socap_mn
+```
+
+```{r}
+a <- ggplot(dat, aes(bonding_capital_raw, weight=final_wt1)) + 
+  geom_bar(width=.2, fill="dodgerblue2") + 
+#  geom_vline(xintercept=3.9, size=1, color="darkgoldenrod2") + 
+  geom_vline(xintercept=1.6, size=1, color="darkgoldenrod2") +
+  scale_x_continuous(breaks=0:4) + 
+  scale_y_continuous(limits=c(0,1e5)) +
+  labs(x="",
+       y="") +
+  theme(axis.text.y=element_blank())
+
+,
+        axis.text.x=element_blank())
+a
+```
+
+```{r}
+b <- ggplot(socap_mn, aes(value, reorder(measure, value))) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=6, y=c(1,2), yend=c(1,2)), color=light_blue) + 
+  geom_label(aes(label=round(value,1)), color="darkgoldenrod2", size=6) +
+  scale_x_continuous(limits=c(0, 4),
+                     breaks=0:4) +
+#  scale_y_discrete(limits=c(0,4),
+#                   breaks=0:4) +
+  labs(x="",
+       y="") +
+  theme(axis.text.x=element_blank())
+
+b
+
+ggsave(here("output/viz/shocks/arssi weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=3)
+```
+
+```{r}
+d <- ggplot(dat, aes(bridging_capital_raw, weight=final_wt1)) + 
+  geom_bar(width=.2, fill="dodgerblue2") + 
+  geom_vline(xintercept=1.3, size=1, color="darkgoldenrod2") + 
+#  geom_vline(xintercept=4, size=1, color="turquoise") +
+  scale_x_continuous(breaks=0:4) + 
+  scale_y_continuous(limits=c(0,1e5)) + 
+  labs(x="",
+       y="") +
+  theme(axis.text.y=element_blank())
+,
+        axis.text.x=element_blank())
+d
+```
+
+
+```{r}
+library(patchwork)
+a/b/d
+
+ggsave(here("output/viz/social capital/socap means weighted.png"),
+       type="cairo",
+       device="png",
+       height=4,
+       width=7)
+```
+
+
+```{r}
+ltm_bnd <- ltm(socap[,1:4] ~ z1)
+ltm_bnd
+```
+
+```{r}
+ltm_brdg <- ltm(socap[,5:8] ~ z1)
+ltm_brdg
+```
+
+```{r}
+ltm_coh <- ltm(socap ~ z1)
+ltm_coh
+```
+
+
+```{r}
+fa.parallel(socap[,1:4],
+            cor="tet")
+```
+
+2 factors, 1 component
+
+```{r}
+prin_bond <- principal(socap[,1:4],
+                       cor="tet")
+prin_bond
+```
+
+```{r}
+prin_bond_scrs <- prin_bond$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(bonding_comp = prin_bond_scrs$PC1,
+         bonding_comp_resc = rescale(bonding_comp, c(0,100)))
+
+ggplot(dat, aes(bonding_comp)) + 
+  geom_density()
+```
 
 
 
+```{r}
+fa.parallel(socap[,5:8],
+            cor="tet")
+```
+2 factors, 1 component
+
+```{r}
+prin_bridge <- principal(socap[,5:8],
+                       cor="tet")
+prin_bridge
+```
+
+```{r}
+prin_bridge_scrs <- prin_bridge$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(bridging_comp = prin_bridge_scrs$PC1,
+         bridging_comp_resc = rescale(bridging_comp, c(0,100)))
+
+ggplot(dat, aes(bridging_comp)) + 
+  geom_density()
+```
+
+```{r}
+fa.parallel(socap, 
+            cor="tet")
+```
+
+4 factors, 1 component
+
+```{r}
+prin_socap <- principal(socap,
+                        cor="tet")
+prin_socap
+```
+
+81 percent of variance captured
+
+```{r}
+
+prin_bond_brdg <- dat %>%
+  select(bonding_comp, bridging_comp) %>%
+  principal()
+
+prin_bond_brdg
+```
+
+```{r}
+
+prin_bond_brdg_scrs <- prin_bond_brdg$scores %>%
+  unlist() %>%
+  as.data.frame()
+  
+dat <- dat %>%
+  mutate(cohesion_comp_latent = prin_bond_brdg_scrs$PC1)
+
+ggplot(dat, aes(cohesion_comp_latent)) + 
+  geom_density()
+describe(dat$cohesion_comp_latent)
+```
+
+
+```{r}
+library(scales)
+prin_socap_scrs <- prin_socap$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(cohesion_sum = rowSums(socap),
+         cohesion_comp = prin_socap_scrs$PC1,
+         cohesion_comp_resc = scales::rescale(cohesion_comp, to=c(0,100)))
+
+
+ggplot(dat, aes(cohesion_comp)) + 
+  geom_density()
+
+```
+
+```{r}
+
+```
 
 
 
+```{r}
 
+cohesion_mn <- svyrdat %>%
+  summarize(cohesion = survey_mean(cohesion_comp_resc, na.rm=T)) %>%
+  mutate(lower=cohesion-1.96*cohesion_se,
+         upper=cohesion+1.96*cohesion_se,
+         measure="")
+  
 
+cohesion_mn
+
+```
+
+```{r}
+
+ggplot(cohesion_mn, aes(cohesion, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=100, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=round(cohesion,1)), color=medium_blue, size=6, label.padding=unit(.15, "lines")) +
+  scale_x_continuous(limits=c(0, 100),
+                     breaks=seq(0,100,20)) +
+#  scale_y_discrete(limits=c(0,4),
+#                   breaks=0:4) +
+  labs(x="",
+       y="") 
++
+  theme(axis.text.x=element_blank())
+
+b
+
+ggsave(here("output/viz/social capital/cohesion weighted rescale.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=3)
+```
 
 
