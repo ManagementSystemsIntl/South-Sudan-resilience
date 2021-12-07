@@ -1,0 +1,98 @@
+---
+title: "Resilience model"
+subtitle: Structural equation model of resilience capacities
+author: "Dan Killian"
+date: "12/7/2021"
+output:
+  bookdown::html_document2:
+    number_sections: true
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: paper
+    fig.caption: true
+    code_folding: hide
+    df_print: kable
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+# standard figure size and generate clean output
+knitr::opts_chunk$set(fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+
+source(here("code/00 South Sudan resilience - prep.R"))
+
+library(lavaan)
+
+```
+
+```{r}
+
+dat <- dat %>%
+  mutate(access_remittances=q_401_r_bin)
+
+mod1 <- "
+absorptive =~ grp_latent + bonding_fac + access_remittances + ews_latent + emerg_fac + donor_act
+"
+
+mod1.fit <- cfa(model=mod1, data=dat)
+
+summary(mod1.fit, standardized=T)
+
+```
+
+```{r}
+library(semPlot)
+
+semPaths(mod1.fit,
+         whatLabels="std",
+         edge.label.cex=1,
+         layout="tree",
+         rotation=2,
+         color="lightblue",
+         edge.color="darkgoldenrod",
+         style="lisrel")
+
+```
+
+```{r}
+fitmeasures(mod1.fit, c("cfi", "tli", "gfi", "rmsea"))
+```
+
+## Full model
+
+```{r}
+
+mod2 <- "
+grp_latent2 =~ grp_fac_cattle + grp_fac_women + grp_fac_finance + grp_fac_sports + grp_fac_nature
+
+bonding_fac2 =~ q_490 + rc_q_491 + q_494 + rc_q_495
+
+ews_latent2 =~ ews_fac_prices + ews_fac_weather + ews_fac_farming + ews_fac_conflict
+
+emerg_fac2 =~ emerg1 + emerg2 + emerg3 + emerg4
+
+absorptive =~ grp_latent2 + bonding_fac2 + access_remittances + ews_latent2 + emerg_fac2 + donor_act
+"
+
+mod2.fit <- cfa(model=mod2, data=dat)
+
+summary(mod2.fit, standardized=T)
+
+```
+
+```{r}
+semPaths(mod2.fit,
+         whatLabels="std",
+         edge.label.cex=1,
+         layout="tree",
+         rotation=2,
+         color="lightblue",
+         edge.color="darkgoldenrod",
+         style="lisrel")
+
+```
+```{r}
+fitmeasures(mod2.fit, c("cfi", "tli", "gfi", "rmsea"))
+```

@@ -60,9 +60,14 @@ dat <- dat %>%
          asp6 = ifelse(q_633==6, NA,
                        ifelse(q_633==4 | q_633==5, 1, 0)),
          aspirations_index2 = asp1 + asp2 + asp3 + asp4 + asp5 + asp6,
-         aspirations_index2_cen = scale(aspirations_index2))
+         aspirations_index2_cen = scale(aspirations_index2),
+         q636_bin = ifelse(q_636>3, 1,0),
+         q637_bin = ifelse(q_637>3, 1,0),
+         q638_bin = ifelse(q_638>3, 1,0))
 
 frq(dat$aspirations_index2)
+frq(dat$q638_bin)
+frq(dat$q_638)
 
 # social norms ---- 
 
@@ -306,7 +311,8 @@ dat <- dat %>%
                             q_501l > 1 ~ 0,
                             is.na(q_501l) ~ 0,
                             TRUE ~ 0),
-         emerg_sum = emerg1 + emerg2 + emerg3 + emerg4)
+         emerg_sum = emerg1 + emerg2 + emerg3 + emerg4,
+         emerg_effective = ifelse(q_612>2, 1,0))
 
 frq(dat$q_501l)
 frq(dat$emerg4)

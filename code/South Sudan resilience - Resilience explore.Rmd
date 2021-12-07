@@ -105,7 +105,7 @@ fa_grps_5
 
 ```
 
-ML3: cattle herding, cattle protection, cattle raiding, animal herding
+ML3: cattle herding, cattle protection, cattle raiding, animal herding, land
 
 ML4: women group, mothers group, religious group
 
@@ -144,6 +144,17 @@ fa_grp_fac <-fa(grp_facs,
 fa_grp_fac
 
 ```
+```{r}
+fa_grp_fac_scrs <- fa_grp_fac$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(grp_latent = fa_grp_fac_scrs$ML1)
+
+```
+
+
 
 ```{r}
 prin_grp_facs <- principal(grp_facs)
@@ -369,7 +380,6 @@ fa_inc_7 <- fa(inc,
 fa_inc_7
 ```
 
-ML4: 
 
 ```{r}
 fa_inc_7_ldngs <- as.matrix(fa_inc_7$loadings) %>%
@@ -529,6 +539,121 @@ Price warnings least common; water, crops, and livestock most common
 animal prices, general prices, and grazing highest discrimination
 
 ```{r}
+fa.parallel(ews,
+            cor="tet")
+```
+4 factors, 2 components
+
+```{r}
+fa_ews_4 <- fa(ews,
+               nfactors=4,
+               scores="tenBerge",
+               fm="ml",
+               cor="tet")
+fa_ews_4
+```
+
+```{r}
+fa_ews_4_ldngs <- as.matrix(fa_ews_4$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:5) 
+
+%>%
+  left_join(inc_key) %>%
+  select(9,11, 2:8) 
+
+fa_ews_4_ldngs
+
+```
+
+ML3: prices, animal prices, food prices
+
+ML4: weather, hazards, rain
+
+ML1: livestock, crops
+
+ML2: conflict
+
+
+```{r}
+fa_ews_4_scores <- data.frame(fa_ews_4$scores)
+
+dat <- dat %>%
+  mutate(ews_fac_prices = fa_ews_4_scores$ML3,
+         ews_fac_weather = fa_ews_4_scores$ML4,
+         ews_fac_farming = fa_ews_4_scores$ML1,
+         ews_fac_conflict = fa_ews_4_scores$ML2)
+
+```
+
+
+```{r}
+fa_ews_4_ldngsL <- fa_ews_4_ldngs %>% 
+  pivot_longer(cols=2:5,
+               names_to="factor",
+               values_to="loading") %>%
+  #arrange(factor) %>%
+  mutate(significance=ifelse(loading>.3999, "Significant loading", ""))
+
+fa_ews_4_ldngsL
+
+```
+
+
+```{r fig.width=8.4}
+ggplot(fa_ews_4_ldngsL, aes(x=loading, y=varname, color=significance)) + 
+  #geom_bar() + 
+  geom_point() +
+  scale_color_manual(values=c("grey60", medium_blue)) +
+  scale_x_continuous(limits=c(.4,1),
+                     breaks=c(.4,.8)) +
+  scale_y_discrete(breaks=1:20,
+                     labels=inc_labs) +
+  facet_wrap(~factor, nrow=1) +
+  faceted +
+  theme(legend.position="none") +
+  labs(x="",
+       y="")
+```
+
+```{r}
+ews_facs <- dat %>%
+  select(ews_fac_prices:ews_fac_conflict)
+
+fa.parallel(ews_facs)
+
+```
+
+2 factors, 1 component
+
+```{r}
+fa_ews_facs <- fa(ews_facs,
+                  scores="tenBerge",
+                  fm="ml")
+
+fa_ews_facs
+```
+
+```{r}
+fa_ews_facs_scrs <- fa_ews_facs$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(ews_latent = fa_ews_facs_scrs$ML1)
+
+ggplot(dat, aes(ews_latent)) + 
+  geom_density()
+
+```
+
+
+
+
+
+```{r}
 ews_prin <- principal(ews,
                       cor="tet")
 ews_prin
@@ -621,6 +746,31 @@ plot(ltm_emerg2,
      type="IIC",
      items=0)
 ```
+
+```{r}
+fa.parallel(emerg,
+            cor="tet")
+```
+2 factors, 1 component
+
+```{r}
+fa_emerg <- fa(emerg,
+               scores="tenBerge",
+               fm="ML")
+fa_emerg
+
+```
+
+```{r}
+fa_emerg_scrs <- fa_emerg$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(emerg_fac = fa_emerg_scrs$ML1)
+
+```
+
 
 ```{r}
 prin_emerg <- principal(emerg,
@@ -823,6 +973,8 @@ dat <- dat %>%
 
 #### Absorptive factors factor analysis
 
+##### first try
+
 ```{r}
 absorp_facs <- dat %>%
   select(Group_participation,
@@ -1008,6 +1160,65 @@ summary(abs9)
 ```
 
 
+##### second try
+
+```{r}
+absorp <- dat %>%
+  select(grp_latent,
+         bonding_fac,
+         access_remittances=q_401_r_bin,
+         ews_latent,
+         emerg_fac,
+         donor_act)
+
+fa.parallel(absorp)
+,
+            cor="mixed")
+```
+2 factors, 1 component
+
+```{r}
+fa_absorp <- fa(absorp,
+                scores="tenBerge",
+                fm="ml")
+
+fa_absorp
+
+```
+```{r}
+fa_absorp_scrs <- fa_absorp$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(absorp_latent = fa_absorp_scrs$ML1,
+         absorp_latent_resc = scales::rescale(absorp_latent, c(0,100)))
+
+describe(dat$absorp_latent_resc)
+ggplot(dat, aes(absorp_latent)) + 
+  geom_density()
+```
+```{r}
+ggplot(dat, aes(absorp_latent, ability_recover)) + 
+  geom_point() + 
+  stat_smooth() + 
+  stat_smooth(method="lm")
+```
+
+### Absorptive capacity by county
+
+```{r}
+absorp_cnty <- svyrdat %>%
+  group_by(county) %>%
+  summarize(AbsorptiveCapacity=survey_mean(absorp_latent_resc, na.rm=T)) %>%
+  mutate(lower=AbsorptiveCapacity - 1.96*AbsorptiveCapacity_se,
+         upper=AbsorptiveCapacity + 1.96*AbsorptiveCapacity_se)
+
+absorp_cnty
+
+write_csv(absorp_cnty, here("output/tables/Absorptive capacity by county weighted.csv"))
+
+```
 
 
 

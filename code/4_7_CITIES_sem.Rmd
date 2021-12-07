@@ -1,0 +1,159 @@
+---
+title: "CITIES evaluation"
+subtitle: Structural equation model of CITIES indicators
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '5'
+    toc_float: yes
+---
+
+### Prep
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=10, fig.height=8, warning=FALSE, message=FALSE, cache=TRUE, error=T)
+```
+
+```{r}
+library(knitr)
+library(tidyverse)
+library(sjmisc)
+library(corrplot)
+library(psych)
+library(lavaan)
+library(semPlot)
+
+setwd("C:/Egnyte/Private/dkillian/Jordan/Population survey/data")
+
+dat <- read_csv("CITIES indicators.csv")
+
+dat <- dat %>%
+  select(42:60)
+
+names(dat)
+
+```
+
+### Model 1
+
+The CITIES evaluation posited a set of hypotheses in which municipal institutional capacity building and public outreach leads to a series of outcomes of improved services and operations leading to improved public perception of government responsiveness, effectiveness, confidence in government, and overall stability. 
+
+These outcomes are considered to be both temporally and programmatically ordered. For example, government responsiveness is hypothesized to follow from government effort, while effectiveness is hypothesized to follow from a combination of public outreach as well as improved service delivery. 
+
+Similarly, constructs such as confidence and stability are considered to be higher order. For example, confidence follows from both effectiveness and responsiveness, while stability is an overall legitimacy measure that follows from effectiveness and confidence. 
+
+The following analysis tests these relations in household survey data to assess whether the hypothesized relations fit the empirical patterns in the data. 
+
+```{r}
+
+mod1 <- "
+confidence =~ completeObs.confidence_local + completeObs.confidence_muni + completeObs.confidence_gov
+effectiveness =~ completeObs.effective_local + completeObs.effective_muni + completeObs.effective_gov
+responsiveness =~ completeObs.responsive_local + completeObs.responsive_muni + completeObs.responsive_gov
+services =~ completeObs.Water + completeObs.Sanitation + completeObs.Health + completeObs.Transportation + completeObs.Schools + completeObs.Lighting + completeObs.Electricity + completeObs.Roads + completeObs.Parks + completeObs.Trash
+stability =~ confidence + effectiveness + responsiveness + services
+"
+
+mod1.fit <- cfa(model=mod1, data=dat)
+
+summary(mod1.fit, standardized=T)
+
+```
+
+
+```{r}
+
+semPaths(mod1.fit,
+         whatLabels="std",
+         edge.label.cex=1,
+         layout="tree",
+         rotation=2,
+         color="lightblue",
+         edge.color="darkgoldenrod",
+         style="lisrel")
+
+```
+
+
+```{r}
+fitmeasures(mod1.fit, c("cfi", "tli", "gfi", "rmsea"))
+```
+
+The fit indices are good
+
+The root mean square error does not hit desired benchmark of .05, but model should still be workable
+
+Let's see if we can improve the model
+
+
+```{r}
+mod1_mod <- data.frame(modificationindices(mod1.fit, sort=T)) 
+kable(mod1_mod)
+```
+
+### Model 2
+
+```{r}
+
+mod2 <- "
+confidence =~ completeObs.confidence_local + completeObs.confidence_muni + completeObs.confidence_gov
+effectiveness =~ completeObs.effective_local + completeObs.effective_muni + completeObs.effective_gov
+responsiveness =~ completeObs.responsive_local + completeObs.responsive_muni + completeObs.responsive_gov
+services =~ completeObs.Water + completeObs.Sanitation + completeObs.Health + completeObs.Transportation + completeObs.Schools + completeObs.Lighting + completeObs.Electricity + completeObs.Roads + completeObs.Parks + completeObs.Trash
+stability =~ confidence + effectiveness + responsiveness + services
+
+completeObs.confidence_gov ~~    completeObs.effective_gov
+completeObs.confidence_muni ~~   completeObs.effective_muni
+completeObs.confidence_local ~~  completeObs.effective_local
+completeObs.effective_gov ~~   completeObs.responsive_gov
+completeObs.confidence_gov ~~   completeObs.responsive_gov
+completeObs.effective_muni ~~  completeObs.responsive_muni
+
+"
+
+mod2.fit <- cfa(model=mod2, data=dat)
+
+summary(mod2.fit, standardized=T)
+
+```
+
+
+```{r}
+fitmeasures(mod2.fit, c("cfi", "tli", "gfi", "rmsea"))
+```
+
+After adding in the top six suggested cross-loadings, the root mean square error meets our desired benchmark of .05 or less
+
+```{r}
+
+semPaths(mod2.fit,
+         whatLabels="std",
+         edge.label.cex=1,
+         layout="tree",
+         rotation=2,
+         color="lightblue",
+         edge.color="darkgoldenrod",
+         style="lisrel")
+
+```
+
+### Conclusion
+
+The hypothesized relations are mostly validated in the data. There is one exception, in that responsiveness is inversely related to effectiveness, confidence, and stability. This suggests that for higher order constructs, only improved services and government operations matter. Responsiveness is a genuine outcome at the lower level, but citizens will not perceive greater overall legitimacy without tangible gains in services. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

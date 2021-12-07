@@ -272,7 +272,26 @@ ggplot(dat, aes(bonding_comp)) +
   geom_density()
 ```
 
+```{r}
+fa_bond <- fa(socap[,1:4],
+              cor="tet",
+              #scores="tenBerge",
+              fm="ml")
+fa_bond
+```
 
+```{r}
+fa_bond_scrs <- fa_bond$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(bonding_fac = fa_bond_scrs$ML1,
+         bonding_fac_resc = scales::rescale(bonding_fac, c(0,100)))
+
+ggplot(dat, aes(bonding_fac)) + 
+  geom_density()
+```
 
 ```{r}
 fa.parallel(socap[,5:8],
@@ -298,6 +317,27 @@ dat <- dat %>%
 ggplot(dat, aes(bridging_comp)) + 
   geom_density()
 ```
+```{r}
+fa_bridge <- fa(socap[,5:8],
+              cor="tet",
+              #scores="tenBerge",
+              fm="ml")
+fa_bridge
+```
+
+```{r}
+fa_bridge_scrs <- fa_bridge$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(bridging_fac = fa_bridge_scrs$ML1,
+         bridging_fac_resc = scales::rescale(bridging_fac, c(0,100)))
+
+ggplot(dat, aes(bridging_fac)) + 
+  geom_density()
+```
+
 
 ```{r}
 fa.parallel(socap, 
@@ -356,33 +396,70 @@ ggplot(dat, aes(cohesion_comp)) +
 ```
 
 ```{r}
-
-```
-
-
-
-```{r}
-
-cohesion_mn <- svyrdat %>%
-  summarize(cohesion = survey_mean(cohesion_comp_resc, na.rm=T)) %>%
-  mutate(lower=cohesion-1.96*cohesion_se,
-         upper=cohesion+1.96*cohesion_se,
-         measure="")
-  
-
-cohesion_mn
+cohesion_fac <- dat %>%
+  select(bonding_fac,
+         bridging_fac) %>%
+  fa(scores="tenBerge",
+     fm="ML")
+cohesion_fac
 
 ```
 
 ```{r}
+cohesion_fac_scrs <- cohesion_fac$scores %>%
+  unlist() %>%
+  as.data.frame()
 
-ggplot(cohesion_mn, aes(cohesion, measure)) + 
+dat <- dat %>%
+  mutate(cohesion_latent = cohesion_fac_scrs$ML1,
+         cohesion_latent_resc = scales::rescale(cohesion_latent, c(0,100)))
+
+ggplot(dat, aes(cohesion_latent)) + 
+  geom_density()
+```
+
+```{r}
+
+cohesion_latent_temp <- svyrdat %>%
+  summarize(cohesion_latent = survey_mean(cohesion_latent_resc, na.rm=T),
+            bonding_fac = survey_mean(bonding_fac_resc, na.rm=T),
+            bridging_fac = survey_mean(bridging_fac_resc, na.rm=T)) 
+
+cohesion_latent_temp
+
+cohesion_latent_mn <- cohesion_latent_temp %>%
+  select(!contains("se")) %>%
+  melt()
+
+cohesion_latent_mn
+
+cohesion_latent_se <- cohesion_latent_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+    rename(se=2)
+
+cohesion_latent_se
+
+cohesion_latent <- cohesion_latent_mn %>%
+  cbind(cohesion_latent_se[,2]) %>%
+  rename(se=3) %>%
+  mutate(lower=value-1.96*se,
+         upper=value+1.96*se,
+         measure=c("Cohesion", "Bonding capital","Bridging capital")) 
+         
+cohesion_latent
+
+```
+
+```{r}
+
+ggplot(cohesion_latent, aes(value, reorder(measure, value))) + 
   geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
   #geom_hline(yintercept=1, color=light_blue, size=1) +
-  geom_segment(aes(x=0, xend=100, y=1, yend=1), color=light_blue) + 
-  geom_label(aes(label=round(cohesion,1)), color=medium_blue, size=6, label.padding=unit(.15, "lines")) +
+  geom_segment(aes(x=0, xend=100, y=1:3, yend=1:3), color=light_blue) + 
+  geom_label(aes(label=round(value,1)), color=medium_blue, size=6, label.padding=unit(.15, "lines")) +
   scale_x_continuous(limits=c(0, 100),
-                     breaks=seq(0,100,20)) +
+                     breaks=seq(0,100,25)) +
 #  scale_y_discrete(limits=c(0,4),
 #                   breaks=0:4) +
   labs(x="",
@@ -392,11 +469,11 @@ ggplot(cohesion_mn, aes(cohesion, measure)) +
 
 b
 
-ggsave(here("output/viz/social capital/cohesion weighted rescale.png"),
+ggsave(here("output/viz/social capital/cohesion capital rescale.png"),
        device="png",
        type="cairo",
-       height=1.2,
-       width=3)
+       height=2,
+       width=4)
 ```
 
 

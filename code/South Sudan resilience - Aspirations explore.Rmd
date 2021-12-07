@@ -277,7 +277,7 @@ The distribution of the weighted scale values.
 ```{r}
 a <- ggplot(dat, aes(aspirations_index2, weight=final_wt1)) + 
   geom_bar(width=.2, fill="dodgerblue2") + 
-#  geom_vline(xintercept=3.9, size=1, color="darkgoldenrod2") + 
+  geom_vline(xintercept=3.78, size=1, color="darkgoldenrod2") + 
 #  geom_vline(xintercept=4, size=1, color="turquoise") +
   scale_x_continuous(breaks=0:6) + 
   labs(x="",
@@ -287,6 +287,12 @@ a <- ggplot(dat, aes(aspirations_index2, weight=final_wt1)) +
 ,
         axis.text.x=element_blank())
 a
+
+ggsave(here("output/viz/aspirations weighted bar.png"),
+       device="png",
+       type="cairo",
+       height=1.2, width=3)
+
 ```
 ```{r}
 b <- ggplot(Asp_mn, aes(Asp, measure)) + 
@@ -459,6 +465,87 @@ asp2_fa
 
 The loadings aren't terrible, but measures of fit such as Root Mean Square Error of Approximation (RMSEA) and Tucker Lewis Index (TLI) indicate that the factor model should not be used. 
 
+```{r}
+asp2_pc <- dat %>%
+  select(asp1:asp2,
+         asp5:asp6) %>%
+  principal(cor="tet")
+
+asp2_pc
+```
+
+```{r}
+library(scales)
+
+asp2_pc_scrs <- asp_pc$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(aspirations_comp = asp2_pc_scrs$PC1,
+         aspirations_comp_resc = scales::rescale(aspirations_comp, to = c(0,100)))
+
+ggplot(dat,aes(aspirations_comp)) + 
+  geom_density()
+
+```
+
+```{r}
+describe(dat$aspirations_comp_resc)
+```
+```{r}
+ggplot(dat, aes(aspirations_comp_resc)) + 
+  geom_density()
+```
+```{r}
+describe(dat$aspirations_index2)
+
+asp_resc_mn <- svyrdat %>%
+  summarize(Asp=survey_mean(aspirations_comp_resc, na.rm=T)) %>%
+  mutate(lower=Asp-1.96*Asp_se,
+         upper=Asp+1.96*Asp_se,
+         measure="")
+
+asp_resc_mn
+```
+
+```{r}
+b <- ggplot(asp_resc_mn, aes(Asp, measure)) + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, color=medium_blue) +
+  #geom_hline(yintercept=1, color=light_blue, size=1) +
+  geom_segment(aes(x=0, xend=100, y=1, yend=1), color=light_blue) + 
+  geom_label(aes(label=round(Asp,1)), color=medium_blue, size=6) +
+  scale_x_continuous(limits=c(0, 100),
+                     breaks=seq(0,100,25)) +
+#  scale_y_discrete(limits=c(.8,1.2),
+#                   breaks=seq(1,1,0)) +
+  labs(x="",
+       y="") 
++
+  theme(axis.text.x=element_blank())
+
+b
+
+ggsave(here("output/viz/shocks/arssi weighted.png"),
+       device="png",
+       type="cairo",
+       height=1.2,
+       width=3)
+```
+
+
+```{r}
+library(patchwork)
+a/b
+
+ggsave(here("output/viz/asp bar resc.png"),
+       device="png",
+       type="cairo",
+       height=3,
+       width=4)
+
+```
+
 ### Aspirations component
 
 ```{r}
@@ -468,6 +555,12 @@ asp <- dat %>%
 
 asp_pc <- principal(asp,
                     cor="tet")
+
+asp_pc
+
+```
+
+```{r}
 asp_pc_scrs <- asp_pc$scores %>%
   unlist() %>%
   as.data.frame()
@@ -528,6 +621,74 @@ asp3_fa <- dat %>%
 
 asp3_fa
 ```
+
+```{r}
+asp3_pc <- dat %>%
+  select(asp1:asp2,
+         asp5:asp6,
+         q_636:q_638) %>%
+  principal(cor="mixed")
+
+asp3_pc
+```
+
+### asp with loc
+
+```{r}
+asp_loc <- dat %>%
+  select(asp1:asp6,
+         q636_bin:q638_bin) 
+
+fa.parallel(asp_loc, 
+            cor="tet")
+```
+4 factors, 3 components
+
+```{r}
+asp_loc_fa <- fa(asp_loc,
+                 #scores="tenBerge",
+                 fm="ml",
+                 cor="mixed")
+
+asp_loc_fa
+```
+
+```{r}
+asp_loc2 <- dat %>%
+  select(asp1:asp2,
+         asp5:asp6,
+         q636_bin:q638_bin) 
+
+fa.parallel(asp_loc2, 
+            cor="tet")
+```
+4 factors, 3 components
+
+```{r}
+asp_loc_fa <- fa(asp_loc,
+                 #scores="tenBerge",
+                 fm="ml",
+                 cor="mixed")
+
+asp_loc_fa
+```
+
+
+
+
+```{r}
+asp3_pc <- dat %>%
+  select(asp1:asp2,
+         asp5:asp6,
+         q_636:q_638) %>%
+  principal(cor="mixed")
+
+asp3_pc
+```
+
+
+
+
 Let's try just the three locus of control items. 
 
 ```{r}
@@ -556,6 +717,66 @@ asp4_fa <- dat %>%
 asp4_fa
 ```
 
+```{r}
+loc_pc <- dat %>%
+  select(q_636:q_638) %>%
+  principal(cor="poly")
+
+loc_pc
+```
+```{r}
+loc_pc_scrs <- loc_pc$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(loc_comp = loc_pc_scrs$PC1,
+         loc_comp_resc = scales::rescale(loc_comp, to=c(0,100)))
+
+
+```
+
+# Forward looking outlook
+
+```{r}
+dat %>%
+  select(aspirations_comp,
+         loc_comp) %>%
+  fa.parallel()
+```
+
+```{r}
+forw_fa <- dat %>%
+  select(aspirations_comp,
+         loc_comp) %>%
+  fa(scores="tenBerge",
+     fm="ml")
+
+forw_fa
+```
+
+```{r}
+forw_fa_scrs <- forw_fa$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(forward_outlook = forw_fa_scrs$ML1)
+
+ggplot(dat, aes(forward_outlook)) + 
+  geom_density()
+
+```
+
+
+```{r}
+forw_pc <- dat %>%
+  select(aspirations_comp,
+         loc_comp) %>%
+  principal()
+
+forw_pc
+```
 
 
 ```{r}
