@@ -746,24 +746,24 @@ dat %>%
 ```
 
 ```{r}
-forw_fa <- dat %>%
+agency_fa <- dat %>%
   select(aspirations_comp,
          loc_comp) %>%
   fa(scores="tenBerge",
      fm="ml")
 
-forw_fa
+agency_fa
 ```
 
 ```{r}
-forw_fa_scrs <- forw_fa$scores %>%
+agency_fa_scrs <- agency_fa$scores %>%
   unlist() %>%
   as.data.frame()
 
 dat <- dat %>%
-  mutate(forward_outlook = forw_fa_scrs$ML1)
+  mutate(agency_latent = agency_fa_scrs$ML1)
 
-ggplot(dat, aes(forward_outlook)) + 
+ggplot(dat, aes(agency_latent)) + 
   geom_density()
 
 ```

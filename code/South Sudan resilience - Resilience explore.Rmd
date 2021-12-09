@@ -150,8 +150,29 @@ fa_grp_fac_scrs <- fa_grp_fac$scores %>%
   as.data.frame()
 
 dat <- dat %>%
-  mutate(grp_latent = fa_grp_fac_scrs$ML1)
+  mutate(grp_latent = fa_grp_fac_scrs$ML1,
+         grp_latent_resc = scales::rescale(grp_latent, c(0,100)))
 
+```
+
+```{r}
+grp_latent_mn <- svyrdat %>%
+  summarize(grp = survey_mean(grp_latent_resc, na.rm=T)) %>%
+  mutate(lower=grp-1.96*grp_se,
+         upper=grp+1.96*grp_se)
+
+grp_latent_mn
+
+```
+### Remittances
+
+```{r}
+remit_mn <- svyrdat %>%
+  summarize(remit = survey_mean(access_remittances, na.rm=T)) %>%
+  mutate(lower=remit-1.96*remit_se,
+         upper=remit+1.96*remit_se)
+
+remit_mn
 ```
 
 
@@ -649,7 +670,15 @@ ggplot(dat, aes(ews_latent)) +
 
 ```
 
+```{r}
+ews_latent_mn <- svyrdat %>%
+  summarize(ews = survey_mean(grp_latent_resc, na.rm=T)) %>%
+  mutate(lower=ews-1.96*ews_se,
+         upper=ews+1.96*ews_se)
 
+ews_latent_mn
+
+```
 
 
 
@@ -769,8 +798,32 @@ fa_emerg_scrs <- fa_emerg$scores %>%
 dat <- dat %>%
   mutate(emerg_fac = fa_emerg_scrs$ML1)
 
+dat <- dat %>%
+  mutate(emerg_fac_resc = scales::rescale(emerg_fac, c(0,100)))
+
 ```
 
+```{r}
+emerg_fac_mn <- svyrdat %>%
+  summarize(emerg = survey_mean(emerg_fac_resc, na.rm=T)) %>%
+  mutate(lower=emerg-1.96*emerg_se,
+         upper=emerg+1.96*emerg_se)
+
+emerg_fac_mn
+
+```
+
+## Donor activity
+
+```{r}
+donor_mn <- svyrdat %>%
+  summarize(donor = survey_mean(donor_act, na.rm=T)) %>%
+  mutate(lower=donor-1.96*donor_se,
+         upper=donor+1.96*donor_se)
+
+donor_mn
+
+```
 
 ```{r}
 prin_emerg <- principal(emerg,
@@ -1194,16 +1247,67 @@ dat <- dat %>%
   mutate(absorp_latent = fa_absorp_scrs$ML1,
          absorp_latent_resc = scales::rescale(absorp_latent, c(0,100)))
 
+```
+
+```{r}
+absorp_mn <- svyrdat %>%
+  summarize(absorp = survey_mean(absorp_latent_resc, na.rm=T)) %>%
+  mutate(lower=absorp-1.96*absorp_se,
+         upper=absorp+1.96*absorp_se)
+
+absorp_mn
+
+```
+
+```{r}
+
 describe(dat$absorp_latent_resc)
 ggplot(dat, aes(absorp_latent)) + 
   geom_density()
 ```
+
+
 ```{r}
-ggplot(dat, aes(absorp_latent, ability_recover)) + 
-  geom_point() + 
-  stat_smooth() + 
-  stat_smooth(method="lm")
+ggplot(dat, aes(absorp_latent_resc, ability_recover)) + 
+  #geom_point() + 
+  #stat_smooth() + 
+  stat_smooth(method="lm", color=medium_blue, size=2) +
+  scale_x_continuous(breaks=seq(0,100,20)) +
+  scale_y_continuous(limits=c(2,6),
+                     breaks=2:6) + 
+  labs(x="Absorptive resilience capacity",
+       y="Ability\nto\nrecover") + 
+  theme(axis.title.y=element_text(angle=0, vjust=.5))
+
+ggsave(here("output/viz/models/absorp recover.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
 ```
+
+```{r}
+l1 <- svyolr(ordered(ability_recover) ~ absorp_latent + conflict + shock_exposure_index + as.factor(county),
+             method="probit",
+             design=svyrdat)
+summary(l1)
+
+```
+
+```{r}
+l2 <- svyglm(fies4_fac_resc ~ absorp_latent + conflict + shock_exposure_index + as.factor(county),
+             design=svyrdat)
+summary(l2)
+
+```
+```{r}
+l3 <- svyglm(q_432 ~ absorp_latent + conflict + shock_exposure_index + as.factor(county),
+             design=svyrdat)
+summary(l3)
+
+```
+
 
 ### Absorptive capacity by county
 
