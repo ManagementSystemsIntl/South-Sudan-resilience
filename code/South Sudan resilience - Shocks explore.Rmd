@@ -257,6 +257,31 @@ shck_county_svy
 
 ```
 
+### Mean shocks
+
+```{r}
+
+shock_mn <- svyrdat %>%
+  summarize(shocks=survey_mean(shocks, na.rm=T)) %>%
+  mutate(lower=shocks-1.96*shocks_se,
+         upper=shocks+1.96*shocks_se,
+         measure="")
+
+shock_mn
+```
+
+```{r}
+
+shock_cnty_mn <- svyrdat %>%
+  group_by(county) %>%
+  summarize(shocks=survey_mean(shocks, na.rm=T)) %>%
+  mutate(lower=shocks-1.96*shocks_se,
+         upper=shocks+1.96*shocks_se,
+         measure="") %>%
+  arrange(desc(shocks))
+
+shock_cnty_mn
+```
 
 ## Shock clustering
 

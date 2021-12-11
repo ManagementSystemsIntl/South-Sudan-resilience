@@ -285,11 +285,11 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 
  cnty_key 
  
- diet_labs <- c("cereals",
-                "roots/tubers",
+ diet_labs <- c("Cereals",
+                "Roots/tubers",
                 "Vit A vegetables",
-                "leafy greens",
-                "other vegetables",
+                "Leafy greens",
+                "Other vegetables",
                 "Vit A fruits",
                 "Other fruits",
                 "Organ meat",

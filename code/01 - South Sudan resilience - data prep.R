@@ -324,6 +324,8 @@ frq(dat$emerg_sum)
 
 write_dta(dat, "data/local/SSD resilience baseline prepared.dta")
 
+lapply(dat, class)
 
+write_csv(datNames, here("data/local/prepared varnames.csv"))
 
 

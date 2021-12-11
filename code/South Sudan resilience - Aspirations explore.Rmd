@@ -575,7 +575,7 @@ ggplot(dat, aes(asp_pc)) +
 ## Determinants of aspirations
 
 ```{r}
-asp1 <- svyolr(ordered(aspirations_index2) ~ urban + hh_sex + household_members + as.factor(county),
+asp1 <- svyolr(ordered(aspirations_index2) ~ urban + hh_sex + household_members + shock_exposure_index + conflict + as.factor(county),
                method="probit",
                design=svyrdat)
 
@@ -736,7 +736,18 @@ dat <- dat %>%
 
 ```
 
-# Forward looking outlook
+```{r}
+
+loc_resc_mn <- svyrdat %>%
+  summarize(loc=survey_mean(loc_comp_resc, na.rm=T)) %>%
+  mutate(lower=loc-1.96*loc_se,
+         upper=loc+1.96*loc_se,
+         measure="")
+
+loc_resc_mn
+```
+
+# Agency
 
 ```{r}
 dat %>%
@@ -761,7 +772,23 @@ agency_fa_scrs <- agency_fa$scores %>%
   as.data.frame()
 
 dat <- dat %>%
-  mutate(agency_latent = agency_fa_scrs$ML1)
+  mutate(agency_latent = agency_fa_scrs$ML1,
+         agency_latent_resc = scales::rescale(agency_latent, c(0,100)))
+
+```
+
+```{r}
+
+agency_resc_mn <- svyrdat %>%
+  summarize(agency=survey_mean(agency_latent_resc, na.rm=T)) %>%
+  mutate(lower=agency-1.96*agency_se,
+         upper=agency+1.96*agency_se,
+         measure="")
+
+agency_resc_mn
+```
+
+```{r}
 
 ggplot(dat, aes(agency_latent)) + 
   geom_density()
@@ -777,7 +804,6 @@ forw_pc <- dat %>%
 
 forw_pc
 ```
-
 
 ```{r}
 library(effectsize)

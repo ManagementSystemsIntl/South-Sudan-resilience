@@ -266,7 +266,7 @@ prin_bond_scrs <- prin_bond$scores %>%
 
 dat <- dat %>%
   mutate(bonding_comp = prin_bond_scrs$PC1,
-         bonding_comp_resc = rescale(bonding_comp, c(0,100)))
+         bonding_comp_resc = unlist(rescale(bonding_comp, c(0,100))))
 
 ggplot(dat, aes(bonding_comp)) + 
   geom_density()
@@ -285,12 +285,27 @@ fa_bond_scrs <- fa_bond$scores %>%
   unlist() %>%
   as.data.frame()
 
+str(fa_bond_scrs)
+
 dat <- dat %>%
   mutate(bonding_fac = fa_bond_scrs$ML1,
-         bonding_fac_resc = scales::rescale(bonding_fac, c(0,100)))
+         bonding_fac_resc = unlist(scales::rescale(bonding_fac, c(0,100))),
+         bonding_fac_resc = as.numeric(bonding_fac_resc))
 
 ggplot(dat, aes(bonding_fac)) + 
   geom_density()
+```
+
+```{r}
+describe(dat$bonding_fac_resc)
+
+bond_resc_mn <- svyrdat %>%
+  summarize(bond=survey_mean(bonding_fac_resc, na.rm=T)) %>%
+  mutate(lower=bond-1.96*bond_se,
+         upper=bond+1.96*bond_se,
+         measure="")
+
+bond_resc_mn
 ```
 
 ```{r}
@@ -312,11 +327,13 @@ prin_bridge_scrs <- prin_bridge$scores %>%
 
 dat <- dat %>%
   mutate(bridging_comp = prin_bridge_scrs$PC1,
-         bridging_comp_resc = rescale(bridging_comp, c(0,100)))
+         bridging_comp_resc = unlist(rescale(bridging_comp, c(0,100)))) %>%
+  mutate(bridging_comp_resc = as.numeric(bridging_comp_resc))
 
 ggplot(dat, aes(bridging_comp)) + 
   geom_density()
 ```
+
 ```{r}
 fa_bridge <- fa(socap[,5:8],
               cor="tet",
@@ -330,12 +347,27 @@ fa_bridge_scrs <- fa_bridge$scores %>%
   unlist() %>%
   as.data.frame()
 
+str(fa_bridge_scrs)
+
 dat <- dat %>%
   mutate(bridging_fac = fa_bridge_scrs$ML1,
-         bridging_fac_resc = scales::rescale(bridging_fac, c(0,100)))
+         bridging_fac_resc = as.vector(scales::rescale(bridging_fac, c(0,100)))) %>%
+  mutate(bridging_fac_resc = as.numeric(bridging_fac_resc))
 
 ggplot(dat, aes(bridging_fac)) + 
   geom_density()
+```
+
+```{r}
+describe(dat$bridging_fac_resc)
+
+bridge_resc_mn <- svyrdat %>%
+  summarize(bridge=survey_mean(bridging_fac_resc, na.rm=T)) %>%
+  mutate(lower=bridge-1.96*bridge_se,
+         upper=bridge+1.96*bridge_se,
+         measure="")
+
+bridge_resc_mn
 ```
 
 
@@ -370,13 +402,25 @@ prin_bond_brdg_scrs <- prin_bond_brdg$scores %>%
   as.data.frame()
   
 dat <- dat %>%
-  mutate(cohesion_comp_latent = prin_bond_brdg_scrs$PC1)
+  mutate(cohesion_comp_latent = prin_bond_brdg_scrs$PC1,
+         cohesion_comp_latent_resc = scales::rescale(cohesion_comp_latent, c(0,100)))
 
 ggplot(dat, aes(cohesion_comp_latent)) + 
   geom_density()
 describe(dat$cohesion_comp_latent)
 ```
 
+```{r}
+describe(dat$cohesion_comp_resc)
+
+asp_resc_mn <- svyrdat %>%
+  summarize(Asp=survey_mean(aspirations_comp_resc, na.rm=T)) %>%
+  mutate(lower=Asp-1.96*Asp_se,
+         upper=Asp+1.96*Asp_se,
+         measure="")
+
+asp_resc_mn
+```
 
 ```{r}
 library(scales)
@@ -448,6 +492,8 @@ cohesion_latent <- cohesion_latent_mn %>%
          measure=c("Cohesion", "Bonding capital","Bridging capital")) 
          
 cohesion_latent
+
+write_csv(cohesion_latent, here("output/tables/cohesion weighted.csv"))
 
 ```
 

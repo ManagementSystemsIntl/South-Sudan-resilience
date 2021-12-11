@@ -61,7 +61,7 @@ The South Sudan Monitoring and Evaluation Support Project (MESP) is conducting a
 
 MESP has completed data collection in six counties, and as of October 2021 is carrying out data collection in the remaining seven counties. The study team is currently reviewing the data from six counties in advance of analysis of the full set of 13 counties. This document is one of a series of documents to review various measures and indices relating to resilience.
 
-# Food insecurity 
+# Food insecurity
 
 Food insecurity is the lack of confidence that the household will consistently maintain the caloric and dietary needs of its members. The South Sudan resilience baseline asks questions about food insecurity across two different temporal windows: 12 months and four weeks. The following survey items address the issue of food insecurity.
 
@@ -157,16 +157,15 @@ svyrdat %>%
   summarize(survey_mean())
 ```
 
-
-
-We can create an index value that is simply the sum of items the respondent agrees to. This has already been calculated under the variable 'fies_raw'. 
+We can create an index value that is simply the sum of items the respondent agrees to. This has already been calculated under the variable 'fies_raw'.
 
 ```{r}
 ggplot(dat, aes(fies_raw, weight=final_wt1)) + 
   geom_bar()
 
 ```
-A great majority of respondents agreed with all eight items, raising questions about the suitability of this data for scale construction. The weighted mean scale value is 7.7. Here is the mean scale value across county. 
+
+A great majority of respondents agreed with all eight items, raising questions about the suitability of this data for scale construction. The weighted mean scale value is 7.7. Here is the mean scale value across county.
 
 ```{r}
 
@@ -204,7 +203,6 @@ ggsave(here("output/viz/food security/fies overall weighted.png"),
 
 ```
 
-
 ```{r}
 fies_county <- svyrdat %>%
   group_by(county) %>%
@@ -237,7 +235,7 @@ a
 # map(f2, frq)
 ```
 
-Let's look at how well this data can be fit into an item response theory framework. 
+Let's look at how well this data can be fit into an item response theory framework.
 
 # Analytical models
 
@@ -291,13 +289,14 @@ library(ltm)
 descript(fies)
 
 ```
+
 ```{r}
 plot(descript(fies))
 ```
 
 ## ltm
 
-``` {r}
+```{r}
 
 l1 <- ltm(fies ~ z1)
 l1
@@ -311,21 +310,20 @@ plot(l1, type="ICC")
 ```{r}
 plot(l1, type="IIC")
 ```
+
 ```{r}
 plot(l1_scores, type="loadings")
 ```
+
 ```{r}
 plot(l1, 
      type="IIC", 
      items=0)
 ```
 
-
-
 ```{r}
 person.fit(l1)
 ```
-
 
 ```{r}
 
@@ -341,14 +339,14 @@ ggplot(l1_scores_dat, aes(z1, weight=Obs)) +
   scale_x_continuous(limits=c(-2.5,.5))
 
 ```
+
 ```{r}
 plot(l1_scores)
 ```
+
 ```{r}
 
 ```
-
-
 
 ```{r}
 describe(dat$fies)
@@ -357,8 +355,7 @@ describe(dat$fies)
 
 ```
 
-
-## rasch 
+## rasch
 
 ```{r}
 r1 <- rasch(fies)
@@ -368,6 +365,7 @@ summary(r1)
 ```{r}
 coef(r1)
 ```
+
 ```{r}
 plot(r1, 
      type="ICC",
@@ -385,6 +383,7 @@ plot(r1,
      type="IIC",
      items=0) 
 ```
+
 ```{r}
 r1_scores <- factor.scores(r1, method="EAP")$score.dat
 head(r1_scores)
@@ -406,6 +405,7 @@ ggplot(fies_index, aes(fies_index)) +
   scale_x_continuous(limits=c(-2,.75))
 
 ```
+
 ```{r}
 r1_pfit <- person.fit(r1)
 summary(r1_pfit)
@@ -422,6 +422,7 @@ citation("WrightMap")
 ```{r}
 t1 <- tam(fies)
 ```
+
 ```{r}
 summary(t1)
 ```
@@ -437,7 +438,7 @@ summary(t1_itemfit)
 IRT.WrightMap(t1)
 ```
 
-Not good results. No variation in item difficulty. 
+Not good results. No variation in item difficulty.
 
 ```{r}
 t1_scores <- tam.wle(t1) %>%
@@ -458,8 +459,6 @@ ggplot(t1_scores, aes(theta)) +
   scale_x_continuous(limits=c(-8,0))
 ```
 
-
-
 ```{r}
 out <- t1_scores %>%
   group_by(PersonScores) %>%
@@ -469,7 +468,6 @@ out <- t1_scores %>%
 
 out
 ```
-
 
 ```{r}
 t1_persfit <- tam.personfit(t1)
@@ -494,9 +492,7 @@ describe(dat$fies_index_tam)
 
 ```
 
-
-
-# Dietary diversity 
+# Dietary diversity
 
 ```{r}
 
@@ -508,6 +504,81 @@ select(q_403:q_419)
 map(diet, frq)
 
 ```
+Rank foods eaten
+
+```{r}
+foods_temp <- svyrdat %>%
+  summarize(cereals = survey_mean(q_403, na.rm=T),
+            roots = survey_mean(q_404, na.rm=T),
+            vitAveg = survey_mean(q_405, na.rm=T),
+            leafygreens = survey_mean(q_406, na.rm=T),
+            otherveg = survey_mean(q_407, na.rm=T),
+            vitAfruits = survey_mean(q_408, na.rm=T),
+            otherfruits = survey_mean(q_409, na.rm=T),
+            organmeat = survey_mean(q_410, na.rm=T),
+            fleshmeat = survey_mean(q_411, na.rm=T),
+            bushmeat = survey_mean(q_412, na.rm=T),
+            eggs = survey_mean(q_413, na.rm=T),
+            fish = survey_mean(q_414, na.rm=T),
+            legumes = survey_mean(q_415, na.rm=T),
+            milk = survey_mean(q_416, na.rm=T),
+            oils = survey_mean(q_417, na.rm=T),
+            sweets = survey_mean(q_418, na.rm=T),
+            spices = survey_mean(q_419, na.rm=T))
+
+foods
+
+foods_mn <- foods_temp %>%
+  select(!contains("se")) %>%
+  melt() %>%
+  rename(percent=value)
+
+foods_mn
+
+
+foods_se <- foods_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+  rename(se=value)
+
+foods_se
+
+foods <- foods_mn %>%
+  cbind(foods_se[,2]) %>%
+  rename(se=3) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         food_lab=diet_labs) %>%
+  select(food=1, 6, everything())
+
+foods
+
+```
+
+```{r}
+
+ggplot(foods, aes(x=percent, y=fct_reorder(food_lab, percent))) + 
+  geom_vline(xintercept=c(4,6), size=1, linetype="dashed", color=dark_grey) +
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
+#  geom_point(size=3, color=light_blue) +
+  geom_label(aes(label=paste(round(percent,3)*100, "%", sep="")), 
+             color=medium_blue,
+             label.padding=unit(.125, "lines")) +
+  labs(x="",
+       y="") + 
+  scale_x_continuous(limits=c(0,1),
+                     breaks=seq(0,1,.2),
+                     labels=percent) 
+
+
+ggsave(here("output/viz/food security/foods eaten weighted.png"),
+       device="png",
+       type="cairo",
+       height=4.5,
+       width=6)
+
+```
+
 
 ```{r}
 fa.parallel(diet)
@@ -549,7 +620,6 @@ ML2: seafood
 
 ML4: spices, cereals, other veggies
 
-
 ```{r}
 fa_diet_6_scores <- data.frame(fa_diet_6$scores) 
 
@@ -579,7 +649,6 @@ ggsave(here("output/viz/food security/HHDS factors.png"),
        width=7)
 
 ```
-
 
 ```{r}
 l1 <- lm(fies_raw ~ MR1 + MR2 + MR3 + MR4 + MR5 + MR6,
@@ -629,4 +698,212 @@ nfactors=6)
 fa_inc_6
 
 ```
+
+# Food insecurity one month
+
+```{r}
+
+fies2 <- dat %>%
+  select(q_430:q_435)
+
+map(fies2, frq)
+
+```
+
+```{r}
+q432 <- svyrdat %>%
+  summarize(q432=survey_mean(q_432, na.rm=T))
+
+q432
+
+```
+
+```{r}
+q433 <- svyrdat %>%
+  group_by(q_433) %>%
+  summarize(cat = survey_mean())
+
+q433
+
+```
+
+
+```{r}
+
+fies2[is.na(fies2)] <- 0
+
+fa.parallel(fies2,
+            cor="poly")
+```
+
+3 factors, 1 component. But we want a single factor or component
+
+```{r}
+fa_fies2 <- fa(fies2, 
+               cor="poly",
+               #scores="tenBerge")
+               fm="ml")
+
+fa_fies2
+```
+
+How does this compare to IRT? 
+
+
+```{r}
+irt_fies2 <- grm(fies2, constrained=F) 
+
+irt_fies2
+```
+q_432 (go to sleep hungry) has highest discrimination. This agrees with the factor weights. 
+
+
+```{r}
+fa_fies2_scrs <- fa_fies2$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(fies2_fac = fa_fies2_scrs$ML1,
+         fies2_fac_resc = scales::rescale(fies2_fac, c(0,100)))
+
+describe(dat$fies2_fac_resc)
+ggplot(dat, aes(fies2_fac)) + 
+  geom_density()
+```
+
+```{r}
+ggplot(dat, aes(fies2_fac_resc)) + 
+  geom_bar()
+```
+
+
+
+```{r}
+fies3 <- dat %>%
+  select(q_430,
+         q_432,
+         q_434)
+
+map(fies3, frq)
+```
+
+
+
+```{r}
+fa.parallel(fies3,
+            cor="tet")
+```
+
+1 factor, 1 component
+
+```{r}
+fa_fies3 <- fa(fies3,
+               cor="tet",
+               #scores="tenBerge",
+               fm="ml")
+
+fa_fies3
+
+```
+
+
+
+
+```{r}
+fa_fies3_scrs <- fa_fies3$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(fies3_fac = fa_fies3_scrs$ML1,
+         fies3_fac_resc = scales::rescale(fies3_fac, c(0,100)))
+
+describe(dat$fies3_fac_resc)
+ggplot(dat, aes(fies3_fac)) + 
+  geom_density()
+```
+
+
+
+```{r}
+frq(dat$fies3_fac_resc)
+```
+
+
+
+```{r}
+ggplot(dat, aes(fies3_fac_resc)) + 
+  geom_bar()
+```
+
+
+
+```{r}
+fies4 <- dat %>%
+  select(q_422:q_435)
+
+fies4[is.na(fies4)] <- 0
+
+names(fies4)
+```
+
+```{r}
+fa.parallel(fies4,
+            cor="poly")
+```
+
+4 factors, 2 components
+
+```{r}
+fa_fies4 <- fa(fies4,
+               cor="poly",
+               #scores="tenBerge",
+               fm="ML")
+
+fa_fies4
+
+```
+
+
+```{r}
+fa_fies4_scrs <- fa_fies4$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(fies4_fac = fa_fies4_scrs$ML1,
+         fies4_fac_resc = scales::rescale(fies4_fac, c(0,100)))
+
+describe(dat$fies4_fac_resc)
+
+```
+
+
+```{r}
+ggplot(dat, aes(fies4_fac)) + 
+  geom_density()
+```
+
+
+```{r}
+ggplot(dat, aes(fies4_fac_resc)) + 
+  geom_bar()
+
+```
+
+
+```{r}
+frq(dat$fies4_fac_resc)
+```
+
+
+
+```{r}
+
+```
+
+
+
+
 

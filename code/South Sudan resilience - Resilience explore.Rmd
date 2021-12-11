@@ -152,7 +152,7 @@ fa_grp_fac_scrs <- fa_grp_fac$scores %>%
 dat <- dat %>%
   mutate(grp_latent = fa_grp_fac_scrs$ML1,
          grp_latent_resc = scales::rescale(grp_latent, c(0,100)))
-
+#class(dat$grp_latent_resc)
 ```
 
 ```{r}
@@ -663,7 +663,8 @@ fa_ews_facs_scrs <- fa_ews_facs$scores %>%
   as.data.frame()
 
 dat <- dat %>%
-  mutate(ews_latent = fa_ews_facs_scrs$ML1)
+  mutate(ews_latent = fa_ews_facs_scrs$ML1,
+         ews_latent_resc = scales::rescale(ews_latent, c(0,100)))
 
 ggplot(dat, aes(ews_latent)) + 
   geom_density()
@@ -796,10 +797,8 @@ fa_emerg_scrs <- fa_emerg$scores %>%
   as.data.frame()
 
 dat <- dat %>%
-  mutate(emerg_fac = fa_emerg_scrs$ML1)
-
-dat <- dat %>%
-  mutate(emerg_fac_resc = scales::rescale(emerg_fac, c(0,100)))
+  mutate(emerg_fac = fa_emerg_scrs$ML1,
+         emerg_fac_resc = scales::rescale(emerg_fac, c(0,100)))
 
 ```
 
