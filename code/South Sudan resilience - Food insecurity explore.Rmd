@@ -904,6 +904,36 @@ frq(dat$fies4_fac_resc)
 ```
 
 
+# FIES explore
 
+```{r}
+
+l1 <- svyolr(ordered(fies_raw) ~ inc_fac_livestocksales + inc_fac_pettytrade + inc_fac_agwage + inc_fac_wage + inc_fac_proprent + inc_fac_farmer + inc_fac_safetynet + 
+               household_members + urban + as.factor(hh_head_sex) + as.factor(county),
+             method="probit",
+             design=svydat)
+summary(l1)
+
+```
+
+
+```{r}
+m1 <- svyglm(fies_raw ~ absorp_latent,
+             design=svydat)
+
+summary(m1)
+
+```
+
+
+```{r}
+m2 <- stan_glmer(fies_raw ~ absorp_latent + (1|ea),
+                 parallel=T,
+                 cores=4,
+                 data=dat)
+
+summary(m2, digits=3)
+fixef(m2)
+```
 
 

@@ -322,7 +322,7 @@ frq(dat$emerg_sum)
 
 #write_dta(dat_unw, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
 
-write_dta(dat, "data/local/SSD resilience baseline prepared.dta")
+write_dta(dat, "data/local/SSD resilience baseline prepared (10 Dec 2021).dta")
 
 lapply(dat, class)
 

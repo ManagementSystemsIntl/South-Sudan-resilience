@@ -522,4 +522,119 @@ ggsave(here("output/viz/social capital/cohesion capital rescale.png"),
        width=4)
 ```
 
+```{r}
+describe(dat$agency_latent_resc)
+describe(dat$shock_exposure_index)
+```
+
+## Shocks and agency, cohesion
+
+```{r}
+l1 <- svyglm(shock_exposure_index ~ agency_latent + cohesion_latent,
+             design=svydat)
+
+summary(l1)
+
+```
+
+```{r}
+l2 <- svyglm(shock_exposure_index ~ agency_latent + cohesion_latent + 
+               household_members + urban + as.factor(hh_head_sex),
+             design=svydat)
+
+summary(l2)
+
+```
+
+```{r}
+l3 <- svyglm(shock_exposure_index ~ agency_latent + cohesion_latent + 
+               household_members + urban + conflict + as.factor(hh_head_sex) + as.factor(county),
+             design=svydat)
+
+summary(l3)
+
+```
+
+```{r}
+
+```
+
+# Conflict
+
+```{r}
+l1 <- svyglm(conflict ~ shock_exposure_index + agency_latent + cohesion_latent +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+summary(l1)
+
+```
+
+```{r}
+l2 <- svyglm(conflict ~ shock_exposure_index + agency_latent + bonding_fac + bridging_fac +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+summary(l2)
+
+```
+
+```{r}
+l3 <- svyglm(trauma ~ shock_exposure_index + agency_latent + bonding_fac + bridging_fac +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+summary(l3)
+
+```
+
+
+
+# FIES
+
+
+```{r}
+l1 <- svyolr(ordered(fies_raw) ~ shock_exposure_index + conflict + agency_latent + cohesion_latent +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             method="probit",
+             design=svydat)
+summary(l1)
+
+```
+
+```{r}
+l1 <- svyglm(fies_raw ~ shock_exposure_index + conflict + agency_latent + cohesion_latent +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+summary(l1)
+
+```
+
+# ARSSI 
+
+```{r}
+
+describe(dat$ab)
+
+l1 <- svyglm(ability_recover ~ shock_exposure_index + conflict + agency_latent + cohesion_latent +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+summary(l1)
+
+```
+
+# Informal safety nets
+
+```{r}
+
+describe(dat$grp_latent)
+
+l1 <- svyglm(grp_latent ~ shock_exposure_index + conflict + agency_latent + cohesion_latent +
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+summary(l1)
+
+```
+
+```{r}
+
+```
+
 

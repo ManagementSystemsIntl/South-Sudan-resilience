@@ -1195,6 +1195,8 @@ plotreg(abs10,
 ```{r}
 
 frq(dat$resil_c)
+svyrdat %>%
+  summarize(survey_mean(resil_c, na.rm=T))
 
 abs9 <- svyglm(resil_c ~ grp_facs_comp + bonding_capital_raw + q_401_r_bin + 
                ews_comp + emerg_sum + donor_act +
@@ -1287,7 +1289,8 @@ ggsave(here("output/viz/models/absorp recover.png"),
 ```
 
 ```{r}
-l1 <- svyolr(ordered(ability_recover) ~ absorp_latent + conflict + shock_exposure_index + as.factor(county),
+l1 <- svyolr(ordered(ability_recover) ~ absorp_latent + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
              method="probit",
              design=svyrdat)
 summary(l1)
@@ -1295,17 +1298,125 @@ summary(l1)
 ```
 
 ```{r}
-l2 <- svyglm(fies4_fac_resc ~ absorp_latent + conflict + shock_exposure_index + as.factor(county),
+l2 <- svyglm(fies4_fac_resc ~ absorp_latent + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
              design=svyrdat)
 summary(l2)
 
 ```
 ```{r}
-l3 <- svyglm(q_432 ~ absorp_latent + conflict + shock_exposure_index + as.factor(county),
+describe(dat$absorp_latent_resc)
+
+l3 <- svyglm(q_432 ~ absorp_latent_resc + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
              design=svyrdat)
 summary(l3)
 
 ```
+```{r}
+l3_marg <- cplot(l3)
+```
+
+
+```{r}
+describe(dat$q_432)
+svyrdat %>%
+  summarize(absorp = survey_mean(absorp_latent_resc, na.rm=T),
+            hungry = survey_mean(q_432, na.rm=T))
+
+l3_marg
+
+```
+
+```{r}
+
+ggplot(l3_marg, aes(xvals, yvals)) + 
+  geom_vline(xintercept=32.5, color="darkgoldenrod3", size=1) +
+  stat_smooth(color=medium_blue, size=1) +
+  stat_smooth(aes(y=lower), linetype="dotdash", color=medium_blue, alpha=.6) +
+  stat_smooth(aes(y=upper), linetype="dotdash", color=medium_blue, alpha=.6) +
+  scale_x_continuous(breaks=seq(0,100,10)) +
+  scale_y_continuous(limits=c(.6,1),
+                     breaks=seq(.6,1,.05),
+                     labels=percent_format(accuracy=1)) +
+  geom_segment(aes(y=0, yend=.91, x=32, xend=33), color="darkgoldenrod3") +
+  labs(x="Absorptive Resilience Capacity",
+       y="Went to\nbed hungry") +
+  theme(axis.title.y=element_text(angle=0, vjust=.5))
+
+ggsave(here("output/models/Absorptive hungry.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r}
+
+l3_dis <- svyglm(q_432 ~ grp_latent + bonding_fac + q_401_r_bin + 
+               ews_latent + emerg_fac + donor_act +
+               shock_exposure_index + conflict + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+
+summary(l3_dis)
+
+describe(dat$shock)
+
+```
+```{r}
+
+l3_dis_t <- tidy(l3_dis) %>%
+    mutate(lower = estimate - 1.96*std.error,
+           upper = estimate + 1.96*std.error,
+           color=case_when(lower > 0 ~ "#002F6C",
+                           upper < 0 ~ "#BA0C2F",
+                           TRUE ~ "#8C8985")) %>%
+  .[1:12,] %>%
+  filter(term!="(Intercept)") %>%
+  mutate(term2 = c("Group participation (-1 to 3)",
+                   "Bonding social capital (-1 to 1.5)",
+                   "Access to remittances",
+                   "Early warning systems (-1 to 2)",
+                   "Emergency planning (-1 to 2)",
+                   "Humanitarian assistance",
+                   "Shock exposure (0-128)",
+                   "Experienced conflict",
+                   "Household size",
+                   "Female-headed household",
+                   "Urban locality")) %>%
+  select(term, term2, everything())
+
+l3_dis_t
+
+describe(dat$emerg_fac)
+
+```
+
+```{r}
+ggplot(l3_dis_t, aes(x=estimate, y=fct_reorder(term2, -estimate)), color = color, fill = color) +
+    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
+    geom_errorbarh(aes(xmin=lower, xmax=upper), color=l3_dis_t$color, height=0, size=1.2, alpha = 0.7) +
+    geom_label(aes(label=paste(round(estimate,3)*100, "%", sep="")),color = l3_dis_t$color, size=4.5) +
+    scale_x_continuous(breaks=seq(-.15,.1,.05),
+                       limits=c(-.15,.1),
+                       labels = scales::percent_format(accuracy=1)) +
+    labs(x = "", y = "")
+
+#,
+         title="Absorptive capacity measures\nand food insecurity")
+#, 
+         caption="Outcome is the probability of the household reporting that members\nof the household went to bed hungry in the previous 30 days\n\nOutcome mean 88%")
+
+ggsave(here("output/viz/models/absorptive hungry regplot.png"),
+            device="png",
+            type="cairo",
+            height=5,
+            width=7)
+```
+
+
 
 
 ### Absorptive capacity by county
