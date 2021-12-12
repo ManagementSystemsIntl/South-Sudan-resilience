@@ -333,5 +333,17 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 conf_key <- read_csv("output/tables/conf_key.csv")
  
 conf_key 
- 
-  
+
+res_labs <- c("Dialogue",
+              "Alternative dispute resolution",
+              "Traditional elders",
+              "Faith-based organization",
+              "Judiciary",
+              "Police/Army",
+              "UN",
+              "Other")
+
+res_key <- data.frame(res_num=1:8,
+                      res_lab=res_labs)
+
+res_key  

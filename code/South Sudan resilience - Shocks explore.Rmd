@@ -1664,25 +1664,673 @@ write_csv(conf_cnty_types, here("output/tables/shocks/conflict types by county w
 
 ```
 
+## severity
+
+```{r}
+frq(dat$q_603_clean)
+```
+
+```{r}
+frq(dat$q_605)
+```
 
 
+```{r}
+frq(dat$q_606)
+```
 
 
+```{r}
+svyrdat %>%
+  group_by(county) %>%
+  summarize(a = survey_mean(q_606, na.rm=T)) %>%
+  arrange(desc(a))
+```
+
+```{r}
+frq(dat$q_602_1)
+```
+
+```{r}
+dat <- dat %>%
+  mutate(conf_impact = ifelse(q_603_clean>2, 1,0),
+         trad_res = ifelse(q_605==3, 1,0),
+         trad_sats = ifelse(q_606>2, 1,0),
+         land_conf_sev = q_602_1 * q_603_clean,
+         water_conf_sev = q_602_2 * q_603_clean,
+         pasture_conf_sev = q_602_3 * q_603_clean,
+         forestry_conf_sev = q_602_4 * q_603_clean,
+         cattle_conf_sev = q_602_5 * q_603_clean,
+         goat_conf_sev = q_602_6 * q_603_clean,
+         migration_conf_sev = q_602_7 * q_603_clean,
+         boundary_conf_sev = q_602_8 * q_603_clean,
+         revenge_conf_sev = q_602_9 * q_603_clean,
+         dowry_conf_sev = q_602_10 * q_603_clean,
+         elope_conf_sev = q_602_11 * q_603_clean,
+         cattleraid_conf_sev = q_602_12 * q_603_clean,
+         fishgrudge_conf_sev = q_602_13 * q_603_clean,
+         gbv_conf_sev = q_602_14 * q_603_clean,
+         livelihood_conf_sev = q_602_15 * q_603_clean,
+         ag_conf_sev = q_602_16 * q_603_clean)
+
+frq(dat$q_602_1)
+frq(dat$conf_impact)
+frq(dat$q_605)
+frq(dat$trad_res)
+```
+
+```{r}
+svyrdat %>%
+  group_by(county) %>%
+  summarize(conf_impact=survey_mean(conf_impact, vartype="ci", na.rm=T),
+            trad_sats = survey_mean(trad_sats, vartype="ci", na.rm=T)) %>%
+  arrange(desc(trad_sats))
+```
 
 
+```{r}
+frq(dat$land_conf_sev)
+
+```
+
+```{r}
+frq(dat$q_601)
+frq(dat$q_602_1)
+
+conf_sev_temp <- svyrdat %>%
+  summarize(conf_land_conf_sev = survey_mean(land_conf_sev, na.rm=T),
+            conf_water_conf_sev = survey_mean(water_conf_sev, na.rm=T),
+            conf_pasture_conf_sev = survey_mean(pasture_conf_sev, na.rm=T),
+            conf_forestry_conf_sev = survey_mean(forestry_conf_sev, na.rm=T),
+            conf_cattle_conf_sev = survey_mean(cattle_conf_sev, na.rm=T),
+            conf_goat_conf_sev = survey_mean(goat_conf_sev, na.rm=T),
+            conf_migration_conf_sev = survey_mean(migration_conf_sev, na.rm=T),
+            conf_boundary_conf_sev = survey_mean(boundary_conf_sev, na.rm=T),
+            conf_revenge_conf_sev = survey_mean(revenge_conf_sev, na.rm=T),
+            conf_dowry_conf_sev = survey_mean(dowry_conf_sev, na.rm=T),
+            conf_elope_conf_sev = survey_mean(elope_conf_sev, na.rm=T),
+            conf_raid_conf_sev = survey_mean(cattleraid_conf_sev, na.rm=T),
+            conf_fishing_conf_sev = survey_mean(fishgrudge_conf_sev, na.rm=T),
+            conf_gbv_conf_sev = survey_mean(gbv_conf_sev, na.rm=T),
+            conf_livelihood_conf_sev = survey_mean(livelihood_conf_sev, na.rm=T),
+            conf_ag_conf_sev = survey_mean(ag_conf_sev, na.rm=T))
+
+conf_sev_temp
 
 
+```
 
 
+```{r}
+conf_sev_mn <- conf_sev_temp %>%
+  select(!contains("sev_se")) %>%
+  melt() 
+
+%>%
+  as.data.frame() %>%
+  rownames_to_column("conflict") %>%
+  rename(percent=V1)
+
+conf_types_mn
+
+conf_types_se <- conf_temp %>%
+  select(contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("conflict") %>%
+  rename(se=V1)
+
+conf_types_se
+
+conf_types <- conf_types_mn %>%
+  cbind(conf_types_se[,2]) %>%
+  rename(se=3) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         conf_lab=conf_labs) %>%
+  select(1,6,everything()) %>%
+  arrange(desc(percent))
 
 
+conf_types
+
+```
+
+```{r}
+ggplot(conf_types, aes(x=percent, y=fct_reorder(conf_lab, percent))) + 
+#  geom_point() + 
+  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=medium_blue, ) + 
+  geom_label(aes(label=paste(round(percent,2)*100, "%", sep="")), 
+             size=5, color="white", fill=medium_blue, label.padding = unit(.17, "lines")) +
+  scale_x_continuous(labels=percent,
+                     limits=c(0,1),
+                     breaks=seq(0,1,.2)) + 
+  labs(x="",
+       y="")
+
+ggsave(here("output/viz/conflicts weighted.png"),
+       device="png",
+       type="cairo",
+       height=5,
+       width=7)
+```
 
 
+```{r}
+land_conf <- svyrdat %>%
+  summarize(conflict="land",
+            percent=survey_mean(q_602_1, na.rm=T, vartype="ci"))
+
+land_conf
+#se .0246
+.0246*1.96
+.376-.0482
+frq(dat$q_601)  
+  mutate(conflict = "land",
+         percent = case_when(q_602==1 ~ ))
+```
+
+## How resolved, by conflict type
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+### function
+
+```{r}
+conf_res <- function(item, group, conflict) {
+  out <- svyrdat %>%
+    filter({{item}}==1) %>%
+    group_by({{group}}) %>%
+    summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+    na.omit() %>%
+    mutate(conflict={{conflict}},
+           res_lab=res_labs)
+  
+  out
+}
+```
+
+test 
+
+```{r}
+land_conf_test <- conf_res(q_602_1, q_605, "land")
+land_conf_test
+```
+
+```{r}
+water_conf_test <- conf_res(q_602_2, q_605, "water")
+water_conf_test
+```
+
+```{r}
+pasture_conf_test <- conf_res(q_602_3, q_605, "pasture")
+pasture_conf_test
+```
+
+```{r}
+forest_conf_test <- conf_res(q_602_4, q_605, "forest")
+forest_conf_test
+```
+
+```{r}
+cattle_conf_test <- conf_res(q_602_5, q_605, "cattle")
+cattle_conf_test
+```
+
+```{r}
+goat_conf_test <- conf_res(q_602_6, q_605, "goat")
+goat_conf_test
+```
+
+```{r}
+migration_conf_test <- conf_res(q_602_7, q_605, "migration")
+migration_conf_test
+```
+
+```{r}
+boundary_conf_test <- conf_res(q_602_8, q_605, "boundary")
+boundary_conf_test
+```
+
+```{r}
+revenge_conf_test <- conf_res(q_602_9, q_605, "revenge")
+revenge_conf_test
+```
+
+```{r}
+dowry_conf_test <- conf_res(q_602_10, q_605, "dowry")
+dowry_conf_test
+```
+
+```{r}
+elope_conf_test <- conf_res(q_602_11, q_605, "elope")
+elope_conf_test
+```
+
+```{r}
+cattleraid_conf_test <- conf_res(q_602_12, q_605, "cattleraid")
+cattleraid_conf_test
+```
+
+```{r}
+fishing_conf_test <- conf_res(q_602_13, q_605, "fishing")
+fishing_conf_test
+```
+
+```{r}
+gbv_conf_test <- conf_res(q_602_14, q_605, "gbv")
+gbv_conf_test
+```
+
+```{r}
+livelihood_conf_test <- conf_res(q_602_15, q_605, "livelihood")
+livelihood_conf_test
+```
+
+```{r}
+ag_conf_test <- conf_res(q_602_16, q_605, "agriculture")
+ag_conf_test
+```
+
+```{r}
+res <- do.call(rbind, list(land_conf_test,
+                           water_conf_test,
+                           pasture_conf_test,
+                           forest_conf_test,
+                           cattle_conf_test,
+                           goat_conf_test,
+                           migration_conf_test,
+                           boundary_conf_test,
+                           revenge_conf_test,
+                           dowry_conf_test,
+                           elope_conf_test,
+                           cattleraid_conf_test,
+                           fishing_conf_test,
+                           gbv_conf_test,
+                           livelihood_conf_test,
+                           ag_conf_test)) 
+res
+```
 
 
+```{r}
+
+resW <- res %>%
+  select(2,5,6) %>%
+  pivot_wider(names_from="res_lab",
+              values_from="coef")
+  
+
+resW
+
+write_csv(resW, here("output/tables/conflict resolution entity by type.csv"))
+
+```
 
 
+### no function
 
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+water_res <- svyrdat %>%
+  filter(q_602_2==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="water",
+         res_lab=res_labs)
+
+water_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+```{r}
+land_res <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  group_by(q_605) %>%
+  summarize(survey_mean(vartype="ci", na.rm=T)) %>%
+  na.omit() %>%
+  mutate(conflict="land",
+         res_lab=res_labs)
+
+land_res
+
+```
+
+## Impact and elder satisfaction, by conflict type
+
+```{r}
+land_conf_sev <- svyrdat %>%
+  filter(q_602_1==1) %>%
+  mutate(conflict="land") %>%
+  summarize(conf_impact=survey_mean(conf_impact, vartype="ci", na.rm=T),
+            trad_res = survey_mean(trad_res, vartype="ci", na.rm=T),
+            trad_sats = survey_mean(trad_sats, vartype="ci", na.rm=T)) %>%
+  arrange(desc(trad_sats)) %>%
+  mutate(conflict="land") %>%
+  select(7,everything())
+
+land_conf_sev
+
+```
+
+```{r}
+water_conf <- svyrdat %>%
+  filter(q_602_2==1) %>%
+  summarize(conf_impact=survey_mean(conf_impact, vartype="ci", na.rm=T),
+            
+            trad_satis = survey_mean(trad_sats, vartype="ci", na.rm=T)) %>%
+  arrange(desc(trad_sats)) %>%
+  mutate(conflict="water") %>%
+  select(7,everything())
+
+water_conf
+```
+
+
+### function
+
+```{r}
+
+conf_sev <- function(item, conflict) {
+  out <- svyrdat %>%
+  filter({{item}}==1) %>%
+  mutate(conflict={{conflict}}) %>%
+  summarize(conf_impact=survey_mean(conf_impact, vartype="ci", na.rm=T),
+            trad_res = survey_mean(trad_res, vartype="ci", na.rm=T),
+            trad_sats = survey_mean(trad_sats, vartype="ci", na.rm=T)) %>%
+  arrange(desc(trad_sats)) %>%
+  mutate(conflict={{conflict}}) %>%
+  select(7,everything())
+  
+  out
+}
+
+```
+
+```{r}
+land_sev <- conf_sev(q_602_1, "land")
+land_sev
+```
+
+```{r}
+water_sev <- conf_sev(q_602_2, "water")
+water_sev
+```
+
+```{r}
+pasture_sev <- conf_sev(q_602_3, "pasture")
+pasture_sev
+```
+
+```{r}
+forest_sev <- conf_sev(q_602_4, "forest")
+forest_sev
+```
+
+```{r}
+cattle_sev <- conf_sev(q_602_5, "cattle")
+cattle_sev
+```
+
+```{r}
+goat_sev <- conf_sev(q_602_6, "goat")
+goat_sev
+```
+
+```{r}
+migration_sev <- conf_sev(q_602_7, "migration")
+migration_sev
+```
+
+```{r}
+boundary_sev <- conf_sev(q_602_8, "boundary")
+boundary_sev
+```
+
+```{r}
+revenge_sev <- conf_sev(q_602_9, "revenge")
+revenge_sev
+```
+
+```{r}
+dowry_sev <- conf_sev(q_602_10, "dowry")
+dowry_sev
+```
+
+```{r}
+elope_sev <- conf_sev(q_602_11, "elope")
+elope_sev
+```
+
+```{r}
+cattleraid_sev <- conf_sev(q_602_12, "cattleraid")
+cattleraid_sev
+```
+
+```{r}
+fishing_sev <- conf_sev(q_602_13, "fishing")
+fishing_sev
+```
+
+
+```{r}
+gbv_sev <- conf_sev(q_602_14, "gbv")
+gbv_sev
+```
+
+```{r}
+livelihood_sev <- conf_sev(q_602_15, "livelihood")
+livelihood_sev
+```
+
+```{r}
+ag_sev <- conf_sev(q_602_16, "agriculture")
+ag_sev
+```
+
+```{r}
+conf_sev <- do.call(rbind, list(land_sev,
+                                water_sev,
+                                pasture_sev,
+                                forest_sev,
+                                cattle_sev,
+                                goat_sev,
+                                migration_sev,
+                                boundary_sev,
+                                revenge_sev,
+                                dowry_sev,
+                                elope_sev,
+                                cattleraid_sev,
+                                fishing_sev,
+                                gbv_sev,
+                                livelihood_sev,
+                                ag_sev))
+conf_sev
+
+write_csv(conf_sev, here("output/tables/conflict severity by type.csv"))
+
+```
 
 
 
