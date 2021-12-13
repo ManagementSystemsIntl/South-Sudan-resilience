@@ -116,6 +116,8 @@ smpl <- svyrdat %>%
             `Sample`=unweighted(n())) %>%
   select(1,2,4) 
 
+sum(smpl[,2])
+
 smpl_gt <- smpl %>%
   gt() %>%
   fmt_number(2:3,
@@ -133,7 +135,7 @@ dat %>%
             margin = 1.96*std.err)
 ```
 
-Given the clustered nature of the data collection, the complex margin of error overall is 5.9 percent, per the following table: 
+Given the clustered nature of the data collection, the complex margin of error for the variable resil_c (government ability to support communities) is 4.4 percent, per the following table: 
 
 ```{r}
 svymean(~resil_c,
@@ -145,7 +147,7 @@ svymean(~resil_c,
          deft=sqrt(deff))
 ```
 
-Across county, the simple margin of error ranges from 3.5 - 5.5 percent, per the following table: 
+Across county, the simple margin of error for the variable resil_c ranges from 3.5 - 5.5 percent, per the following table: 
 
 ```{r}
 dat %>%
@@ -163,6 +165,26 @@ svyrdat %>%
   summarize(mn=survey_mean(resil_c, na.rm=T)) %>%
   mutate(margin=1.96*mn_se)
 ```
+
+
+```{r}
+svymean(~donor_act,
+        na.rm=T,
+        deff="replace",
+        design=svydat) %>%
+  as.data.frame() %>%
+  mutate(Margin = 1.96*donor_act,
+         deft=sqrt(deff))
+```
+
+
+```{r}
+svyrdat %>%
+  group_by(county) %>%
+  summarize(mn=survey_mean(donor_act, na.rm=T)) %>%
+  mutate(margin=1.96*mn_se)
+```
+
 
 In the exploratory analysis that follows, both weighted or unweighted frequencies may be used. Generally speaking, when reporting an overall measure such as a mean or frequency, weighted measures should be considered as the estimates of their respective population parameters. In other cases where interest may be more in how the measures vary across disaggregations of interest, unweighted measures may be used. 
 

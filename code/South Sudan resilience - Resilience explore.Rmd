@@ -536,6 +536,178 @@ ggplot(fa_inc_5_ldngs, aes(x=loading, y=reorder(inc_code, desc(inc_code)), color
 
 
 
+### Inc factors, by ranking
+
+```{r}
+library(sjPlot)
+
+frq(dat$q_402_a)
+frq(dat$q_402_a_bin)
+
+inc_rank <- dat %>%
+  select(q_402_a,
+         q_402_b,
+         q_402_c,
+         q_402_d,
+         q_402_e,
+         q_402_f,
+         q_402_g,
+         q_402_h,
+         q_402_i,
+         q_402_j,
+         q_402_k,
+         q_402_l,
+         q_402_m,
+         q_402_n,
+         q_402_o,
+         q_402_p,
+         q_402_q,
+         q_402_r,
+         q_402_s,
+         q_402_t)
+
+map(inc_rank, frq)
+#sjt.stackfrq(inc)
+
+```
+
+```{r}
+inc_rank[is.na(inc_rank)] <- 0
+
+# inc_rank[inc_rank==3] <- 6
+# 
+# inc_rank[inc_rank==2] <- 4
+# 
+# inc_rank[is.na(inc_rank)] <- 0
+
+```
+
+
+
+```{r}
+inc_labs
+inc_rank2 <- dat %>%
+  mutate(farm_rank = ifelse(is.na(q_402_a), 0,
+                            ifelse(q_402_a!=0, 4-q_402_a, 0)),
+         cattle_rank = ifelse(is.na(q_402_b), 0,
+                            ifelse(q_402_b!=0, 4-q_402_b, 0)),
+         goat_rank = ifelse(is.na(q_402_c), 0,
+                            ifelse(q_402_c!=0, 4-q_402_c, 0)),
+         sheep_rank = ifelse(is.na(q_402_d), 0,
+                            ifelse(q_402_d!=0, 4-q_402_d, 0)),
+         fish_rank = ifelse(is.na(q_402_e), 0,
+                            ifelse(q_402_e!=0, 4-q_402_e, 0)),
+         agwage_in_rank = ifelse(is.na(q_402_f), 0,
+                             ifelse(q_402_f!=0, 4-q_402_f, 0)),
+         agwage_out_rank = ifelse(is.na(q_402_g), 0,
+                            ifelse(q_402_g!=0, 4-q_402_g, 0)),
+         wage_in_rank = ifelse(is.na(q_402_h), 0,
+                            ifelse(q_402_h!=0, 4-q_402_h, 0)),
+         wage_out_rank = ifelse(is.na(q_402_i), 0,
+                            ifelse(q_402_i!=0, 4-q_402_i, 0)),
+         salary_rank = ifelse(is.na(q_402_j), 0,
+                            ifelse(q_402_j!=0, 4-q_402_j, 0)),
+         bush_rank = ifelse(is.na(q_402_k), 0,
+                            ifelse(q_402_k!=0, 4-q_402_k, 0)),
+         honey_rank = ifelse(is.na(q_402_l), 0,
+                            ifelse(q_402_l!=0, 4-q_402_l, 0)),
+         petty_other_rank = ifelse(is.na(q_402_m), 0,
+                            ifelse(q_402_m!=0, 4-q_402_m, 0)),
+         petty_own_rank = ifelse(is.na(q_402_n), 0,
+                            ifelse(q_402_n!=0, 4-q_402_n, 0)),
+         other_ag_rank = ifelse(is.na(q_402_o), 0,
+                            ifelse(q_402_o!=0, 4-q_402_o, 0)),
+         other_nonag_rank = ifelse(is.na(q_402_p), 0,
+                            ifelse(q_402_p!=0, 4-q_402_p, 0)),
+         rent_rank = ifelse(is.na(q_402_q), 0,
+                            ifelse(q_402_q!=0, 4-q_402_q, 0)),
+         remit_rank = ifelse(is.na(q_402_r), 0,
+                            ifelse(q_402_r!=0, 4-q_402_r, 0)),
+         gift_rank = ifelse(is.na(q_402_s), 0,
+                            ifelse(q_402_s!=0, 4-q_402_s, 0)),
+         safety_rank = ifelse(is.na(q_402_t), 0,
+                            ifelse(q_402_t!=0, 4-q_402_t, 0)),
+         ) %>%
+  select(farm_rank:safety_rank)
+         
+lapply(inc_rank2, mean)         
+
+
+
+
+```
+
+```{r}
+fa.parallel(inc_rank2,
+            cor="poly")
+```
+8 factors, 5 components
+
+```{r}
+fa_incrank2_8 <- fa(inc_rank2,
+                    cor="poly",
+                    nfactors=8,
+                    scores="tenBerge",
+                    fm="ml")
+
+fa_incrank2_8
+
+```
+
+ML6: goats, sheep, cattle
+
+ML7: other ag, other non ag, petty trade other
+
+ML5: rent, remittances, salary
+
+ML4: ag wage in village, ag wage out of village
+
+ML1: wage out of village
+
+ML3: farmer
+
+ML8: honey, gift, fish
+
+ML2: petty trade own goods
+
+```{r}
+fa_incrank2_8_scrs <- fa_incrank2_8$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+
+dat <- dat %>%
+  mutate(incrank_fac_livestock = fa_incrank2_8_scrs$ML6,
+         incrank_fac_selfemployed = fa_incrank2_8_scrs$ML7,
+         incrank_fac_rentremitsal = fa_incrank2_8_scrs$ML5,
+         incrank_fac_agwage = fa_incrank2_8_scrs$ML4,
+         incrank_fac_wageout = fa_incrank2_8_scrs$ML1,
+         incrank_fac_farm = fa_incrank2_8_scrs$ML3,
+         incrank_fac_honeygiftfish = fa_incrank2_8_scrs$ML8,
+         incrank_fac_pettytradeown = fa_incrank2_8_scrs$ML2)
+
+
+```
+
+```{r}
+l1 <- svyglm(fies_raw ~ 
+               incrank_fac_livestock + 
+               incrank_fac_selfemployed +
+               incrank_fac_rentremitsal +
+               incrank_fac_agwage +
+               incrank_fac_wageout +
+               incrank_fac_farm + 
+               incrank_fac_honeygiftfish +
+               incrank_fac_pettytradeown + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svydat)
+
+summary(l1)
+
+```
+
+
+
 ### Shock preparedness and mitigation
 
 Nothing from the TANGO manual, but from our instrument we have early warning systems and emergency action plans

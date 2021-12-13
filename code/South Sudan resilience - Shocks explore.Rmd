@@ -2332,8 +2332,45 @@ write_csv(conf_sev, here("output/tables/conflict severity by type.csv"))
 
 ```
 
+## Conflict factors
 
+```{r}
+frq(dat$q_602_1)
 
+conf <- dat %>%
+  select(q_602_1:q_602_16)
+
+conf[is.na(conf)] <- 0
+
+fa.parallel(conf,
+            cor="tet")
+
+```
+4 factors, 1 component
+
+```{r}
+fa_conf_4 <- fa(conf,
+                cor="tet",
+                nfactors=4,
+                scores="tenBerge",
+                fm="ML")
+
+fa_conf_4
+```
+
+```{r}
+fa_conf_4_ldngs <- as.matrix(fa_conf_4$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:5) %>%
+  mutate(conf_lab=conf_labs) %>%
+  select(1,6,everything()) 
+
+fa_conf_4_ldngs
+
+```
+ML1: water, pasture, cattle, goat, migration, revenge, dowry
 
 
 

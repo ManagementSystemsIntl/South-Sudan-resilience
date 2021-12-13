@@ -951,12 +951,6 @@ ggplot(dat, aes(y=fies_raw)) +
   stat_smooth(aes(x=inc_fac_safetynet), color=usaid_red, se=F, span=.9, size=2) + 
   labs(x="Property rental (grey)\nSafety nets (red)",
        y="")
-
-ggsave(here("output/viz/food security/income groups and food security.png"),
-            device="png",
-            type="cairo",
-            height=4,
-            width=7)
 ```
 ```{r}
 l1 <- svyglm(fies_raw ~ inc_fac_livestocksales + inc_fac_pettytrade + inc_fac_agwage + inc_fac_wage + inc_fac_proprent + inc_fac_farmer + inc_fac_safetynet + 
@@ -967,96 +961,4 @@ summary(l1)
 
 describe(dat$fac_inc_livestocksales)
 ```
-
-## Rank of income sources
-
-```{r}
-names(inc)
-
-```
-
-```{r}
-inc_labs
-```
-
-
-```{r}
-inc_temp <- svyrdat %>%
-  summarize(farm = survey_mean(q_401_a_bin, na.rm=T),
-            cattle = survey_mean(q_401_b_bin, na.rm=T),
-            goat = survey_mean(q_401_c_bin, na.rm=T),
-            sheep = survey_mean(q_401_d_bin, na.rm=T),
-            fish = survey_mean(q_401_e_bin, na.rm=T),
-            agwage_in = survey_mean(q_401_f_bin, na.rm=T),
-            agwage_out = survey_mean(q_401_g_bin, na.rm=T),
-            wage_in = survey_mean(q_401_h_bin, na.rm=T),
-            wage_out = survey_mean(q_401_i_bin, na.rm=T),
-            salary = survey_mean(q_401_j_bin, na.rm=T),
-            bush = survey_mean(q_401_k_bin, na.rm=T),
-            honey = survey_mean(q_401_l_bin, na.rm=T),
-            petty_other = survey_mean(q_401_m_bin, na.rm=T),
-            petty_own = survey_mean(q_401_n_bin, na.rm=T),
-            otherself_ag = survey_mean(q_401_o_bin, na.rm=T),
-            otherself_nonag = survey_mean(q_401_p_bin, na.rm=T),
-            rent = survey_mean(q_401_q_bin, na.rm=T),
-            remit = survey_mean(q_401_r_bin, na.rm=T),
-            gift = survey_mean(q_401_s_bin, na.rm=T),
-            safety = survey_mean(q_401_t_bin, na.rm=T))
-            
-inc_temp
-
-inc_mn <- inc_temp %>%
-  select(!contains("_se")) %>%
-  melt() %>%
-  rename(percent=value)
-
-inc_mn
-
-
-inc_se <- inc_temp %>%
-  select(contains("_se")) %>%
-  melt() %>%
-  rename(se=value)
-
-inc_se
-
-incs <- inc_mn %>%
-  cbind(inc_se[,2]) %>%
-  rename(se=3) %>%
-  mutate(lower=percent-1.96*se,
-         upper=percent+1.96*se,
-         inc_lab=inc_labs) %>%
-  select(income=1, 6, everything()) %>%
-  arrange(desc(percent))
-
-incs
-
-```
-
-```{r}
-
-ggplot(incs, aes(x=percent, y=fct_reorder(inc_lab, percent))) + 
-  geom_vline(xintercept=c(4,6), size=1, linetype="dashed", color=dark_grey) +
-  geom_errorbar(aes(xmin=lower, xmax=upper), width=0, size=1, color=light_blue) +
-#  geom_point(size=3, color=light_blue) +
-  geom_label(aes(label=paste(round(percent,3)*100, "%", sep="")), 
-             color=medium_blue,
-             label.padding=unit(.125, "lines")) +
-  labs(x="",
-       y="") + 
-  scale_x_continuous(limits=c(0,1),
-                     breaks=seq(0,1,.2),
-                     labels=percent) 
-
-
-ggsave(here("output/viz/income sources ranked.png"),
-       device="png",
-       type="cairo",
-       height=5.5,
-       width=7)
-
-```
-
-## Income factors, using ranked sources
-
 
