@@ -812,6 +812,36 @@ map(diet, frq)
 ```{r}
 ltm_diet <- ltm(diet ~ z1)
 ltm_diet
+
+ltm_diet$IRT.param
+
+```
+
+```{r}
+
+ltm_diet$IRT.param
+
+coef(ltm_diet)
+
+ltm_diet_out <- coef(ltm_diet) %>%
+  as.data.frame() %>%
+  mutate(food = diet_labs) %>%
+  rownames_to_column("item") %>%
+  select(1,4,difficulty=2,discrimination=3)
+
+ltm_diet_out
+
+write_csv(ltm_diet_out, here("output/tables/food insecurity/diet irt.csv"))
+
+ltm_diet_gt <- ltm_diet_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_diet_gt
+
+gtsave(ltm_diet_gt, here("output/tables/food insecurity/diet irt.rtf"))
+
 ```
 
 ```{r}
@@ -1494,6 +1524,11 @@ frq(dat$q_601)
 ```
 
 ```{r}
+
+frq(dat$conflict)
+svymean(~q_601,
+        na.rm=T,
+        design=svydat)
 
 conflict_mn <- svyrdat %>%
   group_by() %>%

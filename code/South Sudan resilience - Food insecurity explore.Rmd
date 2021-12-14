@@ -549,9 +549,23 @@ foods <- foods_mn %>%
   mutate(lower=percent-1.96*se,
          upper=percent+1.96*se,
          food_lab=diet_labs) %>%
-  select(food=1, 6, everything())
+  select(food=1, 6, everything()) %>%
+  arrange(desc(percent))
 
 foods
+
+write_csv(foods, here("output/tables/food insecurity/foods weighted.csv"))
+
+foods_gt <- foods %>%
+  select(2:3) %>%
+  gt() %>%
+  fmt_percent(2,
+              decimals=1)
+
+foods_gt  
+
+gtsave(foods_gt,
+       here("output/tables/food insecurity/foods weighted.rtf"))
 
 ```
 
@@ -606,6 +620,26 @@ fa_diet_6_ldngs <- fa_diet_6$loadings %>%
   select(1,8,2:7)
 
 fa_diet_6_ldngs
+
+write_csv(fa_diet_6_ldngs, here("output/tables/food insecurity/hdds factor loadings.csv"))
+
+diet6_ldngs <- fa_diet_6_ldngs %>%
+  gt() %>%
+  fmt_number(3:8, decimals=3) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue")
+    ),
+    locations = cells_body(
+      columns = ML3,
+      rows = ML3 > .3999
+    ))
+
+diet6_ldngs
+
+
+gtsave(diet6_ldngs, here("output/tables/food insecurity/hhds factor loadings.rtf"))
+
 ```
 
 ML3: meat, bush meat, organ meat, eggs, seafood
