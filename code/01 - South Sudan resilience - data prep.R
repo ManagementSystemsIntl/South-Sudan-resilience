@@ -30,6 +30,7 @@ dat <- dat %>%
 
 frq(dat$locality)
 frq(dat$urban)
+frq(dat$hh_sex)
 
 # food insecurity ---- 
 
@@ -45,7 +46,7 @@ svyrdat %>%
 svyrdat %>%
   survey_mean(fies_severe)
 
-# aspirations ---- 
+# Personal agency ---- 
 
 dat <- dat %>%
   mutate(asp1 = ifelse(q_629==1, 1,0),
@@ -63,13 +64,78 @@ dat <- dat %>%
          aspirations_index2_cen = scale(aspirations_index2),
          q636_bin = ifelse(q_636>3, 1,0),
          q637_bin = ifelse(q_637>3, 1,0),
-         q638_bin = ifelse(q_638>3, 1,0))
+         q638_bin = ifelse(q_638>3, 1,0)) %>%
+  rowwise() %>%
+  summarize(loc_sum = sum(c(q636_bin, q637_bin,q638_bin), na.rm=T)) %>%
+  ungroup()
 
 frq(dat$aspirations_index2)
 frq(dat$q638_bin)
-frq(dat$q_638)
+frq(dat$loc_sum)
 
-# social norms ---- 
+## aspirations comp ---- 
+
+reflects the result of exploratory analysis from markdown file
+
+asp <- dat %>%
+  select(asp1:asp6)
+
+asp_pc <- principal(asp,
+                    cor="tet")
+
+asp_pc_scrs <- asp_pc$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(aspirations_comp = asp_pc_scrs$PC1,
+         aspirations_comp_resc = scales::rescale(aspirations_comp, to = c(0,100)))
+
+## locus of control comp ---- 
+
+loc_pc <- dat %>%
+  select(q_636:q_638) %>%
+  principal(cor="poly")
+
+loc_pc
+
+loc_pc_scrs <- loc_pc$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(loc_comp = loc_pc_scrs$PC1,
+         loc_comp_resc = scales::rescale(loc_comp, to=c(0,100)))
+
+
+## agency latent ---- 
+
+dat %>%
+  select(aspirations_comp,
+         loc_comp) %>%
+  fa.parallel()
+
+agency_fa <- dat %>%
+  select(aspirations_comp,
+         loc_comp) %>%
+  fa(scores="tenBerge",
+     fm="ml")
+
+agency_fa
+
+agency_fa_scrs <- agency_fa$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(agency_latent = agency_fa_scrs$ML1,
+         agency_latent_resc = scales::rescale(agency_latent, c(0,100)))
+
+
+# Social cohesion 
+
+
+# Social norms ---- 
 
 frq(dat$q_802)
 frq(dat$q_802_bin)
@@ -161,24 +227,25 @@ dat <- dat %>%
          #shock_death = ifelse(is.na(q_484), 0, q_484),
          shock_nosell = q_477,
          shock_illness = q_480,
-         shock_death = q_484,
-         shocks = shock_flood + 
-           shock_drought + 
-           shock_erosion + 
-           shock_lostland + 
-           shock_foodprice + 
-           shock_theft + 
-           shock_cropinputs + 
-           shock_cropdisease + 
-           shock_croppests + 
-           shock_croptheft + 
-           shock_livestockinputs + 
-           shock_livestockdisease + 
-           shock_livestocktheft + 
-           shock_nosell + 
-           shock_illness + 
-           shock_death,
-         ) %>%
+         shock_death = q_484) %>%
+  rowwise() %>%
+  summarize(shocks=sum(c(shock_flood,
+                         shock_drought,
+                         shock_erosion,
+                         shock_lostland,
+                         shock_foodprice,
+                         shock_theft, 
+                         shock_cropinputs, 
+                         shock_cropdisease, 
+                         shock_croppests,
+                         shock_croptheft, 
+                         shock_livestockinputs, 
+                         shock_livestockdisease, 
+                         shock_livestocktheft,
+                         shock_nosell,
+                         shock_illness, 
+                         shock_death), na.rm=T)) %>%
+  ungroup() %>%
   rename(littlerain_severity = little_rain_severity,
          lossland_severity = loss_land_severity,
          foodpriceinc_severity = food_price_inc_severity,
@@ -190,50 +257,43 @@ dat <- dat %>%
          livestocktheft_severity = livestock_theft_severity,
          nosell_severity = no_sell_crop_severity)
 
+## shock severity factors
 
-## shocks weighted dataset ---- 
+sev <- dat %>%
+  select(flood_severity:death_severity)
 
-# 
-# dat_wt <- dat_wt %>%
-#   mutate(shock_flood = ifelse(is.na(q_436), 0,q_436),
-#          #flood_ec = q_437,
-#          #flood_cons = q_438,
-#          shock_drought = ifelse(is.na(q_439), 0, q_439),
-#          #drought_ec = q_440,
-#          #drought_cons = q_441,
-#          shock_erosion = ifelse(is.na(q_442), 0, q_442),
-#          shock_lostland = ifelse(is.na(q_445), 0, q_445),
-#          shock_foodprice = ifelse(is.na(q_448), 0, q_448),
-#          shock_theft = ifelse(is.na(q_451), 0, q_451),
-#          shock_cropinputs = ifelse(is.na(q_455), 0, q_455),
-#          shock_cropdisease = ifelse(is.na(q_458), 0, q_458),
-#          shock_croppests = ifelse(is.na(q_461), 0, q_461),
-#          shock_croptheft = ifelse(is.na(q_464), 0, q_464),
-#          shock_livestockinputs = ifelse(is.na(q_468), 0, q_468),
-#          shock_livestockdisease = ifelse(is.na(q_471), 0, q_471),
-#          shock_livestocktheft = ifelse(is.na(q_474), 0, q_474),
-#          #shock_nosell = ifelse(is.na(q_477), 0, q_477),
-#          #shock_illness = ifelse(is.na(q_480), 0, q_480),
-#          #shock_death = ifelse(is.na(q_484), 0, q_484),
-#          shock_nosell = q_477,
-#          shock_illness = q_480,
-#          shock_death = q_484,
-#          shocks = shock_flood + 
-#            shock_drought + 
-#            shock_erosion + 
-#            shock_lostland + 
-#            shock_foodprice + 
-#            shock_theft + 
-#            shock_cropinputs + 
-#            shock_cropdisease + 
-#            shock_croppests + 
-#            shock_croptheft + 
-#            shock_livestockinputs + 
-#            shock_livestockdisease + 
-#            shock_livestocktheft + 
-#            shock_nosell + 
-#            shock_illness + 
-#            shock_death)
+fa.parallel(sev)
+
+fa_sev_5 <- fa(sev,
+               nfactors=5,
+               scores="tenBerge",
+               fm="ml")
+
+fa_sev_5
+
+ML2: crop disease, crop pests, ag inputs, crop theft
+
+ML1: Livestock input, livestock disease, unable to sell, livestock theft
+
+ML3: Erosion, loss of land, flood, food prices
+
+ML5: Illness and death
+
+ML4: Theft
+
+Explains 63 percent of the variance. Fit statistics sufficient (Tucker Lewis .98, RMSEA .044)
+
+fa_sev_5_scores <- fa_sev_5$scores %>%
+  as.data.frame() %>%
+  set_names(nm=c("shock_sev_crops", "shock_sev_livestock","shock_sev_drought", "shock_sev_illdeath", "shock_sev_theft"))
+
+
+dat <- dat %>%
+  mutate(shock_sev_crops=fa_sev_5_scores$shock_sev_crops,
+         shock_sev_livestock = fa_sev_5_scores$shock_sev_livestock,
+         shock_sev_drought=fa_sev_5_scores$shock_sev_drought,
+         shock_sev_illdeath = fa_sev_5_scores$shock_sev_illdeath,
+         shock_sev_theft = fa_sev_5_scores$shock_sev_theft)
 
 ## donor activity ---- 
 
@@ -298,8 +358,42 @@ dat <- dat %>%
 frq(dat$warn_weather)
 frq(dat$warn_sum)
 
+# conflict ---- 
 
-## 6. Emergency action plans ---- 
+dat <- dat %>%
+  mutate(conf_impact = ifelse(q_603_clean>2, 1,0),
+         trad_res = ifelse(q_605==3, 1,0),
+         trad_sats = ifelse(q_606>2, 1,0),
+         land_conf_sev = q_602_1 * q_603_clean,
+         water_conf_sev = q_602_2 * q_603_clean,
+         pasture_conf_sev = q_602_3 * q_603_clean,
+         forestry_conf_sev = q_602_4 * q_603_clean,
+         cattle_conf_sev = q_602_5 * q_603_clean,
+         goat_conf_sev = q_602_6 * q_603_clean,
+         migration_conf_sev = q_602_7 * q_603_clean,
+         boundary_conf_sev = q_602_8 * q_603_clean,
+         revenge_conf_sev = q_602_9 * q_603_clean,
+         dowry_conf_sev = q_602_10 * q_603_clean,
+         elope_conf_sev = q_602_11 * q_603_clean,
+         cattleraid_conf_sev = q_602_12 * q_603_clean,
+         fishgrudge_conf_sev = q_602_13 * q_603_clean,
+         gbv_conf_sev = q_602_14 * q_603_clean,
+         livelihood_conf_sev = q_602_15 * q_603_clean,
+         ag_conf_sev = q_602_16 * q_603_clean)
+
+## conflict factors
+
+frq(dat$q_602_1)
+
+conf <- dat %>%
+  select(q_602_1:q_602_16)
+
+conf[is.na(conf)] <- 0
+
+fa.parallel(conf,
+            cor="tet")
+
+# 6. Emergency action plans ---- 
 
 dat <- dat %>%
   mutate(emerg1 = ifelse(is.na(q_610), 0, q_610),

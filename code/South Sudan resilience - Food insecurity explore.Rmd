@@ -504,6 +504,9 @@ select(q_403:q_419)
 map(diet, frq)
 
 ```
+
+## Diet descriptives
+
 Rank foods eaten
 
 ```{r}
@@ -593,6 +596,38 @@ ggsave(here("output/viz/food security/foods eaten weighted.png"),
 
 ```
 
+## Diet IRT
+
+```{r}
+ltm_diet <- ltm(diet ~ z1)
+ltm_diet
+
+```
+
+```{r}
+
+ltm_diet_out <- coef(ltm_diet) %>%
+  as.data.frame() %>%
+  mutate(food = diet_labs) %>%
+  rownames_to_column("item") %>%
+  select(1,4,difficulty=2,discrimination=3)
+
+ltm_diet_out
+
+write_csv(ltm_diet_out, here("output/tables/food insecurity/diet irt.csv"))
+
+ltm_diet_gt <- ltm_diet_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_diet_gt
+
+gtsave(ltm_diet_gt, here("output/tables/food insecurity/diet irt.rtf"))
+
+```
+
+## Diet factors 
 
 ```{r}
 fa.parallel(diet)
@@ -616,8 +651,10 @@ fa_diet_6_ldngs <- fa_diet_6$loadings %>%
   unclass() %>%
   as.data.frame() %>%
   rownames_to_column("item") %>%
-  mutate(food=diet_labs) %>%
-  select(1,8,2:7)
+  mutate(food=diet_labs,
+         difficulty=ltm_diet_out$difficulty,
+         discrimination=ltm_diet_out$discrimination) %>%
+  select(1,8,2:7,9, 10)
 
 fa_diet_6_ldngs
 

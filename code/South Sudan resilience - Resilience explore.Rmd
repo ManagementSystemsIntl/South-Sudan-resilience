@@ -1486,7 +1486,8 @@ summary(l3)
 
 ```
 ```{r}
-l3_marg <- cplot(l3)
+l3_marg <- cplot(l3) %>%
+  mutate(upper=ifelse(upper>1,1,upper))
 ```
 
 
@@ -1503,6 +1504,7 @@ l3_marg
 ```{r}
 
 ggplot(l3_marg, aes(xvals, yvals)) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper), fill=light_grey, alpha=.4) +
   geom_vline(xintercept=32.5, color="darkgoldenrod3", size=1) +
   stat_smooth(color=medium_blue, size=1) +
   stat_smooth(aes(y=lower), linetype="dotdash", color=medium_blue, alpha=.6) +
@@ -1516,7 +1518,7 @@ ggplot(l3_marg, aes(xvals, yvals)) +
        y="Went to\nbed hungry") +
   theme(axis.title.y=element_text(angle=0, vjust=.5))
 
-ggsave(here("output/models/Absorptive hungry.png"),
+ggsave(here("output/models/Absorptive hungry ribbon.png"),
        device="png",
        type="cairo",
        height=4,

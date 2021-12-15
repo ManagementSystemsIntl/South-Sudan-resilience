@@ -634,6 +634,10 @@ summary(l1)
 ```
 
 ```{r}
+l1 <- svyglm(cohesion_latent ~ as.factor(county) + as.factor(hh_head_sex) + urban,
+             design=svydat)
+
+summary(l1)
 
 ```
 

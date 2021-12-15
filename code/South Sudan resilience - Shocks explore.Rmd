@@ -582,7 +582,7 @@ dat <- dat %>%
          shock_sev_livestock = fa_sev_5_scores$shock_sev_livestock,
          shock_sev_drought=fa_sev_5_scores$shock_sev_drought,
          shock_sev_illdeath = fa_sev_5_scores$shock_sev_illdeath,
-         shock_sev_theft = fa_sev_5_scores$shock_sev_theft,)
+         shock_sev_theft = fa_sev_5_scores$shock_sev_theft)
 
 ggplot(dat) + 
   geom_density(aes(shock_sev_livestock), color=usaid_red) + 
@@ -590,6 +590,19 @@ ggplot(dat) +
   geom_density(aes(shock_sev_drought), color=light_blue)
 
 ```
+
+Same as above, but with IRT
+
+```{r}
+fa_irt_sev_5 <- irt.fa(sev,
+                  nfactors=5,
+                  scores="tenBerge",
+                  fm="ml")
+
+fa_sev_5
+```
+
+Doesn't work; try on the shock incidences
 
 
 
@@ -2408,5 +2421,13 @@ fa_conf_4_ldngs
 ML1: water, pasture, cattle, goat, migration, revenge, dowry
 
 
+Looks like we should do PCA. FIrst the PCA. 
+
+```{r}
+pc_conf <- principal(conf,
+                     cor="tet")
+
+pc_conf
+```
 
 

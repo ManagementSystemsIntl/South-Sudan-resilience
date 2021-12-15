@@ -241,6 +241,22 @@ asp_sum <- asp_mn %>%
 
 asp_sum
 
+asp_sum2 <- asp_sum %>%
+  select(item=varname, 3, 4) 
+
+asp_sum2
+
+write_csv(asp_sum2, here("output/tables/aspirations/aspirations items.csv"))
+
+asp_gt <- asp_sum2 %>%
+  gt() %>%
+  fmt_percent(3, 
+              decimals=1)
+
+asp_gt
+
+gtsave(asp_gt, here("output/tables/aspirations/aspirations items.rtf"))
+
 ```
 
 
@@ -499,7 +515,7 @@ asp2_pc
 ```{r}
 library(scales)
 
-asp2_pc_scrs <- asp_pc$scores %>%
+asp2_pc_scrs <- asp_pc$scores %>% ## ALL SIX ITEMS!
   unlist() %>%
   as.data.frame()
 
@@ -613,6 +629,81 @@ Let's include measures from the locus of control, which is a sub-index of the as
 - I can mostly determine what will happen in my life
 - When I get what I want, it is usually because I worked hard for it
 - My life is determined by my own actions
+
+Descriptives
+
+```{r}
+loc_temp <- svyrdat %>%
+  group_by() %>%
+  summarize(q_636=survey_mean(q636_bin, na.rm=T),
+            q_637=survey_mean(q637_bin, na.rm=T),
+            q_638=survey_mean(q638_bin, na.rm=T)) 
+
+
+```
+
+
+```{r}
+
+loc_mn <- loc_temp %>%
+  select(!contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  rename(percent=V1)
+
+loc_mn
+
+loc_se <- loc_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+  rename(se=value)
+
+loc_se
+
+loc_sum <- loc_mn %>%
+  mutate(se = loc_se$se,
+         lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         Description=c("I can mostly determine what will happen in my life",
+                       "When I get what I want, it is usually because I worked hard for it",
+                       "My life is determined by my own actions")) %>%
+   select(1, 6, everything())
+
+loc_sum
+
+write_csv(loc_sum, here("output/tables/aspirations/locus items.csv"))
+
+loc_gt <- loc_sum %>%
+  select(1:3) %>%
+  gt() %>%
+  fmt_percent(3, 
+              decimals=1)
+
+loc_gt
+
+gtsave(loc_gt, here("output/tables/aspirations/locus items.rtf"))
+
+```
+
+```{r}
+
+
+
+loc_resc_mn <- svyrdat %>%
+  summarize(loc=survey_mean(loc_comp_resc, na.rm=T)) %>%
+  mutate(lower=loc-1.96*loc_se,
+         upper=loc+1.96*loc_se,
+         measure="")
+
+loc_resc_mn
+```
+
+```{r}
+
+```
+
+
 
 ```{r}
 dat %>%
