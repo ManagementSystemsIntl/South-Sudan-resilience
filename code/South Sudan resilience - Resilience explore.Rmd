@@ -753,10 +753,6 @@ fa_ews_4_ldngs <- as.matrix(fa_ews_4$loadings) %>%
   rownames_to_column("varname") %>%
   select(1:5) 
 
-%>%
-  left_join(inc_key) %>%
-  select(9,11, 2:8) 
-
 fa_ews_4_ldngs
 
 ```

@@ -3,23 +3,16 @@
 
 # prep ---- 
 
-raw <- read_dta("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta") %>%
-  filter(!is.na(final_wt1))
+#raw <- read_dta("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta") %>%
+#  filter(!is.na(final_wt1))
 
-write_dta(raw, "data/local/SSD resilience baseline prepared.dta")
+#mesp_household_baseline_hh_survey_combined_weighted
 
-frq(dat$county)
-frq(dat$state)
-frq(dat$region)
-frq(raw$q_206)
 
-# dat_wt <- dat_wt %>%
-#   mutate(region=case_when(state=="Eastern Equatoria" ~ "Equatoria",
-#                           state=="Western Bahr-El-Ghazel" ~ "Bahr el Ghazal",
-#                           TRUE ~ "Greater Upper Nile"))
-# 
 
-frq(dat$region)
+#write_dta(raw, "data/local/SSD resilience baseline prepared (16 Dec 2021).dta")
+
+#dat <- read_dta(here("data/local/SSD resilience baseline prepared (16 Dec 2021).dta"))
 
 # background ---- 
 
@@ -28,25 +21,13 @@ dat <- dat %>%
          urban=ifelse(q_206==2, 1,0),
          hh_sex = as_character(hh_head_sex))
 
-frq(dat$locality)
-frq(dat$urban)
-frq(dat$hh_sex)
 
-# food insecurity ---- 
+# 4.22 - 4.35 Food insecurity ---- 
 
 dat <- dat %>%
   mutate(fies_severe=ifelse(fies_raw>6, 1,0))
 
-frq(dat$fies_severe)
-
-svyrdat %>%
-  group_by(fies_severe) %>%
-  summarize(survey_mean())
-
-svyrdat %>%
-  survey_mean(fies_severe)
-
-# Personal agency ---- 
+# 6.29 - 6.38 Personal agency ---- 
 
 dat <- dat %>%
   mutate(asp1 = ifelse(q_629==1, 1,0),
@@ -66,16 +47,10 @@ dat <- dat %>%
          q637_bin = ifelse(q_637>3, 1,0),
          q638_bin = ifelse(q_638>3, 1,0)) %>%
   rowwise() %>%
-  summarize(loc_sum = sum(c(q636_bin, q637_bin,q638_bin), na.rm=T)) %>%
+  mutate(loc_sum = sum(c(q636_bin, q637_bin,q638_bin), na.rm=T)) %>%
   ungroup()
 
-frq(dat$aspirations_index2)
-frq(dat$q638_bin)
-frq(dat$loc_sum)
-
 ## aspirations comp ---- 
-
-reflects the result of exploratory analysis from markdown file
 
 asp <- dat %>%
   select(asp1:asp6)
@@ -132,8 +107,370 @@ dat <- dat %>%
          agency_latent_resc = scales::rescale(agency_latent, c(0,100)))
 
 
-# Social cohesion 
+# 4.90 - 4.98 Social cohesion ----
 
+socap <- dat %>%
+  select(q_490, rc_q_491, q_494, rc_q_495,
+         q_492, rc_q_493, q_496, rc_q_497)
+
+### bonding social capital ---- 
+
+#### PCA ----
+
+fa.parallel(socap[,1:4],
+            cor="tet")
+
+prin_bond <- principal(socap[,1:4],
+                       cor="tet")
+prin_bond
+
+prin_bond_scrs <- prin_bond$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(bonding_comp = prin_bond_scrs$PC1,
+         bonding_comp_resc = unlist(rescale(bonding_comp, c(0,100))))
+
+#### Factor analysis ---- 
+
+fa_bond <- fa(socap[,1:4],
+              cor="tet",
+              #scores="tenBerge",
+              fm="ml")
+fa_bond
+
+fa_bond_scrs <- fa_bond$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+str(fa_bond_scrs)
+
+dat <- dat %>%
+  mutate(bonding_fac = fa_bond_scrs$ML1,
+         bonding_fac_resc = unlist(scales::rescale(bonding_fac, c(0,100))),
+         bonding_fac_resc = as.numeric(bonding_fac_resc))
+
+
+### bridging social capital ---- 
+
+#### PCA 
+
+fa.parallel(socap[,5:8],
+            cor="tet")
+
+prin_bridge_scrs <- prin_bridge$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(bridging_comp = prin_bridge_scrs$PC1,
+         bridging_comp_resc = unlist(rescale(bridging_comp, c(0,100)))) %>%
+  mutate(bridging_comp_resc = as.numeric(bridging_comp_resc))
+
+
+#### factor analysis
+
+fa_bridge <- fa(socap[,5:8],
+                cor="tet",
+                #scores="tenBerge",
+                fm="ml")
+fa_bridge
+
+
+fa_bridge_scrs <- fa_bridge$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+
+dat <- dat %>%
+  mutate(bridging_fac = fa_bridge_scrs$ML1,
+         bridging_fac_resc = as.vector(scales::rescale(bridging_fac, c(0,100)))) %>%
+  mutate(bridging_fac_resc = as.numeric(bridging_fac_resc))
+
+### Cohesion index
+
+prin_bond_brdg <- dat %>%
+  select(bonding_comp, bridging_comp) %>%
+  principal()
+
+prin_bond_brdg
+
+prin_bond_brdg_scrs <- prin_bond_brdg$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(cohesion_comp_latent = prin_bond_brdg_scrs$PC1,
+         cohesion_comp_latent_resc = scales::rescale(cohesion_comp_latent, c(0,100)))
+
+prin_socap_scrs <- prin_socap$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(cohesion_sum = rowSums(socap),
+         cohesion_comp = prin_socap_scrs$PC1,
+         cohesion_comp_resc = scales::rescale(cohesion_comp, to=c(0,100)))
+
+
+cohesion_fac <- dat %>%
+  select(bonding_fac,
+         bridging_fac) %>%
+  fa(scores="tenBerge",
+     fm="ML")
+
+cohesion_fac
+
+cohesion_fac_scrs <- cohesion_fac$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(cohesion_latent = cohesion_fac_scrs$ML1,
+         cohesion_latent_resc = scales::rescale(cohesion_latent, c(0,100)))
+
+## 4.01 - 4.02 Sources of income ---- 
+
+inc <- dat %>%
+  select(q_401_a_bin,
+         q_401_b_bin,
+         q_401_c_bin,
+         q_401_d_bin,
+         q_401_e_bin,
+         q_401_f_bin,
+         q_401_g_bin,
+         q_401_h_bin,
+         q_401_i_bin,
+         q_401_j_bin,
+         q_401_k_bin,
+         q_401_l_bin,
+         q_401_m_bin,
+         q_401_n_bin,
+         q_401_o_bin,
+         q_401_p_bin,
+         q_401_q_bin,
+         q_401_r_bin,
+         q_401_s_bin,
+         q_401_t_bin)
+
+fa.parallel(inc,
+            cor="tet")
+
+
+fa_inc_7 <- fa(inc,
+               nfactors=7,
+               scores="tenBerge",
+               fm="ml",
+               cor="tet")
+fa_inc_7
+
+
+fa_inc_7_ldngs <- as.matrix(fa_inc_7$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:8) %>%
+  left_join(inc_key) %>%
+  select(9,11, 2:8) 
+
+fa_inc_7_ldngs
+
+
+fa_inc_7_scores <- data.frame(fa_inc_7$scores)
+
+dat <- dat %>%
+  mutate(inc_fac_livestocksales=fa_inc_7_scores$ML4,
+         inc_fac_pettytrade=fa_inc_7_scores$ML5,
+         inc_fac_agwage=fa_inc_7_scores$ML1,
+         inc_fac_wage=fa_inc_7_scores$ML3,
+         inc_fac_proprent=fa_inc_7_scores$ML6,
+         inc_fac_farmer=fa_inc_7_scores$ML2,
+         inc_fac_safetynet=fa_inc_7_scores$ML7)
+
+
+## inc factors, by ranking ----
+
+inc_rank <- dat %>%
+  select(q_402_a,
+         q_402_b,
+         q_402_c,
+         q_402_d,
+         q_402_e,
+         q_402_f,
+         q_402_g,
+         q_402_h,
+         q_402_i,
+         q_402_j,
+         q_402_k,
+         q_402_l,
+         q_402_m,
+         q_402_n,
+         q_402_o,
+         q_402_p,
+         q_402_q,
+         q_402_r,
+         q_402_s,
+         q_402_t)
+
+
+inc_rank[is.na(inc_rank)] <- 0
+
+inc_rank2 <- dat %>%
+  mutate(farm_rank = ifelse(is.na(q_402_a), 0,
+                            ifelse(q_402_a!=0, 4-q_402_a, 0)),
+         cattle_rank = ifelse(is.na(q_402_b), 0,
+                              ifelse(q_402_b!=0, 4-q_402_b, 0)),
+         goat_rank = ifelse(is.na(q_402_c), 0,
+                            ifelse(q_402_c!=0, 4-q_402_c, 0)),
+         sheep_rank = ifelse(is.na(q_402_d), 0,
+                             ifelse(q_402_d!=0, 4-q_402_d, 0)),
+         fish_rank = ifelse(is.na(q_402_e), 0,
+                            ifelse(q_402_e!=0, 4-q_402_e, 0)),
+         agwage_in_rank = ifelse(is.na(q_402_f), 0,
+                                 ifelse(q_402_f!=0, 4-q_402_f, 0)),
+         agwage_out_rank = ifelse(is.na(q_402_g), 0,
+                                  ifelse(q_402_g!=0, 4-q_402_g, 0)),
+         wage_in_rank = ifelse(is.na(q_402_h), 0,
+                               ifelse(q_402_h!=0, 4-q_402_h, 0)),
+         wage_out_rank = ifelse(is.na(q_402_i), 0,
+                                ifelse(q_402_i!=0, 4-q_402_i, 0)),
+         salary_rank = ifelse(is.na(q_402_j), 0,
+                              ifelse(q_402_j!=0, 4-q_402_j, 0)),
+         bush_rank = ifelse(is.na(q_402_k), 0,
+                            ifelse(q_402_k!=0, 4-q_402_k, 0)),
+         honey_rank = ifelse(is.na(q_402_l), 0,
+                             ifelse(q_402_l!=0, 4-q_402_l, 0)),
+         petty_other_rank = ifelse(is.na(q_402_m), 0,
+                                   ifelse(q_402_m!=0, 4-q_402_m, 0)),
+         petty_own_rank = ifelse(is.na(q_402_n), 0,
+                                 ifelse(q_402_n!=0, 4-q_402_n, 0)),
+         other_ag_rank = ifelse(is.na(q_402_o), 0,
+                                ifelse(q_402_o!=0, 4-q_402_o, 0)),
+         other_nonag_rank = ifelse(is.na(q_402_p), 0,
+                                   ifelse(q_402_p!=0, 4-q_402_p, 0)),
+         rent_rank = ifelse(is.na(q_402_q), 0,
+                            ifelse(q_402_q!=0, 4-q_402_q, 0)),
+         remit_rank = ifelse(is.na(q_402_r), 0,
+                             ifelse(q_402_r!=0, 4-q_402_r, 0)),
+         gift_rank = ifelse(is.na(q_402_s), 0,
+                            ifelse(q_402_s!=0, 4-q_402_s, 0)),
+         safety_rank = ifelse(is.na(q_402_t), 0,
+                              ifelse(q_402_t!=0, 4-q_402_t, 0)),
+  ) %>%
+  select(farm_rank:safety_rank)
+
+
+fa.parallel(inc_rank2,
+            cor="poly")
+
+
+
+fa_incrank2_8 <- fa(inc_rank2,
+                    cor="poly",
+                    nfactors=8,
+                    scores="tenBerge",
+                    fm="ml")
+
+fa_incrank2_8
+
+
+fa_incrank2_8_scrs <- fa_incrank2_8$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+
+dat <- dat %>%
+  mutate(incrank_fac_livestock = fa_incrank2_8_scrs$ML6,
+         incrank_fac_selfemployed = fa_incrank2_8_scrs$ML7,
+         incrank_fac_rentremitsal = fa_incrank2_8_scrs$ML5,
+         incrank_fac_agwage = fa_incrank2_8_scrs$ML4,
+         incrank_fac_wageout = fa_incrank2_8_scrs$ML1,
+         incrank_fac_farm = fa_incrank2_8_scrs$ML3,
+         incrank_fac_honeygiftfish = fa_incrank2_8_scrs$ML8,
+         incrank_fac_pettytradeown = fa_incrank2_8_scrs$ML2)
+
+
+# Early warning systems
+
+ews <- dat %>%
+  select(warn_hazards:warn_foodprices)
+
+ltm_ews <- ltm(ews ~ z1)
+ltm_ews
+
+fa_ews_4 <- fa(ews,
+               nfactors=4,
+               scores="tenBerge",
+               fm="ml",
+               cor="tet")
+fa_ews_4
+
+
+fa_ews_4_ldngs <- as.matrix(fa_ews_4$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:5) 
+
+fa_ews_4_ldngs
+
+
+
+fa_ews_4_scores <- data.frame(fa_ews_4$scores)
+
+dat <- dat %>%
+  mutate(ews_fac_prices = fa_ews_4_scores$ML3,
+         ews_fac_weather = fa_ews_4_scores$ML4,
+         ews_fac_farming = fa_ews_4_scores$ML1,
+         ews_fac_conflict = fa_ews_4_scores$ML2)
+
+## Latent variable ---- 
+
+
+ews_facs <- dat %>%
+  select(ews_fac_prices:ews_fac_conflict)
+
+fa.parallel(ews_facs)
+
+
+fa_ews_facs_scrs <- fa_ews_facs$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(ews_latent = fa_ews_facs_scrs$ML1,
+         ews_latent_resc = scales::rescale(ews_latent, c(0,100)))
+
+# Emergency action plans ---- 
+
+emerg <- dat %>%
+  select(emerg1:emerg4)
+
+
+ltm_emerg <- ltm(emerg ~ z1)
+ltm_emerg
+
+
+fa.parallel(emerg,
+            cor="tet")
+
+
+
+fa_emerg <- fa(emerg,
+               scores="tenBerge",
+               fm="ML")
+fa_emerg
+
+
+
+fa_emerg_scrs <- fa_emerg$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(emerg_fac = fa_emerg_scrs$ML1,
+         emerg_fac_resc = scales::rescale(emerg_fac, c(0,100)))
 
 # Social norms ---- 
 
@@ -157,18 +494,6 @@ dat <- dat %>%
          q827_rec = (diff(range(q_827, na.rm=T)) + 2) - q_827)
 
 
-                                           q_803_bin == 1 ~ 0,
-                                           TRUE ~ NA_real_),
-         against_earlymarriage = case_when(q_803_bin == 0 ~ 1,
-                                           q_803_bin == 1 ~ 0,
-                                           TRUE ~ NA_real_),
-         against_earlymarriage = case_when(q_803_bin == 0 ~ 1,
-                                           q_803_bin == 1 ~ 0,
-                                           TRUE ~ NA_real_))
-
-frq(dat$against_cattleraid)
-frq(dat$against_earlymarriage)
-frq(dat$q824_rec)
 
 ## Cattle raiding ---- 
 
@@ -195,7 +520,7 @@ frq(dat$q_820)
 
 
 
-# shocks ---- 
+# 5.01 - shocks ---- 
 
 frq(dat$q_439)
 map(dat[,163:211], frq)
@@ -302,7 +627,7 @@ dat <- dat %>%
 
 frq(dat$donor_act)
 
-# 5. Community group participation
+# 5.01 - 5.03 Community group participation ----
 
 frq(dat$q_501a)
 
@@ -327,16 +652,61 @@ dat <- dat %>%
   mutate(grp_sum = sum(c_across(grp_water:grp_animalherding))) %>%
   ungroup()
 
-str(dat)
 
-frq(dat$grp_water)
-frq(dat$grp_herding)
-frq(dat$grp_sum)
+grps <- dat %>%
+  select(grp_water:grp_animalherding)
+
+l1 <- ltm(grps ~ z1)
+
+l1
 
 
-## 6. Conflict and Resilience --- 
+fa.parallel(grps,
+            cor="tet")
 
-frq(dat$q_607_b)
+# 5 factors, 3 components
+
+fa_grps_5 <- fa(grps,
+                nfactors=5,
+                scores="tenBerge",
+                fm="ml",
+                cor="tet")
+
+
+fa_grps_5
+
+
+fa_grps_5_scrs <- fa_grps_5$scores %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(grp_fac_cattle = fa_grps_5_scrs$ML3,
+         grp_fac_women = fa_grps_5_scrs$ML4,
+         grp_fac_finance = fa_grps_5_scrs$ML2,
+         grp_fac_sports = fa_grps_5_scrs$ML1,
+         grp_fac_nature = fa_grps_5_scrs$ML5)
+
+grp_facs <- dat %>%
+  select(grp_fac_cattle:grp_fac_nature)
+
+fa.parallel(grp_facs)
+
+fa_grp_fac <-fa(grp_facs,
+                scores="tenBerge",
+                fm="ml")
+
+fa_grp_fac
+
+
+fa_grp_fac_scrs <- fa_grp_fac$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(grp_latent = fa_grp_fac_scrs$ML1,
+         grp_latent_resc = scales::rescale(grp_latent, c(0,100)))
+
+## 6.10 - 6.12 Early warning systems ---- 
 
 dat <- dat %>%
   mutate(warn_hazards = ifelse(q_607_a==1, 1,0),
@@ -355,10 +725,61 @@ dat <- dat %>%
          emerg_plan = q_610,
          conflict=q_601)
 
-frq(dat$warn_weather)
-frq(dat$warn_sum)
+ews <- dat %>%
+  select(warn_hazards:warn_foodprices)
 
-# conflict ---- 
+fa.parallel(ews,
+            cor="tet")
+
+fa_ews_4 <- fa(ews,
+               nfactors=4,
+               scores="tenBerge",
+               fm="ml",
+               cor="tet")
+fa_ews_4
+
+fa_ews_4_ldngs <- as.matrix(fa_ews_4$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:5) 
+
+fa_ews_4_ldngs
+
+fa_ews_4_scores <- data.frame(fa_ews_4$scores)
+
+dat <- dat %>%
+  mutate(ews_fac_prices = fa_ews_4_scores$ML3,
+         ews_fac_weather = fa_ews_4_scores$ML4,
+         ews_fac_farming = fa_ews_4_scores$ML1,
+         ews_fac_conflict = fa_ews_4_scores$ML2)
+
+
+ews_facs <- dat %>%
+  select(ews_fac_prices:ews_fac_conflict)
+
+fa.parallel(ews_facs)
+
+
+2 factors, 1 component
+
+fa_ews_facs <- fa(ews_facs,
+                  scores="tenBerge",
+                  fm="ml")
+
+fa_ews_facs
+
+fa_ews_facs_scrs <- fa_ews_facs$scores %>%
+  unlist() %>%
+  as.data.frame()
+
+dat <- dat %>%
+  mutate(ews_latent = fa_ews_facs_scrs$ML1,
+         ews_latent_resc = scales::rescale(ews_latent, c(0,100)))
+
+
+
+## 6.03 - 6.06 Conflict ---- 
 
 dat <- dat %>%
   mutate(conf_impact = ifelse(q_603_clean>2, 1,0),
@@ -381,9 +802,7 @@ dat <- dat %>%
          livelihood_conf_sev = q_602_15 * q_603_clean,
          ag_conf_sev = q_602_16 * q_603_clean)
 
-## conflict factors
-
-frq(dat$q_602_1)
+### conflict factors ----
 
 conf <- dat %>%
   select(q_602_1:q_602_16)
@@ -393,7 +812,56 @@ conf[is.na(conf)] <- 0
 fa.parallel(conf,
             cor="tet")
 
-# 6. Emergency action plans ---- 
+fa_conf_4 <- fa(conf,
+                cor="tet",
+                nfactors=4,
+                scores="tenBerge",
+                fm="ML")
+
+fa_conf_4
+
+fa_conf_4_ldngs <- as.matrix(fa_conf_4$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("varname") %>%
+  select(1:5) %>%
+  mutate(conf_lab=conf_labs) %>%
+  select(1,6,everything()) 
+
+fa_conf_4_ldngs
+
+pc_conf <- principal(conf,
+                     cor="tet")
+
+pc_conf
+
+
+
+### severity ---- 
+
+dat <- dat %>%
+  mutate(conf_impact = ifelse(q_603_clean>2, 1,0),
+         trad_res = ifelse(q_605==3, 1,0),
+         trad_sats = ifelse(q_606>2, 1,0),
+         land_conf_sev = q_602_1 * q_603_clean,
+         water_conf_sev = q_602_2 * q_603_clean,
+         pasture_conf_sev = q_602_3 * q_603_clean,
+         forestry_conf_sev = q_602_4 * q_603_clean,
+         cattle_conf_sev = q_602_5 * q_603_clean,
+         goat_conf_sev = q_602_6 * q_603_clean,
+         migration_conf_sev = q_602_7 * q_603_clean,
+         boundary_conf_sev = q_602_8 * q_603_clean,
+         revenge_conf_sev = q_602_9 * q_603_clean,
+         dowry_conf_sev = q_602_10 * q_603_clean,
+         elope_conf_sev = q_602_11 * q_603_clean,
+         cattleraid_conf_sev = q_602_12 * q_603_clean,
+         fishgrudge_conf_sev = q_602_13 * q_603_clean,
+         gbv_conf_sev = q_602_14 * q_603_clean,
+         livelihood_conf_sev = q_602_15 * q_603_clean,
+         ag_conf_sev = q_602_16 * q_603_clean)
+
+
+## 6.10 - 6.12 Emergency action plans ---- 
 
 dat <- dat %>%
   mutate(emerg1 = ifelse(is.na(q_610), 0, q_610),
@@ -408,15 +876,12 @@ dat <- dat %>%
          emerg_sum = emerg1 + emerg2 + emerg3 + emerg4,
          emerg_effective = ifelse(q_612>2, 1,0))
 
-frq(dat$q_501l)
-frq(dat$emerg4)
-frq(dat$emerg_sum)
 
-## save prepared data ---- 
+# Save prepared data ---- 
 
 #write_dta(dat_unw, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
 
-write_dta(dat, "data/local/SSD resilience baseline prepared (10 Dec 2021).dta")
+write_dta(dat, "data/local/SSD resilience baseline prepared (16 Dec 2021).dta")
 
 lapply(dat, class)
 
