@@ -137,7 +137,7 @@ print_factors(105)
 #dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_combined_weighted.dta")) %>%
 #  filter(!is.na(final_wt1))
 
-dat <- read_dta(here("data/local/SSD resilience baseline prepared.dta"))
+dat <- read_dta(here("data/local/SSD resilience baseline prepared (16 Dec 2021).dta"))
 
 #dat_unw <- read_dta(here("data/local/SSD resilience baseline prepared (9 Nov 2021).dta"))
 
@@ -347,3 +347,14 @@ res_key <- data.frame(res_num=1:8,
                       res_lab=res_labs)
 
 res_key  
+
+socap_labs <- c("Able to lean on relatives\nin community (Bonding)",
+                  "Able to help relatives\nin community (Bonding)",
+                  "Able to lean on non-relatives\nin community (Bonding)",
+                  "Able to help non-relatives\nin community (Bonding)",
+                  "Able to lean on relatives\noutside community (Bridging)",
+                  "Able to help relatives\noutside community (Bridging)",
+                  "Able to lean on non-relatives\n outside community (Bridging)",
+                  "Able to help non-relatives\n outside community (Bridging)")
+
+socap_labs

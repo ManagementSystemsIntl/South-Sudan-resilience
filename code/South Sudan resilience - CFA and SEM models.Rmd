@@ -24,6 +24,7 @@ library(here)
 source(here("code/00 South Sudan resilience - prep.R"))
 
 library(lavaan)
+library(semPlot)
 
 ```
 
@@ -58,6 +59,48 @@ semPaths(mod1.fit,
 
 ```{r}
 fitmeasures(mod1.fit, c("cfi", "tli", "gfi", "rmsea"))
+```
+
+```{r}
+mod1_mod <- data.frame(modificationindices(mod1.fit, sort=T)) 
+mod1_mod
+```
+
+```{r}
+
+mod1.1 <- "
+absorptive =~ grp_latent + bonding_fac + access_remittances + ews_latent + emerg_fac + donor_act
+
+grp_latent ~~ ews_latent
+
+bonding_fac ~~ donor_act
+
+ews_latent ~~ donor_act
+
+bonding_fac ~~ ews_latent
+"
+
+mod1.1_fit <- cfa(model=mod1.1, data=dat)
+
+summary(mod1.1_fit, standardized=T)
+
+```
+
+```{r}
+fitmeasures(mod1.1_fit, c("cfi", "tli", "gfi", "rmsea"))
+```
+
+```{r}
+
+semPaths(mod1.1_fit,
+         whatLabels="std",
+         edge.label.cex=1,
+         layout="tree",
+         rotation=2,
+         color="lightblue",
+         edge.color="darkgoldenrod",
+         style="lisrel")
+
 ```
 
 ## Full model
@@ -96,3 +139,52 @@ semPaths(mod2.fit,
 ```{r}
 fitmeasures(mod2.fit, c("cfi", "tli", "gfi", "rmsea"))
 ```
+
+
+# Personal agency
+
+```{r}
+
+dat <- dat %>%
+  mutate(access_remittances=q_401_r_bin)
+
+agency_cfa <- "
+
+Aspirations =~ q_629 + q_630 + q_634 + q_635 + q_632 + q_633
+
+Locus_of_Control =~ q_636 + q_637 + q_638
+
+Agency =~ Aspirations + Locus_of_Control
+
+"
+
+agency_cfa_fit <- cfa(model=agency_cfa, data=dat)
+
+summary(agency_cfa_fit, standardized=T)
+
+```
+
+```{r}
+fitmeasures(agency_cfa_fit, c("cfi", "tli", "gfi", "rmsea"))
+```
+
+```{r}
+semPaths(agency_cfa_fit,
+         whatLabels="std",
+         edge.label.cex=1,
+         layout="tree",
+         rotation=2,
+         color="lightblue",
+         edge.color="darkgoldenrod",
+         style="lisrel")
+
+```
+
+
+
+
+```{r}
+agency_cfa_mod <- data.frame(modificationindices(agency_cfa_fit, sort=T)) 
+kable(mod1_mod)
+```
+

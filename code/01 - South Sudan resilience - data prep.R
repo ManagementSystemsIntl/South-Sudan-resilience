@@ -876,6 +876,12 @@ dat <- dat %>%
          emerg_sum = emerg1 + emerg2 + emerg3 + emerg4,
          emerg_effective = ifelse(q_612>2, 1,0))
 
+# Ability to recover binary
+
+dat <- dat %>%
+  mutate(ability_recover_bin = ifelse(ability_recover>3, 1,0))
+
+frq(dat$ability_recover_bin)
 
 # Save prepared data ---- 
 

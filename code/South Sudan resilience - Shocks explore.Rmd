@@ -419,9 +419,20 @@ sev_mn_se_svy <- sev_mn_svy %>%
   left_join(sev_se_svy) %>%
   mutate(lower=mn-1.96*se,
          upper=mn+1.96*se) %>%
-  select(1,3,2,4:6)
+  select(1,3,2,4:6) %>%
+  arrange(desc(mn))
 
 sev_mn_se_svy
+
+write_csv(sev_mn_se_svy, here("output/tables/shocks/shock severity weighted.csv"))
+
+shock_sev_gt <- sev_mn_se_svy %>%
+  gt()
+
+
+shock_sev_gt
+
+gtsave(shock_sev_gt, here("output/tables/shocks/shock severity weighted.rtf"))
 
 ```
 
@@ -567,6 +578,30 @@ ML4: Theft
 Explains 63 percent of the variance. Fit statistics sufficient (Tucker Lewis .98, RMSEA .044)
 
 ```{r}
+
+fa_sev5_ldngs <- fa_sev_5$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(shock = shock_labs) %>%
+  relocate(shock, .after=item)
+
+fa_sev5_ldngs
+
+write_csv(fa_sev5_ldngs, here("output/tables/shocks/shocks severity loadings.csv"))
+
+fa_sev5_gt <- fa_sev5_ldngs %>%
+  gt() %>%
+  fmt_number(3:7, decimals=2)
+
+fa_sev5_gt
+
+gtsave(fa_sev5_gt, here("output/tables/shocks/shocks severity loadings.rtf"))
+
+```
+
+
+```{r}
 fa_sev_5_scores <- fa_sev_5$scores %>%
   as.data.frame() %>%
   set_names(nm=c("shock_sev_crops", "shock_sev_livestock","shock_sev_drought", "shock_sev_illdeath", "shock_sev_theft"))
@@ -695,7 +730,7 @@ ggplot(dat, aes(shock_exposure_index, weights=final_wt1)) +
   geom_vline(xintercept=49.2, size=1.5, color="darkgoldenrod2", alpha=.6) + 
   geom_density(color=medium_blue, fill=light_blue, alpha=.4) +
   scale_x_continuous(limits=c(0,128),
-                     breaks=seq(0,120,10)) +
+                     breaks=seq(0,120,20)) +
   labs(x="",
        y="") +
   theme(axis.text.y=element_blank())

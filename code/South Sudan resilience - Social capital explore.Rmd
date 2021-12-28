@@ -35,6 +35,8 @@ MESP has completed data collection in six counties, and as of October 2021 is ca
 
 # Social capital
 
+## Descriptives
+
 ```{r}
 frq(dat$bonding_capital_raw)
 ```
@@ -94,6 +96,14 @@ socap_sum <- socap_mn %>%
 socap_sum
 
 write_csv(socap_sum, here("output/tables/social capital/social capital weighted.csv"))
+
+socap_sum_gt <- socap_sum %>%
+  gt() %>%
+  fmt_percent(4:7, decimals=1)
+
+socap_sum_gt
+
+gtsave(socap_sum_gt, here("output/tables/social capital/social capital weighted.rtf"))
 
 ```
 
@@ -228,7 +238,9 @@ ggsave(here("output/viz/social capital/socap means weighted.png"),
        height=4,
        width=7)
 ```
+## Bonding social capital 
 
+### IRT 
 
 ```{r}
 ltm_bnd <- ltm(socap[,1:4] ~ z1)
@@ -236,20 +248,72 @@ ltm_bnd
 ```
 
 ```{r}
+
+ltm_bond_out <- coef(ltm_bnd) %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(Description=socap_labs[1:4]) %>%
+  select(1,4, difficulty=2,discrimination=3)
+
+ltm_bond_out
+
+write_csv(ltm_bond_out, here("output/tables/social capital/bonding irt.csv"))
+
+ltm_bond_gt <- ltm_bond_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_bond_gt
+
+gtsave(ltm_bond_gt, here("output/tables/social capital/bonding irt.rtf"))
+
+```
+
+
+```{r}
 ltm_brdg <- ltm(socap[,5:8] ~ z1)
 ltm_brdg
 ```
+
+```{r}
+
+ltm_bridge_out <- coef(ltm_brdg) %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(Description=socap_labs[5:8]) %>%
+  select(1,4, difficulty=2,discrimination=3)
+
+ltm_bridge_out
+
+write_csv(ltm_bridge_out, here("output/tables/social capital/bridging irt.csv"))
+
+ltm_bridge_gt <- ltm_bridge_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_bridge_gt
+
+gtsave(ltm_bridge_gt, here("output/tables/social capital/bridging irt.rtf"))
+
+```
+
+
 
 ```{r}
 ltm_coh <- ltm(socap ~ z1)
 ltm_coh
 ```
 
+## Bonding social capital 
 
 ```{r}
 fa.parallel(socap[,1:4],
             cor="tet")
 ```
+
+### PCA 
 
 2 factors, 1 component
 
@@ -272,12 +336,40 @@ ggplot(dat, aes(bonding_comp)) +
   geom_density()
 ```
 
+### Factor analysis
+
 ```{r}
 fa_bond <- fa(socap[,1:4],
               cor="tet",
               #scores="tenBerge",
               fm="ml")
 fa_bond
+```
+
+```{r}
+
+fa_bond_ldngs <- fa_bond$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(#description=loc_sum[,2],
+         description=socap_labs[1:4],
+         difficulty=ltm_bond_out$difficulty,
+         discrimination=ltm_bond_out$discrimination) %>%
+  select(1,3,2, 4,5)
+
+fa_bond_ldngs
+
+write_csv(fa_bond_ldngs, here("output/tables/social capital/bonding social capital loadings.csv"))
+
+fa_bond_gt <- fa_bond_ldngs %>%
+  gt()
+
+fa_bond_gt
+
+gtsave(fa_bond_gt, here("output/tables/social capital/bonding social capital loadings.rtf"))
+
+
 ```
 
 ```{r}
@@ -307,12 +399,15 @@ bond_resc_mn <- svyrdat %>%
 
 bond_resc_mn
 ```
+## Bridging social capital 
 
 ```{r}
 fa.parallel(socap[,5:8],
             cor="tet")
 ```
 2 factors, 1 component
+
+### PCA 
 
 ```{r}
 prin_bridge <- principal(socap[,5:8],
@@ -334,6 +429,8 @@ ggplot(dat, aes(bridging_comp)) +
   geom_density()
 ```
 
+### Factor analysis
+
 ```{r}
 fa_bridge <- fa(socap[,5:8],
               cor="tet",
@@ -343,11 +440,39 @@ fa_bridge
 ```
 
 ```{r}
+
+fa_bridge_ldngs <- fa_bridge$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(#description=loc_sum[,2],
+         description=socap_labs[5:8],
+         difficulty=ltm_bridge_out$difficulty,
+         discrimination=ltm_bridge_out$discrimination) %>%
+  select(1,3,2, 4,5)
+
+fa_bridge_ldngs
+
+write_csv(fa_bridge_ldngs, here("output/tables/social capital/bridging social capital loadings.csv"))
+
+fa_bridge_gt <- fa_bridge_ldngs %>%
+  gt()
+
+fa_bridge_gt
+
+gtsave(fa_bridge_gt, here("output/tables/social capital/bridging social capital loadings.rtf"))
+
+
+```
+
+
+```{r}
 fa_bridge_scrs <- fa_bridge$scores %>%
   unlist() %>%
   as.data.frame()
 
 str(fa_bridge_scrs)
+
 
 dat <- dat %>%
   mutate(bridging_fac = fa_bridge_scrs$ML1,
@@ -370,6 +495,9 @@ bridge_resc_mn <- svyrdat %>%
 bridge_resc_mn
 ```
 
+## Cohesion latent
+
+### All items
 
 ```{r}
 fa.parallel(socap, 
@@ -385,6 +513,10 @@ prin_socap
 ```
 
 81 percent of variance captured
+
+### Bonding and bridging variables
+
+#### PCA
 
 ```{r}
 
@@ -439,6 +571,8 @@ ggplot(dat, aes(cohesion_comp)) +
 
 ```
 
+#### Factor analysis
+
 ```{r}
 cohesion_fac <- dat %>%
   select(bonding_fac,
@@ -448,6 +582,28 @@ cohesion_fac <- dat %>%
 cohesion_fac
 
 ```
+
+
+```{r}
+
+fa_cohesion_ldngs <- cohesion_fac$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") 
+
+fa_cohesion_ldngs
+
+write_csv(fa_cohesion_ldngs, here("output/tables/social capital/cohesion loadings.csv"))
+
+fa_cohesion_gt <- fa_cohesion_ldngs %>%
+  gt()
+
+fa_cohesion_gt
+
+gtsave(fa_cohesion_gt, here("output/tables/social capital/cohesion loadings.rtf"))
+
+```
+
 
 ```{r}
 cohesion_fac_scrs <- cohesion_fac$scores %>%

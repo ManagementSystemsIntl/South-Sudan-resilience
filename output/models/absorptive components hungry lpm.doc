@@ -1,0 +1,101 @@
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Components of absorptive capacity, food insecurity</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Went to bed hungry (0/1)</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimate</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Group participation (-1 to 3)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.060</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.020</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.100&nbsp;&ndash;&nbsp;-0.019</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.004</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Bonding social capital</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.016</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.009</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.033&nbsp;&ndash;&nbsp;0.002</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.077</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Access to remittances</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.089</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.031</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.150&nbsp;&ndash;&nbsp;-0.028</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.004</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Early warning systems</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.041</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.013</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.016&nbsp;&ndash;&nbsp;0.067</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Emergency action planning</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.007</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.008</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.008&nbsp;&ndash;&nbsp;0.023</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.332</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Access to humanitarian aid</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.055</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.018</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.090&nbsp;&ndash;&nbsp;-0.021</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Shock Exposure Index (0-128)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.003</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.000</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.002&nbsp;&ndash;&nbsp;0.004</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Experienced conflict (0/1)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.047</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.019</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.011&nbsp;&ndash;&nbsp;0.084</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.012</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Household size (1-25)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.000</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.003</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.006&nbsp;&ndash;&nbsp;0.007</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.939</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Female-headed household (0/1)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.018</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.016</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.014&nbsp;&ndash;&nbsp;0.050</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.271</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Urban locality (0/1)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.009</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.029</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.048&nbsp;&ndash;&nbsp;0.067</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.752</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">3525</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.220 / -7.457</td>
+</tr>
+
+</table>
+

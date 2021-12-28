@@ -1407,6 +1407,35 @@ fa_absorp <- fa(absorp,
 fa_absorp
 
 ```
+
+```{r}
+
+fa_absorp_ldngs <- fa_absorp$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(#description=loc_sum[,2],
+         description=c("Informal safety nets",
+                       "Bonding social capital",
+                       "Access to remittances",
+                       "Early warning systems",
+                       "Emergency action planning",
+                       "Access to humanitarian support")) %>%
+  select(1,3,2)
+
+fa_absorp_ldngs
+
+write_csv(fa_absorp_ldngs, here("output/tables/resilience/absorptive capacity loadings.csv"))
+
+fa_absorp_gt <- fa_absorp_ldngs %>%
+  gt()
+
+fa_absorp_gt
+
+gtsave(fa_absorp_gt, here("output/tables/resilience/absorptive capacity loadings.rtf"))
+```
+
+
 ```{r}
 fa_absorp_scrs <- fa_absorp$scores %>%
   unlist() %>%
@@ -1435,6 +1464,7 @@ ggplot(dat, aes(absorp_latent)) +
   geom_density()
 ```
 
+### Ability to recover
 
 ```{r}
 ggplot(dat, aes(absorp_latent_resc, ability_recover)) + 
@@ -1464,6 +1494,126 @@ l1 <- svyolr(ordered(ability_recover) ~ absorp_latent + conflict + shock_exposur
 summary(l1)
 
 ```
+```{r}
+library(stargazer)
+tbl_regression(l1)
+stargazer(l1)
+texreg(l1)
+summ(l1)
+svyregress.display(l1.1) %>%
+  kable()
+tab_model(l1,
+          transform=NULL,
+          #collapse.ci=T,
+          #show.p = F,
+          show.se=T,
+          string.est="Estimate",
+          dv.labels="Ability to Recover (2-6)",
+          terms=c("absorp_latent",
+                  "conflict",
+                  "shock_exposure_index",
+                  "household_members",
+                  "as.factor(hh_head_sex)2",
+                  "urban"),
+          pred.labels=c("Absorptive Resilience Capacity (0-100)",
+                        "Household involved in conflict (0/1)",
+                        "Shock Exposure Index (0-128)",
+                        "Household size (1-25)",
+                        "Female-headed household (0/1)",
+                        "Urban locality (0/1)"),
+          #drop="(county)",
+          title="Ordered probit model, ability to recover from shocks",
+          file=here("output/models/absorptive ability to recover full.doc"))
+          
+```
+
+
+```{r}
+l1.1 <- svyglm(ability_recover_bin ~ absorp_latent_resc + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             #family="quasibinomial",
+             design=svyrdat)
+summary(l1.1)
+margins(l1.1)
+```
+```{r}
+?margins
+
+a <- cplot(l1.1)
+describe(a)
+
+ggplot(a, aes(xvals, yvals)) +
+  geom_vline(xintercept=32.5, color="darkgoldenrod3", size=1) + 
+  stat_smooth(color=medium_blue, size=1) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper),
+              fill=light_grey, alpha=.4) +
+  stat_smooth(aes(y=lower),
+              linetype="dotdash",
+              color=medium_blue,
+              alpha=.6) + 
+  stat_smooth(aes(y=upper),
+              linetype="dotdash",
+              color=medium_blue,
+              alpha=.6) +
+  scale_x_continuous(breaks=seq(0,100,10)) +
+  scale_y_continuous(limits=c(.2,1.05),
+                     breaks=seq(.2,1,.1),
+                     labels=percent_format(accuracy=1)) +
+  geom_segment(aes(y=0, yend=.91, x=32, xend=33), color="darkgoldenrod3") +
+  labs(x="Absorptive resilience capacity",
+       y="Able to\nrecover") +
+  theme(axis.title.y=element_text(angle=0, vjust=.5))
+
+ggsave(here("output/models/Absorptive hungry ribbon.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r}
+l1.2 <- svyglm(ability_recover_bin ~ absorp_latent_resc + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             family="quasibinomial",
+             design=svyrdat)
+summary(l1.2)
+margins(l1.2)
+
+l1.2_marg <- cplot(l1.2)
+describe(l1.2_marg)
+
+ggplot(l1.2_marg, aes(xvals, yvals)) +
+  geom_vline(xintercept=32.5, color="darkgoldenrod3", size=1) + 
+  stat_smooth(color=medium_blue, size=1) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper),
+              fill=light_grey, alpha=.4) +
+  stat_smooth(aes(y=lower),
+              linetype="dotdash",
+              color=medium_blue,
+              alpha=.6) + 
+  stat_smooth(aes(y=upper),
+              linetype="dotdash",
+              color=medium_blue,
+              alpha=.6) +
+  scale_x_continuous(breaks=seq(0,100,10)) +
+  scale_y_continuous(limits=c(0,1.05),
+                     breaks=seq(0,1,.1),
+                     labels=percent_format(accuracy=1)) +
+  labs(x="Absorptive resilience capacity",
+       y="Able to\nrecover") +
+  theme(axis.title.y=element_text(angle=0, vjust=.5))
+
+ggsave(here("output/models/Absorptive able to recover bin.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+
+
+```
+### Food insecurity
 
 ```{r}
 l2 <- svyglm(fies4_fac_resc ~ absorp_latent + conflict + shock_exposure_index + 
@@ -1472,6 +1622,7 @@ l2 <- svyglm(fies4_fac_resc ~ absorp_latent + conflict + shock_exposure_index +
 summary(l2)
 
 ```
+
 ```{r}
 describe(dat$absorp_latent_resc)
 
@@ -1481,6 +1632,7 @@ l3 <- svyglm(q_432 ~ absorp_latent_resc + conflict + shock_exposure_index +
 summary(l3)
 
 ```
+
 ```{r}
 l3_marg <- cplot(l3) %>%
   mutate(upper=ifelse(upper>1,1,upper))
@@ -1524,6 +1676,95 @@ ggsave(here("output/models/Absorptive hungry ribbon.png"),
 
 ```{r}
 
+l3_bin <- svyglm(q_432 ~ absorp_latent + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svyrdat)
+summary(l3_bin)
+
+```
+```{r}
+
+tab_model(l3_bin,
+          p.val="wald")
+
+tab_model(l3_bin,
+          #transform=NULL,
+          #collapse.ci=T,
+          #show.p = F,
+          p.val="wald",
+          show.se=T,
+          digits=3,
+          string.est="Estimate",
+          dv.labels="Went to bed hungry (0/1)",
+          terms=c("absorp_latent",
+                  "conflict",
+                  "shock_exposure_index",
+                  "household_members",
+                  "as.factor(hh_head_sex)2",
+                  "urban"),
+          pred.labels=c("Absorptive Resilience Capacity (-1 to 3)",
+                        "Household involved in conflict (0/1)",
+                        "Shock Exposure Index (0-128)",
+                        "Household size (1-25)",
+                        "Female-headed household (0/1)",
+                        "Urban locality (0/1)"),
+          #drop="(county)",
+          title="Linear probability model, food insecurity",
+          file=here("output/models/absorptive hungry lpm.doc"))
+        
+
+library(tab)
+tabglm(l3_bin)
+
+library(huxtable)
+huxreg(l3)
+```
+
+
+```{r}
+
+l3_log <- svyglm(q_432 ~ absorp_latent_resc + conflict + shock_exposure_index + 
+               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+             design=svyrdat,
+             family="quasibinomial")
+summary(l3_log)
+
+
+```
+
+```
+
+```{r}
+l3_log_marg <- cplot(l3_log) %>%
+  mutate(upper=ifelse(upper>1,1,upper))
+  
+ggplot(l3_log_marg, aes(xvals, yvals)) + 
+  geom_ribbon(aes(ymin=lower, ymax=upper), fill=light_grey, alpha=.4) +
+  geom_vline(xintercept=32.5, color="darkgoldenrod3", size=1) +
+  stat_smooth(color=medium_blue, size=1) +
+  stat_smooth(aes(y=lower), linetype="dotdash", color=medium_blue, alpha=.6) +
+  stat_smooth(aes(y=upper), linetype="dotdash", color=medium_blue, alpha=.6) +
+  scale_x_continuous(breaks=seq(0,100,10)) +
+  scale_y_continuous(limits=c(.6,1),
+  breaks=seq(.6,1,.05),
+  labels=percent_format(accuracy=1)) +
+  geom_segment(aes(y=0, yend=.91, x=32, xend=33), color="darkgoldenrod3") +
+  labs(x="Absorptive Resilience Capacity",
+  y="Went to\nbed hungry") +
+  theme(axis.title.y=element_text(angle=0, vjust=.5))
+
+ggsave(here("output/models/Absorptive hungry ribbon logistic.png"),
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+       
+```
+
+
+
+```{r}
+
 l3_dis <- svyglm(q_432 ~ grp_latent + bonding_fac + q_401_r_bin + 
                ews_latent + emerg_fac + donor_act +
                shock_exposure_index + conflict + 
@@ -1535,6 +1776,46 @@ summary(l3_dis)
 describe(dat$shock)
 
 ```
+
+```{r}
+
+tab_model(l3_dis,
+          #transform=NULL,
+          #collapse.ci=T,
+          #show.p = F,
+          p.val="wald",
+          show.se=T,
+          digits=3,
+          string.est="Estimate",
+          dv.labels="Went to bed hungry (0/1)",
+          terms=c("grp_latent",
+          "bonding_fac",
+          "q_401_r_bin",
+          "ews_latent",
+          "emerg_fac",
+          "donor_act",
+                  "shock_exposure_index",
+                  "conflict",
+                  "household_members",
+                  "as.factor(hh_head_sex)2",
+                  "urban"),
+          pred.labels=c("Group participation (-1 to 3)",
+          "Bonding social capital",
+          "Access to remittances",
+          "Early warning systems",
+          "Emergency action planning",
+          "Access to humanitarian aid",
+                           "Shock Exposure Index (0-128)",
+                           "Experienced conflict (0/1)",
+                        "Household size (1-25)",
+                        "Female-headed household (0/1)",
+                        "Urban locality (0/1)"),
+          #drop="(county)",
+          title="Components of absorptive capacity, food insecurity",
+          file=here("output/models/absorptive components hungry lpm.doc"))
+        
+```
+
 ```{r}
 
 l3_dis_t <- tidy(l3_dis) %>%

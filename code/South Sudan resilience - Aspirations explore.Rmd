@@ -453,6 +453,49 @@ asp_fa
 ```
 
 ```{r}
+asp_fa_ldngs <- asp_fa$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(item=asp_sum[,2],
+         description=asp_sum[,3])
+
+```
+```{r}
+fa_diet_6_ldngs <- fa_diet_6$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(food=diet_labs,
+         difficulty=ltm_diet_out$difficulty,
+         discrimination=ltm_diet_out$discrimination) %>%
+  select(1,8,2:7,9, 10)
+
+fa_diet_6_ldngs
+
+write_csv(fa_diet_6_ldngs, here("output/tables/food insecurity/hdds factor loadings.csv"))
+
+diet6_ldngs <- fa_diet_6_ldngs %>%
+  gt() %>%
+  fmt_number(3:8, decimals=3) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue")
+    ),
+    locations = cells_body(
+      columns = ML3,
+      rows = ML3 > .3999
+    ))
+
+diet6_ldngs
+
+
+gtsave(diet6_ldngs, here("output/tables/food insecurity/hhds factor loadings.rtf"))
+```
+
+
+
+```{r}
 
 asp_fa_scrs <- asp_fa$scores %>%
   #as.matrix %>%
@@ -583,6 +626,46 @@ ggsave(here("output/viz/asp bar resc.png"),
        width=4)
 
 ```
+### Aspirations irt
+
+```{r}
+ltm_asp <- ltm(asp~z1)
+ltm_asp
+
+```
+
+```{r}
+
+ltm_asp_out <- coef(ltm_asp) %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(item=asp_sum[,2]) %>%
+  select(1,difficulty=2,discrimination=3)
+
+ltm_asp_out
+
+write_csv(ltm_asp_out, here("output/tables/aspirations/aspirations irt.csv"))
+
+ltm_asp_gt <- ltm_asp_out %>%
+  gt() %>%
+  fmt_number(2:3,
+             decimals=2)
+
+ltm_asp_gt
+
+gtsave(ltm_asp_gt, here("output/tables/aspirations/aspirations irt.rtf"))
+
+```
+
+
+
+
+
+
+
+
+
+
 
 ### Aspirations component
 
@@ -597,6 +680,32 @@ asp_pc <- principal(asp,
 asp_pc
 
 ```
+```{r}
+
+asp_pc_ldngs <- asp_pc$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(item=asp_sum[,2],
+         description=asp_sum[,3],
+         difficulty=ltm_asp_out$difficulty,
+         discrimination=ltm_asp_out$discrimination) %>%
+  select(1,3,2, 4,5)
+
+asp_pc_ldngs
+
+write_csv(asp_pc_ldngs, here("output/tables/aspirations/aspirations pc loadings.csv"))
+
+asp_pc_gt <- asp_pc_ldngs %>%
+  gt()
+
+asp_pc_gt
+
+gtsave(asp_pc_gt, here("output/tables/aspirations/aspirations pc loadings.rtf"))
+
+
+```
+
 
 ```{r}
 asp_pc_scrs <- asp_pc$scores %>%
@@ -800,7 +909,7 @@ asp3_pc
 ```
 
 
-
+## Locus only
 
 Let's try just the three locus of control items. 
 
@@ -812,6 +921,44 @@ dat %>%
 ```
 
 One factor or component, that's hopeful. 
+
+```{r}
+
+loc <- dat %>%
+  select(q_636:q_638)
+
+loc_bin <- dat %>%
+  select(q636_bin:q638_bin)
+
+ltm_loc_bin <- ltm(loc_bin ~ z1)
+ltm_loc_bin
+
+```
+
+```{r}
+
+ltm_loc_bin_out <- coef(ltm_loc_bin) %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(item=loc_sum[,2]) %>%
+  select(1,difficulty=2,discrimination=3)
+
+ltm_loc_bin_out
+
+write_csv(ltm_loc_bin_out, here("output/tables/aspirations/locus of control binary irt.csv"))
+
+ltm_loc_bin_gt <- ltm_loc_bin_out %>%
+  gt() %>%
+  fmt_number(2:3,
+             decimals=2)
+
+ltm_loc_bin_gt
+
+gtsave(ltm_loc_bin_gt, here("output/tables/aspirations/locus of control binary irt.rtf"))
+
+```
+
+
 
 ```{r}
 asp4_alpha <- dat %>%
@@ -837,6 +984,34 @@ loc_pc <- dat %>%
 
 loc_pc
 ```
+
+```{r}
+
+loc_pc_ldngs <- loc_pc$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(#description=loc_sum[,2],
+         description=loc_sum[,2],
+         difficulty=ltm_loc_bin_out$difficulty,
+         discrimination=ltm_loc_bin_out$discrimination) %>%
+  select(1,3,2, 4,5)
+
+loc_pc_ldngs
+
+write_csv(loc_pc_ldngs, here("output/tables/aspirations/locus of control pc loadings.csv"))
+
+loc_pc_gt <- loc_pc_ldngs %>%
+  gt()
+
+loc_pc_gt
+
+gtsave(loc_pc_gt, here("output/tables/aspirations/locus of control pc loadings.rtf"))
+
+
+```
+
+
 ```{r}
 loc_pc_scrs <- loc_pc$scores %>%
   unlist() %>%
@@ -860,6 +1035,14 @@ loc_resc_mn <- svyrdat %>%
 loc_resc_mn
 ```
 
+## Summed mean
+
+```{r}
+svyrdat %>%
+  summarize(loc_sum = survey_mean(loc_sum))
+```
+
+
 # Agency
 
 ```{r}
@@ -878,6 +1061,34 @@ agency_fa <- dat %>%
 
 agency_fa
 ```
+
+```{r}
+
+agency_fa_ldngs <- agency_fa$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") 
+%>%
+  #mutate(#description=loc_sum[,2],
+         #description=loc_sum[,2],
+         #difficulty=ltm_loc_bin_out$difficulty,
+         #discrimination=ltm_loc_bin_out$discrimination) %>%
+  select(1,3,2, 4,5)
+
+agency_fa_ldngs
+
+write_csv(loc_pc_ldngs, here("output/tables/aspirations/locus of control pc loadings.csv"))
+
+loc_pc_gt <- loc_pc_ldngs %>%
+  gt()
+
+loc_pc_gt
+
+gtsave(loc_pc_gt, here("output/tables/aspirations/locus of control pc loadings.rtf"))
+
+
+```
+
 
 ```{r}
 agency_fa_scrs <- agency_fa$scores %>%
