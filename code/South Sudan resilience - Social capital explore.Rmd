@@ -461,8 +461,6 @@ fa_bridge_gt <- fa_bridge_ldngs %>%
 fa_bridge_gt
 
 gtsave(fa_bridge_gt, here("output/tables/social capital/bridging social capital loadings.rtf"))
-
-
 ```
 
 

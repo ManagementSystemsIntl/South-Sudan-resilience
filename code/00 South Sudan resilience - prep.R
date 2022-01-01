@@ -358,3 +358,45 @@ socap_labs <- c("Able to lean on relatives\nin community (Bonding)",
                   "Able to help non-relatives\n outside community (Bridging)")
 
 socap_labs
+
+grp_items <- c("q501a","q501b","q501c","q501d","q501e","q501f","q501g","q501h","q501i","q501j","q501k","q501l","q501m","q501n","q501o","q501p")
+
+
+grp_labs <- c("Water users",
+              "Grazing land users",
+              "Community natural resources",
+              "Credit/microfinance",
+              "Savings",
+              "Mutual help",
+              "Religious",
+              "Mothers",
+              "Women",
+              "Youth",
+              "Sports",
+              "Disaster planning",
+              "Cattle raiding",
+              "Cattle herding",
+              "Cattle protection",
+              "Small animal herding")
+
+grp_key <- data.frame(grp_code=1:15,
+                      grp_name = grp_labs)
+
+grp_key
+
+ews_labs <- c("Natural hazards",
+              "Weather patterns",
+              "Upcoming rainfall",
+              "Water prices/availability",
+              "Animal health",
+              "Crop health",
+              "Livestock prices",
+              "Animal product prices",
+              "Grazing conditions",
+              "Conflict",
+              "Food prices")
+
+ews_key <- data.frame(ews_code = 1:11,
+                      ews_lab = ews_labs)
+
+ews_key

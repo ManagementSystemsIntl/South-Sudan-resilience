@@ -1,0 +1,5 @@
+item,description,ML1,difficulty,discrimination
+emerg1,Emergency action plan in place,0.8320647813965061,0.7004130535519438,34.20692855598327
+emerg2,Emergency plan addressed shock that household faced,0.9889872408443497,1.0305014151856418,51.983087732087455
+emerg3,Emergency plan successfully mitigated effect of shock,0.6393236584613788,1.4082152634171254,22.978518656436666
+emerg4,Disaster planning group in community,0.15620115912142893,2.149467596610986,0.5231783504828024

@@ -58,41 +58,139 @@ ggplot(dat, aes(grp_sum)) +
            width=.5)
 ```
 
+#### rank frequencies
+
+```{r}
+names(grps)
+
+grps_temp <- svyrdat %>%
+  summarize(grp_water = survey_mean(grp_water, na.rm=T),
+            grp_land  = survey_mean(grp_land, na.rm=T),
+            grp_resource  = survey_mean(grp_resource, na.rm=T),
+            grp_credit  = survey_mean(grp_credit, na.rm=T),
+            grp_savings = survey_mean(grp_savings, na.rm=T),
+            grp_help  = survey_mean(grp_help, na.rm=T),
+            grp_relig  = survey_mean(grp_relig, na.rm=T),
+            grp_mother  = survey_mean(grp_mother, na.rm=T),
+            grp_women = survey_mean(grp_women, na.rm=T),
+            grp_youth = survey_mean(grp_youth, na.rm=T),
+            grp_sports  = survey_mean(grp_sports, na.rm=T),
+            grp_disaster  = survey_mean(grp_disaster, na.rm=T),
+            grp_raiding = survey_mean(grp_raiding, na.rm=T),
+            grp_herding  = survey_mean(grp_herding, na.rm=T),
+            grp_cattleprotect = survey_mean(grp_cattleprotect, na.rm=T),
+            grp_animalherding  = survey_mean(grp_animalherding, na.rm=T))
+
+grps_temp
+
+```
+
+```{r}
+
+grps_mn <- grps_temp %>%
+  select(!contains("se")) %>%
+  melt() %>%
+  mutate(group = grp_labs) %>%
+  select(1,3,2)
+         
+
+grps_se <- grps_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+  rename(se=value)
+
+grps_se
+
+grps_sum <- grps_mn %>%
+  cbind(grps_se[,2]) %>%
+  rename(percent=value,
+         se = 4) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         item=grp_items) %>%
+  arrange(desc(percent)) %>%
+  relocate(item, .after=variable)
+
+grps_sum
+
+write_csv(grps_sum, here("output/tables/resilience/groups weighted.csv"))
+
+grps_sum_gt <- grps_sum %>%
+  gt() %>%
+  fmt_percent(4:7, decimals=1)
+
+grps_sum_gt
+
+gtsave(grps_sum_gt, here("output/tables/resilience/groups weighted.rtf"))
+
+```
+
+#### IRT
 
 ```{r}
 
 #library(ltm)
 
-l1 <- ltm(grps ~ z1)
+ltm_grps <- ltm(grps ~ z1)
 
-l1
+ltm_grps
 #summary(l1)
 
 ```
 
 Credit, savings, and self-help groups have the highest 'difficulty'
 
-Cattle protection and animal herding have the highest discrimination
+Cattle protection and herding have the highest discrimination
 
 
 ```{r}
-plot(l1, type="ICC")
+plot(ltm_grps, type="ICC")
 ```
 
 ```{r}
-plot(l1, type="IIC")
+plot(ltm_grps, type="IIC")
 ```
 
 ```{r}
-plot(l1, type="IIC",
+plot(ltm_grps, type="IIC",
      items=0)
 ```
+
+```{r}
+
+ltm_grps_out <- coef(ltm_grps) %>%
+  as.data.frame() %>%
+  rownames_to_column("variable") %>%
+  mutate(item=grp_items) %>%
+  select(1,4, difficulty=2,discrimination=3)
+
+ltm_grps_out
+
+write_csv(ltm_grps_out, here("output/tables/resilience/grps irt.csv"))
+
+ltm_grps_gt <- ltm_grps_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_grps_gt
+
+gtsave(ltm_grps_gt, here("output/tables/resilience/grps irt.rtf"))
+
+```
+
+#### Factor analysis 
+
 ```{r}
 
 fa.parallel(grps,
             cor="tet")
 
 # 5 factors, 3 components
+
+```
+
+```{r}
 
 fa_grps_5 <- fa(grps,
                  nfactors=5,
@@ -120,6 +218,31 @@ Captures 75 percent of the variance of all items
 Fit statistics good but not great (Tucker-Lewis 86 percent, RMSEA .14)
 
 ```{r}
+
+fa_grps_ldngs <- fa_grps_5$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(group=grp_labs,
+         difficulty=ltm_grps_out$difficulty,
+         discrimination=ltm_grps_out$discrimination) %>%
+  relocate(group, .after=item)
+
+fa_grps_ldngs
+
+write_csv(fa_grps_ldngs, here("output/tables/resilience/groups loadings.csv"))
+
+fa_grps_gt <- fa_grps_ldngs %>%
+  gt() %>%
+  fmt_number(3:9, decimals=2)
+
+fa_grps_gt
+
+gtsave(fa_grps_gt, here("output/tables/resilience/groups loadings.rtf"))
+```
+
+
+```{r}
 fa_grps_5_scrs <- fa_grps_5$scores %>%
   as.data.frame()
 
@@ -136,6 +259,9 @@ grp_facs <- dat %>%
 fa.parallel(grp_facs)
 
 ```
+
+Three factors and one component. We are interested in a single broad measure of group membership, so we will extract a single factor. 
+
 ```{r}
 fa_grp_fac <-fa(grp_facs,
                  scores="tenBerge",
@@ -144,6 +270,30 @@ fa_grp_fac <-fa(grp_facs,
 fa_grp_fac
 
 ```
+
+```{r}
+
+fa_grp_fac_ldngs <- fa_grp_fac$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(description=c("Cattle/herding","Women/Mothers","Savings/Credit","Sports/Youth","Natural resource management")) %>%
+  relocate(description, .after=item)
+
+fa_grp_fac_ldngs
+
+write_csv(fa_grp_fac_ldngs, here("output/tables/resilience/group facs loadings.csv"))
+
+fa_grp_fac_gt <- fa_grp_fac_ldngs %>%
+  gt() %>%
+  fmt_number(3, decimals=2)
+
+fa_grp_fac_gt
+
+gtsave(fa_grp_fac_gt, here("output/tables/resilience/group facs loadings.rtf"))
+```
+
+
 ```{r}
 fa_grp_fac_scrs <- fa_grp_fac$scores %>%
   unlist() %>%
@@ -164,6 +314,7 @@ grp_latent_mn <- svyrdat %>%
 grp_latent_mn
 
 ```
+
 ### Remittances
 
 ```{r}
@@ -722,6 +873,69 @@ map(ews, frq)
 
 ```
 
+##### rank frequencies
+
+```{r}
+names(ews)
+
+ews_temp <- svyrdat %>%
+  summarize(warn_hazards = survey_mean(warn_hazards, na.rm=T),
+            warn_weather = survey_mean(warn_weather, na.rm=T),
+            warn_rainfall = survey_mean(warn_rainfall, na.rm=T),
+            warn_waterprices = survey_mean(warn_water, na.rm=T),
+            warn_animalhealth = survey_mean(warn_livestock, na.rm=T),
+            warn_crophealth = survey_mean(warn_crops, na.rm=T),
+            warn_livestockprices = survey_mean(warn_animalprices, na.rm=T),
+            warn_animalproductprices = survey_mean(warn_prices, na.rm=T),
+            warn_grazing = survey_mean(warn_grazing, na.rm=T),
+            warn_conflict = survey_mean(warn_conflict, na.rm=T),
+            warn_foodprices = survey_mean(warn_foodprices, na.rm=T))
+            
+grps_temp
+
+```
+
+```{r}
+
+ews_mn <- ews_temp %>%
+  select(!contains("se")) %>%
+  melt() %>%
+  mutate(ews = ews_labs) %>%
+  select(1,3,2)
+         
+
+ews_se <- ews_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+  rename(se=value)
+
+ews_se
+
+ews_sum <- ews_mn %>%
+  cbind(ews_se[,2]) %>%
+  rename(percent=value,
+         se = 4) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se) %>%
+  arrange(desc(percent))
+
+ews_sum
+
+write_csv(ews_sum, here("output/tables/resilience/ews weighted.csv"))
+
+ews_sum_gt <- ews_sum %>%
+  gt() %>%
+  fmt_percent(3:6, decimals=1)
+
+ews_sum_gt
+
+gtsave(ews_sum_gt, here("output/tables/resilience/ews weighted.rtf"))
+
+```
+
+
+##### IRT
+
 ```{r}
 ltm_ews <- ltm(ews ~ z1)
 ltm_ews
@@ -730,6 +944,31 @@ ltm_ews
 Price warnings least common; water, crops, and livestock most common
 
 animal prices, general prices, and grazing highest discrimination
+
+```{r}
+
+ltm_ews_out <- coef(ltm_ews) %>%
+  as.data.frame() %>%
+  rownames_to_column("variable") %>%
+  mutate(item=ews_labs) %>%
+  select(1,4, difficulty=2,discrimination=3)
+
+ltm_ews_out
+
+write_csv(ltm_ews_out, here("output/tables/resilience/ews irt.csv"))
+
+ltm_ews_gt <- ltm_ews_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_ews_gt
+
+gtsave(ltm_ews_gt, here("output/tables/resilience/ews irt.rtf"))
+
+```
+
+##### Factor analysis
 
 ```{r}
 fa.parallel(ews,
@@ -746,14 +985,28 @@ fa_ews_4 <- fa(ews,
 fa_ews_4
 ```
 
+
 ```{r}
 fa_ews_4_ldngs <- as.matrix(fa_ews_4$loadings) %>%
   unclass() %>%
   as.data.frame() %>%
-  rownames_to_column("varname") %>%
-  select(1:5) 
+  mutate(description=ews_labs,
+         difficulty=ltm_ews_out$difficulty,
+         discrimination=ltm_ews_out$discrimination) %>%
+  rownames_to_column("variable") %>%
+  relocate(description,.after=variable)
 
 fa_ews_4_ldngs
+
+write_csv(fa_ews_4_ldngs, here("output/tables/resilience/ews loadings.csv"))
+
+fa_ews_gt <- fa_ews_4_ldngs %>%
+  gt() %>%
+  fmt_number(3:8, decimals=2)
+
+fa_ews_gt
+
+gtsave(fa_ews_gt, here("output/tables/resilience/ews loadings.rtf"))
 
 ```
 
@@ -824,6 +1077,32 @@ fa_ews_facs <- fa(ews_facs,
 
 fa_ews_facs
 ```
+
+```{r}
+fa_ews_facs_ldngs <- as.matrix(fa_ews_facs$loadings) %>%
+  unclass() %>%
+  as.data.frame() %>%
+  mutate(description=c("Animal product/livestock/food prices",
+                       "Natural hazards/weather",
+                       "Animal/crop health",
+                       "Conflict")) %>%
+  rownames_to_column("factor") %>%
+  relocate(description,.after=factor)
+
+fa_ews_facs_ldngs
+
+write_csv(fa_ews_facs_ldngs, here("output/tables/resilience/ews facs loadings.csv"))
+
+fa_ews_facs_gt <- fa_ews_facs_ldngs %>%
+  gt() %>%
+  fmt_number(3, decimals=2)
+
+fa_ews_facs_gt
+
+gtsave(fa_ews_facs_gt, here("output/tables/resilience/ews facs loadings.rtf"))
+
+```
+
 
 ```{r}
 fa_ews_facs_scrs <- fa_ews_facs$scores %>%
@@ -903,16 +1182,98 @@ ggplot(dat, aes(y=ews_comp)) +
 frq(dat$q_612)
 ```
 
+##### frequencies
+
+```{r}
+names(grps)
+
+emerg_temp <- svyrdat %>%
+  summarize(q610 = survey_mean(emerg1, na.rm=T),
+            q611 = survey_mean(emerg2, na.rm=T),
+            q612 = survey_mean(emerg3, na.rm=T),
+            q501l = survey_mean(emerg4, na.rm=T))
+
+emerg_temp
+
+```
+
+```{r}
+
+emerg_mn <- emerg_temp %>%
+  select(!contains("se")) %>%
+  melt() %>%
+  mutate(description=emerg_labs) %>%
+  select(1,3,2)
+
+emerg_mn         
+
+emerg_se <- emerg_temp %>%
+  select(contains("se")) %>%
+  melt() %>%
+  rename(se=value)
+
+emerg_se
+
+emerg_sum <- emerg_mn %>%
+  cbind(emerg_se[,2]) %>%
+  rename(percent=value,
+         se = 4) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se) %>%
+  arrange(desc(percent)) %>%
+  relocate(description, .after=variable)
+
+emerg_sum
+
+write_csv(emerg_sum, here("output/tables/resilience/emergency weighted.csv"))
+
+emerg_sum_gt <- emerg_sum %>%
+  gt() %>%
+  fmt_percent(3:6, decimals=1)
+
+emerg_sum_gt
+
+gtsave(emerg_sum_gt, here("output/tables/resilience/emergency weighted.rtf"))
+
+```
+
+
+
 ```{r}
 emerg <- dat %>%
   select(emerg1:emerg4)
 head(emerg)
+map(emerg, frq)
 ```
+##### IRT
 
 ```{r}
 ltm_emerg <- ltm(emerg ~ z1)
 ltm_emerg
 ```
+```{r}
+
+ltm_emerg_out <- coef(ltm_emerg) %>%
+  as.data.frame() %>%
+  rownames_to_column("variable") %>%
+  mutate(description=emerg_labs) %>%
+  select(1,4, difficulty=2,discrimination=3)
+
+ltm_emerg_out
+
+write_csv(ltm_emerg_out, here("output/tables/resilience/emerg irt.csv"))
+
+ltm_emerg_gt <- ltm_emerg_out %>%
+  gt() %>%
+  fmt_number(3:4,
+             decimals=2)
+
+ltm_emerg_gt
+
+gtsave(ltm_emerg_gt, here("output/tables/resilience/emerg irt.rtf"))
+
+```
+
 
 ```{r}
 plot(ltm_emerg, type="ICC")
@@ -927,6 +1288,7 @@ plot(ltm_emerg,
      type="IIC",
      items=0)
 ```
+
 ```{r}
 ltm_emerg2 <- ltm(emerg[,1:3] ~ z1)
 ltm_emerg2
@@ -945,6 +1307,8 @@ plot(ltm_emerg2,
      items=0)
 ```
 
+##### Factor analysis
+
 ```{r}
 fa.parallel(emerg,
             cor="tet")
@@ -958,6 +1322,31 @@ fa_emerg <- fa(emerg,
 fa_emerg
 
 ```
+
+```{r}
+
+fa_emerg_ldngs <- fa_emerg$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(description=emerg_labs,
+         difficulty=ltm_emerg_out$difficulty,
+         discrimination=ltm_emerg_out$discrimination) %>%
+  relocate(description, .after=item)
+
+fa_emerg_ldngs
+
+write_csv(fa_emerg_ldngs, here("output/tables/resilience/emerg loadings.csv"))
+
+fa_emerg_gt <- fa_emerg_ldngs %>%
+  gt() %>%
+  fmt_number(3:5, decimals=2)
+
+fa_emerg_gt
+
+gtsave(fa_emerg_gt, here("output/tables/resilience/emerg loadings.rtf"))
+```
+
 
 ```{r}
 fa_emerg_scrs <- fa_emerg$scores %>%

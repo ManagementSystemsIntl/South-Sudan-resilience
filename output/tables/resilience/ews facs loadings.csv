@@ -1,0 +1,5 @@
+factor,description,ML1
+ews_fac_prices,Animal product/livestock/food prices,0.7066660386535519
+ews_fac_weather,Natural hazards/weather,0.7519621351062685
+ews_fac_farming,Animal/crop health,0.7581644845421658
+ews_fac_conflict,Conflict,0.7208875832294964
