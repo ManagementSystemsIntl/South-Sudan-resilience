@@ -400,3 +400,10 @@ ews_key <- data.frame(ews_code = 1:11,
                       ews_lab = ews_labs)
 
 ews_key
+
+emerg_labs <- c("Emergency action plan in place",
+  "Emergency plan addressed shock that household faced",
+  "Emergency plan successfully mitigated effect of shock",
+  "Disaster planning group in community")
+
+
