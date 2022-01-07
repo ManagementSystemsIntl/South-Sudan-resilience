@@ -23,11 +23,6 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-svyrdat <- dat %>%
-  as_survey_design(ids = ea,
-                   strata=county,
-                   weights=final_wt1)
-
 ```
 
 # Introduction
