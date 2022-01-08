@@ -332,7 +332,7 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 #  
 # write_csv(conf_key, "output/tables/conf_key.csv")
 
-conf_key <- read_csv("output/tables/conf_key.csv")
+conf_key <- read_csv(here("output/tables/conf_key.csv"))
  
 conf_key 
 
@@ -381,7 +381,7 @@ grp_labs <- c("Water users",
               "Cattle protection",
               "Small animal herding")
 
-grp_key <- data.frame(grp_code=1:15,
+grp_key <- data.frame(grp_code=1:16,
                       grp_name = grp_labs)
 
 grp_key

@@ -107,7 +107,8 @@ trauma_cnty <- svyrdat %>%
   summarize(se = std.error(trauma),
             trauma=mean(trauma, na.rm=T)) %>%
   mutate(lower=trauma-1.96*se,
-         upper=trauma+1.96*se)
+         upper=trauma+1.96*se) %>%
+  select(1,3:5)
 
 trauma_cnty
 ```
@@ -121,9 +122,9 @@ ggplot(trauma_cnty, aes(trauma, fct_reorder(county, trauma))) +
                 color="dodgerblue",
                 width=0,
                 size=1) +
-  scale_x_continuous(limits=c(.5,1),
-                     breaks=seq(.5,1, .1),
-                     labels=percent) +
+  scale_x_continuous(limits=c(.4,1),
+                     breaks=seq(.4,1, .1),
+                     labels=percent_format(accuracy=1)) +
   labs(x="Incidence of any trauma",
        y="")
 ```
@@ -163,7 +164,11 @@ For purposes of using a measure of psycho-social stress to help model household 
 trauma_3_stress <- trauma_fa_3$scores %>%
   as.data.frame() %>%
   select(stress=2)
+
+head(trauma_3_stress)
+
 describe(trauma_3_stress)
+
 ```
 
 ```{r}
@@ -184,6 +189,29 @@ frq(trauma_3_stress$stress_bin)
 ```{r}
 frq(trauma_3_stress$stress_quin)
 ```
+
+```{r}
+
+dat <- dat %>%
+  mutate(stress = trauma_3_stress$stress,
+         stress_resc = scales::rescale(stress, c(0,100)),
+         stress_bin = ifelse(stress>.4999, 1,0),
+         stress_quin = ntile(stress, 5))
+
+ggplot(dat, aes(stress_resc)) + 
+  geom_bar()
+
+describe(dat$stress_resc)
+
+frq(dat$trauma_feelings)
+frq(dat$stress_bin)
+
+```
+
+
+
+
+
 ## Two factor model
 
 ```{r}
