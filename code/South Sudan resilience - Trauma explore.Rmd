@@ -87,6 +87,13 @@ trauma_out <- svyrdat %>%
 
 trauma_out
 
+trauma_out_gt <- trauma_out %>%
+  gt() %>%
+  fmt_percent(4,
+             decimals=1)
+
+
+trauma_out_gt
 
 ```
 

@@ -1963,7 +1963,7 @@ ggsave(here("output/models/Absorptive hungry ribbon.png"),
 
 ```{r}
 l1.2 <- svyglm(ability_recover_bin ~ absorp_latent_resc + conflict + shock_exposure_index + 
-               household_members + as.factor(hh_head_sex) + urban + as.factor(county),
+               household_members + as.factor(hh_head_sex) + urban + trauma + as.factor(county),
              family="quasibinomial",
              design=svyrdat)
 summary(l1.2)

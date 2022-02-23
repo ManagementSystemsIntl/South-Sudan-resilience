@@ -63,8 +63,8 @@ dat <- dat %>%
 trauma <- dat %>%
   select(trauma_thoughts:trauma_function)
 
-trauma_out <- trauma %>%
-  summarize(trauma_thoughts=mean(trauma_thoughts))
+#trauma_out <- trauma %>%
+#  summarize(trauma_thoughts=mean(trauma_thoughts))
 
 trauma_out <- svyrdat %>%
   group_by() %>%
@@ -90,8 +90,76 @@ trauma_out <- svyrdat %>%
 
 trauma_out
 
+trauma_out_gt <- trauma_out %>%
+  gt() %>%
+  fmt_percent(4,
+             decimals=1)
+
+trauma_out_gt
+
 
 ```
+
+```{r}
+
+trauma_temp <- svyrdat %>%
+  group_by() %>%
+  summarize(trauma_thoughts=survey_mean(trauma_thoughts),
+            trauma_feelings=survey_mean(trauma_feelings),
+            trauma_behavior=survey_mean(trauma_behavior),
+            trauma_relations=survey_mean(trauma_relations),
+            trauma_physical=survey_mean(trauma_physical),
+            trauma_function=survey_mean(trauma_function))
+
+
+trauma_mn <- trauma_temp %>%
+  select(!contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  rename(percent=V1)
+
+trauma_mn
+
+trauma_se <- trauma_temp %>%
+  select(contains("se")) %>%
+  t() %>%
+  as.data.frame() %>%
+#  rownames_to_column("conflict") %>%
+  rename(se=V1)
+
+trauma_se
+
+trauma_sum <- trauma_mn %>%
+  cbind(trauma_temp[,2]) %>%
+  rename(se=3) %>%
+  mutate(lower=percent-1.96*se,
+         upper=percent+1.96*se,
+         item_num=c("q_711","q_715","q_719","q_723", "q_727","q_731"),
+         Description=c("Problems with thinking", 
+                       "Problems with emotions",
+                       "Problems with behavior",
+                       "Problems with relationships",
+                       "Problems with physical symptoms",
+                       "Problems with physical functioning")) %>%
+   select(1, 6:7, everything())
+
+trauma_sum
+
+write_csv(trauma_sum, here("output/tables/trauma items.csv"))
+
+trauma_gt <- trauma_sum %>%
+  select(-5) %>%
+  gt() %>%
+  fmt_percent(4:6, 
+              decimals=1)
+
+trauma_gt
+
+gtsave(trauma_gt, here("output/tables/trauma items.rtf"))
+
+```
+
 
 A composite variable takes the value one if any of those symptoms were reported, zero otherwise. The incidence of this composite variable for exposure to trauma is 84 percent. 
 
@@ -139,6 +207,20 @@ ggsave(here("output/viz/any trauma, by county label.png"),
        height=4,
        width=7)
 ```
+
+```{r}
+trauma_cnty2 <- svyrdat %>%
+  group_by(county) %>%
+  summarize(se = std.error(trauma),
+            trauma=survey_mean(trauma, na.rm=T)) %>%
+  mutate(lower=trauma-1.96*se,
+         upper=trauma+1.96*se) %>%
+  select(1,3:5) %>%
+  arrange(desc(trauma))
+
+trauma_cnty2
+```
+
 
 # Factor analysis 
 
@@ -200,7 +282,19 @@ feelings_cnty <- svyrdat %>%
   arrange(desc(trauma_feelings))
 
 feelings_cnty
+
+write_csv(feelings_cnty, here("output/tables/trauma feelings by county.csv"))
+
+feelings_cnty_gt <- feelings_cnty %>%
+  gt() %>%
+  fmt_percent(2:4, decimals=1)
+
+feelings_cnty_gt
+
+gtsave(feelings_cnty_gt, here("output/tables/trauma feelings by county.rtf"))
+
 ```
+
 ```{r}
 ggplot(feelings_cnty, aes(trauma_feelings, fct_reorder(county, trauma_feelings))) + 
   geom_vline(xintercept=feelings_mn[,1], size=1, alpha=.7, color="darkgoldenrod2") +
