@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.74">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Dan Killian">
+  <title>Household income and consumption</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="South Sudan resilience - frequencies_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files/libs/quarto-html/quarto.js"></script>
+  <script src="South Sudan resilience - frequencies_files/libs/quarto-html/popper.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="South Sudan resilience - frequencies_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="South Sudan resilience - frequencies_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="South Sudan resilience - frequencies_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="South Sudan resilience - frequencies_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="South Sudan resilience - frequencies_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#household-income-and-consumption" class="nav-link active" data-scroll-target="#household-income-and-consumption"> <span class="header-section-number">1</span> Household Income and Consumption</a></li>
+</ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+
+<div class="quarto-title"><h1 class="title display-7">Household income and consumption</h1><p class="subtitle lead">Survey frequencies</p></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><p>Dan Killian</p></div></div></div></div></header>
+
+<section id="household-income-and-consumption" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Household Income and Consumption</h1>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-2_6059ec4627de438cf29d2431375cefbb">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>inc_out <span class="ot">&lt;-</span> svyrdat <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">crop_production=</span><span class="fu">survey_mean</span>(q_401_a_bin),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">cattle_production =</span> <span class="fu">survey_mean</span>(q_401_b_bin),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">goat_production =</span> <span class="fu">survey_mean</span>(q_401_c_bin),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sheep_production =</span> <span class="fu">survey_mean</span>(q_401_d_bin),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">fishing =</span> <span class="fu">survey_mean</span>(q_401_e_bin),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">Agwage_within =</span> <span class="fu">survey_mean</span>(q_401_f_bin),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">Agwage_without =</span> <span class="fu">survey_mean</span>(q_401_g_bin),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">nonAgwage_within =</span> <span class="fu">survey_mean</span>(q_401_h_bin),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">nonAgwage_without =</span> <span class="fu">survey_mean</span>(q_401_i_bin),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">salary =</span> <span class="fu">survey_mean</span>(q_401_j_bin),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">bush_products =</span> <span class="fu">survey_mean</span>(q_401_k_bin),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">honey =</span> <span class="fu">survey_mean</span>(q_401_l_bin),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_other =</span> <span class="fu">survey_mean</span>(q_401_m_bin),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_own =</span> <span class="fu">survey_mean</span>(q_401_n_bin),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_ag =</span> <span class="fu">survey_mean</span>(q_401_o_bin), </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_nonag =</span> <span class="fu">survey_mean</span>(q_401_p_bin),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">rent =</span> <span class="fu">survey_mean</span>(q_401_q_bin),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">remit =</span> <span class="fu">survey_mean</span>(q_401_r_bin),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">gifts =</span> <span class="fu">survey_mean</span>(q_401_s_bin),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin)) </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>[1] "C:/Users/dan.killian/Documents/South Sudan resilience - MSI/code"</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-4_24c0b60d2098fee3192cca83545511df">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mn_cols <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="dv">40</span>) <span class="sc">%%</span><span class="dv">2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>inc_mn <span class="ot">&lt;-</span> inc_out[, mn_cols<span class="sc">==</span>T] <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>inc_se <span class="ot">&lt;-</span> inc_out[,mn_cols<span class="sc">==</span>F] <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>inc_frq <span class="ot">&lt;-</span> inc_mn <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(inc_se) <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(<span class="at">nm=</span><span class="fu">c</span>(<span class="st">"income_source"</span>,<span class="st">"mean"</span>,<span class="st">"se"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">margin=</span>se<span class="sc">*</span><span class="fl">1.96</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower=</span>mean<span class="fl">-1.96</span><span class="sc">*</span>margin,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper=</span>mean<span class="fl">+1.96</span><span class="sc">*</span>margin)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>inc_gt <span class="ot">&lt;-</span> inc_frq <span class="sc">%&gt;%</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>inc_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="uucnidjefv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#uucnidjefv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#uucnidjefv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#uucnidjefv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#uucnidjefv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#uucnidjefv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#uucnidjefv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#uucnidjefv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#uucnidjefv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uucnidjefv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uucnidjefv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#uucnidjefv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#uucnidjefv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#uucnidjefv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uucnidjefv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#uucnidjefv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#uucnidjefv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uucnidjefv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#uucnidjefv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uucnidjefv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#uucnidjefv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uucnidjefv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uucnidjefv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uucnidjefv .gt_left {
+  text-align: left;
+}
+
+#uucnidjefv .gt_center {
+  text-align: center;
+}
+
+#uucnidjefv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#uucnidjefv .gt_font_normal {
+  font-weight: normal;
+}
+
+#uucnidjefv .gt_font_bold {
+  font-weight: bold;
+}
+
+#uucnidjefv .gt_font_italic {
+  font-style: italic;
+}
+
+#uucnidjefv .gt_super {
+  font-size: 65%;
+}
+
+#uucnidjefv .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#uucnidjefv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#uucnidjefv .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#uucnidjefv .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#uucnidjefv .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">income_source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">margin</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">lower</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">upper</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">crop_production</td>
+<td class="gt_row gt_right">56.5%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">49.3%</td>
+<td class="gt_row gt_right">63.7%</td></tr>
+    <tr><td class="gt_row gt_left">cattle_production</td>
+<td class="gt_row gt_right">54.0%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">47.3%</td>
+<td class="gt_row gt_right">60.6%</td></tr>
+    <tr><td class="gt_row gt_left">goat_production</td>
+<td class="gt_row gt_right">45.3%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">39.0%</td>
+<td class="gt_row gt_right">51.6%</td></tr>
+    <tr><td class="gt_row gt_left">fishing</td>
+<td class="gt_row gt_right">41.5%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">3.0%</td>
+<td class="gt_row gt_right">35.7%</td>
+<td class="gt_row gt_right">47.4%</td></tr>
+    <tr><td class="gt_row gt_left">bush_products</td>
+<td class="gt_row gt_right">39.7%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">32.5%</td>
+<td class="gt_row gt_right">46.9%</td></tr>
+    <tr><td class="gt_row gt_left">sheep_production</td>
+<td class="gt_row gt_right">32.1%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">25.8%</td>
+<td class="gt_row gt_right">38.5%</td></tr>
+    <tr><td class="gt_row gt_left">nonAgwage_within</td>
+<td class="gt_row gt_right">30.5%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">24.0%</td>
+<td class="gt_row gt_right">37.1%</td></tr>
+    <tr><td class="gt_row gt_left">safety_net</td>
+<td class="gt_row gt_right">28.5%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">21.3%</td>
+<td class="gt_row gt_right">35.7%</td></tr>
+    <tr><td class="gt_row gt_left">Agwage_within</td>
+<td class="gt_row gt_right">24.8%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">3.0%</td>
+<td class="gt_row gt_right">19.0%</td>
+<td class="gt_row gt_right">30.7%</td></tr>
+    <tr><td class="gt_row gt_left">gifts</td>
+<td class="gt_row gt_right">24.4%</td>
+<td class="gt_row gt_right">1.8%</td>
+<td class="gt_row gt_right">3.6%</td>
+<td class="gt_row gt_right">17.3%</td>
+<td class="gt_row gt_right">31.5%</td></tr>
+    <tr><td class="gt_row gt_left">honey</td>
+<td class="gt_row gt_right">23.2%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">3.0%</td>
+<td class="gt_row gt_right">17.3%</td>
+<td class="gt_row gt_right">29.2%</td></tr>
+    <tr><td class="gt_row gt_left">petty_trade_own</td>
+<td class="gt_row gt_right">13.5%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">18.7%</td></tr>
+    <tr><td class="gt_row gt_left">petty_trade_other</td>
+<td class="gt_row gt_right">12.5%</td>
+<td class="gt_row gt_right">1.1%</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">16.6%</td></tr>
+    <tr><td class="gt_row gt_left">salary</td>
+<td class="gt_row gt_right">12.2%</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">1.8%</td>
+<td class="gt_row gt_right">8.7%</td>
+<td class="gt_row gt_right">15.6%</td></tr>
+    <tr><td class="gt_row gt_left">ownbiz_nonag</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">1.2%</td>
+<td class="gt_row gt_right">2.4%</td>
+<td class="gt_row gt_right">7.5%</td>
+<td class="gt_row gt_right">16.7%</td></tr>
+    <tr><td class="gt_row gt_left">ownbiz_ag</td>
+<td class="gt_row gt_right">11.2%</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">7.5%</td>
+<td class="gt_row gt_right">14.8%</td></tr>
+    <tr><td class="gt_row gt_left">Agwage_without</td>
+<td class="gt_row gt_right">10.2%</td>
+<td class="gt_row gt_right">0.8%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">7.1%</td>
+<td class="gt_row gt_right">13.4%</td></tr>
+    <tr><td class="gt_row gt_left">nonAgwage_without</td>
+<td class="gt_row gt_right">8.9%</td>
+<td class="gt_row gt_right">0.8%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">5.7%</td>
+<td class="gt_row gt_right">12.1%</td></tr>
+    <tr><td class="gt_row gt_left">rent</td>
+<td class="gt_row gt_right">6.1%</td>
+<td class="gt_row gt_right">0.7%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">3.6%</td>
+<td class="gt_row gt_right">8.7%</td></tr>
+    <tr><td class="gt_row gt_left">remit</td>
+<td class="gt_row gt_right">5.6%</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">3.6%</td>
+<td class="gt_row gt_right">7.7%</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-6_6edf1e5801a75118d5f68c07dc6c4e95">
+<details>
+<summary>Code</summary>
+<pre class="inc_out cell-code"><code></code></pre>
+</details>
+</div>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

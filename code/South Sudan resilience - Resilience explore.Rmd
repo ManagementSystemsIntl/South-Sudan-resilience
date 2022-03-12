@@ -111,9 +111,14 @@ grps_sum <- grps_mn %>%
   arrange(desc(percent)) %>%
   relocate(item, .after=variable)
 
-grps_sum
+grps_sum <- read_csv(("output/tables/resilience/groups weighted.csv")
 
-write_csv(grps_sum, here("output/tables/resilience/groups weighted.csv"))
+grps_sum_gt <- grps_sum %>%
+  gt() %>%
+  fmt_percent(4:7,
+              decimals=1)
+                     
+                     
 
 grps_sum_gt <- grps_sum %>%
   gt() %>%
