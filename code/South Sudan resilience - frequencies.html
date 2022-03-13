@@ -4,7 +4,7 @@
   <meta name="generator" content="quarto-0.9.74">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Dan Killian">
-  <title>Household income and consumption</title>
+  <title>South Sudan resilience baseline</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -97,7 +97,19 @@
   <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">Table of contents</h2>
 <ul>
-<li><a href="#household-income-and-consumption" class="nav-link active" data-scroll-target="#household-income-and-consumption"> <span class="header-section-number">1</span> Household Income and Consumption</a></li>
+<li><a href="#household-income-and-consumption" class="nav-link active" data-scroll-target="#household-income-and-consumption"> <span class="header-section-number">1</span> Household Income and Consumption</a>
+<ul class="collapse">
+<li><a href="#overall" class="nav-link" data-scroll-target="#overall"> <span class="header-section-number">1.1</span> Overall</a></li>
+<li><a href="#by-county" class="nav-link" data-scroll-target="#by-county"> <span class="header-section-number">1.2</span> By county</a>
+<ul class="collapse">
+<li><a href="#long-format-with-confidence-intervals" class="nav-link" data-scroll-target="#long-format-with-confidence-intervals"> <span class="header-section-number">1.2.1</span> Long format, with confidence intervals</a></li>
+<li><a href="#wide-format-to-better-show-income-source-across-county." class="nav-link" data-scroll-target="#wide-format-to-better-show-income-source-across-county."> <span class="header-section-number">1.2.2</span> Wide format to better show income source across county.</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#household-involvement-in-the-community" class="nav-link" data-scroll-target="#household-involvement-in-the-community"> <span class="header-section-number">2</span> Household involvement in the community</a>
+<ul class="collapse">
+<li><a href="#community-group-participation" class="nav-link" data-scroll-target="#community-group-participation"> <span class="header-section-number">2.1</span> Community group participation</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -106,14 +118,16 @@
 
 
 
-<div class="quarto-title"><h1 class="title display-7">Household income and consumption</h1><p class="subtitle lead">Survey frequencies</p></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><p>Dan Killian</p></div></div></div></div></header>
+<div class="quarto-title"><h1 class="title display-7">South Sudan resilience baseline</h1><p class="subtitle lead">Survey frequencies</p></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><p>Dan Killian</p></div></div></div></div></header>
 
 <section id="household-income-and-consumption" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Household Income and Consumption</h1>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-2_6059ec4627de438cf29d2431375cefbb">
+<section id="overall" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="overall"><span class="header-section-number">1.1</span> Overall</h2>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-2_dc37efa4aa19557c80df5ed9eb470f3a">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>inc_out <span class="ot">&lt;-</span> svyrdat <span class="sc">%&gt;%</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>inc_ov_tmp <span class="ot">&lt;-</span> svyrdat <span class="sc">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">crop_production=</span><span class="fu">survey_mean</span>(q_401_a_bin),</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">cattle_production =</span> <span class="fu">survey_mean</span>(q_401_b_bin),</span>
@@ -134,50 +148,51 @@
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">rent =</span> <span class="fu">survey_mean</span>(q_401_q_bin),</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">remit =</span> <span class="fu">survey_mean</span>(q_401_r_bin),</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">gifts =</span> <span class="fu">survey_mean</span>(q_401_s_bin),</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin)) </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-stdout">
-<pre><code>[1] "C:/Users/dan.killian/Documents/South Sudan resilience - MSI/code"</code></pre>
 </div>
-</div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-4_24c0b60d2098fee3192cca83545511df">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-4_2b8233b8f494f8a5c818c298d2803877">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mn_cols <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="dv">40</span>) <span class="sc">%%</span><span class="dv">2</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>inc_mn <span class="ot">&lt;-</span> inc_out[, mn_cols<span class="sc">==</span>T] <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>inc_se <span class="ot">&lt;-</span> inc_out[,mn_cols<span class="sc">==</span>F] <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>inc_frq <span class="ot">&lt;-</span> inc_mn <span class="sc">%&gt;%</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(inc_se) <span class="sc">%&gt;%</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(<span class="at">nm=</span><span class="fu">c</span>(<span class="st">"income_source"</span>,<span class="st">"mean"</span>,<span class="st">"se"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">margin=</span>se<span class="sc">*</span><span class="fl">1.96</span>,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower=</span>mean<span class="fl">-1.96</span><span class="sc">*</span>margin,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper=</span>mean<span class="fl">+1.96</span><span class="sc">*</span>margin)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>inc_gt <span class="ot">&lt;-</span> inc_frq <span class="sc">%&gt;%</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>inc_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ov_cols <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="dv">40</span>) <span class="sc">%%</span> <span class="dv">2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>inc_ov_mn <span class="ot">&lt;-</span> inc_ov_tmp[, ov_cols<span class="sc">==</span>T] <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to=</span><span class="st">"income_source"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to=</span><span class="st">"Percent"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inc_lab=</span>inc_labs) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(inc_lab, <span class="at">.after=</span>income_source)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>inc_ov_se <span class="ot">&lt;-</span> inc_ov_tmp[,ov_cols<span class="sc">==</span>F] <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to=</span><span class="st">"income_source"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to=</span><span class="st">"se"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>inc_ov <span class="ot">&lt;-</span> inc_ov_mn <span class="sc">%&gt;%</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(inc_ov_se[,<span class="dv">2</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">margin=</span>se<span class="sc">*</span><span class="fl">1.96</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower=</span>Percent<span class="sc">-</span>margin,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper=</span>Percent<span class="sc">+</span>margin)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>inc_gt <span class="ot">&lt;-</span> inc_ov <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Percent)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">inc_lab=</span><span class="st">"Income source"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="st">"Survey instsrument items 401a-t"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>inc_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="uucnidjefv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="oxohmeffls" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uucnidjefv .gt_table {
+#oxohmeffls .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -202,7 +217,7 @@
   border-left-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_heading {
+#oxohmeffls .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -214,7 +229,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_title {
+#oxohmeffls .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -226,7 +241,7 @@
   border-bottom-width: 0;
 }
 
-#uucnidjefv .gt_subtitle {
+#oxohmeffls .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -238,13 +253,13 @@
   border-top-width: 0;
 }
 
-#uucnidjefv .gt_bottom_border {
+#oxohmeffls .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_col_headings {
+#oxohmeffls .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -259,7 +274,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_col_heading {
+#oxohmeffls .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -279,7 +294,7 @@
   overflow-x: hidden;
 }
 
-#uucnidjefv .gt_column_spanner_outer {
+#oxohmeffls .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -291,15 +306,15 @@
   padding-right: 4px;
 }
 
-#uucnidjefv .gt_column_spanner_outer:first-child {
+#oxohmeffls .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uucnidjefv .gt_column_spanner_outer:last-child {
+#oxohmeffls .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uucnidjefv .gt_column_spanner {
+#oxohmeffls .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -311,7 +326,7 @@
   width: 100%;
 }
 
-#uucnidjefv .gt_group_heading {
+#oxohmeffls .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -336,7 +351,7 @@
   vertical-align: middle;
 }
 
-#uucnidjefv .gt_empty_group_heading {
+#oxohmeffls .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -351,15 +366,15 @@
   vertical-align: middle;
 }
 
-#uucnidjefv .gt_from_md > :first-child {
+#oxohmeffls .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uucnidjefv .gt_from_md > :last-child {
+#oxohmeffls .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uucnidjefv .gt_row {
+#oxohmeffls .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -378,7 +393,7 @@
   overflow-x: hidden;
 }
 
-#uucnidjefv .gt_stub {
+#oxohmeffls .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -391,7 +406,7 @@
   padding-right: 5px;
 }
 
-#uucnidjefv .gt_stub_row_group {
+#oxohmeffls .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -405,11 +420,11 @@
   vertical-align: top;
 }
 
-#uucnidjefv .gt_row_group_first td {
+#oxohmeffls .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uucnidjefv .gt_summary_row {
+#oxohmeffls .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -419,16 +434,16 @@
   padding-right: 5px;
 }
 
-#uucnidjefv .gt_first_summary_row {
+#oxohmeffls .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_first_summary_row.thick {
+#oxohmeffls .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uucnidjefv .gt_last_summary_row {
+#oxohmeffls .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -438,7 +453,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_grand_summary_row {
+#oxohmeffls .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -448,7 +463,7 @@
   padding-right: 5px;
 }
 
-#uucnidjefv .gt_first_grand_summary_row {
+#oxohmeffls .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -458,11 +473,11 @@
   border-top-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_striped {
+#oxohmeffls .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uucnidjefv .gt_table_body {
+#oxohmeffls .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -471,7 +486,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_footnotes {
+#oxohmeffls .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -485,7 +500,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_footnote {
+#oxohmeffls .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -494,7 +509,7 @@
   padding-right: 5px;
 }
 
-#uucnidjefv .gt_sourcenotes {
+#oxohmeffls .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -508,7 +523,7 @@
   border-right-color: #D3D3D3;
 }
 
-#uucnidjefv .gt_sourcenote {
+#oxohmeffls .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -516,60 +531,60 @@
   padding-right: 5px;
 }
 
-#uucnidjefv .gt_left {
+#oxohmeffls .gt_left {
   text-align: left;
 }
 
-#uucnidjefv .gt_center {
+#oxohmeffls .gt_center {
   text-align: center;
 }
 
-#uucnidjefv .gt_right {
+#oxohmeffls .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uucnidjefv .gt_font_normal {
+#oxohmeffls .gt_font_normal {
   font-weight: normal;
 }
 
-#uucnidjefv .gt_font_bold {
+#oxohmeffls .gt_font_bold {
   font-weight: bold;
 }
 
-#uucnidjefv .gt_font_italic {
+#oxohmeffls .gt_font_italic {
   font-style: italic;
 }
 
-#uucnidjefv .gt_super {
+#oxohmeffls .gt_super {
   font-size: 65%;
 }
 
-#uucnidjefv .gt_footnote_marks {
+#oxohmeffls .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#uucnidjefv .gt_asterisk {
+#oxohmeffls .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uucnidjefv .gt_slash_mark {
+#oxohmeffls .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#uucnidjefv .gt_fraction_numerator {
+#oxohmeffls .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#uucnidjefv .gt_fraction_denominator {
+#oxohmeffls .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -579,135 +594,2169 @@
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">income_source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Income source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Percent</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">margin</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">lower</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">upper</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_left">crop_production</td>
+    <tr><td class="gt_row gt_left">Farm/crop production</td>
 <td class="gt_row gt_right">56.5%</td>
-<td class="gt_row gt_right">1.9%</td>
 <td class="gt_row gt_right">3.7%</td>
-<td class="gt_row gt_right">49.3%</td>
-<td class="gt_row gt_right">63.7%</td></tr>
-    <tr><td class="gt_row gt_left">cattle_production</td>
+<td class="gt_row gt_right">52.9%</td>
+<td class="gt_row gt_right">60.2%</td></tr>
+    <tr><td class="gt_row gt_left">Cattle production/sales</td>
 <td class="gt_row gt_right">54.0%</td>
-<td class="gt_row gt_right">1.7%</td>
 <td class="gt_row gt_right">3.4%</td>
-<td class="gt_row gt_right">47.3%</td>
-<td class="gt_row gt_right">60.6%</td></tr>
-    <tr><td class="gt_row gt_left">goat_production</td>
+<td class="gt_row gt_right">50.6%</td>
+<td class="gt_row gt_right">57.4%</td></tr>
+    <tr><td class="gt_row gt_left">Goat production/sales</td>
 <td class="gt_row gt_right">45.3%</td>
-<td class="gt_row gt_right">1.6%</td>
 <td class="gt_row gt_right">3.2%</td>
-<td class="gt_row gt_right">39.0%</td>
-<td class="gt_row gt_right">51.6%</td></tr>
-    <tr><td class="gt_row gt_left">fishing</td>
+<td class="gt_row gt_right">42.1%</td>
+<td class="gt_row gt_right">48.5%</td></tr>
+    <tr><td class="gt_row gt_left">Fishing and sales</td>
 <td class="gt_row gt_right">41.5%</td>
-<td class="gt_row gt_right">1.5%</td>
 <td class="gt_row gt_right">3.0%</td>
-<td class="gt_row gt_right">35.7%</td>
-<td class="gt_row gt_right">47.4%</td></tr>
-    <tr><td class="gt_row gt_left">bush_products</td>
+<td class="gt_row gt_right">38.5%</td>
+<td class="gt_row gt_right">44.5%</td></tr>
+    <tr><td class="gt_row gt_left">Wild bush sales</td>
 <td class="gt_row gt_right">39.7%</td>
-<td class="gt_row gt_right">1.9%</td>
 <td class="gt_row gt_right">3.7%</td>
-<td class="gt_row gt_right">32.5%</td>
-<td class="gt_row gt_right">46.9%</td></tr>
-    <tr><td class="gt_row gt_left">sheep_production</td>
+<td class="gt_row gt_right">36.0%</td>
+<td class="gt_row gt_right">43.4%</td></tr>
+    <tr><td class="gt_row gt_left">Sheep production/sales</td>
 <td class="gt_row gt_right">32.1%</td>
-<td class="gt_row gt_right">1.6%</td>
 <td class="gt_row gt_right">3.2%</td>
-<td class="gt_row gt_right">25.8%</td>
-<td class="gt_row gt_right">38.5%</td></tr>
-    <tr><td class="gt_row gt_left">nonAgwage_within</td>
+<td class="gt_row gt_right">28.9%</td>
+<td class="gt_row gt_right">35.4%</td></tr>
+    <tr><td class="gt_row gt_left">Wage labor in village</td>
 <td class="gt_row gt_right">30.5%</td>
-<td class="gt_row gt_right">1.7%</td>
 <td class="gt_row gt_right">3.4%</td>
-<td class="gt_row gt_right">24.0%</td>
-<td class="gt_row gt_right">37.1%</td></tr>
-    <tr><td class="gt_row gt_left">safety_net</td>
+<td class="gt_row gt_right">27.2%</td>
+<td class="gt_row gt_right">33.9%</td></tr>
+    <tr><td class="gt_row gt_left">Food / cash safety net</td>
 <td class="gt_row gt_right">28.5%</td>
-<td class="gt_row gt_right">1.9%</td>
 <td class="gt_row gt_right">3.7%</td>
-<td class="gt_row gt_right">21.3%</td>
-<td class="gt_row gt_right">35.7%</td></tr>
-    <tr><td class="gt_row gt_left">Agwage_within</td>
+<td class="gt_row gt_right">24.9%</td>
+<td class="gt_row gt_right">32.2%</td></tr>
+    <tr><td class="gt_row gt_left">Ag wage labor in village</td>
 <td class="gt_row gt_right">24.8%</td>
-<td class="gt_row gt_right">1.5%</td>
 <td class="gt_row gt_right">3.0%</td>
-<td class="gt_row gt_right">19.0%</td>
-<td class="gt_row gt_right">30.7%</td></tr>
-    <tr><td class="gt_row gt_left">gifts</td>
+<td class="gt_row gt_right">21.9%</td>
+<td class="gt_row gt_right">27.8%</td></tr>
+    <tr><td class="gt_row gt_left">Gifts/inheritance</td>
 <td class="gt_row gt_right">24.4%</td>
-<td class="gt_row gt_right">1.8%</td>
 <td class="gt_row gt_right">3.6%</td>
-<td class="gt_row gt_right">17.3%</td>
-<td class="gt_row gt_right">31.5%</td></tr>
-    <tr><td class="gt_row gt_left">honey</td>
+<td class="gt_row gt_right">20.7%</td>
+<td class="gt_row gt_right">28.0%</td></tr>
+    <tr><td class="gt_row gt_left">Honey production/sales</td>
 <td class="gt_row gt_right">23.2%</td>
-<td class="gt_row gt_right">1.5%</td>
 <td class="gt_row gt_right">3.0%</td>
-<td class="gt_row gt_right">17.3%</td>
-<td class="gt_row gt_right">29.2%</td></tr>
-    <tr><td class="gt_row gt_left">petty_trade_own</td>
+<td class="gt_row gt_right">20.2%</td>
+<td class="gt_row gt_right">26.3%</td></tr>
+    <tr><td class="gt_row gt_left">Petty trade own products</td>
 <td class="gt_row gt_right">13.5%</td>
-<td class="gt_row gt_right">1.3%</td>
 <td class="gt_row gt_right">2.6%</td>
-<td class="gt_row gt_right">8.4%</td>
-<td class="gt_row gt_right">18.7%</td></tr>
-    <tr><td class="gt_row gt_left">petty_trade_other</td>
+<td class="gt_row gt_right">10.9%</td>
+<td class="gt_row gt_right">16.2%</td></tr>
+    <tr><td class="gt_row gt_left">Petty trade other products</td>
 <td class="gt_row gt_right">12.5%</td>
-<td class="gt_row gt_right">1.1%</td>
 <td class="gt_row gt_right">2.1%</td>
-<td class="gt_row gt_right">8.4%</td>
-<td class="gt_row gt_right">16.6%</td></tr>
-    <tr><td class="gt_row gt_left">salary</td>
+<td class="gt_row gt_right">10.4%</td>
+<td class="gt_row gt_right">14.6%</td></tr>
+    <tr><td class="gt_row gt_left">Salaried work</td>
 <td class="gt_row gt_right">12.2%</td>
-<td class="gt_row gt_right">0.9%</td>
 <td class="gt_row gt_right">1.8%</td>
-<td class="gt_row gt_right">8.7%</td>
-<td class="gt_row gt_right">15.6%</td></tr>
-    <tr><td class="gt_row gt_left">ownbiz_nonag</td>
+<td class="gt_row gt_right">10.4%</td>
+<td class="gt_row gt_right">13.9%</td></tr>
+    <tr><td class="gt_row gt_left">Other self-employment non-ag</td>
 <td class="gt_row gt_right">12.1%</td>
-<td class="gt_row gt_right">1.2%</td>
 <td class="gt_row gt_right">2.4%</td>
-<td class="gt_row gt_right">7.5%</td>
-<td class="gt_row gt_right">16.7%</td></tr>
-    <tr><td class="gt_row gt_left">ownbiz_ag</td>
+<td class="gt_row gt_right">9.7%</td>
+<td class="gt_row gt_right">14.5%</td></tr>
+    <tr><td class="gt_row gt_left">Other self-employment ag</td>
 <td class="gt_row gt_right">11.2%</td>
-<td class="gt_row gt_right">0.9%</td>
 <td class="gt_row gt_right">1.9%</td>
-<td class="gt_row gt_right">7.5%</td>
-<td class="gt_row gt_right">14.8%</td></tr>
-    <tr><td class="gt_row gt_left">Agwage_without</td>
+<td class="gt_row gt_right">9.3%</td>
+<td class="gt_row gt_right">13.1%</td></tr>
+    <tr><td class="gt_row gt_left">Ag wage labor outside village</td>
 <td class="gt_row gt_right">10.2%</td>
-<td class="gt_row gt_right">0.8%</td>
 <td class="gt_row gt_right">1.6%</td>
-<td class="gt_row gt_right">7.1%</td>
-<td class="gt_row gt_right">13.4%</td></tr>
-    <tr><td class="gt_row gt_left">nonAgwage_without</td>
+<td class="gt_row gt_right">8.6%</td>
+<td class="gt_row gt_right">11.8%</td></tr>
+    <tr><td class="gt_row gt_left">Wage labor outside village</td>
 <td class="gt_row gt_right">8.9%</td>
-<td class="gt_row gt_right">0.8%</td>
 <td class="gt_row gt_right">1.6%</td>
-<td class="gt_row gt_right">5.7%</td>
-<td class="gt_row gt_right">12.1%</td></tr>
-    <tr><td class="gt_row gt_left">rent</td>
+<td class="gt_row gt_right">7.3%</td>
+<td class="gt_row gt_right">10.5%</td></tr>
+    <tr><td class="gt_row gt_left">Rental of land/property</td>
 <td class="gt_row gt_right">6.1%</td>
-<td class="gt_row gt_right">0.7%</td>
 <td class="gt_row gt_right">1.3%</td>
-<td class="gt_row gt_right">3.6%</td>
-<td class="gt_row gt_right">8.7%</td></tr>
-    <tr><td class="gt_row gt_left">remit</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">7.4%</td></tr>
+    <tr><td class="gt_row gt_left">Remittances</td>
 <td class="gt_row gt_right">5.6%</td>
-<td class="gt_row gt_right">0.5%</td>
 <td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">4.6%</td>
+<td class="gt_row gt_right">6.7%</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="5">Survey instsrument items 401a-t</td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="by-county" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="by-county"><span class="header-section-number">1.2</span> By county</h2>
+<section id="long-format-with-confidence-intervals" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="long-format-with-confidence-intervals"><span class="header-section-number">1.2.1</span> Long format, with confidence intervals</h3>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-6_11b8142b623ec0621588686653fa42a5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>inc_cnty_tmp <span class="ot">&lt;-</span> svyrdat <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(county) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">crop_production=</span><span class="fu">survey_mean</span>(q_401_a_bin),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">cattle_production =</span> <span class="fu">survey_mean</span>(q_401_b_bin),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">goat_production =</span> <span class="fu">survey_mean</span>(q_401_c_bin),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sheep_production =</span> <span class="fu">survey_mean</span>(q_401_d_bin),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">fishing =</span> <span class="fu">survey_mean</span>(q_401_e_bin),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">Agwage_within =</span> <span class="fu">survey_mean</span>(q_401_f_bin),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">Agwage_without =</span> <span class="fu">survey_mean</span>(q_401_g_bin),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">nonAgwage_within =</span> <span class="fu">survey_mean</span>(q_401_h_bin),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">nonAgwage_without =</span> <span class="fu">survey_mean</span>(q_401_i_bin),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">salary =</span> <span class="fu">survey_mean</span>(q_401_j_bin),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">bush_products =</span> <span class="fu">survey_mean</span>(q_401_k_bin),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">honey =</span> <span class="fu">survey_mean</span>(q_401_l_bin),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_other =</span> <span class="fu">survey_mean</span>(q_401_m_bin),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_own =</span> <span class="fu">survey_mean</span>(q_401_n_bin),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_ag =</span> <span class="fu">survey_mean</span>(q_401_o_bin), </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_nonag =</span> <span class="fu">survey_mean</span>(q_401_p_bin),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">rent =</span> <span class="fu">survey_mean</span>(q_401_q_bin),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">remit =</span> <span class="fu">survey_mean</span>(q_401_r_bin),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">gifts =</span> <span class="fu">survey_mean</span>(q_401_s_bin),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-8_5bfcffe58981728ae019ac215873affc">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cnty_cols <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="dv">41</span>) <span class="sc">%%</span> <span class="dv">2</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>inc_cnty_mn <span class="ot">&lt;-</span> inc_cnty_tmp[, cnty_cols<span class="sc">==</span>F] <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county=</span>county_key<span class="sc">$</span>county) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(county, <span class="at">.before=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">21</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to=</span><span class="st">"income_source"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to=</span><span class="st">"Percent"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inc_lab =</span> <span class="fu">rep</span>(inc_labs, <span class="dv">13</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>inc_cnty_se <span class="ot">&lt;-</span> inc_cnty_tmp[,cnty_cols<span class="sc">==</span>T] <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">21</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to=</span><span class="st">"income_source"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to=</span><span class="st">"se"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>inc_cnty <span class="ot">&lt;-</span> inc_cnty_mn <span class="sc">%&gt;%</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(inc_cnty_se[,<span class="dv">3</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">margin=</span>se<span class="sc">*</span><span class="fl">1.96</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower=</span>Percent<span class="sc">-</span>margin,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper=</span>Percent<span class="sc">+</span>margin) <span class="sc">%&gt;%</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(inc_lab, <span class="at">.after=</span>income_source)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>inc_cnty_gt <span class="ot">&lt;-</span> inc_cnty <span class="sc">%&gt;%</span> </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>, </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">county=</span><span class="st">"County"</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">inc_lab=</span><span class="st">"Income source"</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>inc_cnty_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="sybbaqfqjs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#sybbaqfqjs .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#sybbaqfqjs .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#sybbaqfqjs .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#sybbaqfqjs .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#sybbaqfqjs .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#sybbaqfqjs .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#sybbaqfqjs .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#sybbaqfqjs .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#sybbaqfqjs .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#sybbaqfqjs .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#sybbaqfqjs .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#sybbaqfqjs .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#sybbaqfqjs .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sybbaqfqjs .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#sybbaqfqjs .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#sybbaqfqjs .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sybbaqfqjs .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#sybbaqfqjs .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sybbaqfqjs .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#sybbaqfqjs .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sybbaqfqjs .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#sybbaqfqjs .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sybbaqfqjs .gt_left {
+  text-align: left;
+}
+
+#sybbaqfqjs .gt_center {
+  text-align: center;
+}
+
+#sybbaqfqjs .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#sybbaqfqjs .gt_font_normal {
+  font-weight: normal;
+}
+
+#sybbaqfqjs .gt_font_bold {
+  font-weight: bold;
+}
+
+#sybbaqfqjs .gt_font_italic {
+  font-style: italic;
+}
+
+#sybbaqfqjs .gt_super {
+  font-size: 65%;
+}
+
+#sybbaqfqjs .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#sybbaqfqjs .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#sybbaqfqjs .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#sybbaqfqjs .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#sybbaqfqjs .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">County</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Income source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Percent</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">margin</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">lower</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">upper</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">18.3%</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">11.8%</td>
+<td class="gt_row gt_right">24.9%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">28.4%</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">20.1%</td>
+<td class="gt_row gt_right">36.8%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">10.7%</td>
+<td class="gt_row gt_right">3.3%</td>
+<td class="gt_row gt_right">7.4%</td>
+<td class="gt_row gt_right">14.0%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">3.0%</td>
+<td class="gt_row gt_right">2.0%</td>
+<td class="gt_row gt_right">1.1%</td>
+<td class="gt_row gt_right">5.0%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">54.5%</td>
+<td class="gt_row gt_right">11.6%</td>
+<td class="gt_row gt_right">42.9%</td>
+<td class="gt_row gt_right">66.1%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">−0.2%</td>
+<td class="gt_row gt_right">1.0%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">0.0%</td>
+<td class="gt_row gt_right">0.0%</td>
+<td class="gt_row gt_right">0.0%</td>
+<td class="gt_row gt_right">0.0%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">22.9%</td>
+<td class="gt_row gt_right">8.2%</td>
+<td class="gt_row gt_right">14.7%</td>
+<td class="gt_row gt_right">31.1%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">1.4%</td>
+<td class="gt_row gt_right">1.4%</td>
+<td class="gt_row gt_right">−0.0%</td>
+<td class="gt_row gt_right">2.8%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">3.1%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">9.5%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">34.3%</td>
+<td class="gt_row gt_right">8.2%</td>
+<td class="gt_row gt_right">26.1%</td>
+<td class="gt_row gt_right">42.6%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">12.7%</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">7.7%</td>
+<td class="gt_row gt_right">17.8%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">−0.1%</td>
+<td class="gt_row gt_right">1.1%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">1.8%</td>
+<td class="gt_row gt_right">7.3%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">1.2%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">−0.4%</td>
+<td class="gt_row gt_right">2.9%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">6.7%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.3%</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">−0.1%</td>
+<td class="gt_row gt_right">0.7%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">2.9%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">4.2%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">19.6%</td>
+<td class="gt_row gt_right">6.1%</td>
+<td class="gt_row gt_right">13.5%</td>
+<td class="gt_row gt_right">25.7%</td></tr>
+    <tr><td class="gt_row gt_left">Akobo</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">21.1%</td>
+<td class="gt_row gt_right">7.0%</td>
+<td class="gt_row gt_right">14.1%</td>
+<td class="gt_row gt_right">28.1%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">43.2%</td>
+<td class="gt_row gt_right">17.6%</td>
+<td class="gt_row gt_right">25.6%</td>
+<td class="gt_row gt_right">60.9%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">26.8%</td>
+<td class="gt_row gt_right">15.5%</td>
+<td class="gt_row gt_right">11.3%</td>
+<td class="gt_row gt_right">42.3%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">29.0%</td>
+<td class="gt_row gt_right">13.8%</td>
+<td class="gt_row gt_right">15.2%</td>
+<td class="gt_row gt_right">42.9%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">20.1%</td>
+<td class="gt_row gt_right">14.5%</td>
+<td class="gt_row gt_right">5.6%</td>
+<td class="gt_row gt_right">34.7%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">49.3%</td>
+<td class="gt_row gt_right">15.4%</td>
+<td class="gt_row gt_right">33.9%</td>
+<td class="gt_row gt_right">64.7%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">52.1%</td>
+<td class="gt_row gt_right">12.0%</td>
+<td class="gt_row gt_right">40.1%</td>
+<td class="gt_row gt_right">64.1%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">29.0%</td>
+<td class="gt_row gt_right">12.3%</td>
+<td class="gt_row gt_right">16.7%</td>
+<td class="gt_row gt_right">41.3%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">20.2%</td>
+<td class="gt_row gt_right">11.9%</td>
+<td class="gt_row gt_right">8.3%</td>
+<td class="gt_row gt_right">32.1%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">5.3%</td>
+<td class="gt_row gt_right">18.8%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">12.3%</td>
+<td class="gt_row gt_right">4.2%</td>
+<td class="gt_row gt_right">8.1%</td>
+<td class="gt_row gt_right">16.5%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">36.7%</td>
+<td class="gt_row gt_right">16.8%</td>
+<td class="gt_row gt_right">19.8%</td>
+<td class="gt_row gt_right">53.5%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">11.2%</td>
+<td class="gt_row gt_right">8.6%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">19.7%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">17.2%</td>
+<td class="gt_row gt_right">7.2%</td>
+<td class="gt_row gt_right">10.0%</td>
+<td class="gt_row gt_right">24.4%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">15.4%</td>
+<td class="gt_row gt_right">8.8%</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">24.2%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">8.7%</td>
+<td class="gt_row gt_right">4.9%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">13.6%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">5.7%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">9.1%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">2.0%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">3.3%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">15.3%</td>
+<td class="gt_row gt_right">7.5%</td>
+<td class="gt_row gt_right">7.8%</td>
+<td class="gt_row gt_right">22.8%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">7.5%</td>
+<td class="gt_row gt_right">4.9%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">12.4%</td></tr>
+    <tr><td class="gt_row gt_left">Baliet</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">29.8%</td>
+<td class="gt_row gt_right">18.6%</td>
+<td class="gt_row gt_right">11.3%</td>
+<td class="gt_row gt_right">48.4%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">73.1%</td>
+<td class="gt_row gt_right">11.2%</td>
+<td class="gt_row gt_right">61.8%</td>
+<td class="gt_row gt_right">84.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">27.0%</td>
+<td class="gt_row gt_right">10.3%</td>
+<td class="gt_row gt_right">16.7%</td>
+<td class="gt_row gt_right">37.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">34.7%</td>
+<td class="gt_row gt_right">9.2%</td>
+<td class="gt_row gt_right">25.6%</td>
+<td class="gt_row gt_right">43.9%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">24.0%</td>
+<td class="gt_row gt_right">8.2%</td>
+<td class="gt_row gt_right">15.8%</td>
+<td class="gt_row gt_right">32.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">0.8%</td>
+<td class="gt_row gt_right">−0.2%</td>
+<td class="gt_row gt_right">1.4%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">11.1%</td>
+<td class="gt_row gt_right">7.7%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">18.8%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">5.5%</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">8.2%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">7.0%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">4.3%</td>
+<td class="gt_row gt_right">9.8%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">4.2%</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">2.0%</td>
+<td class="gt_row gt_right">6.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">7.0%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">10.5%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">31.5%</td>
+<td class="gt_row gt_right">12.0%</td>
+<td class="gt_row gt_right">19.5%</td>
+<td class="gt_row gt_right">43.5%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">27.2%</td>
+<td class="gt_row gt_right">13.9%</td>
+<td class="gt_row gt_right">13.3%</td>
+<td class="gt_row gt_right">41.2%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">11.1%</td>
+<td class="gt_row gt_right">6.3%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">17.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">42.0%</td>
+<td class="gt_row gt_right">17.5%</td>
+<td class="gt_row gt_right">24.6%</td>
+<td class="gt_row gt_right">59.5%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">10.0%</td>
+<td class="gt_row gt_right">6.3%</td>
 <td class="gt_row gt_right">3.6%</td>
-<td class="gt_row gt_right">7.7%</td></tr>
+<td class="gt_row gt_right">16.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">8.6%</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">13.1%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">0.0%</td>
+<td class="gt_row gt_right">1.1%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">3.6%</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">5.7%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">18.1%</td>
+<td class="gt_row gt_right">7.1%</td>
+<td class="gt_row gt_right">11.0%</td>
+<td class="gt_row gt_right">25.3%</td></tr>
+    <tr><td class="gt_row gt_left">Budi</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">12.3%</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">7.2%</td>
+<td class="gt_row gt_right">17.4%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">81.4%</td>
+<td class="gt_row gt_right">11.4%</td>
+<td class="gt_row gt_right">70.0%</td>
+<td class="gt_row gt_right">92.7%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">57.7%</td>
+<td class="gt_row gt_right">13.0%</td>
+<td class="gt_row gt_right">44.7%</td>
+<td class="gt_row gt_right">70.7%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">49.9%</td>
+<td class="gt_row gt_right">15.2%</td>
+<td class="gt_row gt_right">34.7%</td>
+<td class="gt_row gt_right">65.1%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">32.2%</td>
+<td class="gt_row gt_right">17.4%</td>
+<td class="gt_row gt_right">14.8%</td>
+<td class="gt_row gt_right">49.5%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">56.4%</td>
+<td class="gt_row gt_right">13.9%</td>
+<td class="gt_row gt_right">42.5%</td>
+<td class="gt_row gt_right">70.3%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">8.6%</td>
+<td class="gt_row gt_right">5.2%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">13.9%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">3.6%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">6.2%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">6.4%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">0.3%</td>
+<td class="gt_row gt_right">3.5%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">12.2%</td>
+<td class="gt_row gt_right">7.4%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">19.6%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">31.1%</td>
+<td class="gt_row gt_right">11.5%</td>
+<td class="gt_row gt_right">19.6%</td>
+<td class="gt_row gt_right">42.6%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">5.2%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">8.7%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">28.2%</td>
+<td class="gt_row gt_right">16.7%</td>
+<td class="gt_row gt_right">11.4%</td>
+<td class="gt_row gt_right">44.9%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">21.3%</td>
+<td class="gt_row gt_right">15.2%</td>
+<td class="gt_row gt_right">6.1%</td>
+<td class="gt_row gt_right">36.5%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">3.7%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">3.7%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">−0.0%</td>
+<td class="gt_row gt_right">0.8%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">1.4%</td>
+<td class="gt_row gt_right">6.7%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">2.5%</td>
+<td class="gt_row gt_right">10.5%</td></tr>
+    <tr><td class="gt_row gt_left">Duk</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">43.1%</td>
+<td class="gt_row gt_right">18.6%</td>
+<td class="gt_row gt_right">24.5%</td>
+<td class="gt_row gt_right">61.8%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">61.9%</td>
+<td class="gt_row gt_right">8.0%</td>
+<td class="gt_row gt_right">53.8%</td>
+<td class="gt_row gt_right">69.9%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">23.8%</td>
+<td class="gt_row gt_right">5.8%</td>
+<td class="gt_row gt_right">18.0%</td>
+<td class="gt_row gt_right">29.6%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">53.2%</td>
+<td class="gt_row gt_right">5.4%</td>
+<td class="gt_row gt_right">47.8%</td>
+<td class="gt_row gt_right">58.6%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">33.7%</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">28.6%</td>
+<td class="gt_row gt_right">38.8%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">26.0%</td>
+<td class="gt_row gt_right">8.3%</td>
+<td class="gt_row gt_right">17.7%</td>
+<td class="gt_row gt_right">34.3%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">45.1%</td>
+<td class="gt_row gt_right">5.5%</td>
+<td class="gt_row gt_right">39.6%</td>
+<td class="gt_row gt_right">50.5%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">29.6%</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">25.1%</td>
+<td class="gt_row gt_right">34.1%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">26.2%</td>
+<td class="gt_row gt_right">5.0%</td>
+<td class="gt_row gt_right">21.1%</td>
+<td class="gt_row gt_right">31.2%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">15.6%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">12.3%</td>
+<td class="gt_row gt_right">19.0%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">18.2%</td>
+<td class="gt_row gt_right">5.5%</td>
+<td class="gt_row gt_right">12.7%</td>
+<td class="gt_row gt_right">23.7%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">11.2%</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">14.0%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">27.5%</td>
+<td class="gt_row gt_right">7.8%</td>
+<td class="gt_row gt_right">19.6%</td>
+<td class="gt_row gt_right">35.3%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">23.4%</td>
+<td class="gt_row gt_right">5.4%</td>
+<td class="gt_row gt_right">18.0%</td>
+<td class="gt_row gt_right">28.7%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">12.8%</td>
+<td class="gt_row gt_right">3.8%</td>
+<td class="gt_row gt_right">9.0%</td>
+<td class="gt_row gt_right">16.6%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">14.0%</td>
+<td class="gt_row gt_right">4.4%</td>
+<td class="gt_row gt_right">9.6%</td>
+<td class="gt_row gt_right">18.4%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">5.7%</td>
+<td class="gt_row gt_right">11.1%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">2.4%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">3.8%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">3.3%</td>
+<td class="gt_row gt_right">9.7%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">5.5%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">7.8%</td></tr>
+    <tr><td class="gt_row gt_left">Jur River</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">4.2%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">5.9%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">82.9%</td>
+<td class="gt_row gt_right">4.7%</td>
+<td class="gt_row gt_right">78.1%</td>
+<td class="gt_row gt_right">87.6%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">82.6%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">79.0%</td>
+<td class="gt_row gt_right">86.1%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">87.1%</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">83.9%</td>
+<td class="gt_row gt_right">90.3%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">82.4%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">78.2%</td>
+<td class="gt_row gt_right">86.5%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">16.3%</td>
+<td class="gt_row gt_right">4.3%</td>
+<td class="gt_row gt_right">12.0%</td>
+<td class="gt_row gt_right">20.6%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">42.8%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">39.1%</td>
+<td class="gt_row gt_right">46.4%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">12.0%</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">9.2%</td>
+<td class="gt_row gt_right">14.9%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">31.3%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">26.6%</td>
+<td class="gt_row gt_right">36.1%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">10.0%</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">5.4%</td>
+<td class="gt_row gt_right">14.5%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">9.0%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">57.2%</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">50.3%</td>
+<td class="gt_row gt_right">64.0%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">20.5%</td>
+<td class="gt_row gt_right">4.9%</td>
+<td class="gt_row gt_right">15.6%</td>
+<td class="gt_row gt_right">25.3%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">37.0%</td>
+<td class="gt_row gt_right">10.0%</td>
+<td class="gt_row gt_right">27.0%</td>
+<td class="gt_row gt_right">47.0%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">9.7%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">5.6%</td>
+<td class="gt_row gt_right">13.7%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">33.4%</td>
+<td class="gt_row gt_right">6.7%</td>
+<td class="gt_row gt_right">26.7%</td>
+<td class="gt_row gt_right">40.1%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">32.7%</td>
+<td class="gt_row gt_right">6.9%</td>
+<td class="gt_row gt_right">25.9%</td>
+<td class="gt_row gt_right">39.6%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">10.9%</td>
+<td class="gt_row gt_right">3.8%</td>
+<td class="gt_row gt_right">7.1%</td>
+<td class="gt_row gt_right">14.7%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">9.7%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">24.6%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">20.9%</td>
+<td class="gt_row gt_right">28.3%</td></tr>
+    <tr><td class="gt_row gt_left">Kapoeta North</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">44.7%</td>
+<td class="gt_row gt_right">6.9%</td>
+<td class="gt_row gt_right">37.7%</td>
+<td class="gt_row gt_right">51.6%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">12.6%</td>
+<td class="gt_row gt_right">3.9%</td>
+<td class="gt_row gt_right">8.7%</td>
+<td class="gt_row gt_right">16.6%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">4.6%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">6.9%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">25.3%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">20.5%</td>
+<td class="gt_row gt_right">30.1%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">10.0%</td>
+<td class="gt_row gt_right">3.3%</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">13.3%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">39.1%</td>
+<td class="gt_row gt_right">8.0%</td>
+<td class="gt_row gt_right">31.0%</td>
+<td class="gt_row gt_right">47.1%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">9.2%</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">5.5%</td>
+<td class="gt_row gt_right">12.8%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">8.7%</td>
+<td class="gt_row gt_right">3.4%</td>
+<td class="gt_row gt_right">5.3%</td>
+<td class="gt_row gt_right">12.1%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">53.2%</td>
+<td class="gt_row gt_right">6.4%</td>
+<td class="gt_row gt_right">46.8%</td>
+<td class="gt_row gt_right">59.7%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">12.4%</td>
+<td class="gt_row gt_right">4.4%</td>
+<td class="gt_row gt_right">8.1%</td>
+<td class="gt_row gt_right">16.8%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">1.8%</td>
+<td class="gt_row gt_right">2.6%</td>
+<td class="gt_row gt_right">6.3%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">26.5%</td>
+<td class="gt_row gt_right">4.4%</td>
+<td class="gt_row gt_right">22.1%</td>
+<td class="gt_row gt_right">31.0%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">0.8%</td>
+<td class="gt_row gt_right">0.2%</td>
+<td class="gt_row gt_right">1.8%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">5.2%</td>
+<td class="gt_row gt_right">2.2%</td>
+<td class="gt_row gt_right">3.1%</td>
+<td class="gt_row gt_right">7.4%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">18.2%</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">14.2%</td>
+<td class="gt_row gt_right">22.2%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">3.1%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">1.4%</td>
+<td class="gt_row gt_right">4.8%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">11.4%</td>
+<td class="gt_row gt_right">3.0%</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">14.4%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">−0.0%</td>
+<td class="gt_row gt_right">0.8%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">13.1%</td>
+<td class="gt_row gt_right">2.5%</td>
+<td class="gt_row gt_right">10.6%</td>
+<td class="gt_row gt_right">15.6%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">30.0%</td>
+<td class="gt_row gt_right">4.6%</td>
+<td class="gt_row gt_right">25.4%</td>
+<td class="gt_row gt_right">34.6%</td></tr>
+    <tr><td class="gt_row gt_left">Leer</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">51.5%</td>
+<td class="gt_row gt_right">12.0%</td>
+<td class="gt_row gt_right">39.4%</td>
+<td class="gt_row gt_right">63.5%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">20.4%</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">13.9%</td>
+<td class="gt_row gt_right">26.9%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">32.0%</td>
+<td class="gt_row gt_right">9.0%</td>
+<td class="gt_row gt_right">22.9%</td>
+<td class="gt_row gt_right">41.0%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">32.9%</td>
+<td class="gt_row gt_right">8.1%</td>
+<td class="gt_row gt_right">24.7%</td>
+<td class="gt_row gt_right">41.0%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">22.2%</td>
+<td class="gt_row gt_right">8.0%</td>
+<td class="gt_row gt_right">14.2%</td>
+<td class="gt_row gt_right">30.2%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">59.3%</td>
+<td class="gt_row gt_right">5.9%</td>
+<td class="gt_row gt_right">53.4%</td>
+<td class="gt_row gt_right">65.2%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">4.8%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">2.0%</td>
+<td class="gt_row gt_right">5.3%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">14.0%</td>
+<td class="gt_row gt_right">6.1%</td>
+<td class="gt_row gt_right">7.9%</td>
+<td class="gt_row gt_right">20.0%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">3.7%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">2.0%</td>
+<td class="gt_row gt_right">5.5%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">10.7%</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">15.2%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">6.9%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">4.2%</td>
+<td class="gt_row gt_right">9.6%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">−0.1%</td>
+<td class="gt_row gt_right">1.1%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">1.8%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">3.0%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">10.0%</td>
+<td class="gt_row gt_right">3.9%</td>
+<td class="gt_row gt_right">6.1%</td>
+<td class="gt_row gt_right">13.9%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">1.3%</td>
+<td class="gt_row gt_right">0.2%</td>
+<td class="gt_row gt_right">2.8%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">8.2%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">12.4%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.1%</td>
+<td class="gt_row gt_right">0.1%</td>
+<td class="gt_row gt_right">−0.1%</td>
+<td class="gt_row gt_right">0.2%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">5.8%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">8.1%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">18.0%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">13.2%</td>
+<td class="gt_row gt_right">22.9%</td></tr>
+    <tr><td class="gt_row gt_left">Mayendit</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">10.4%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">6.9%</td>
+<td class="gt_row gt_right">13.8%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">36.3%</td>
+<td class="gt_row gt_right">13.3%</td>
+<td class="gt_row gt_right">23.0%</td>
+<td class="gt_row gt_right">49.6%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">44.2%</td>
+<td class="gt_row gt_right">14.1%</td>
+<td class="gt_row gt_right">30.1%</td>
+<td class="gt_row gt_right">58.3%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">25.0%</td>
+<td class="gt_row gt_right">11.1%</td>
+<td class="gt_row gt_right">13.8%</td>
+<td class="gt_row gt_right">36.1%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">17.1%</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">5.0%</td>
+<td class="gt_row gt_right">29.2%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">56.3%</td>
+<td class="gt_row gt_right">10.3%</td>
+<td class="gt_row gt_right">46.0%</td>
+<td class="gt_row gt_right">66.6%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">3.0%</td>
+<td class="gt_row gt_right">2.4%</td>
+<td class="gt_row gt_right">0.7%</td>
+<td class="gt_row gt_right">5.4%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">0.1%</td>
+<td class="gt_row gt_right">1.9%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">23.8%</td>
+<td class="gt_row gt_right">11.7%</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">35.5%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">−0.0%</td>
+<td class="gt_row gt_right">4.6%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">6.2%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">30.6%</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">18.4%</td>
+<td class="gt_row gt_right">42.7%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">−0.0%</td>
+<td class="gt_row gt_right">1.1%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">2.2%</td>
+<td class="gt_row gt_right">0.5%</td>
+<td class="gt_row gt_right">4.9%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">17.1%</td>
+<td class="gt_row gt_right">9.9%</td>
+<td class="gt_row gt_right">7.2%</td>
+<td class="gt_row gt_right">27.0%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">8.5%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">7.0%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">2.9%</td>
+<td class="gt_row gt_right">11.2%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.3%</td>
+<td class="gt_row gt_right">0.3%</td>
+<td class="gt_row gt_right">−0.0%</td>
+<td class="gt_row gt_right">0.6%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">4.7%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">7.6%</td>
+<td class="gt_row gt_right">4.5%</td>
+<td class="gt_row gt_right">19.7%</td></tr>
+    <tr><td class="gt_row gt_left">Paynijar</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">24.5%</td>
+<td class="gt_row gt_right">12.8%</td>
+<td class="gt_row gt_right">11.7%</td>
+<td class="gt_row gt_right">37.4%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">91.0%</td>
+<td class="gt_row gt_right">3.9%</td>
+<td class="gt_row gt_right">87.0%</td>
+<td class="gt_row gt_right">94.9%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">82.2%</td>
+<td class="gt_row gt_right">8.5%</td>
+<td class="gt_row gt_right">73.7%</td>
+<td class="gt_row gt_right">90.6%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">74.3%</td>
+<td class="gt_row gt_right">9.8%</td>
+<td class="gt_row gt_right">64.6%</td>
+<td class="gt_row gt_right">84.1%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">64.0%</td>
+<td class="gt_row gt_right">10.1%</td>
+<td class="gt_row gt_right">53.9%</td>
+<td class="gt_row gt_right">74.1%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">72.3%</td>
+<td class="gt_row gt_right">6.0%</td>
+<td class="gt_row gt_right">66.3%</td>
+<td class="gt_row gt_right">78.3%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">58.5%</td>
+<td class="gt_row gt_right">7.3%</td>
+<td class="gt_row gt_right">51.2%</td>
+<td class="gt_row gt_right">65.7%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">19.7%</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">14.6%</td>
+<td class="gt_row gt_right">24.8%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">53.9%</td>
+<td class="gt_row gt_right">7.2%</td>
+<td class="gt_row gt_right">46.6%</td>
+<td class="gt_row gt_right">61.1%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">17.0%</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">12.0%</td>
+<td class="gt_row gt_right">22.1%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">20.3%</td>
+<td class="gt_row gt_right">5.3%</td>
+<td class="gt_row gt_right">15.0%</td>
+<td class="gt_row gt_right">25.6%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">77.4%</td>
+<td class="gt_row gt_right">6.0%</td>
+<td class="gt_row gt_right">71.4%</td>
+<td class="gt_row gt_right">83.4%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">66.2%</td>
+<td class="gt_row gt_right">6.9%</td>
+<td class="gt_row gt_right">59.3%</td>
+<td class="gt_row gt_right">73.1%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">13.3%</td>
+<td class="gt_row gt_right">5.7%</td>
+<td class="gt_row gt_right">7.6%</td>
+<td class="gt_row gt_right">19.1%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">13.1%</td>
+<td class="gt_row gt_right">6.7%</td>
+<td class="gt_row gt_right">6.3%</td>
+<td class="gt_row gt_right">19.8%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">14.0%</td>
+<td class="gt_row gt_right">5.3%</td>
+<td class="gt_row gt_right">8.7%</td>
+<td class="gt_row gt_right">19.4%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">11.4%</td>
+<td class="gt_row gt_right">5.6%</td>
+<td class="gt_row gt_right">5.8%</td>
+<td class="gt_row gt_right">17.0%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">13.0%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">9.5%</td>
+<td class="gt_row gt_right">16.4%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">2.7%</td>
+<td class="gt_row gt_right">9.7%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">58.2%</td>
+<td class="gt_row gt_right">9.4%</td>
+<td class="gt_row gt_right">48.8%</td>
+<td class="gt_row gt_right">67.6%</td></tr>
+    <tr><td class="gt_row gt_left">Pibor</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">56.5%</td>
+<td class="gt_row gt_right">10.5%</td>
+<td class="gt_row gt_right">46.0%</td>
+<td class="gt_row gt_right">67.1%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">47.8%</td>
+<td class="gt_row gt_right">14.4%</td>
+<td class="gt_row gt_right">33.4%</td>
+<td class="gt_row gt_right">62.2%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">57.3%</td>
+<td class="gt_row gt_right">13.9%</td>
+<td class="gt_row gt_right">43.4%</td>
+<td class="gt_row gt_right">71.2%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">52.5%</td>
+<td class="gt_row gt_right">16.0%</td>
+<td class="gt_row gt_right">36.5%</td>
+<td class="gt_row gt_right">68.4%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">33.7%</td>
+<td class="gt_row gt_right">13.4%</td>
+<td class="gt_row gt_right">20.4%</td>
+<td class="gt_row gt_right">47.1%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">78.7%</td>
+<td class="gt_row gt_right">9.0%</td>
+<td class="gt_row gt_right">69.7%</td>
+<td class="gt_row gt_right">87.7%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">8.6%</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">1.8%</td>
+<td class="gt_row gt_right">15.4%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">8.0%</td>
+<td class="gt_row gt_right">6.5%</td>
+<td class="gt_row gt_right">1.4%</td>
+<td class="gt_row gt_right">14.5%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">32.0%</td>
+<td class="gt_row gt_right">15.2%</td>
+<td class="gt_row gt_right">16.8%</td>
+<td class="gt_row gt_right">47.3%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">8.0%</td>
+<td class="gt_row gt_right">4.1%</td>
+<td class="gt_row gt_right">20.1%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">4.6%</td>
+<td class="gt_row gt_right">2.9%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">7.5%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">26.8%</td>
+<td class="gt_row gt_right">13.6%</td>
+<td class="gt_row gt_right">13.2%</td>
+<td class="gt_row gt_right">40.4%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">26.5%</td>
+<td class="gt_row gt_right">9.3%</td>
+<td class="gt_row gt_right">17.2%</td>
+<td class="gt_row gt_right">35.8%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">8.7%</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">15.5%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">25.3%</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">13.2%</td>
+<td class="gt_row gt_right">37.5%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">16.4%</td>
+<td class="gt_row gt_right">10.3%</td>
+<td class="gt_row gt_right">6.1%</td>
+<td class="gt_row gt_right">26.7%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">24.0%</td>
+<td class="gt_row gt_right">15.0%</td>
+<td class="gt_row gt_right">9.0%</td>
+<td class="gt_row gt_right">38.9%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">4.3%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">−0.5%</td>
+<td class="gt_row gt_right">9.0%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">5.6%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">10.4%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">16.6%</td>
+<td class="gt_row gt_right">9.5%</td>
+<td class="gt_row gt_right">7.1%</td>
+<td class="gt_row gt_right">26.1%</td></tr>
+    <tr><td class="gt_row gt_left">Ulang</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">24.9%</td>
+<td class="gt_row gt_right">13.7%</td>
+<td class="gt_row gt_right">11.2%</td>
+<td class="gt_row gt_right">38.6%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">38.3%</td>
+<td class="gt_row gt_right">8.8%</td>
+<td class="gt_row gt_right">29.5%</td>
+<td class="gt_row gt_right">47.1%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">74.9%</td>
+<td class="gt_row gt_right">5.9%</td>
+<td class="gt_row gt_right">69.0%</td>
+<td class="gt_row gt_right">80.8%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">42.7%</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">36.6%</td>
+<td class="gt_row gt_right">48.9%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">17.6%</td>
+<td class="gt_row gt_right">6.7%</td>
+<td class="gt_row gt_right">10.9%</td>
+<td class="gt_row gt_right">24.3%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">32.5%</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">26.3%</td>
+<td class="gt_row gt_right">38.7%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">7.8%</td>
+<td class="gt_row gt_right">4.7%</td>
+<td class="gt_row gt_right">3.1%</td>
+<td class="gt_row gt_right">12.4%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">1.2%</td>
+<td class="gt_row gt_right">0.6%</td>
+<td class="gt_row gt_right">2.9%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">29.4%</td>
+<td class="gt_row gt_right">9.6%</td>
+<td class="gt_row gt_right">19.8%</td>
+<td class="gt_row gt_right">39.0%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">1.1%</td>
+<td class="gt_row gt_right">0.4%</td>
+<td class="gt_row gt_right">2.6%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">3.5%</td>
+<td class="gt_row gt_right">1.9%</td>
+<td class="gt_row gt_right">1.7%</td>
+<td class="gt_row gt_right">5.4%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">28.7%</td>
+<td class="gt_row gt_right">9.7%</td>
+<td class="gt_row gt_right">19.0%</td>
+<td class="gt_row gt_right">38.4%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">4.4%</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">2.3%</td>
+<td class="gt_row gt_right">6.4%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">3.9%</td>
+<td class="gt_row gt_right">2.4%</td>
+<td class="gt_row gt_right">1.5%</td>
+<td class="gt_row gt_right">6.3%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">2.1%</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">5.3%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">7.6%</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">3.6%</td>
+<td class="gt_row gt_right">11.6%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">8.9%</td>
+<td class="gt_row gt_right">7.3%</td>
+<td class="gt_row gt_right">1.6%</td>
+<td class="gt_row gt_right">16.2%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0.9%</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">−0.1%</td>
+<td class="gt_row gt_right">1.9%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">1.0%</td>
+<td class="gt_row gt_right">1.2%</td>
+<td class="gt_row gt_right">−0.2%</td>
+<td class="gt_row gt_right">2.2%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">13.4%</td>
+<td class="gt_row gt_right">9.2%</td>
+<td class="gt_row gt_right">4.2%</td>
+<td class="gt_row gt_right">22.7%</td></tr>
+    <tr><td class="gt_row gt_left">Uror</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">9.0%</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">2.8%</td>
+<td class="gt_row gt_right">15.3%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">49.7%</td>
+<td class="gt_row gt_right">12.8%</td>
+<td class="gt_row gt_right">36.9%</td>
+<td class="gt_row gt_right">62.5%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">9.4%</td>
+<td class="gt_row gt_right">4.6%</td>
+<td class="gt_row gt_right">4.9%</td>
+<td class="gt_row gt_right">14.0%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">7.1%</td>
+<td class="gt_row gt_right">3.8%</td>
+<td class="gt_row gt_right">3.2%</td>
+<td class="gt_row gt_right">10.9%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">7.4%</td>
+<td class="gt_row gt_right">3.3%</td>
+<td class="gt_row gt_right">4.0%</td>
+<td class="gt_row gt_right">10.7%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">10.5%</td>
+<td class="gt_row gt_right">6.2%</td>
+<td class="gt_row gt_right">4.3%</td>
+<td class="gt_row gt_right">16.6%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">21.0%</td>
+<td class="gt_row gt_right">8.4%</td>
+<td class="gt_row gt_right">12.5%</td>
+<td class="gt_row gt_right">29.4%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">13.4%</td>
+<td class="gt_row gt_right">5.2%</td>
+<td class="gt_row gt_right">8.2%</td>
+<td class="gt_row gt_right">18.6%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">20.3%</td>
+<td class="gt_row gt_right">6.8%</td>
+<td class="gt_row gt_right">13.4%</td>
+<td class="gt_row gt_right">27.1%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">16.9%</td>
+<td class="gt_row gt_right">7.2%</td>
+<td class="gt_row gt_right">9.7%</td>
+<td class="gt_row gt_right">24.0%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">32.9%</td>
+<td class="gt_row gt_right">7.9%</td>
+<td class="gt_row gt_right">25.0%</td>
+<td class="gt_row gt_right">40.7%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">21.6%</td>
+<td class="gt_row gt_right">11.0%</td>
+<td class="gt_row gt_right">10.5%</td>
+<td class="gt_row gt_right">32.6%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">10.9%</td>
+<td class="gt_row gt_right">5.5%</td>
+<td class="gt_row gt_right">5.4%</td>
+<td class="gt_row gt_right">16.4%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">21.8%</td>
+<td class="gt_row gt_right">7.5%</td>
+<td class="gt_row gt_right">14.3%</td>
+<td class="gt_row gt_right">29.3%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">16.4%</td>
+<td class="gt_row gt_right">6.6%</td>
+<td class="gt_row gt_right">9.8%</td>
+<td class="gt_row gt_right">23.0%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">15.4%</td>
+<td class="gt_row gt_right">5.1%</td>
+<td class="gt_row gt_right">10.3%</td>
+<td class="gt_row gt_right">20.5%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">22.0%</td>
+<td class="gt_row gt_right">5.7%</td>
+<td class="gt_row gt_right">16.4%</td>
+<td class="gt_row gt_right">27.7%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">20.9%</td>
+<td class="gt_row gt_right">7.6%</td>
+<td class="gt_row gt_right">13.2%</td>
+<td class="gt_row gt_right">28.5%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">13.5%</td>
+<td class="gt_row gt_right">4.9%</td>
+<td class="gt_row gt_right">8.6%</td>
+<td class="gt_row gt_right">18.4%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">12.2%</td>
+<td class="gt_row gt_right">4.8%</td>
+<td class="gt_row gt_right">7.4%</td>
+<td class="gt_row gt_right">17.0%</td></tr>
+    <tr><td class="gt_row gt_left">Wau</td>
+<td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">25.5%</td>
+<td class="gt_row gt_right">12.1%</td>
+<td class="gt_row gt_right">13.4%</td>
+<td class="gt_row gt_right">37.6%</td></tr>
   </tbody>
   
   
@@ -715,12 +2764,1294 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-6_6edf1e5801a75118d5f68c07dc6c4e95">
+</section>
+<section id="wide-format-to-better-show-income-source-across-county." class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="wide-format-to-better-show-income-source-across-county."><span class="header-section-number">1.2.2</span> Wide format to better show income source across county.</h3>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-10_d9e7e60fb1b0c7dbd356ab40deb242d9">
 <details>
 <summary>Code</summary>
-<pre class="inc_out cell-code"><code></code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>inc_cnty_wide <span class="ot">&lt;-</span> inc_cnty <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>county,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from=</span>Percent)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>inc_cnty_wide_gt <span class="ot">&lt;-</span> inc_cnty_wide <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">inc_lab=</span><span class="st">"Income source"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>inc_cnty_wide_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<div id="hqjznjiyjz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#hqjznjiyjz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hqjznjiyjz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hqjznjiyjz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hqjznjiyjz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hqjznjiyjz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hqjznjiyjz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hqjznjiyjz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hqjznjiyjz .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hqjznjiyjz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hqjznjiyjz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hqjznjiyjz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hqjznjiyjz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hqjznjiyjz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hqjznjiyjz .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hqjznjiyjz .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hqjznjiyjz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hqjznjiyjz .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hqjznjiyjz .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hqjznjiyjz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hqjznjiyjz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hqjznjiyjz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hqjznjiyjz .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hqjznjiyjz .gt_left {
+  text-align: left;
+}
+
+#hqjznjiyjz .gt_center {
+  text-align: center;
+}
+
+#hqjznjiyjz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hqjznjiyjz .gt_font_normal {
+  font-weight: normal;
+}
+
+#hqjznjiyjz .gt_font_bold {
+  font-weight: bold;
+}
+
+#hqjznjiyjz .gt_font_italic {
+  font-style: italic;
+}
+
+#hqjznjiyjz .gt_super {
+  font-size: 65%;
+}
+
+#hqjznjiyjz .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#hqjznjiyjz .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hqjznjiyjz .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#hqjznjiyjz .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#hqjznjiyjz .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Income source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Akobo</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Baliet</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Budi</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Duk</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jur River</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Kapoeta North</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Leer</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mayendit</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Paynijar</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Pibor</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Ulang</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Uror</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Wau</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Farm/crop production</td>
+<td class="gt_row gt_right">18%</td>
+<td class="gt_row gt_right">43%</td>
+<td class="gt_row gt_right">73%</td>
+<td class="gt_row gt_right">81%</td>
+<td class="gt_row gt_right">62%</td>
+<td class="gt_row gt_right">83%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">36%</td>
+<td class="gt_row gt_right">91%</td>
+<td class="gt_row gt_right">48%</td>
+<td class="gt_row gt_right">38%</td>
+<td class="gt_row gt_right">50%</td></tr>
+    <tr><td class="gt_row gt_left">Cattle production/sales</td>
+<td class="gt_row gt_right">28%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">58%</td>
+<td class="gt_row gt_right">24%</td>
+<td class="gt_row gt_right">83%</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">32%</td>
+<td class="gt_row gt_right">44%</td>
+<td class="gt_row gt_right">82%</td>
+<td class="gt_row gt_right">57%</td>
+<td class="gt_row gt_right">75%</td>
+<td class="gt_row gt_right">9%</td></tr>
+    <tr><td class="gt_row gt_left">Goat production/sales</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">29%</td>
+<td class="gt_row gt_right">35%</td>
+<td class="gt_row gt_right">50%</td>
+<td class="gt_row gt_right">53%</td>
+<td class="gt_row gt_right">87%</td>
+<td class="gt_row gt_right">25%</td>
+<td class="gt_row gt_right">33%</td>
+<td class="gt_row gt_right">25%</td>
+<td class="gt_row gt_right">74%</td>
+<td class="gt_row gt_right">52%</td>
+<td class="gt_row gt_right">43%</td>
+<td class="gt_row gt_right">7%</td></tr>
+    <tr><td class="gt_row gt_left">Sheep production/sales</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">24%</td>
+<td class="gt_row gt_right">32%</td>
+<td class="gt_row gt_right">34%</td>
+<td class="gt_row gt_right">82%</td>
+<td class="gt_row gt_right">10%</td>
+<td class="gt_row gt_right">22%</td>
+<td class="gt_row gt_right">17%</td>
+<td class="gt_row gt_right">64%</td>
+<td class="gt_row gt_right">34%</td>
+<td class="gt_row gt_right">18%</td>
+<td class="gt_row gt_right">7%</td></tr>
+    <tr><td class="gt_row gt_left">Fishing and sales</td>
+<td class="gt_row gt_right">54%</td>
+<td class="gt_row gt_right">49%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">56%</td>
+<td class="gt_row gt_right">26%</td>
+<td class="gt_row gt_right">16%</td>
+<td class="gt_row gt_right">39%</td>
+<td class="gt_row gt_right">59%</td>
+<td class="gt_row gt_right">56%</td>
+<td class="gt_row gt_right">72%</td>
+<td class="gt_row gt_right">79%</td>
+<td class="gt_row gt_right">32%</td>
+<td class="gt_row gt_right">10%</td></tr>
+    <tr><td class="gt_row gt_left">Ag wage labor in village</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">52%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">45%</td>
+<td class="gt_row gt_right">43%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">58%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">8%</td>
+<td class="gt_row gt_right">21%</td></tr>
+    <tr><td class="gt_row gt_left">Ag wage labor outside village</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">29%</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">30%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">8%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">13%</td></tr>
+    <tr><td class="gt_row gt_left">Wage labor in village</td>
+<td class="gt_row gt_right">23%</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">7%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">26%</td>
+<td class="gt_row gt_right">31%</td>
+<td class="gt_row gt_right">53%</td>
+<td class="gt_row gt_right">14%</td>
+<td class="gt_row gt_right">24%</td>
+<td class="gt_row gt_right">54%</td>
+<td class="gt_row gt_right">32%</td>
+<td class="gt_row gt_right">29%</td>
+<td class="gt_row gt_right">20%</td></tr>
+    <tr><td class="gt_row gt_left">Wage labor outside village</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">16%</td>
+<td class="gt_row gt_right">10%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">17%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">17%</td></tr>
+    <tr><td class="gt_row gt_left">Salaried work</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">7%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">18%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">33%</td></tr>
+    <tr><td class="gt_row gt_left">Wild bush sales</td>
+<td class="gt_row gt_right">34%</td>
+<td class="gt_row gt_right">37%</td>
+<td class="gt_row gt_right">31%</td>
+<td class="gt_row gt_right">31%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">57%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">7%</td>
+<td class="gt_row gt_right">31%</td>
+<td class="gt_row gt_right">77%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">29%</td>
+<td class="gt_row gt_right">22%</td></tr>
+    <tr><td class="gt_row gt_left">Honey production/sales</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">66%</td>
+<td class="gt_row gt_right">27%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">11%</td></tr>
+    <tr><td class="gt_row gt_left">Petty trade other products</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">17%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">28%</td>
+<td class="gt_row gt_right">23%</td>
+<td class="gt_row gt_right">37%</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">22%</td></tr>
+    <tr><td class="gt_row gt_left">Petty trade own products</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">15%</td>
+<td class="gt_row gt_right">42%</td>
+<td class="gt_row gt_right">21%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">10%</td>
+<td class="gt_row gt_right">18%</td>
+<td class="gt_row gt_right">10%</td>
+<td class="gt_row gt_right">17%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">25%</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">16%</td></tr>
+    <tr><td class="gt_row gt_left">Other self-employment ag</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">10%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">14%</td>
+<td class="gt_row gt_right">33%</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">5%</td>
+<td class="gt_row gt_right">14%</td>
+<td class="gt_row gt_right">16%</td>
+<td class="gt_row gt_right">8%</td>
+<td class="gt_row gt_right">15%</td></tr>
+    <tr><td class="gt_row gt_left">Other self-employment non-ag</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">8%</td>
+<td class="gt_row gt_right">33%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">8%</td>
+<td class="gt_row gt_right">7%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">24%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">22%</td></tr>
+    <tr><td class="gt_row gt_left">Rental of land/property</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">2%</td>
+<td class="gt_row gt_right">11%</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">0%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">21%</td></tr>
+    <tr><td class="gt_row gt_left">Remittances</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">15%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">7%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">3%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">1%</td>
+<td class="gt_row gt_right">14%</td></tr>
+    <tr><td class="gt_row gt_left">Gifts/inheritance</td>
+<td class="gt_row gt_right">20%</td>
+<td class="gt_row gt_right">7%</td>
+<td class="gt_row gt_right">18%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">6%</td>
+<td class="gt_row gt_right">25%</td>
+<td class="gt_row gt_right">30%</td>
+<td class="gt_row gt_right">18%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">58%</td>
+<td class="gt_row gt_right">17%</td>
+<td class="gt_row gt_right">13%</td>
+<td class="gt_row gt_right">12%</td></tr>
+    <tr><td class="gt_row gt_left">Food / cash safety net</td>
+<td class="gt_row gt_right">21%</td>
+<td class="gt_row gt_right">30%</td>
+<td class="gt_row gt_right">12%</td>
+<td class="gt_row gt_right">43%</td>
+<td class="gt_row gt_right">4%</td>
+<td class="gt_row gt_right">45%</td>
+<td class="gt_row gt_right">51%</td>
+<td class="gt_row gt_right">10%</td>
+<td class="gt_row gt_right">25%</td>
+<td class="gt_row gt_right">57%</td>
+<td class="gt_row gt_right">25%</td>
+<td class="gt_row gt_right">9%</td>
+<td class="gt_row gt_right">25%</td></tr>
+  </tbody>
+  
+  
+</table>
 </div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="household-involvement-in-the-community" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Household involvement in the community</h1>
+<section id="community-group-participation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="community-group-participation"><span class="header-section-number">2.1</span> Community group participation</h2>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-12_2362db5a53167644cc66dbcfc58c49c5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>grps_sum <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/resilience/groups weighted.csv"</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>grps_sum_gt <span class="ot">&lt;-</span> grps_sum <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>grps_sum_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="xtxjjebgmc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#xtxjjebgmc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xtxjjebgmc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xtxjjebgmc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xtxjjebgmc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xtxjjebgmc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xtxjjebgmc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xtxjjebgmc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xtxjjebgmc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xtxjjebgmc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xtxjjebgmc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xtxjjebgmc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xtxjjebgmc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xtxjjebgmc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xtxjjebgmc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xtxjjebgmc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xtxjjebgmc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xtxjjebgmc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xtxjjebgmc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xtxjjebgmc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xtxjjebgmc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xtxjjebgmc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xtxjjebgmc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xtxjjebgmc .gt_left {
+  text-align: left;
+}
+
+#xtxjjebgmc .gt_center {
+  text-align: center;
+}
+
+#xtxjjebgmc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xtxjjebgmc .gt_font_normal {
+  font-weight: normal;
+}
+
+#xtxjjebgmc .gt_font_bold {
+  font-weight: bold;
+}
+
+#xtxjjebgmc .gt_font_italic {
+  font-style: italic;
+}
+
+#xtxjjebgmc .gt_super {
+  font-size: 65%;
+}
+
+#xtxjjebgmc .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#xtxjjebgmc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xtxjjebgmc .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#xtxjjebgmc .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#xtxjjebgmc .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">variable</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">item</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">group</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">percent</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">se</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">lower</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">upper</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">grp_relig</td>
+<td class="gt_row gt_left">q501g</td>
+<td class="gt_row gt_left">Religious</td>
+<td class="gt_row gt_right">0.6740</td>
+<td class="gt_row gt_right">0.01973</td>
+<td class="gt_row gt_right">0.6353</td>
+<td class="gt_row gt_right">0.7126</td></tr>
+    <tr><td class="gt_row gt_left">grp_youth</td>
+<td class="gt_row gt_left">q501j</td>
+<td class="gt_row gt_left">Youth</td>
+<td class="gt_row gt_right">0.6286</td>
+<td class="gt_row gt_right">0.01711</td>
+<td class="gt_row gt_right">0.5950</td>
+<td class="gt_row gt_right">0.6621</td></tr>
+    <tr><td class="gt_row gt_left">grp_women</td>
+<td class="gt_row gt_left">q501i</td>
+<td class="gt_row gt_left">Women</td>
+<td class="gt_row gt_right">0.6204</td>
+<td class="gt_row gt_right">0.01858</td>
+<td class="gt_row gt_right">0.5839</td>
+<td class="gt_row gt_right">0.6568</td></tr>
+    <tr><td class="gt_row gt_left">grp_herding</td>
+<td class="gt_row gt_left">q501n</td>
+<td class="gt_row gt_left">Cattle herding</td>
+<td class="gt_row gt_right">0.5939</td>
+<td class="gt_row gt_right">0.01837</td>
+<td class="gt_row gt_right">0.5579</td>
+<td class="gt_row gt_right">0.6299</td></tr>
+    <tr><td class="gt_row gt_left">grp_cattleprotect</td>
+<td class="gt_row gt_left">q501o</td>
+<td class="gt_row gt_left">Cattle protection</td>
+<td class="gt_row gt_right">0.5788</td>
+<td class="gt_row gt_right">0.01846</td>
+<td class="gt_row gt_right">0.5427</td>
+<td class="gt_row gt_right">0.6150</td></tr>
+    <tr><td class="gt_row gt_left">grp_mother</td>
+<td class="gt_row gt_left">q501h</td>
+<td class="gt_row gt_left">Mothers</td>
+<td class="gt_row gt_right">0.5445</td>
+<td class="gt_row gt_right">0.02088</td>
+<td class="gt_row gt_right">0.5036</td>
+<td class="gt_row gt_right">0.5855</td></tr>
+    <tr><td class="gt_row gt_left">grp_animalherding</td>
+<td class="gt_row gt_left">q501p</td>
+<td class="gt_row gt_left">Small animal herding</td>
+<td class="gt_row gt_right">0.4611</td>
+<td class="gt_row gt_right">0.01806</td>
+<td class="gt_row gt_right">0.4257</td>
+<td class="gt_row gt_right">0.4965</td></tr>
+    <tr><td class="gt_row gt_left">grp_land</td>
+<td class="gt_row gt_left">q501b</td>
+<td class="gt_row gt_left">Grazing land users</td>
+<td class="gt_row gt_right">0.4018</td>
+<td class="gt_row gt_right">0.02119</td>
+<td class="gt_row gt_right">0.3603</td>
+<td class="gt_row gt_right">0.4434</td></tr>
+    <tr><td class="gt_row gt_left">grp_water</td>
+<td class="gt_row gt_left">q501a</td>
+<td class="gt_row gt_left">Water users</td>
+<td class="gt_row gt_right">0.4004</td>
+<td class="gt_row gt_right">0.01939</td>
+<td class="gt_row gt_right">0.3624</td>
+<td class="gt_row gt_right">0.4384</td></tr>
+    <tr><td class="gt_row gt_left">grp_sports</td>
+<td class="gt_row gt_left">q501k</td>
+<td class="gt_row gt_left">Sports</td>
+<td class="gt_row gt_right">0.3674</td>
+<td class="gt_row gt_right">0.02061</td>
+<td class="gt_row gt_right">0.3270</td>
+<td class="gt_row gt_right">0.4078</td></tr>
+    <tr><td class="gt_row gt_left">grp_raiding</td>
+<td class="gt_row gt_left">q501m</td>
+<td class="gt_row gt_left">Cattle raiding</td>
+<td class="gt_row gt_right">0.3577</td>
+<td class="gt_row gt_right">0.01881</td>
+<td class="gt_row gt_right">0.3209</td>
+<td class="gt_row gt_right">0.3946</td></tr>
+    <tr><td class="gt_row gt_left">grp_disaster</td>
+<td class="gt_row gt_left">q501l</td>
+<td class="gt_row gt_left">Disaster planning</td>
+<td class="gt_row gt_right">0.2829</td>
+<td class="gt_row gt_right">0.01614</td>
+<td class="gt_row gt_right">0.2513</td>
+<td class="gt_row gt_right">0.3146</td></tr>
+    <tr><td class="gt_row gt_left">grp_resource</td>
+<td class="gt_row gt_left">q501c</td>
+<td class="gt_row gt_left">Community natural resources</td>
+<td class="gt_row gt_right">0.2543</td>
+<td class="gt_row gt_right">0.01925</td>
+<td class="gt_row gt_right">0.2165</td>
+<td class="gt_row gt_right">0.2920</td></tr>
+    <tr><td class="gt_row gt_left">grp_help</td>
+<td class="gt_row gt_left">q501f</td>
+<td class="gt_row gt_left">Mutual help</td>
+<td class="gt_row gt_right">0.1997</td>
+<td class="gt_row gt_right">0.01458</td>
+<td class="gt_row gt_right">0.1711</td>
+<td class="gt_row gt_right">0.2282</td></tr>
+    <tr><td class="gt_row gt_left">grp_credit</td>
+<td class="gt_row gt_left">q501d</td>
+<td class="gt_row gt_left">Credit/microfinance</td>
+<td class="gt_row gt_right">0.0940</td>
+<td class="gt_row gt_right">0.00856</td>
+<td class="gt_row gt_right">0.0773</td>
+<td class="gt_row gt_right">0.1108</td></tr>
+    <tr><td class="gt_row gt_left">grp_savings</td>
+<td class="gt_row gt_left">q501e</td>
+<td class="gt_row gt_left">Savings</td>
+<td class="gt_row gt_right">0.0813</td>
+<td class="gt_row gt_right">0.00805</td>
+<td class="gt_row gt_right">0.0655</td>
+<td class="gt_row gt_right">0.0971</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
 </section>
 </main>
 <!-- /main column -->

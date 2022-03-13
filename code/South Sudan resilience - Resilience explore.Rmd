@@ -111,7 +111,7 @@ grps_sum <- grps_mn %>%
   arrange(desc(percent)) %>%
   relocate(item, .after=variable)
 
-grps_sum <- read_csv(("output/tables/resilience/groups weighted.csv")
+grps_sum <- read_csv(here("output/tables/resilience/groups weighted.csv"))
 
 grps_sum_gt <- grps_sum %>%
   gt() %>%
@@ -1788,8 +1788,7 @@ absorp <- dat %>%
          donor_act)
 
 fa.parallel(absorp)
-,
-            cor="mixed")
+#, cor="mixed")
 ```
 2 factors, 1 component
 
@@ -2240,25 +2239,22 @@ describe(dat$emerg_fac)
 ```
 
 ```{r}
-ggplot(l3_dis_t, aes(x=estimate, y=fct_reorder(term2, -estimate)), color = color, fill = color) +
-    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
-    geom_errorbarh(aes(xmin=lower, xmax=upper), color=l3_dis_t$color, height=0, size=1.2, alpha = 0.7) +
-    geom_label(aes(label=paste(round(estimate,3)*100, "%", sep="")),color = l3_dis_t$color, size=4.5) +
-    scale_x_continuous(breaks=seq(-.15,.1,.05),
-                       limits=c(-.15,.1),
-                       labels = scales::percent_format(accuracy=1)) +
-    labs(x = "", y = "")
 
-#,
-         title="Absorptive capacity measures\nand food insecurity")
-#, 
-         caption="Outcome is the probability of the household reporting that members\nof the household went to bed hungry in the previous 30 days\n\nOutcome mean 88%")
+ggplot(l3_dis_t, aes(x=estimate, y=fct_reorder(term2, -estimate)), color = color, fill = color) +
+geom_vline(xintercept=0, color="darkgrey", size=1.2) +
+geom_errorbarh(aes(xmin=lower, xmax=upper), color=l3_dis_t$color, height=0, size=1.2, alpha = 0.7) +
+geom_label(aes(label=paste(round(estimate,3)*100, "%", sep="")),color = l3_dis_t$color, size=4.5) +
+scale_x_continuous(breaks=seq(-.15,.1,.05),
+limits=c(-.15,.1),
+labels = scales::percent_format(accuracy=1)) +
+labs(x = "", y = "")
 
 ggsave(here("output/viz/models/absorptive hungry regplot.png"),
             device="png",
             type="cairo",
             height=5,
             width=7)
+            
 ```
 
 

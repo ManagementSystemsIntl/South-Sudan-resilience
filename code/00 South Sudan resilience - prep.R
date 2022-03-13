@@ -1,6 +1,8 @@
 # South Sudan resilience 
 # data prep
 
+# packages ---- 
+
 packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr","extrafont", "extrafontdb", "janitor",
               "reshape2","tidyr","broom", "caret", "haven", "HH","Hmisc","lubridate","knitr", "margins", "magrittr", "plotrix",
               "scales","survey", "srvyr", "sysfonts", "foreign","car", "ICC", "openxlsx", "ggrepel", "readr",
@@ -10,6 +12,8 @@ packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr
               "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest", "ltm")
 
 lapply(packages, library, character.only=T)
+
+# formatting ---- 
 
 # font_import()
 # loadfonts(device="win")
@@ -45,6 +49,29 @@ faceted <- theme_bw() +
         axis.text=element_text(size=14, family="Source Sans Pro"),
         legend.text=element_text(size=14, family="Source Sans Pro"),
         strip.text=element_text(size=14, family="Source Sans Pro"))
+
+
+# colors
+
+# color_names <- c("USAID_blue","USAID_red","rich_black","medium_blue","light_blue", "web_blue","dark_red","dark_gray","medium_gray","light_gray")
+# 
+# color_id <- c("#002F6C", "#BA0C2F", "#212721", "#0067B9","#A7C6ED", "#205493","#651D32", "#6C6463", "#8C8985", "#CFCDC9")
+# 
+# USAID_palette <- data.frame(color=color_names,
+#                             id=color_id)
+# 
+# USAID_palette
+
+usaid_blue <- "#002F6C"
+usaid_red <- "#BA0C2F"
+rich_black <- "#212721"
+medium_blue <- "#0067B9"
+light_blue <- "#A7C6ED"
+web_blue <- "#205493"
+dark_red <- "#651D32"
+dark_grey <- "#6C6463"
+medium_grey <- "#8C8985"
+light_grey <- "#CFCDC9"
 
 
 
@@ -154,29 +181,10 @@ svyrdat <- dat %>%
    as_survey_design(ids = ea,
                     strata=county,
                     weights=final_wt1)
+
+# labels and keys ---- 
  
- 
- # colors
- 
- # color_names <- c("USAID_blue","USAID_red","rich_black","medium_blue","light_blue", "web_blue","dark_red","dark_gray","medium_gray","light_gray")
- # 
- # color_id <- c("#002F6C", "#BA0C2F", "#212721", "#0067B9","#A7C6ED", "#205493","#651D32", "#6C6463", "#8C8985", "#CFCDC9")
- # 
- # USAID_palette <- data.frame(color=color_names,
- #                             id=color_id)
- # 
- # USAID_palette
- 
- usaid_blue <- "#002F6C"
- usaid_red <- "#BA0C2F"
- rich_black <- "#212721"
- medium_blue <- "#0067B9"
- light_blue <- "#A7C6ED"
- web_blue <- "#205493"
- dark_red <- "#651D32"
- dark_grey <- "#6C6463"
- medium_grey <- "#8C8985"
- light_grey <- "#CFCDC9"
+
  
  inc_labs <- c("Farm/crop production",
                "Cattle production/sales",
@@ -220,7 +228,7 @@ svyrdat <- dat %>%
                "s. Gifts/inheritance",
                "t. Food / cash safety net")
 
-inc_key <- read_csv(here("output/tables/inc key.csv"))
+inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
   
 # inc_key <- data.frame(inc_code=1:20,
 #                        varname=names(inc),
@@ -287,6 +295,8 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 
  cnty_key 
  
+ county_key <- read_csv(here("output/tables/keys/county_key.csv"))
+ 
  diet_labs <- c("Cereals",
                 "Roots/tubers",
                 "Vit A vegetables",
@@ -332,7 +342,7 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 #  
 # write_csv(conf_key, "output/tables/conf_key.csv")
 
-conf_key <- read_csv(here("output/tables/conf_key.csv"))
+conf_key <- read_csv(here("output/tables/keys/conf_key.csv"))
  
 conf_key 
 
