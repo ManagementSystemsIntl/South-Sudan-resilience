@@ -117,8 +117,8 @@ inc_cnty_lng <- inc_cnty_mn %>%
          lower=Percent-margin,
          upper=Percent+margin)
 
-inc_cnty <- inc_cnty_mn %>%
-  bind_cols(inc_se) 
+#inc_cnty <- inc_cnty_mn %>%
+#  bind_cols(inc_se) 
 
 
 inc_cnty_gt <- inc_cnty %>% 

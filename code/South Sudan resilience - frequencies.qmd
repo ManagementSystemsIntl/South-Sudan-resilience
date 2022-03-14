@@ -168,6 +168,182 @@ inc_cnty_wide_gt <- inc_cnty_wide %>%
 inc_cnty_wide_gt
 ```
 
+# Food insecurity
+
+## Food insecure behavior in previous 12 months
+
+```{r}
+
+q422 <- svy_disag(svyrdat, "", q_422, "worried", "Worried about not enough to eat") %>%
+  select(4,5,2,6,7)
+
+#q422
+
+q423 <- svy_disag(svyrdat, "", q_423, "unhealthy", "Unable to eat healthy") %>%
+  select(4,5,2,6,7)
+
+#q423
+
+q424 <- svy_disag(svyrdat, "", q_424, "few_foods", "Ate few kinds of foods") %>%
+  select(4,5,2,6,7)
+
+#q424
+
+q425 <- svy_disag(svyrdat, "", q_425, "skip", "Skipped a meal") %>%
+  select(4,5,2,6,7)
+
+#q425
+
+q426 <- svy_disag(svyrdat, "", q_426, "ate_less", "Ate less than needed") %>%
+  select(4,5,2,6,7)
+
+#q426
+
+q427 <- svy_disag(svyrdat, "", q_427, "no_food", "Did not have food") %>%
+  select(4,5,2,6,7)
+
+#q427
+
+q428 <- svy_disag(svyrdat, "", q_428, "not_eat", "Did not eat") %>%
+  select(4,5,2,6,7)
+
+#q428
+
+q429 <- svy_disag(svyrdat, "", q_429, "wholeday", "Went a day without eating") %>%
+  select(4,5,2,6,7)
+
+#q429
+
+fies_items <- do.call(rbind, 
+                      list(q422,
+                           q423,
+                           q424,
+                           q425,
+                           q426,
+                           q427,
+                           q428,
+                           q429))
+
+
+#fies_items
+
+
+```
+
+```{r}
+fies_items_gt <- fies_items %>%
+  select(-1) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) %>%
+  cols_label(label="In previous 12 months..",
+             Value="Percent") %>%
+  tab_source_note("Survey instrument items 422-429") #%>%
+  #tab_source_note("Behavior in past 12 months")
+
+fies_items_gt
+
+#gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
+```
+
+## Food insecure behavior in previous four weeks
+
+```{r}
+
+q430 <- svy_disag(svyrdat, "", q_430, "no_food", "No food in house") %>%
+  select("In previous four weeks.."=5,Percent=2,6,7) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) 
+
+q430
+
+```
+
+```{r}
+
+# need to use survey package due to presence of not asked 
+
+q431 <- svytable(~q_431,
+                     svydat,
+                     Ntotal=T) %>%
+  as.data.frame() %>%
+  mutate(Response=c("Rarely (1-2 times)",
+                    "Sometimes (3-10 times)",
+                    "Often (More than 10 times)")) %>%
+  select(3,Percent=2) %>%
+  gt() %>%
+  fmt_percent(2,
+              decimals=1) %>%
+  cols_label(Response=html("How often no food in house<br>in previous four weeks?"))
+
+q431
+```
+
+```{r}
+
+q432 <- svy_disag(svyrdat, "", q_432, "slept_hungry", "Went to bed hungry") %>%
+  select(5,Percent=2,6,7) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) %>%
+  cols_label(label="In the previous four weeks..")
+
+q432
+
+```
+
+```{r}
+
+# need to use survey package due to presence of not asked 
+
+q433 <- svytable(~q_433,
+                     svydat,
+                     Ntotal=T) %>%
+  as.data.frame() %>%
+  mutate(Response=c("Rarely (1-2 times)",
+                    "Sometimes (3-10 times)",
+                    "Often (More than 10 times)")) %>%
+  select(3,Percent=2) %>%
+  gt() %>%
+  fmt_percent(2, 
+              decimals=1) %>%
+  cols_label(Response=html("How often went to bed<br>hungry in past four weeks?"))
+
+q433
+```
+
+```{r}
+q434 <- svy_disag(svyrdat, "", q_434, "fast", "Went whole day without eating") %>%
+  select(5,Percent=2,6,7) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) %>%
+  cols_label(label="In the previous four weeks..")
+
+q434
+```
+
+```{r}
+
+# need to use survey package due to presence of not asked 
+
+q435 <- svytable(~q_435,
+                     svydat,
+                     Ntotal=T) %>%
+  as.data.frame() %>%
+  mutate(Response=c("Rarely (1-2 times)",
+                    "Sometimes (3-10 times)",
+                    "Often (More than 10 times)")) %>%
+  select(3,Percent=2) %>%
+  gt() %>%
+  fmt_percent(2, 
+              decimals=1) %>%
+  cols_label(Response=html("How often went a whole day<br>without eating in past four weeks?"))
+
+q435
+```
+
 # Household involvement in the community
 
 ## Community group participation

@@ -111,6 +111,20 @@ disag_tab <- function(design, var, groupvar, ind_type, key) {
 }
 
 
+svy_disag <- function(design, disaggregate, item, varname, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(#item={{item}},
+      var_name={{varname}},
+      label={{label}},
+      lower=Value-1.96*Value_se,
+      upper=Value+1.96*Value_se)
+  temp
+}
+
+
+
 tidy_out <- function(data, term_key=term_key) {
   tidy(data) %>%
     mutate(lower = estimate - 1.96*std.error,
@@ -318,8 +332,9 @@ inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
  diet_key <- data.frame(diet_code=1:17,
                         diet_lab=diet_labs) 
  
+ fies_key <- read_csv(here("output/tables/keys/fies key.csv"))
  
- conf_labs <- c("Land",
+  conf_labs <- c("Land",
                 "Water",
                 "Pasture",
                 "Forestry",
