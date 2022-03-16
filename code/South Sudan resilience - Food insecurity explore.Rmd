@@ -134,6 +134,15 @@ fies_items <- do.call(rbind,
 
 
 fies_items
+
+#fies_key <- data.frame(insecure_code=1:8,
+#                       insecure_item=fies_items$var_name,
+#                       insecure_lab=fies_items$label)
+
+#fies_key
+
+#write_csv(fies_key, here("output/tables/keys/fies key.csv"))
+
 # 
 write.csv(fies_items, here("output/tables/food insecurity/fies items.csv"))
 # 

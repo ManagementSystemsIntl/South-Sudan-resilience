@@ -1,0 +1,14 @@
+unnamed-chunk-2	%>%	group_by	q_401_a_bin	q_401_b_bin	q_401_c_bin	q_401_d_bin	q_401_e_bin	q_401_f_bin	q_401_g_bin	q_401_h_bin	q_401_i_bin	q_401_j_bin	q_401_k_bin	q_401_l_bin	q_401_m_bin	q_401_n_bin	q_401_o_bin	q_401_p_bin	q_401_q_bin	q_401_r_bin	q_401_s_bin	q_401_t_bin	summarize	survey_mean	svyrdat
+unnamed-chunk-4	%>%	==	arrange	bind_cols	cols_label	desc	F	fmt_percent	gt	inc_lab	inc_labs	inc_ov_tmp	income_source	margin	mutate	Percent	pivot_longer	relocate	se	select	seq_len	T	tab_source_note
+unnamed-chunk-8	$	%>%	==	bind_cols	cols_label	county	county_key	F	fmt_percent	gt	inc_cnty_tmp	inc_lab	inc_labs	income_source	margin	mutate	Percent	pivot_longer	relocate	rep	se	select	seq_len	T
+unnamed-chunk-6	%>%	county	group_by	q_401_a_bin	q_401_b_bin	q_401_c_bin	q_401_d_bin	q_401_e_bin	q_401_f_bin	q_401_g_bin	q_401_h_bin	q_401_i_bin	q_401_j_bin	q_401_k_bin	q_401_l_bin	q_401_m_bin	q_401_n_bin	q_401_o_bin	q_401_p_bin	q_401_q_bin	q_401_r_bin	q_401_s_bin	q_401_t_bin	summarize	survey_mean	svyrdat
+unnamed-chunk-10	%>%	as.data.frame	cols_label	county	fmt_percent	gt	inc_cnty	Percent	pivot_wider	select
+unnamed-chunk-12	%>%	do.call	list	q_422	q_423	q_424	q_425	q_426	q_427	q_428	q_429	rbind	select	svy_disag	svyrdat
+unnamed-chunk-14	%>%	cols_label	fies_items	fmt_percent	gt	select	tab_source_note
+unnamed-chunk-16	%>%	fmt_percent	gt	q_430	select	svy_disag	svyrdat
+unnamed-chunk-18	%>%	~	as.data.frame	c	cols_label	fmt_percent	gt	html	mutate	select	svydat	svytable	T
+unnamed-chunk-20	%>%	cols_label	fmt_percent	gt	q_432	select	svy_disag	svyrdat
+unnamed-chunk-22	%>%	~	as.data.frame	c	cols_label	fmt_percent	gt	html	mutate	select	svydat	svytable	T
+unnamed-chunk-24	%>%	cols_label	fmt_percent	gt	q_434	select	svy_disag	svyrdat
+unnamed-chunk-26	%>%	~	as.data.frame	c	cols_label	fmt_percent	gt	html	mutate	select	svydat	svytable	T
+unnamed-chunk-28	%>%	gt	here	read_csv

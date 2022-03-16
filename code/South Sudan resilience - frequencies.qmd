@@ -148,7 +148,7 @@ inc_cnty_gt <- inc_cnty %>%
 inc_cnty_gt
 ```
 
-### Wide format to better show income source across county. 
+### Wide format to better show income source across county.
 
 ```{r}
 
@@ -166,6 +166,107 @@ inc_cnty_wide_gt <- inc_cnty_wide %>%
   cols_label(inc_lab="Income source")
 
 inc_cnty_wide_gt
+```
+
+# Dietary diversity
+
+Overall frequencies, ranked in descending order
+
+```{r}
+q403 <- svy_disag(svyrdat, "", q_403, "403","Cereals")
+q404 <- svy_disag(svyrdat, "", q_404, "404","Roots/tubers")
+q405 <- svy_disag(svyrdat, "", q_405, "405","Vitamin A vegetables")
+q406 <- svy_disag(svyrdat, "", q_406, "406","Leafy greens")
+q407 <- svy_disag(svyrdat, "", q_407, "407","Other vegetables")
+q408 <- svy_disag(svyrdat, "", q_408, "408","Vitamin A fruits")
+q409 <- svy_disag(svyrdat, "", q_409, "409","Other fruits")
+q410 <- svy_disag(svyrdat, "", q_410, "410","Organ meat")
+q411 <- svy_disag(svyrdat, "", q_411, "411","Domesticated meat")
+q412 <- svy_disag(svyrdat, "", q_412, "412","Bush meat")
+q413 <- svy_disag(svyrdat, "", q_413, "413","Eggs")
+q414 <- svy_disag(svyrdat, "", q_414, "414","Fish")
+q415 <- svy_disag(svyrdat, "", q_415, "415","Legumes")
+q416 <- svy_disag(svyrdat, "", q_416, "416","Milk products")
+q417 <- svy_disag(svyrdat, "", q_417, "417","Oil and fats")
+q418 <- svy_disag(svyrdat, "", q_418, "418","Sweets")
+q419 <- svy_disag(svyrdat, "", q_419, "419","Spices/condiments")
+
+diet_ov <- bind_rows(q403, 
+                       q404, 
+                       q405,
+                       q406,
+                       q407,
+                       q408,
+                       q409,
+                       q410,
+                       q411,
+                       q412,
+                       q413,
+                       q414,
+                       q415,
+                       q416,
+                       q417,
+                       q418,
+                       q419) %>%
+  select(Item=var_name,
+         Food=label,
+         Percent=Value, lower, upper) %>%
+  arrange(desc(Percent))
+
+write_csv(diet_ov, here("output/tables/food insecurity/diet items overall.csv"))
+
+#gtsave(diet_ov_gt, here("output/tables/food insecurity/diet items overall.rtf"))
+
+diet_ov_gt <- diet_ov %>%
+  gt() %>%
+  fmt_percent(3:5,
+              decimals=1)
+
+diet_ov_gt
+
+```
+
+## Dietary diversity by county
+
+```{r}
+q403_cnty <- svy_disag(svyrdat, county, q_403, "403","Cereals")
+q404_cnty <- svy_disag(svyrdat, county, q_404, "404","Roots/tubers")
+q405_cnty <- svy_disag(svyrdat, county, q_405, "405","Vitamin A vegetables")
+q406_cnty <- svy_disag(svyrdat, county, q_406, "406","Leafy greens")
+q407_cnty <- svy_disag(svyrdat, county, q_407, "407","Other vegetables")
+q408_cnty <- svy_disag(svyrdat, county, q_408, "408","Vitamin A fruits")
+q409_cnty <- svy_disag(svyrdat, county, q_409, "409","Other fruits")
+q410_cnty <- svy_disag(svyrdat, county, q_410, "410","Organ meat")
+q411_cnty <- svy_disag(svyrdat, county, q_411, "411","Domesticated meat")
+q412_cnty <- svy_disag(svyrdat, county, q_412, "412","Bush meat")
+q413_cnty <- svy_disag(svyrdat, county, q_413, "413","Eggs")
+q414_cnty <- svy_disag(svyrdat, county, q_414, "414","Fish")
+q415_cnty <- svy_disag(svyrdat, county, q_415, "415","Legumes")
+q416_cnty <- svy_disag(svyrdat, county, q_416, "416","Milk products")
+q417_cnty <- svy_disag(svyrdat, county, q_417, "417","Oil and fats")
+q418_cnty <- svy_disag(svyrdat, county, q_418, "418","Sweets")
+q419_cnty <- svy_disag(svyrdat, county, q_419, "419","Spices/condiments")
+
+diet_cnty <- bind_rows(q403_cnty, 
+                       q404_cnty, 
+                       q405_cnty,
+                       q406_cnty,
+                       q407_cnty,
+                       q408_cnty,
+                       q409_cnty,
+                       q410_cnty,
+                       q411_cnty,
+                       q412_cnty,
+                       q413_cnty,
+                       q414_cnty,
+                       q415_cnty,
+                       q416_cnty,
+                       q417_cnty,
+                       q418_cnty,
+                       q419_cnty)
+
+write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"))
+
 ```
 
 # Food insecurity
