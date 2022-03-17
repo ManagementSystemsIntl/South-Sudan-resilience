@@ -87,6 +87,19 @@
   <script src="South Sudan resilience - frequencies_files/libs/bootstrap/bootstrap.min.js"></script>
   <link href="South Sudan resilience - frequencies_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
   <link href="South Sudan resilience - frequencies_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script src="South Sudan resilience - frequencies_files\libs/jquery-3.5.1/jquery.min.js"></script>
+  <link href="South Sudan resilience - frequencies_files\libs/selectize-0.12.4/css/selectize.bootstrap3.css" rel="stylesheet">
+  <script src="South Sudan resilience - frequencies_files\libs/selectize-0.12.4/js/selectize.min.js"></script>
+  <link href="South Sudan resilience - frequencies_files\libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+  <script src="South Sudan resilience - frequencies_files\libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/react-17.0.0/react.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/react-17.0.0/react-dom.min.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/reactable-binding-0.2.3/reactable.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="South Sudan resilience - frequencies_files\libs/bootstrap-grid-3.4.1/bootstrap-grid.min.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -133,7 +146,7 @@
 <h1 data-number="1"><span class="header-section-number">1</span> Household Income and Consumption</h1>
 <section id="overall" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="overall"><span class="header-section-number">1.1</span> Overall</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-2_dc37efa4aa19557c80df5ed9eb470f3a">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-2_0ae5736f65a15df8a0cf7da1514595c8">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>inc_ov_tmp <span class="ot">&lt;-</span> svyrdat <span class="sc">%&gt;%</span></span>
@@ -152,15 +165,15 @@
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">honey =</span> <span class="fu">survey_mean</span>(q_401_l_bin),</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_other =</span> <span class="fu">survey_mean</span>(q_401_m_bin),</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_own =</span> <span class="fu">survey_mean</span>(q_401_n_bin),</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_ag =</span> <span class="fu">survey_mean</span>(q_401_o_bin), </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_ag =</span> <span class="fu">survey_mean</span>(q_401_o_bin),</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_nonag =</span> <span class="fu">survey_mean</span>(q_401_p_bin),</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">rent =</span> <span class="fu">survey_mean</span>(q_401_q_bin),</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">remit =</span> <span class="fu">survey_mean</span>(q_401_r_bin),</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">gifts =</span> <span class="fu">survey_mean</span>(q_401_s_bin),</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-4_2b8233b8f494f8a5c818c298d2803877">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-4_0baebda3365c7db0552e71ad2b9bd450">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ov_cols <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="dv">40</span>) <span class="sc">%%</span> <span class="dv">2</span></span>
@@ -191,17 +204,17 @@
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">inc_lab=</span><span class="st">"Income source"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="st">"Survey instsrument items 401a-t"</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>inc_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="oxohmeffls" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="vtfumxdzih" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#oxohmeffls .gt_table {
+#vtfumxdzih .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -226,7 +239,7 @@
   border-left-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_heading {
+#vtfumxdzih .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -238,7 +251,7 @@
   border-right-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_title {
+#vtfumxdzih .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -250,7 +263,7 @@
   border-bottom-width: 0;
 }
 
-#oxohmeffls .gt_subtitle {
+#vtfumxdzih .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -262,13 +275,13 @@
   border-top-width: 0;
 }
 
-#oxohmeffls .gt_bottom_border {
+#vtfumxdzih .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_col_headings {
+#vtfumxdzih .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -283,7 +296,7 @@
   border-right-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_col_heading {
+#vtfumxdzih .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -303,7 +316,7 @@
   overflow-x: hidden;
 }
 
-#oxohmeffls .gt_column_spanner_outer {
+#vtfumxdzih .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -315,15 +328,15 @@
   padding-right: 4px;
 }
 
-#oxohmeffls .gt_column_spanner_outer:first-child {
+#vtfumxdzih .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oxohmeffls .gt_column_spanner_outer:last-child {
+#vtfumxdzih .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oxohmeffls .gt_column_spanner {
+#vtfumxdzih .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -335,7 +348,7 @@
   width: 100%;
 }
 
-#oxohmeffls .gt_group_heading {
+#vtfumxdzih .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -360,7 +373,7 @@
   vertical-align: middle;
 }
 
-#oxohmeffls .gt_empty_group_heading {
+#vtfumxdzih .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -375,15 +388,15 @@
   vertical-align: middle;
 }
 
-#oxohmeffls .gt_from_md > :first-child {
+#vtfumxdzih .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oxohmeffls .gt_from_md > :last-child {
+#vtfumxdzih .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oxohmeffls .gt_row {
+#vtfumxdzih .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -402,7 +415,7 @@
   overflow-x: hidden;
 }
 
-#oxohmeffls .gt_stub {
+#vtfumxdzih .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -415,7 +428,7 @@
   padding-right: 5px;
 }
 
-#oxohmeffls .gt_stub_row_group {
+#vtfumxdzih .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -429,11 +442,11 @@
   vertical-align: top;
 }
 
-#oxohmeffls .gt_row_group_first td {
+#vtfumxdzih .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oxohmeffls .gt_summary_row {
+#vtfumxdzih .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -443,16 +456,16 @@
   padding-right: 5px;
 }
 
-#oxohmeffls .gt_first_summary_row {
+#vtfumxdzih .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_first_summary_row.thick {
+#vtfumxdzih .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oxohmeffls .gt_last_summary_row {
+#vtfumxdzih .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -462,7 +475,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_grand_summary_row {
+#vtfumxdzih .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -472,7 +485,7 @@
   padding-right: 5px;
 }
 
-#oxohmeffls .gt_first_grand_summary_row {
+#vtfumxdzih .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -482,11 +495,11 @@
   border-top-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_striped {
+#vtfumxdzih .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oxohmeffls .gt_table_body {
+#vtfumxdzih .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -495,7 +508,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_footnotes {
+#vtfumxdzih .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -509,7 +522,7 @@
   border-right-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_footnote {
+#vtfumxdzih .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -518,7 +531,7 @@
   padding-right: 5px;
 }
 
-#oxohmeffls .gt_sourcenotes {
+#vtfumxdzih .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -532,7 +545,7 @@
   border-right-color: #D3D3D3;
 }
 
-#oxohmeffls .gt_sourcenote {
+#vtfumxdzih .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -540,60 +553,60 @@
   padding-right: 5px;
 }
 
-#oxohmeffls .gt_left {
+#vtfumxdzih .gt_left {
   text-align: left;
 }
 
-#oxohmeffls .gt_center {
+#vtfumxdzih .gt_center {
   text-align: center;
 }
 
-#oxohmeffls .gt_right {
+#vtfumxdzih .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oxohmeffls .gt_font_normal {
+#vtfumxdzih .gt_font_normal {
   font-weight: normal;
 }
 
-#oxohmeffls .gt_font_bold {
+#vtfumxdzih .gt_font_bold {
   font-weight: bold;
 }
 
-#oxohmeffls .gt_font_italic {
+#vtfumxdzih .gt_font_italic {
   font-style: italic;
 }
 
-#oxohmeffls .gt_super {
+#vtfumxdzih .gt_super {
   font-size: 65%;
 }
 
-#oxohmeffls .gt_footnote_marks {
+#vtfumxdzih .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#oxohmeffls .gt_asterisk {
+#vtfumxdzih .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oxohmeffls .gt_slash_mark {
+#vtfumxdzih .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#oxohmeffls .gt_fraction_numerator {
+#vtfumxdzih .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#oxohmeffls .gt_fraction_denominator {
+#vtfumxdzih .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -727,7 +740,7 @@
 <h2 data-number="1.2" class="anchored" data-anchor-id="by-county"><span class="header-section-number">1.2</span> By county</h2>
 <section id="long-format-with-confidence-intervals" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="long-format-with-confidence-intervals"><span class="header-section-number">1.2.1</span> Long format, with confidence intervals</h3>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-6_11b8142b623ec0621588686653fa42a5">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-6_c80560d8b2c27c393e6447346412f3bd">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>inc_cnty_tmp <span class="ot">&lt;-</span> svyrdat <span class="sc">%&gt;%</span></span>
@@ -746,15 +759,15 @@
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">honey =</span> <span class="fu">survey_mean</span>(q_401_l_bin),</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_other =</span> <span class="fu">survey_mean</span>(q_401_m_bin),</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">petty_trade_own =</span> <span class="fu">survey_mean</span>(q_401_n_bin),</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_ag =</span> <span class="fu">survey_mean</span>(q_401_o_bin), </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_ag =</span> <span class="fu">survey_mean</span>(q_401_o_bin),</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">ownbiz_nonag =</span> <span class="fu">survey_mean</span>(q_401_p_bin),</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">rent =</span> <span class="fu">survey_mean</span>(q_401_q_bin),</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">remit =</span> <span class="fu">survey_mean</span>(q_401_r_bin),</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">gifts =</span> <span class="fu">survey_mean</span>(q_401_s_bin),</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">safety_net =</span> <span class="fu">survey_mean</span>(q_401_t_bin))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-8_5bfcffe58981728ae019ac215873affc">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-8_282f4b7e19e9b32660e25909bd3e26b0">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cnty_cols <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="dv">41</span>) <span class="sc">%%</span> <span class="dv">2</span></span>
@@ -779,10 +792,10 @@
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper=</span>Percent<span class="sc">+</span>margin) <span class="sc">%&gt;%</span></span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(inc_lab, <span class="at">.after=</span>income_source)</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>inc_cnty_gt <span class="ot">&lt;-</span> inc_cnty <span class="sc">%&gt;%</span> </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>inc_cnty_gt <span class="ot">&lt;-</span> inc_cnty <span class="sc">%&gt;%</span></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>, </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>,</span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">county=</span><span class="st">"County"</span>,</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">inc_lab=</span><span class="st">"Income source"</span>)</span>
@@ -790,12 +803,12 @@
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>inc_cnty_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="sybbaqfqjs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="xgjlihruoo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sybbaqfqjs .gt_table {
+#xgjlihruoo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -820,7 +833,7 @@
   border-left-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_heading {
+#xgjlihruoo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -832,7 +845,7 @@
   border-right-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_title {
+#xgjlihruoo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -844,7 +857,7 @@
   border-bottom-width: 0;
 }
 
-#sybbaqfqjs .gt_subtitle {
+#xgjlihruoo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -856,13 +869,13 @@
   border-top-width: 0;
 }
 
-#sybbaqfqjs .gt_bottom_border {
+#xgjlihruoo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_col_headings {
+#xgjlihruoo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -877,7 +890,7 @@
   border-right-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_col_heading {
+#xgjlihruoo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -897,7 +910,7 @@
   overflow-x: hidden;
 }
 
-#sybbaqfqjs .gt_column_spanner_outer {
+#xgjlihruoo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -909,15 +922,15 @@
   padding-right: 4px;
 }
 
-#sybbaqfqjs .gt_column_spanner_outer:first-child {
+#xgjlihruoo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sybbaqfqjs .gt_column_spanner_outer:last-child {
+#xgjlihruoo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sybbaqfqjs .gt_column_spanner {
+#xgjlihruoo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -929,7 +942,7 @@
   width: 100%;
 }
 
-#sybbaqfqjs .gt_group_heading {
+#xgjlihruoo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -954,7 +967,7 @@
   vertical-align: middle;
 }
 
-#sybbaqfqjs .gt_empty_group_heading {
+#xgjlihruoo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -969,15 +982,15 @@
   vertical-align: middle;
 }
 
-#sybbaqfqjs .gt_from_md > :first-child {
+#xgjlihruoo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sybbaqfqjs .gt_from_md > :last-child {
+#xgjlihruoo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sybbaqfqjs .gt_row {
+#xgjlihruoo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -996,7 +1009,7 @@
   overflow-x: hidden;
 }
 
-#sybbaqfqjs .gt_stub {
+#xgjlihruoo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1009,7 +1022,7 @@
   padding-right: 5px;
 }
 
-#sybbaqfqjs .gt_stub_row_group {
+#xgjlihruoo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1023,11 +1036,11 @@
   vertical-align: top;
 }
 
-#sybbaqfqjs .gt_row_group_first td {
+#xgjlihruoo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sybbaqfqjs .gt_summary_row {
+#xgjlihruoo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1037,16 +1050,16 @@
   padding-right: 5px;
 }
 
-#sybbaqfqjs .gt_first_summary_row {
+#xgjlihruoo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_first_summary_row.thick {
+#xgjlihruoo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sybbaqfqjs .gt_last_summary_row {
+#xgjlihruoo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1056,7 +1069,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_grand_summary_row {
+#xgjlihruoo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1066,7 +1079,7 @@
   padding-right: 5px;
 }
 
-#sybbaqfqjs .gt_first_grand_summary_row {
+#xgjlihruoo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1076,11 +1089,11 @@
   border-top-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_striped {
+#xgjlihruoo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sybbaqfqjs .gt_table_body {
+#xgjlihruoo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1089,7 +1102,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_footnotes {
+#xgjlihruoo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1103,7 +1116,7 @@
   border-right-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_footnote {
+#xgjlihruoo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1112,7 +1125,7 @@
   padding-right: 5px;
 }
 
-#sybbaqfqjs .gt_sourcenotes {
+#xgjlihruoo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1126,7 +1139,7 @@
   border-right-color: #D3D3D3;
 }
 
-#sybbaqfqjs .gt_sourcenote {
+#xgjlihruoo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1134,60 +1147,60 @@
   padding-right: 5px;
 }
 
-#sybbaqfqjs .gt_left {
+#xgjlihruoo .gt_left {
   text-align: left;
 }
 
-#sybbaqfqjs .gt_center {
+#xgjlihruoo .gt_center {
   text-align: center;
 }
 
-#sybbaqfqjs .gt_right {
+#xgjlihruoo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sybbaqfqjs .gt_font_normal {
+#xgjlihruoo .gt_font_normal {
   font-weight: normal;
 }
 
-#sybbaqfqjs .gt_font_bold {
+#xgjlihruoo .gt_font_bold {
   font-weight: bold;
 }
 
-#sybbaqfqjs .gt_font_italic {
+#xgjlihruoo .gt_font_italic {
   font-style: italic;
 }
 
-#sybbaqfqjs .gt_super {
+#xgjlihruoo .gt_super {
   font-size: 65%;
 }
 
-#sybbaqfqjs .gt_footnote_marks {
+#xgjlihruoo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#sybbaqfqjs .gt_asterisk {
+#xgjlihruoo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sybbaqfqjs .gt_slash_mark {
+#xgjlihruoo .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#sybbaqfqjs .gt_fraction_numerator {
+#xgjlihruoo .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#sybbaqfqjs .gt_fraction_denominator {
+#xgjlihruoo .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2795,12 +2808,12 @@
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>inc_cnty_wide_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="hqjznjiyjz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="zddjfdvbdp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#hqjznjiyjz .gt_table {
+#zddjfdvbdp .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2825,7 +2838,7 @@
   border-left-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_heading {
+#zddjfdvbdp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2837,7 +2850,7 @@
   border-right-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_title {
+#zddjfdvbdp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2849,7 +2862,7 @@
   border-bottom-width: 0;
 }
 
-#hqjznjiyjz .gt_subtitle {
+#zddjfdvbdp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2861,13 +2874,13 @@
   border-top-width: 0;
 }
 
-#hqjznjiyjz .gt_bottom_border {
+#zddjfdvbdp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_col_headings {
+#zddjfdvbdp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2882,7 +2895,7 @@
   border-right-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_col_heading {
+#zddjfdvbdp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2902,7 +2915,7 @@
   overflow-x: hidden;
 }
 
-#hqjznjiyjz .gt_column_spanner_outer {
+#zddjfdvbdp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2914,15 +2927,15 @@
   padding-right: 4px;
 }
 
-#hqjznjiyjz .gt_column_spanner_outer:first-child {
+#zddjfdvbdp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hqjznjiyjz .gt_column_spanner_outer:last-child {
+#zddjfdvbdp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hqjznjiyjz .gt_column_spanner {
+#zddjfdvbdp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2934,7 +2947,7 @@
   width: 100%;
 }
 
-#hqjznjiyjz .gt_group_heading {
+#zddjfdvbdp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2959,7 +2972,7 @@
   vertical-align: middle;
 }
 
-#hqjznjiyjz .gt_empty_group_heading {
+#zddjfdvbdp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2974,15 +2987,15 @@
   vertical-align: middle;
 }
 
-#hqjznjiyjz .gt_from_md > :first-child {
+#zddjfdvbdp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hqjznjiyjz .gt_from_md > :last-child {
+#zddjfdvbdp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hqjznjiyjz .gt_row {
+#zddjfdvbdp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3001,7 +3014,7 @@
   overflow-x: hidden;
 }
 
-#hqjznjiyjz .gt_stub {
+#zddjfdvbdp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3014,7 +3027,7 @@
   padding-right: 5px;
 }
 
-#hqjznjiyjz .gt_stub_row_group {
+#zddjfdvbdp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3028,11 +3041,11 @@
   vertical-align: top;
 }
 
-#hqjznjiyjz .gt_row_group_first td {
+#zddjfdvbdp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hqjznjiyjz .gt_summary_row {
+#zddjfdvbdp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3042,16 +3055,16 @@
   padding-right: 5px;
 }
 
-#hqjznjiyjz .gt_first_summary_row {
+#zddjfdvbdp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_first_summary_row.thick {
+#zddjfdvbdp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hqjznjiyjz .gt_last_summary_row {
+#zddjfdvbdp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3061,7 +3074,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_grand_summary_row {
+#zddjfdvbdp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3071,7 +3084,7 @@
   padding-right: 5px;
 }
 
-#hqjznjiyjz .gt_first_grand_summary_row {
+#zddjfdvbdp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3081,11 +3094,11 @@
   border-top-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_striped {
+#zddjfdvbdp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hqjznjiyjz .gt_table_body {
+#zddjfdvbdp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3094,7 +3107,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_footnotes {
+#zddjfdvbdp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3108,7 +3121,7 @@
   border-right-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_footnote {
+#zddjfdvbdp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3117,7 +3130,7 @@
   padding-right: 5px;
 }
 
-#hqjznjiyjz .gt_sourcenotes {
+#zddjfdvbdp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3131,7 +3144,7 @@
   border-right-color: #D3D3D3;
 }
 
-#hqjznjiyjz .gt_sourcenote {
+#zddjfdvbdp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3139,60 +3152,60 @@
   padding-right: 5px;
 }
 
-#hqjznjiyjz .gt_left {
+#zddjfdvbdp .gt_left {
   text-align: left;
 }
 
-#hqjznjiyjz .gt_center {
+#zddjfdvbdp .gt_center {
   text-align: center;
 }
 
-#hqjznjiyjz .gt_right {
+#zddjfdvbdp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hqjznjiyjz .gt_font_normal {
+#zddjfdvbdp .gt_font_normal {
   font-weight: normal;
 }
 
-#hqjznjiyjz .gt_font_bold {
+#zddjfdvbdp .gt_font_bold {
   font-weight: bold;
 }
 
-#hqjznjiyjz .gt_font_italic {
+#zddjfdvbdp .gt_font_italic {
   font-style: italic;
 }
 
-#hqjznjiyjz .gt_super {
+#zddjfdvbdp .gt_super {
   font-size: 65%;
 }
 
-#hqjznjiyjz .gt_footnote_marks {
+#zddjfdvbdp .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#hqjznjiyjz .gt_asterisk {
+#zddjfdvbdp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hqjznjiyjz .gt_slash_mark {
+#zddjfdvbdp .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#hqjznjiyjz .gt_fraction_numerator {
+#zddjfdvbdp .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#hqjznjiyjz .gt_fraction_denominator {
+#zddjfdvbdp .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3512,7 +3525,7 @@
 <section id="dietary-diversity" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Dietary diversity</h1>
 <p>Overall frequencies, ranked in descending order</p>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-12_f3b2547f53ebb323be1c6182504cbf42">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-12_9963b4b18420f632c924355ef574bdb9">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>q403 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_403, <span class="st">"403"</span>,<span class="st">"Cereals"</span>)</span>
@@ -3533,8 +3546,8 @@
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>q418 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_418, <span class="st">"418"</span>,<span class="st">"Sweets"</span>)</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>q419 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_419, <span class="st">"419"</span>,<span class="st">"Spices/condiments"</span>)</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>diet_ov <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(q403, </span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                       q404, </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>diet_ov <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(q403,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                       q404,</span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                       q405,</span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                       q406,</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                       q407,</span>
@@ -3567,12 +3580,12 @@
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>diet_ov_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="xtxjjebgmc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="zsvfvgpdts" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xtxjjebgmc .gt_table {
+#zsvfvgpdts .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3597,7 +3610,7 @@
   border-left-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_heading {
+#zsvfvgpdts .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3609,7 +3622,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_title {
+#zsvfvgpdts .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3621,7 +3634,7 @@
   border-bottom-width: 0;
 }
 
-#xtxjjebgmc .gt_subtitle {
+#zsvfvgpdts .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3633,13 +3646,13 @@
   border-top-width: 0;
 }
 
-#xtxjjebgmc .gt_bottom_border {
+#zsvfvgpdts .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_col_headings {
+#zsvfvgpdts .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3654,7 +3667,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_col_heading {
+#zsvfvgpdts .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3674,7 +3687,7 @@
   overflow-x: hidden;
 }
 
-#xtxjjebgmc .gt_column_spanner_outer {
+#zsvfvgpdts .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3686,15 +3699,15 @@
   padding-right: 4px;
 }
 
-#xtxjjebgmc .gt_column_spanner_outer:first-child {
+#zsvfvgpdts .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xtxjjebgmc .gt_column_spanner_outer:last-child {
+#zsvfvgpdts .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xtxjjebgmc .gt_column_spanner {
+#zsvfvgpdts .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3706,7 +3719,7 @@
   width: 100%;
 }
 
-#xtxjjebgmc .gt_group_heading {
+#zsvfvgpdts .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3731,7 +3744,7 @@
   vertical-align: middle;
 }
 
-#xtxjjebgmc .gt_empty_group_heading {
+#zsvfvgpdts .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3746,15 +3759,15 @@
   vertical-align: middle;
 }
 
-#xtxjjebgmc .gt_from_md > :first-child {
+#zsvfvgpdts .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xtxjjebgmc .gt_from_md > :last-child {
+#zsvfvgpdts .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xtxjjebgmc .gt_row {
+#zsvfvgpdts .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3773,7 +3786,7 @@
   overflow-x: hidden;
 }
 
-#xtxjjebgmc .gt_stub {
+#zsvfvgpdts .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3786,7 +3799,7 @@
   padding-right: 5px;
 }
 
-#xtxjjebgmc .gt_stub_row_group {
+#zsvfvgpdts .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3800,11 +3813,11 @@
   vertical-align: top;
 }
 
-#xtxjjebgmc .gt_row_group_first td {
+#zsvfvgpdts .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xtxjjebgmc .gt_summary_row {
+#zsvfvgpdts .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3814,16 +3827,16 @@
   padding-right: 5px;
 }
 
-#xtxjjebgmc .gt_first_summary_row {
+#zsvfvgpdts .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_first_summary_row.thick {
+#zsvfvgpdts .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xtxjjebgmc .gt_last_summary_row {
+#zsvfvgpdts .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3833,7 +3846,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_grand_summary_row {
+#zsvfvgpdts .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3843,7 +3856,7 @@
   padding-right: 5px;
 }
 
-#xtxjjebgmc .gt_first_grand_summary_row {
+#zsvfvgpdts .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3853,11 +3866,11 @@
   border-top-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_striped {
+#zsvfvgpdts .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xtxjjebgmc .gt_table_body {
+#zsvfvgpdts .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3866,7 +3879,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_footnotes {
+#zsvfvgpdts .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3880,7 +3893,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_footnote {
+#zsvfvgpdts .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3889,7 +3902,7 @@
   padding-right: 5px;
 }
 
-#xtxjjebgmc .gt_sourcenotes {
+#zsvfvgpdts .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3903,7 +3916,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xtxjjebgmc .gt_sourcenote {
+#zsvfvgpdts .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3911,60 +3924,60 @@
   padding-right: 5px;
 }
 
-#xtxjjebgmc .gt_left {
+#zsvfvgpdts .gt_left {
   text-align: left;
 }
 
-#xtxjjebgmc .gt_center {
+#zsvfvgpdts .gt_center {
   text-align: center;
 }
 
-#xtxjjebgmc .gt_right {
+#zsvfvgpdts .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xtxjjebgmc .gt_font_normal {
+#zsvfvgpdts .gt_font_normal {
   font-weight: normal;
 }
 
-#xtxjjebgmc .gt_font_bold {
+#zsvfvgpdts .gt_font_bold {
   font-weight: bold;
 }
 
-#xtxjjebgmc .gt_font_italic {
+#zsvfvgpdts .gt_font_italic {
   font-style: italic;
 }
 
-#xtxjjebgmc .gt_super {
+#zsvfvgpdts .gt_super {
   font-size: 65%;
 }
 
-#xtxjjebgmc .gt_footnote_marks {
+#zsvfvgpdts .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#xtxjjebgmc .gt_asterisk {
+#zsvfvgpdts .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xtxjjebgmc .gt_slash_mark {
+#zsvfvgpdts .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#xtxjjebgmc .gt_fraction_numerator {
+#zsvfvgpdts .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#xtxjjebgmc .gt_fraction_denominator {
+#zsvfvgpdts .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -4076,7 +4089,7 @@
 </div>
 <section id="dietary-diversity-by-county" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="dietary-diversity-by-county"><span class="header-section-number">2.1</span> Dietary diversity by county</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-14_213b40bf809aa48df47863d74323e9d5">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-14_0b39665495cd135bddf6edd4ec2bfe67">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>q403_cnty <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, county, q_403, <span class="st">"403"</span>,<span class="st">"Cereals"</span>)</span>
@@ -4097,8 +4110,8 @@
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>q418_cnty <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, county, q_418, <span class="st">"418"</span>,<span class="st">"Sweets"</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>q419_cnty <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, county, q_419, <span class="st">"419"</span>,<span class="st">"Spices/condiments"</span>)</span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>diet_cnty <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(q403_cnty, </span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                       q404_cnty, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>diet_cnty <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(q403_cnty,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                       q404_cnty,</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                       q405_cnty,</span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                       q406_cnty,</span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                       q407_cnty,</span>
@@ -4115,8 +4128,73 @@
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>                       q418_cnty,</span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>                       q419_cnty)</span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(diet_cnty, <span class="fu">here</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(diet_cnty, <span class="fu">here</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>))</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Object diet_cnty_obj is the object of "diet items by</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># county.csv"</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>diet_cnty_obj <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-error">
+<pre><code>Error: 'output/tables/food insecurity/diet items by county.csv' does not exist in current working directory ('C:/Users/dan.killian/Documents/South Sudan resilience - MSI/code').</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk) <span class="co">#Allows objects to "talk" to each other</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reactable) <span class="co">#Creates a table that can be interactive</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>diet_cnty_obj <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data_diet_cnty_obj <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(diet_cnty_obj)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bscols</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">list</span>(<span class="fu">filter_select</span>(<span class="st">"county"</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                       , <span class="st">"County"</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                       , data_diet_cnty_obj</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                       , <span class="sc">~</span>county))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">reactable</span>(data_diet_cnty_obj, <span class="at">minRows =</span> <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display no-overflow-x">
+<div class="container-fluid crosstalk-bscols">
+<div class="row">
+<div class="col-xs-3">
+<div id="county" class="form-group crosstalk-input-select crosstalk-input">
+<label class="control-label" for="county">County</label>
+<div>
+<select multiple=""></select>
+<script type="application/json" data-for="county">{
+  "items": {
+    "value": ["Akobo", "Baliet", "Budi", "Duk", "Jur River", "Kapoeta North", "Leer", "Mayendit", "Paynijar", "Pibor", "Ulang", "Uror", "Wau"],
+    "label": ["Akobo", "Baliet", "Budi", "Duk", "Jur River", "Kapoeta North", "Leer", "Mayendit", "Paynijar", "Pibor", "Ulang", "Uror", "Wau"]
+  },
+  "map": {
+    "Akobo": ["1", "14", "27", "40", "53", "66", "79", "92", "105", "118", "131", "144", "157", "170", "183", "196", "209"],
+    "Baliet": ["2", "15", "28", "41", "54", "67", "80", "93", "106", "119", "132", "145", "158", "171", "184", "197", "210"],
+    "Budi": ["3", "16", "29", "42", "55", "68", "81", "94", "107", "120", "133", "146", "159", "172", "185", "198", "211"],
+    "Duk": ["4", "17", "30", "43", "56", "69", "82", "95", "108", "121", "134", "147", "160", "173", "186", "199", "212"],
+    "Jur River": ["5", "18", "31", "44", "57", "70", "83", "96", "109", "122", "135", "148", "161", "174", "187", "200", "213"],
+    "Kapoeta North": ["6", "19", "32", "45", "58", "71", "84", "97", "110", "123", "136", "149", "162", "175", "188", "201", "214"],
+    "Leer": ["7", "20", "33", "46", "59", "72", "85", "98", "111", "124", "137", "150", "163", "176", "189", "202", "215"],
+    "Mayendit": ["8", "21", "34", "47", "60", "73", "86", "99", "112", "125", "138", "151", "164", "177", "190", "203", "216"],
+    "Paynijar": ["9", "22", "35", "48", "61", "74", "87", "100", "113", "126", "139", "152", "165", "178", "191", "204", "217"],
+    "Pibor": ["10", "23", "36", "49", "62", "75", "88", "101", "114", "127", "140", "153", "166", "179", "192", "205", "218"],
+    "Ulang": ["11", "24", "37", "50", "63", "76", "89", "102", "115", "128", "141", "154", "167", "180", "193", "206", "219"],
+    "Uror": ["12", "25", "38", "51", "64", "77", "90", "103", "116", "129", "142", "155", "168", "181", "194", "207", "220"],
+    "Wau": ["13", "26", "39", "52", "65", "78", "91", "104", "117", "130", "143", "156", "169", "182", "195", "208", "221"]
+  },
+  "group": ["SharedData93cf9f57"]
+}</script>
+</div>
+</div>
+</div>
+<div class="col-xs-9">
+<div id="htmlwidget-80bdab373535b595ca63" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-80bdab373535b595ca63">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"county":["Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau"],"Value":[0.978125171418328,0.89336102270685,0.888795004538648,0.913021968726198,0.676345119937072,0.544103229718832,0.959513622585461,0.901244172755114,0.795913576327337,0.927704264319757,0.733455772188694,0.83543301851279,0.870947811648255,0.0283072162086851,0.119342943279535,0.195717820942229,0.107878477594971,0.422556543220191,0.246316319517065,0.234170327637527,0.160359719085319,0.31225560200906,0.453866946049917,0.196650433076648,0.0835146351422772,0.552350683461225,0.0897031321459052,0.431598068863926,0.0850597148917146,0.245008281114278,0.597741420978308,0.370350456303638,0.624032380657703,0.447673196742659,0.488354790448894,0.686074315885479,0.443095958498464,0.244391868828125,0.561221672491463,0.646029476752674,0.376117589822923,0.818200747900623,0.572138616444796,0.479040136230944,0.801313215024868,0.811061702643857,0.668638803820106,0.600434932490751,0.703764483293686,0.853564059196006,0.627867877882137,0.603792524100569,0.437499361674649,0.355113285228121,0.241788373313843,0.512580233029629,0.231413836486853,0.29766354255503,0.491844003939389,0.572346061624285,0.49297069474963,0.390517171816466,0.433298813530712,0.133199939166937,0.602653566700812,0.0863647417046168,0.251356720172987,0.0658448889967359,0.225818989992789,0.224615583327081,0.369230713105013,0.300503387276463,0.152998782112693,0.306676108159545,0.25426322317416,0.173317422226378,0.0605796158030198,0.297117273857243,0.0571128806482831,0.267763079414901,0.111610614788222,0.319181641178699,0.135184299409882,0.637120150236686,0.177922307349931,0.073398182873697,0.210352309532444,0.894886647763921,0.0972134717522135,0.0703708604796717,0.221342989255135,0.184939510740778,0.229035332047879,0.0833042945117223,0.566988401249528,0.138310879338173,0.72864449131379,0.238003178382706,0.200290136586753,0.245461891324367,0.908841475188022,0.3000558923002,0.297792857589275,0.327214139093876,0.356946474482625,0.461039467183906,0.123068155618023,0.679634720801651,0.311060374177034,0.634606664455233,0.42243869298184,0.346646940751007,0.329901352604382,0.881605134155503,0.389899420856683,0.542410434720947,0.468593547849239,0.517178882853487,0.360081257632155,0.100495233116275,0.636299899606099,0.168532769561064,0.531569177985882,0.213399140023606,0.138426959199194,0.228402678638962,0.78517293339097,0.239802201682178,0.344144758244394,0.190516688402831,0.260800003770855,0.514661484036758,0.0453721878307263,0.665651904153524,0.410655163624348,0.593043588213232,0.433723939436253,0.476563822395727,0.489440838261181,0.642263699537008,0.339873422023137,0.281584471056935,0.237777791153703,0.85478572825298,0.589548358286696,0.0182963872882468,0.782961072680691,0.424006425908778,0.27365210951672,0.882072036006617,0.862067887271353,0.70472897572753,0.912703676202371,0.893980725482206,0.513086027967815,0.416738674187883,0.421073701181794,0.313095344311381,0.238552839224085,0.459732250689254,0.639850201279064,0.414701519595231,0.550030712384296,0.54174488096737,0.517723048392705,0.810613614416227,0.348225055377979,0.317317829447498,0.531712971443251,0.45853947925444,0.359484805078138,0.156560971307733,0.373501664875453,0.199605899185345,0.898525839512425,0.210638121314136,0.30985781173977,0.294805580221899,0.831776098384049,0.608468078772253,0.69058509804779,0.194774809618417,0.636030914894182,0.310369494006921,0.398243295420805,0.499038010156515,0.260317978881197,0.720930645445818,0.581764213311123,0.50338828173995,0.445112669041387,0.884487783850162,0.577464042351791,0.465786960263782,0.4205750960853,0.367807424016315,0.373860635164159,0.0982248954057334,0.2284685956559,0.38442121835568,0.289074379741426,0.291468552265274,0.418089681764314,0.437117710393568,0.607723145244836,0.216774541183202,0.0808705351413708,0.508011567262141,0.606010899260242,0.61957674879637,0.776598294688634,0.440896201659235,0.329338143076123,0.35834349077362,0.326349555005639,0.449786982052339,0.35511620716535,0.724748139447282,0.40992534834426,0.316378462507206,0.53231040375235],"Value_se":[0.00761113308683017,0.0453172505076982,0.0302291243484196,0.0464407893235083,0.0338148695228212,0.035130508224155,0.00806871498891141,0.0181119595176345,0.0634081467341214,0.032382044126865,0.081521132449901,0.0302633742214278,0.0291869099723929,0.007478087917467,0.0330066389445343,0.0391297451847969,0.0322466784619096,0.0391000345301525,0.0416879612489305,0.0253111931337328,0.041167528958136,0.0707519876062338,0.0408726249517938,0.0604840509695274,0.023490134225565,0.0651740693117237,0.0195116050767995,0.0671915048313988,0.023021398771618,0.0543684453098323,0.0248833656280995,0.0516298494857584,0.0153656744347722,0.0410647957229894,0.0696708580710933,0.0348319642321529,0.0780793865482459,0.047874984669189,0.063819897599764,0.0561081888424547,0.0964072921276561,0.0510252323460101,0.0795422892022531,0.0275894916476169,0.032848176686217,0.0329177363948205,0.0318133369817605,0.0696049148544778,0.0325876770372206,0.0401228547829807,0.0481539176564907,0.0484630960545976,0.0553193509152001,0.0854797682336674,0.0519311420971509,0.0753020271945253,0.0261814865208864,0.051030579907768,0.0326659237857993,0.0412548845684255,0.0733697036274366,0.0362715742110353,0.0910812386459101,0.0326111563443096,0.0655701241524607,0.0213496163873646,0.0580687715147917,0.0201121699178292,0.0577988538606376,0.0189969634675347,0.0656060625777654,0.0280869311914512,0.0210797512168241,0.0665411484502724,0.0338823968692253,0.0633727015992284,0.0169429888933941,0.0479853187179758,0.0148777850251075,0.0610678129628007,0.0213462979394559,0.0639712983460757,0.0196058499094505,0.0354911566754956,0.0342943378240039,0.0162028179789332,0.0588927902475612,0.0384089221027468,0.042202778381432,0.0284344543227234,0.0398044239467322,0.036137410462628,0.0519170418353271,0.0238478737647344,0.0706113989530525,0.0171518786349634,0.0343515702588435,0.0224648738979689,0.0200946183912313,0.0589590833876792,0.0249969732185302,0.0695650419598137,0.0482141827284914,0.0438960144149202,0.0431630910940169,0.0731363668927236,0.0355434887528445,0.0688438510609789,0.0319020520353423,0.0264475818950708,0.0316937949328936,0.0257244744876755,0.0600423715021792,0.0202639502359987,0.0820838518706526,0.0426289375199907,0.0561087769840449,0.0412225957568618,0.0921063845661151,0.0200819293630119,0.0765825290808287,0.0172000854793693,0.0659296311052709,0.0245347298868459,0.0274460394874067,0.0582988936633314,0.0201014026835748,0.066836817931884,0.0366672003789205,0.0353866676691347,0.049006123820176,0.0533300964873218,0.0134717832125336,0.0647830105949547,0.0526590953257995,0.0324465165365153,0.0275262812623771,0.0375363762641148,0.0646752371996931,0.0352419208569586,0.0803992473158164,0.0456190716713063,0.0396877361365722,0.036865731027501,0.0760440282377642,0.00700746328747624,0.051669240754102,0.0294505844517879,0.0506863944777436,0.0274415293882774,0.023025547754921,0.0602056565641548,0.0319846525680481,0.0229529637388073,0.0537452509485133,0.0562389155769813,0.0495287002834307,0.0458190688934203,0.0307283617451548,0.0751873448715304,0.0232565031441796,0.0485312057190138,0.0324670220913278,0.0495403671491666,0.0637103884395271,0.0289187202488278,0.0731315133562187,0.0435319769985936,0.0553417477425123,0.0443230558413396,0.055535207109171,0.0420036750949254,0.0680885484485533,0.0224816406265269,0.0230966977178693,0.028027151553269,0.0319632483475099,0.0587173680184809,0.0357726445285585,0.065423871305323,0.033460073477186,0.0419178373580674,0.054069349709365,0.0631976383563386,0.065493281500352,0.0896560729339612,0.0212025699217935,0.0307709401816853,0.0307978935660305,0.0384155823927201,0.0784013686044281,0.0276637976932913,0.0962392800734181,0.0505265838648708,0.0635906398994704,0.0530065748917899,0.0694141788409076,0.0199511586506853,0.0462126214610334,0.0191055124717127,0.0561961972144908,0.0274112738115239,0.0485485934097889,0.0675110756691211,0.0387782420943446,0.0549353533677871,0.0231679456054069,0.0624442113192112,0.0513436499282347,0.0790087110929298,0.0302681941277448,0.0889397276295636,0.0315008449778917,0.0646503060905459,0.0187218115693243,0.0396669488178753,0.0648223061650203,0.036179357509057,0.0827281356575331,0.043666158038044,0.0546706311170215],"var_name":[403,403,403,403,403,403,403,403,403,403,403,403,403,404,404,404,404,404,404,404,404,404,404,404,404,404,405,405,405,405,405,405,405,405,405,405,405,405,405,406,406,406,406,406,406,406,406,406,406,406,406,406,407,407,407,407,407,407,407,407,407,407,407,407,407,408,408,408,408,408,408,408,408,408,408,408,408,408,409,409,409,409,409,409,409,409,409,409,409,409,409,410,410,410,410,410,410,410,410,410,410,410,410,410,411,411,411,411,411,411,411,411,411,411,411,411,411,412,412,412,412,412,412,412,412,412,412,412,412,412,413,413,413,413,413,413,413,413,413,413,413,413,413,414,414,414,414,414,414,414,414,414,414,414,414,414,415,415,415,415,415,415,415,415,415,415,415,415,415,416,416,416,416,416,416,416,416,416,416,416,416,416,417,417,417,417,417,417,417,417,417,417,417,417,417,418,418,418,418,418,418,418,418,418,418,418,418,418,419,419,419,419,419,419,419,419,419,419,419,419,419],"label":["Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments"],"lower":[0.963207350568141,0.804539211711761,0.829545920815746,0.821998021652121,0.610067975672343,0.475247433599488,0.943698941207195,0.86574473210055,0.671633608728459,0.864235457831101,0.573674352586888,0.776116805038792,0.813741468102365,0.0136501638904498,0.0546499309482482,0.119023520380027,0.0446749878096276,0.345920475541092,0.164607915469161,0.184560389095411,0.0796713623273723,0.173581706300841,0.373756601144401,0.0781016931763741,0.0374739720601699,0.424609507610246,0.0514603861953782,0.299902719394385,0.0399377732993432,0.138446128307006,0.548970024347233,0.269155951311551,0.593915658765549,0.3671861971256,0.351799908629552,0.617803665990459,0.290060360863902,0.150556898876515,0.436134673195925,0.536057426621462,0.187159297252717,0.718191292502443,0.41623572960838,0.424964732601615,0.736930788719883,0.746542939310009,0.606284663335856,0.464009299375974,0.639892636300733,0.774923263821363,0.533486199275415,0.508804855833557,0.329073433880857,0.187572939490132,0.140003334803427,0.36498825972836,0.180098122905915,0.197643605935805,0.427818793319223,0.491486487870171,0.349166075639854,0.319424886362837,0.254779585784728,0.0692820727320897,0.47413612336199,0.0445194935853822,0.137541928003995,0.0264250359577908,0.112533236425939,0.187381534930713,0.240642830452593,0.245453002141219,0.111682469727717,0.176255457197011,0.187853725310478,0.0491069270918907,0.0273713575719672,0.203066049170011,0.0279524219990724,0.148070166007812,0.0697718708268888,0.193797896420391,0.0967568335873589,0.567557483152715,0.110705405214884,0.041640659634988,0.0949224406472237,0.819605160442538,0.0144960261246068,0.0146393300071338,0.14332631831954,0.114110186234027,0.127277930050638,0.0365624619328428,0.428590059301545,0.104693197213645,0.661315413606456,0.193972025542687,0.16090468453994,0.129902087884516,0.859847407679703,0.163708410058965,0.203293059441432,0.241177950840632,0.272346815938351,0.317692188074168,0.0534029176624473,0.544700772722132,0.248532352187763,0.582769403940894,0.360318854913369,0.296226970755163,0.212218304460111,0.841887791692945,0.229015071190204,0.458857717181765,0.358620344960511,0.436382595170038,0.179552743882569,0.0611346515647715,0.486198142607675,0.1348206020215,0.402347101019551,0.165311069445388,0.0846327218038764,0.114136847058832,0.745774184131164,0.108802038535686,0.27227704550171,0.121158819771327,0.16474800108331,0.410134494921607,0.0189674927341604,0.538677203387413,0.307443336785781,0.529448415801662,0.379772428161994,0.402992524918062,0.362677373349782,0.573189534657369,0.182290897284137,0.192171090581175,0.159989828326021,0.782528895439078,0.440502062940679,0.00456175924479332,0.681689360802651,0.366283280383274,0.174306776340343,0.828286638405594,0.816937813671708,0.586725888861786,0.850013757168997,0.848992916554144,0.407745336108729,0.306510399657,0.32399744862627,0.223289969280277,0.178325250203582,0.312365054741054,0.594267455116472,0.319580356385964,0.486395349085294,0.444645761355003,0.392850687051232,0.753932922728525,0.204887289199791,0.231995154530255,0.423243145867927,0.371666289805415,0.250635799144163,0.0742337681216793,0.240048109916289,0.155541883557353,0.853256311985401,0.155704904269729,0.247209844978651,0.179719538905676,0.761661715108074,0.48023729101382,0.625003354032505,0.112615848396604,0.530054989463826,0.186502122828498,0.269876463680116,0.323312107205951,0.218760941834482,0.660619602689714,0.521400341921703,0.428093740250219,0.291445986576708,0.830266740371311,0.388835053407891,0.366754855888635,0.295937441882338,0.263914537228407,0.23780884463598,0.0591206244503902,0.137891857592275,0.346974413911123,0.178929833201024,0.237742455594687,0.322934438681128,0.304796002082091,0.53171779073992,0.109101248582339,0.0354613617547733,0.385620913076487,0.505377345400902,0.464719675054228,0.717272634198254,0.26657433550529,0.267596486919456,0.23162889083615,0.289654804329763,0.372039762369303,0.22806448708191,0.65383659872953,0.247778202455496,0.23079279275264,0.425155966762988],"upper":[0.993042992268515,0.982182833701938,0.948044088261551,1.00404591580027,0.742622264201802,0.612959025838175,0.975328303963727,0.936743613409677,0.920193543926215,0.991173070808412,0.8932371917905,0.894749231986789,0.928154155194145,0.0429642685269204,0.184035955610823,0.272412121504431,0.171081967380313,0.49919261089929,0.328024723564969,0.283780266179643,0.241048075843265,0.450929497717278,0.533977290955433,0.315199172976922,0.129555298224385,0.680091859312203,0.127945878096432,0.563293418333468,0.130181656484086,0.351570433921549,0.646512817609383,0.471544961295724,0.654149102549856,0.528160196359718,0.624909672268237,0.754344965780499,0.596131556133026,0.338226838779736,0.686308671787,0.756001526883885,0.565075882393129,0.918210203298802,0.728041503281212,0.533115539860273,0.865695641329853,0.875580465977705,0.730992944304357,0.736860565605527,0.767636330286638,0.932204854570648,0.722249556488858,0.69878019236758,0.545925289468441,0.522653630966109,0.343573411824259,0.660172206330899,0.28272955006779,0.397683479174256,0.555869214559556,0.653205635378399,0.636775313859405,0.461609457270095,0.611818041276696,0.197117805601783,0.731171010039635,0.128209989823851,0.365171512341979,0.105264742035681,0.339104743559638,0.261849631723449,0.497818595757433,0.355553772411708,0.194315094497668,0.437096759122079,0.320672721037841,0.297527917360866,0.0937878740340723,0.391168498544476,0.0862733392974938,0.387455992821991,0.153449358749556,0.444565385937008,0.173611765232405,0.706682817320658,0.245139209484979,0.105155706112406,0.325782178417664,0.970168135085305,0.17993091737982,0.12610239095221,0.29935966019073,0.255768835247529,0.33079273404512,0.130046127090602,0.705386743197511,0.171928561462701,0.795973569021123,0.282034331222725,0.239675588633566,0.361021694764218,0.957835542696341,0.436403374541435,0.392292655737118,0.413250327347119,0.441546133026898,0.604386746293644,0.192733393573598,0.814568668881169,0.373588396166305,0.686443924969571,0.484558531050312,0.397066910746851,0.447584400748653,0.92132247661806,0.550783770523162,0.625963152260129,0.578566750737967,0.597975170536936,0.540609771381741,0.139855814667778,0.786401656604524,0.202244937100628,0.660791254952213,0.261487210601824,0.192221196594511,0.342668510219091,0.824571682650777,0.370802364828671,0.416012470987079,0.259874557034335,0.3568520064584,0.619188473151909,0.0717768829272922,0.792626604919635,0.513866990462915,0.656638760624802,0.487675450710512,0.550135119873392,0.616204303172579,0.711337864416647,0.497455946762137,0.370997851532695,0.315565753981385,0.927042561066882,0.738594653632714,0.0320310153317002,0.884232784558731,0.481729571434282,0.372997442693098,0.935857433607641,0.907197960870998,0.822732062593273,0.975393595235745,0.938968534410268,0.618426719826901,0.526966948718766,0.518149953737318,0.402900719342484,0.298780428244589,0.607099446637454,0.685432947441656,0.509822682804498,0.613666075683299,0.638844000579736,0.642595409734178,0.86729430610393,0.491562821556168,0.402640504364742,0.640182797018575,0.545412668703466,0.468333811012113,0.238888174493787,0.506955219834618,0.243669914813338,0.943795367039449,0.265571338358543,0.37250577850089,0.409891621538121,0.901890481660023,0.736698866530686,0.756166842063074,0.276933770840229,0.742006840324537,0.434236865185345,0.526610127161495,0.674763913107079,0.301875015927912,0.781241688201921,0.642128084700543,0.578682823229682,0.598779351506066,0.938708827329013,0.766093031295691,0.564819064638929,0.545212750288262,0.471700310804223,0.509912425692338,0.137329166361077,0.319045333719526,0.421868022800236,0.399218926281828,0.345194648935861,0.5132449248475,0.569439418705045,0.683728499749751,0.324447833784065,0.126279708527968,0.630402221447795,0.706644453119582,0.774433822538512,0.835923955179013,0.61521806781318,0.391079799232791,0.48505809071109,0.363044305681515,0.527534201735375,0.482167927248789,0.795659680165034,0.572072494233025,0.401964132261773,0.639464840741712]},"columns":[{"accessor":"county","name":"county","type":"character"},{"accessor":"Value","name":"Value","type":"numeric"},{"accessor":"Value_se","name":"Value_se","type":"numeric"},{"accessor":"var_name","name":"var_name","type":"numeric"},{"accessor":"label","name":"label","type":"character"},{"accessor":"lower","name":"lower","type":"numeric"},{"accessor":"upper","name":"upper","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":50,"crosstalkKey":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200","201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","220","221"],"crosstalkGroup":"SharedData93cf9f57","dataKey":"512e8688ff485ec816f2139932072ffa","key":"512e8688ff485ec816f2139932072ffa"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -4124,85 +4202,85 @@
 <h1 data-number="3"><span class="header-section-number">3</span> Food insecurity</h1>
 <section id="food-insecure-behavior-in-previous-12-months" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="food-insecure-behavior-in-previous-12-months"><span class="header-section-number">3.1</span> Food insecure behavior in previous 12 months</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-16_7fd040d3961e2319ce768271edde8bb8">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-16_7bbac2bd796904b7d3c1c5d54b25ee13">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>q422 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_422, <span class="st">"worried"</span>, <span class="st">"Worried about not enough to eat"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#q422</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>q423 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_423, <span class="st">"unhealthy"</span>, <span class="st">"Unable to eat healthy"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#q423</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>q424 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_424, <span class="st">"few_foods"</span>, <span class="st">"Ate few kinds of foods"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#q424</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>q425 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_425, <span class="st">"skip"</span>, <span class="st">"Skipped a meal"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#q425</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>q426 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_426, <span class="st">"ate_less"</span>, <span class="st">"Ate less than needed"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#q426</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>q427 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_427, <span class="st">"no_food"</span>, <span class="st">"Did not have food"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co">#q427</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>q428 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_428, <span class="st">"not_eat"</span>, <span class="st">"Did not eat"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co">#q428</span></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>q429 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_429, <span class="st">"wholeday"</span>, <span class="st">"Went a day without eating"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co">#q429</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>fies_items <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, </span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">list</span>(q422,</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>                           q423,</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>                           q424,</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>                           q425,</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>                           q426,</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>                           q427,</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>                           q428,</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>                           q429))</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co">#fies_items</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>q422 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_422, <span class="st">"worried"</span>, <span class="st">"Worried about not enough to eat"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#q422</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>q423 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_423, <span class="st">"unhealthy"</span>, <span class="st">"Unable to eat healthy"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#q423</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>q424 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_424, <span class="st">"few_foods"</span>, <span class="st">"Ate few kinds of foods"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#q424</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>q425 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_425, <span class="st">"skip"</span>, <span class="st">"Skipped a meal"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#q425</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>q426 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_426, <span class="st">"ate_less"</span>, <span class="st">"Ate less than needed"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#q426</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>q427 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_427, <span class="st">"no_food"</span>, <span class="st">"Did not have food"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">#q427</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>q428 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_428, <span class="st">"not_eat"</span>, <span class="st">"Did not eat"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">#q428</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>q429 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_429, <span class="st">"wholeday"</span>, <span class="st">"Went a day without eating"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="co">#q429</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>fies_items <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">list</span>(q422,</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>                           q423,</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>                           q424,</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>                           q425,</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>                           q426,</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>                           q427,</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>                           q428,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>                           q429))</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="co">#fies_items</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-18_5b32b02c712e897f6ebdf82eba3fc081">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fies_items_gt <span class="ot">&lt;-</span> fies_items <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label=</span><span class="st">"In previous 12 months.."</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">Value=</span><span class="st">"Percent"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="st">"Survey instrument items 422-429"</span>) <span class="co">#%&gt;%</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#tab_source_note("Behavior in past 12 months")</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>fies_items_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fies_items_gt <span class="ot">&lt;-</span> fies_items <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label=</span><span class="st">"In previous 12 months.."</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">Value=</span><span class="st">"Percent"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="st">"Survey instrument items 422-429"</span>) <span class="co">#%&gt;%</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#tab_source_note("Behavior in past 12 months")</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>fies_items_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="yiccwazyev" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="tpxalxvvvv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yiccwazyev .gt_table {
+#tpxalxvvvv .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -4227,7 +4305,7 @@
   border-left-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_heading {
+#tpxalxvvvv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4239,7 +4317,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_title {
+#tpxalxvvvv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4251,7 +4329,7 @@
   border-bottom-width: 0;
 }
 
-#yiccwazyev .gt_subtitle {
+#tpxalxvvvv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4263,13 +4341,13 @@
   border-top-width: 0;
 }
 
-#yiccwazyev .gt_bottom_border {
+#tpxalxvvvv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_col_headings {
+#tpxalxvvvv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4284,7 +4362,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_col_heading {
+#tpxalxvvvv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4304,7 +4382,7 @@
   overflow-x: hidden;
 }
 
-#yiccwazyev .gt_column_spanner_outer {
+#tpxalxvvvv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4316,15 +4394,15 @@
   padding-right: 4px;
 }
 
-#yiccwazyev .gt_column_spanner_outer:first-child {
+#tpxalxvvvv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yiccwazyev .gt_column_spanner_outer:last-child {
+#tpxalxvvvv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yiccwazyev .gt_column_spanner {
+#tpxalxvvvv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4336,7 +4414,7 @@
   width: 100%;
 }
 
-#yiccwazyev .gt_group_heading {
+#tpxalxvvvv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4361,7 +4439,7 @@
   vertical-align: middle;
 }
 
-#yiccwazyev .gt_empty_group_heading {
+#tpxalxvvvv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4376,15 +4454,15 @@
   vertical-align: middle;
 }
 
-#yiccwazyev .gt_from_md > :first-child {
+#tpxalxvvvv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yiccwazyev .gt_from_md > :last-child {
+#tpxalxvvvv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yiccwazyev .gt_row {
+#tpxalxvvvv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4403,7 +4481,7 @@
   overflow-x: hidden;
 }
 
-#yiccwazyev .gt_stub {
+#tpxalxvvvv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4416,7 +4494,7 @@
   padding-right: 5px;
 }
 
-#yiccwazyev .gt_stub_row_group {
+#tpxalxvvvv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4430,11 +4508,11 @@
   vertical-align: top;
 }
 
-#yiccwazyev .gt_row_group_first td {
+#tpxalxvvvv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yiccwazyev .gt_summary_row {
+#tpxalxvvvv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4444,16 +4522,16 @@
   padding-right: 5px;
 }
 
-#yiccwazyev .gt_first_summary_row {
+#tpxalxvvvv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_first_summary_row.thick {
+#tpxalxvvvv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yiccwazyev .gt_last_summary_row {
+#tpxalxvvvv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4463,7 +4541,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_grand_summary_row {
+#tpxalxvvvv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4473,7 +4551,7 @@
   padding-right: 5px;
 }
 
-#yiccwazyev .gt_first_grand_summary_row {
+#tpxalxvvvv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4483,11 +4561,11 @@
   border-top-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_striped {
+#tpxalxvvvv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yiccwazyev .gt_table_body {
+#tpxalxvvvv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4496,7 +4574,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_footnotes {
+#tpxalxvvvv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4510,7 +4588,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_footnote {
+#tpxalxvvvv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -4519,7 +4597,7 @@
   padding-right: 5px;
 }
 
-#yiccwazyev .gt_sourcenotes {
+#tpxalxvvvv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4533,7 +4611,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yiccwazyev .gt_sourcenote {
+#tpxalxvvvv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4541,60 +4619,60 @@
   padding-right: 5px;
 }
 
-#yiccwazyev .gt_left {
+#tpxalxvvvv .gt_left {
   text-align: left;
 }
 
-#yiccwazyev .gt_center {
+#tpxalxvvvv .gt_center {
   text-align: center;
 }
 
-#yiccwazyev .gt_right {
+#tpxalxvvvv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yiccwazyev .gt_font_normal {
+#tpxalxvvvv .gt_font_normal {
   font-weight: normal;
 }
 
-#yiccwazyev .gt_font_bold {
+#tpxalxvvvv .gt_font_bold {
   font-weight: bold;
 }
 
-#yiccwazyev .gt_font_italic {
+#tpxalxvvvv .gt_font_italic {
   font-style: italic;
 }
 
-#yiccwazyev .gt_super {
+#tpxalxvvvv .gt_super {
   font-size: 65%;
 }
 
-#yiccwazyev .gt_footnote_marks {
+#tpxalxvvvv .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#yiccwazyev .gt_asterisk {
+#tpxalxvvvv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yiccwazyev .gt_slash_mark {
+#tpxalxvvvv .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#yiccwazyev .gt_fraction_numerator {
+#tpxalxvvvv .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#yiccwazyev .gt_fraction_denominator {
+#tpxalxvvvv .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -4655,30 +4733,30 @@
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="food-insecure-behavior-in-previous-four-weeks" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="food-insecure-behavior-in-previous-four-weeks"><span class="header-section-number">3.2</span> Food insecure behavior in previous four weeks</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-20_d4928aaf52b7f0aca0d528057a5053c3">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-20_1d158cfad3b8d8c06d0d6e5f2baa9ec2">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>q430 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_430, <span class="st">"no_food"</span>, <span class="st">"No food in house"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"In previous four weeks.."</span><span class="ot">=</span><span class="dv">5</span>,<span class="at">Percent=</span><span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>q430</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>q430 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_430, <span class="st">"no_food"</span>, <span class="st">"No food in house"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"In previous four weeks.."</span><span class="ot">=</span><span class="dv">5</span>,<span class="at">Percent=</span><span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>q430</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="zxipjifvoc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="kdgcuhngde" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zxipjifvoc .gt_table {
+#kdgcuhngde .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -4703,7 +4781,7 @@
   border-left-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_heading {
+#kdgcuhngde .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4715,7 +4793,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_title {
+#kdgcuhngde .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4727,7 +4805,7 @@
   border-bottom-width: 0;
 }
 
-#zxipjifvoc .gt_subtitle {
+#kdgcuhngde .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4739,13 +4817,13 @@
   border-top-width: 0;
 }
 
-#zxipjifvoc .gt_bottom_border {
+#kdgcuhngde .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_col_headings {
+#kdgcuhngde .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4760,7 +4838,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_col_heading {
+#kdgcuhngde .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4780,7 +4858,7 @@
   overflow-x: hidden;
 }
 
-#zxipjifvoc .gt_column_spanner_outer {
+#kdgcuhngde .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4792,15 +4870,15 @@
   padding-right: 4px;
 }
 
-#zxipjifvoc .gt_column_spanner_outer:first-child {
+#kdgcuhngde .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zxipjifvoc .gt_column_spanner_outer:last-child {
+#kdgcuhngde .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zxipjifvoc .gt_column_spanner {
+#kdgcuhngde .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4812,7 +4890,7 @@
   width: 100%;
 }
 
-#zxipjifvoc .gt_group_heading {
+#kdgcuhngde .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4837,7 +4915,7 @@
   vertical-align: middle;
 }
 
-#zxipjifvoc .gt_empty_group_heading {
+#kdgcuhngde .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4852,15 +4930,15 @@
   vertical-align: middle;
 }
 
-#zxipjifvoc .gt_from_md > :first-child {
+#kdgcuhngde .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zxipjifvoc .gt_from_md > :last-child {
+#kdgcuhngde .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zxipjifvoc .gt_row {
+#kdgcuhngde .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4879,7 +4957,7 @@
   overflow-x: hidden;
 }
 
-#zxipjifvoc .gt_stub {
+#kdgcuhngde .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4892,7 +4970,7 @@
   padding-right: 5px;
 }
 
-#zxipjifvoc .gt_stub_row_group {
+#kdgcuhngde .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4906,11 +4984,11 @@
   vertical-align: top;
 }
 
-#zxipjifvoc .gt_row_group_first td {
+#kdgcuhngde .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zxipjifvoc .gt_summary_row {
+#kdgcuhngde .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4920,16 +4998,16 @@
   padding-right: 5px;
 }
 
-#zxipjifvoc .gt_first_summary_row {
+#kdgcuhngde .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_first_summary_row.thick {
+#kdgcuhngde .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zxipjifvoc .gt_last_summary_row {
+#kdgcuhngde .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4939,7 +5017,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_grand_summary_row {
+#kdgcuhngde .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4949,7 +5027,7 @@
   padding-right: 5px;
 }
 
-#zxipjifvoc .gt_first_grand_summary_row {
+#kdgcuhngde .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4959,11 +5037,11 @@
   border-top-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_striped {
+#kdgcuhngde .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zxipjifvoc .gt_table_body {
+#kdgcuhngde .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4972,7 +5050,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_footnotes {
+#kdgcuhngde .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4986,7 +5064,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_footnote {
+#kdgcuhngde .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -4995,7 +5073,7 @@
   padding-right: 5px;
 }
 
-#zxipjifvoc .gt_sourcenotes {
+#kdgcuhngde .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5009,7 +5087,7 @@
   border-right-color: #D3D3D3;
 }
 
-#zxipjifvoc .gt_sourcenote {
+#kdgcuhngde .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5017,60 +5095,60 @@
   padding-right: 5px;
 }
 
-#zxipjifvoc .gt_left {
+#kdgcuhngde .gt_left {
   text-align: left;
 }
 
-#zxipjifvoc .gt_center {
+#kdgcuhngde .gt_center {
   text-align: center;
 }
 
-#zxipjifvoc .gt_right {
+#kdgcuhngde .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zxipjifvoc .gt_font_normal {
+#kdgcuhngde .gt_font_normal {
   font-weight: normal;
 }
 
-#zxipjifvoc .gt_font_bold {
+#kdgcuhngde .gt_font_bold {
   font-weight: bold;
 }
 
-#zxipjifvoc .gt_font_italic {
+#kdgcuhngde .gt_font_italic {
   font-style: italic;
 }
 
-#zxipjifvoc .gt_super {
+#kdgcuhngde .gt_super {
   font-size: 65%;
 }
 
-#zxipjifvoc .gt_footnote_marks {
+#kdgcuhngde .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#zxipjifvoc .gt_asterisk {
+#kdgcuhngde .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zxipjifvoc .gt_slash_mark {
+#kdgcuhngde .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#zxipjifvoc .gt_fraction_numerator {
+#kdgcuhngde .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#zxipjifvoc .gt_fraction_denominator {
+#kdgcuhngde .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -5098,33 +5176,33 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-22_8f5b0bf19207de3791600a30674382fe">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-22_2231af0d0445c4e2c773dcb160970dbd">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked </span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>q431 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>q_431,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                     svydat,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Ntotal=</span>T) <span class="sc">%&gt;%</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response=</span><span class="fu">c</span>(<span class="st">"Rarely (1-2 times)"</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Sometimes (3-10 times)"</span>,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Often (More than 10 times)"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">3</span>,<span class="at">Percent=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">Response=</span><span class="fu">html</span>(<span class="st">"How often no food in house&lt;br&gt;in previous four weeks?"</span>))</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>q431</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>q431 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>q_431,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                     svydat,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Ntotal=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response=</span><span class="fu">c</span>(<span class="st">"Rarely (1-2 times)"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Sometimes (3-10 times)"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Often (More than 10 times)"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">3</span>,<span class="at">Percent=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">Response=</span><span class="fu">html</span>(<span class="st">"How often no food in house&lt;br&gt;in previous four weeks?"</span>))</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>q431</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="tdaztlyjka" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="kjqcmpxayc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tdaztlyjka .gt_table {
+#kjqcmpxayc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -5149,7 +5227,7 @@
   border-left-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_heading {
+#kjqcmpxayc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5161,7 +5239,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_title {
+#kjqcmpxayc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5173,7 +5251,7 @@
   border-bottom-width: 0;
 }
 
-#tdaztlyjka .gt_subtitle {
+#kjqcmpxayc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5185,13 +5263,13 @@
   border-top-width: 0;
 }
 
-#tdaztlyjka .gt_bottom_border {
+#kjqcmpxayc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_col_headings {
+#kjqcmpxayc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5206,7 +5284,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_col_heading {
+#kjqcmpxayc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5226,7 +5304,7 @@
   overflow-x: hidden;
 }
 
-#tdaztlyjka .gt_column_spanner_outer {
+#kjqcmpxayc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5238,15 +5316,15 @@
   padding-right: 4px;
 }
 
-#tdaztlyjka .gt_column_spanner_outer:first-child {
+#kjqcmpxayc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tdaztlyjka .gt_column_spanner_outer:last-child {
+#kjqcmpxayc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tdaztlyjka .gt_column_spanner {
+#kjqcmpxayc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5258,7 +5336,7 @@
   width: 100%;
 }
 
-#tdaztlyjka .gt_group_heading {
+#kjqcmpxayc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5283,7 +5361,7 @@
   vertical-align: middle;
 }
 
-#tdaztlyjka .gt_empty_group_heading {
+#kjqcmpxayc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5298,15 +5376,15 @@
   vertical-align: middle;
 }
 
-#tdaztlyjka .gt_from_md > :first-child {
+#kjqcmpxayc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tdaztlyjka .gt_from_md > :last-child {
+#kjqcmpxayc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tdaztlyjka .gt_row {
+#kjqcmpxayc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5325,7 +5403,7 @@
   overflow-x: hidden;
 }
 
-#tdaztlyjka .gt_stub {
+#kjqcmpxayc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5338,7 +5416,7 @@
   padding-right: 5px;
 }
 
-#tdaztlyjka .gt_stub_row_group {
+#kjqcmpxayc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5352,11 +5430,11 @@
   vertical-align: top;
 }
 
-#tdaztlyjka .gt_row_group_first td {
+#kjqcmpxayc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tdaztlyjka .gt_summary_row {
+#kjqcmpxayc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5366,16 +5444,16 @@
   padding-right: 5px;
 }
 
-#tdaztlyjka .gt_first_summary_row {
+#kjqcmpxayc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_first_summary_row.thick {
+#kjqcmpxayc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tdaztlyjka .gt_last_summary_row {
+#kjqcmpxayc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5385,7 +5463,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_grand_summary_row {
+#kjqcmpxayc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5395,7 +5473,7 @@
   padding-right: 5px;
 }
 
-#tdaztlyjka .gt_first_grand_summary_row {
+#kjqcmpxayc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5405,11 +5483,11 @@
   border-top-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_striped {
+#kjqcmpxayc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tdaztlyjka .gt_table_body {
+#kjqcmpxayc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5418,7 +5496,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_footnotes {
+#kjqcmpxayc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5432,7 +5510,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_footnote {
+#kjqcmpxayc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -5441,7 +5519,7 @@
   padding-right: 5px;
 }
 
-#tdaztlyjka .gt_sourcenotes {
+#kjqcmpxayc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5455,7 +5533,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tdaztlyjka .gt_sourcenote {
+#kjqcmpxayc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5463,60 +5541,60 @@
   padding-right: 5px;
 }
 
-#tdaztlyjka .gt_left {
+#kjqcmpxayc .gt_left {
   text-align: left;
 }
 
-#tdaztlyjka .gt_center {
+#kjqcmpxayc .gt_center {
   text-align: center;
 }
 
-#tdaztlyjka .gt_right {
+#kjqcmpxayc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tdaztlyjka .gt_font_normal {
+#kjqcmpxayc .gt_font_normal {
   font-weight: normal;
 }
 
-#tdaztlyjka .gt_font_bold {
+#kjqcmpxayc .gt_font_bold {
   font-weight: bold;
 }
 
-#tdaztlyjka .gt_font_italic {
+#kjqcmpxayc .gt_font_italic {
   font-style: italic;
 }
 
-#tdaztlyjka .gt_super {
+#kjqcmpxayc .gt_super {
   font-size: 65%;
 }
 
-#tdaztlyjka .gt_footnote_marks {
+#kjqcmpxayc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#tdaztlyjka .gt_asterisk {
+#kjqcmpxayc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tdaztlyjka .gt_slash_mark {
+#kjqcmpxayc .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#tdaztlyjka .gt_fraction_numerator {
+#kjqcmpxayc .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#tdaztlyjka .gt_fraction_denominator {
+#kjqcmpxayc .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -5547,14 +5625,14 @@
 <div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-24_14abbdcb8c4f4b7285c008ae556afbc7">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>q432 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_432, <span class="st">"slept_hungry"</span>, <span class="st">"Went to bed hungry"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">5</span>,<span class="at">Percent=</span><span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label=</span><span class="st">"In the previous four weeks.."</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>q432</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>q432 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_432, <span class="st">"slept_hungry"</span>, <span class="st">"Went to bed hungry"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">5</span>,<span class="at">Percent=</span><span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label=</span><span class="st">"In the previous four weeks.."</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>q432</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="pblajfuwih" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -5982,25 +6060,25 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-26_263dd499cc8366117bbc5247491abc94">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-26_e5b783d56f2b69683d62bdfac4533ea7">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked </span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>q433 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>q_433,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                     svydat,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Ntotal=</span>T) <span class="sc">%&gt;%</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response=</span><span class="fu">c</span>(<span class="st">"Rarely (1-2 times)"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Sometimes (3-10 times)"</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Often (More than 10 times)"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">3</span>,<span class="at">Percent=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span>, </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">Response=</span><span class="fu">html</span>(<span class="st">"How often went to bed&lt;br&gt;hungry in past four weeks?"</span>))</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>q433</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>q433 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>q_433,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                     svydat,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Ntotal=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response=</span><span class="fu">c</span>(<span class="st">"Rarely (1-2 times)"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Sometimes (3-10 times)"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Often (More than 10 times)"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">3</span>,<span class="at">Percent=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">Response=</span><span class="fu">html</span>(<span class="st">"How often went to bed&lt;br&gt;hungry in past four weeks?"</span>))</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>q433</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="ubnxkpohbe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -6431,14 +6509,14 @@
 <div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-28_2a144f0952bf774b30d474ea18c8239e">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>q434 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_434, <span class="st">"fast"</span>, <span class="st">"Went whole day without eating"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">5</span>,<span class="at">Percent=</span><span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label=</span><span class="st">"In the previous four weeks.."</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>q434</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>q434 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_434, <span class="st">"fast"</span>, <span class="st">"Went whole day without eating"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">5</span>,<span class="at">Percent=</span><span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">label=</span><span class="st">"In the previous four weeks.."</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>q434</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="yfkccxzdpe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -6866,25 +6944,25 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-30_c98d665aeda3b7ae18f7a6aa63b569ab">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-30_af9afffad863f40ff63d7dd55d7fd253">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked </span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>q435 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>q_435,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                     svydat,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Ntotal=</span>T) <span class="sc">%&gt;%</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response=</span><span class="fu">c</span>(<span class="st">"Rarely (1-2 times)"</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Sometimes (3-10 times)"</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Often (More than 10 times)"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">3</span>,<span class="at">Percent=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span>, </span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">Response=</span><span class="fu">html</span>(<span class="st">"How often went a whole day&lt;br&gt;without eating in past four weeks?"</span>))</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>q435</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>q435 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>q_435,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                     svydat,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Ntotal=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Response=</span><span class="fu">c</span>(<span class="st">"Rarely (1-2 times)"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Sometimes (3-10 times)"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Often (More than 10 times)"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">3</span>,<span class="at">Percent=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="dv">2</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">decimals=</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(<span class="at">Response=</span><span class="fu">html</span>(<span class="st">"How often went a whole day&lt;br&gt;without eating in past four weeks?"</span>))</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>q435</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="xjxbktvupb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -7321,12 +7399,12 @@
 <div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-32_629f64c2459f9da5e6fe0436112babd1">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>grps_sum <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/resilience/groups weighted.csv"</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>grps_sum_gt <span class="ot">&lt;-</span> grps_sum <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>grps_sum_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>grps_sum <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/resilience/groups weighted.csv"</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>grps_sum_gt <span class="ot">&lt;-</span> grps_sum <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>grps_sum_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="vvvcpfsize" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
