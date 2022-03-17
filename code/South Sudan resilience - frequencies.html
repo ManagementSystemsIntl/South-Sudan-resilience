@@ -4089,7 +4089,7 @@
 </div>
 <section id="dietary-diversity-by-county" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="dietary-diversity-by-county"><span class="header-section-number">2.1</span> Dietary diversity by county</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-14_0b39665495cd135bddf6edd4ec2bfe67">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-14_fdeb1a56c2eda48860ca297ec24e313b">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>q403_cnty <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, county, q_403, <span class="st">"403"</span>,<span class="st">"Cereals"</span>)</span>
@@ -4131,29 +4131,72 @@
 <span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(diet_cnty, <span class="fu">here</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>))</span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Object diet_cnty_obj is the object of "diet items by</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># county.csv"</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>diet_cnty_obj <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># county.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-error">
-<pre><code>Error: 'output/tables/food insecurity/diet items by county.csv' does not exist in current working directory ('C:/Users/dan.killian/Documents/South Sudan resilience - MSI/code').</code></pre>
 </div>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-16_6a33179bd6c7e78feece8fd6901a71f6">
 <details>
 <summary>Code</summary>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk) <span class="co">#Allows objects to "talk" to each other</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reactable) <span class="co">#Creates a table that can be interactive</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>diet_cnty_obj <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data_diet_cnty_obj <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(diet_cnty_obj)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bscols</span>(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">list</span>(<span class="fu">filter_select</span>(<span class="st">"county"</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                       , <span class="st">"County"</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                       , data_diet_cnty_obj</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                       , <span class="sc">~</span>county))</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">reactable</span>(data_diet_cnty_obj, <span class="at">minRows =</span> <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Object diet_cnty_obj is the object of "diet items by county.csv"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>diet_cnty_obj <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/food insecurity/diet items by county.csv"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(county, label, Value, lower, upper)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>data_diet_cnty_obj <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(diet_cnty_obj)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># bscols(</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   widths = c(3, 9)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   , list(filter_select("county"</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                        , "County"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                        , data_diet_cnty_obj</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#                        , ~county)</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   , reactable(data_diet_cnty_obj                       </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   , ~county)</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   ,filter_select("label"</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#                        , "Label"</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                        , data_diet_cnty_obj</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#                        , ~label))</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#   , reactable(data_diet_cnty_obj, columns = list(</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     county = colDef(name = "County")</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     , label = colDef(name = "Food Item")</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     , Value = colDef(name = "Value"</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                      , format = colFormat(percent = T</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                                           , digits = 1))</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co">#     , lower = colDef(name = "Lower"</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#                      , format = colFormat(percent = T</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                                           , digits = 1))</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     , upper = colDef(name = "Upper"</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                      , format = colFormat(percent = T</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                                           , digits = 1))</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   )))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-18_037b64291a346c5d457467cbca6a5e85">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bscols</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">list</span>(<span class="fu">filter_select</span>(<span class="st">"county"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                       , <span class="st">"County"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                       , data_diet_cnty_obj</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                       , <span class="sc">~</span>county)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>         ,<span class="fu">filter_select</span>(<span class="st">"label"</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                       , <span class="st">"Food Item"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                       , data_diet_cnty_obj</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                       , <span class="sc">~</span>label))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">reactable</span>(data_diet_cnty_obj, <span class="at">columns =</span> <span class="fu">list</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">county =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"County"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    , <span class="at">label =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Food Item"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    , <span class="at">Value =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Percent"</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                     , <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">percent =</span> T</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                                          , <span class="at">digits =</span> <span class="dv">1</span>))</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    , <span class="at">lower =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Lower"</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                     , <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">percent =</span> T</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                                          , <span class="at">digits =</span> <span class="dv">1</span>))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    , <span class="at">upper =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Upper"</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                     , <span class="at">format =</span> <span class="fu">colFormat</span>(<span class="at">percent =</span> T</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                                          , <span class="at">digits =</span> <span class="dv">1</span>))</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  )))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display no-overflow-x">
 <div class="container-fluid crosstalk-bscols">
@@ -4187,10 +4230,42 @@
 }</script>
 </div>
 </div>
+<div id="label" class="form-group crosstalk-input-select crosstalk-input">
+<label class="control-label" for="label">Food Item</label>
+<div>
+<select multiple=""></select>
+<script type="application/json" data-for="label">{
+  "items": {
+    "value": ["Bush meat", "Cereals", "Domesticated meat", "Eggs", "Fish", "Leafy greens", "Legumes", "Milk products", "Oil and fats", "Organ meat", "Other fruits", "Other vegetables", "Roots/tubers", "Spices/condiments", "Sweets", "Vitamin A fruits", "Vitamin A vegetables"],
+    "label": ["Bush meat", "Cereals", "Domesticated meat", "Eggs", "Fish", "Leafy greens", "Legumes", "Milk products", "Oil and fats", "Organ meat", "Other fruits", "Other vegetables", "Roots/tubers", "Spices/condiments", "Sweets", "Vitamin A fruits", "Vitamin A vegetables"]
+  },
+  "map": {
+    "Bush meat": ["118", "119", "120", "121", "122", "123", "124", "125", "126", "127", "128", "129", "130"],
+    "Cereals": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"],
+    "Domesticated meat": ["105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117"],
+    "Eggs": ["131", "132", "133", "134", "135", "136", "137", "138", "139", "140", "141", "142", "143"],
+    "Fish": ["144", "145", "146", "147", "148", "149", "150", "151", "152", "153", "154", "155", "156"],
+    "Leafy greens": ["40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52"],
+    "Legumes": ["157", "158", "159", "160", "161", "162", "163", "164", "165", "166", "167", "168", "169"],
+    "Milk products": ["170", "171", "172", "173", "174", "175", "176", "177", "178", "179", "180", "181", "182"],
+    "Oil and fats": ["183", "184", "185", "186", "187", "188", "189", "190", "191", "192", "193", "194", "195"],
+    "Organ meat": ["92", "93", "94", "95", "96", "97", "98", "99", "100", "101", "102", "103", "104"],
+    "Other fruits": ["79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91"],
+    "Other vegetables": ["53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65"],
+    "Roots/tubers": ["14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"],
+    "Spices/condiments": ["209", "210", "211", "212", "213", "214", "215", "216", "217", "218", "219", "220", "221"],
+    "Sweets": ["196", "197", "198", "199", "200", "201", "202", "203", "204", "205", "206", "207", "208"],
+    "Vitamin A fruits": ["66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78"],
+    "Vitamin A vegetables": ["27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39"]
+  },
+  "group": ["SharedData93cf9f57"]
+}</script>
+</div>
+</div>
 </div>
 <div class="col-xs-9">
 <div id="htmlwidget-80bdab373535b595ca63" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-80bdab373535b595ca63">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"county":["Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau"],"Value":[0.978125171418328,0.89336102270685,0.888795004538648,0.913021968726198,0.676345119937072,0.544103229718832,0.959513622585461,0.901244172755114,0.795913576327337,0.927704264319757,0.733455772188694,0.83543301851279,0.870947811648255,0.0283072162086851,0.119342943279535,0.195717820942229,0.107878477594971,0.422556543220191,0.246316319517065,0.234170327637527,0.160359719085319,0.31225560200906,0.453866946049917,0.196650433076648,0.0835146351422772,0.552350683461225,0.0897031321459052,0.431598068863926,0.0850597148917146,0.245008281114278,0.597741420978308,0.370350456303638,0.624032380657703,0.447673196742659,0.488354790448894,0.686074315885479,0.443095958498464,0.244391868828125,0.561221672491463,0.646029476752674,0.376117589822923,0.818200747900623,0.572138616444796,0.479040136230944,0.801313215024868,0.811061702643857,0.668638803820106,0.600434932490751,0.703764483293686,0.853564059196006,0.627867877882137,0.603792524100569,0.437499361674649,0.355113285228121,0.241788373313843,0.512580233029629,0.231413836486853,0.29766354255503,0.491844003939389,0.572346061624285,0.49297069474963,0.390517171816466,0.433298813530712,0.133199939166937,0.602653566700812,0.0863647417046168,0.251356720172987,0.0658448889967359,0.225818989992789,0.224615583327081,0.369230713105013,0.300503387276463,0.152998782112693,0.306676108159545,0.25426322317416,0.173317422226378,0.0605796158030198,0.297117273857243,0.0571128806482831,0.267763079414901,0.111610614788222,0.319181641178699,0.135184299409882,0.637120150236686,0.177922307349931,0.073398182873697,0.210352309532444,0.894886647763921,0.0972134717522135,0.0703708604796717,0.221342989255135,0.184939510740778,0.229035332047879,0.0833042945117223,0.566988401249528,0.138310879338173,0.72864449131379,0.238003178382706,0.200290136586753,0.245461891324367,0.908841475188022,0.3000558923002,0.297792857589275,0.327214139093876,0.356946474482625,0.461039467183906,0.123068155618023,0.679634720801651,0.311060374177034,0.634606664455233,0.42243869298184,0.346646940751007,0.329901352604382,0.881605134155503,0.389899420856683,0.542410434720947,0.468593547849239,0.517178882853487,0.360081257632155,0.100495233116275,0.636299899606099,0.168532769561064,0.531569177985882,0.213399140023606,0.138426959199194,0.228402678638962,0.78517293339097,0.239802201682178,0.344144758244394,0.190516688402831,0.260800003770855,0.514661484036758,0.0453721878307263,0.665651904153524,0.410655163624348,0.593043588213232,0.433723939436253,0.476563822395727,0.489440838261181,0.642263699537008,0.339873422023137,0.281584471056935,0.237777791153703,0.85478572825298,0.589548358286696,0.0182963872882468,0.782961072680691,0.424006425908778,0.27365210951672,0.882072036006617,0.862067887271353,0.70472897572753,0.912703676202371,0.893980725482206,0.513086027967815,0.416738674187883,0.421073701181794,0.313095344311381,0.238552839224085,0.459732250689254,0.639850201279064,0.414701519595231,0.550030712384296,0.54174488096737,0.517723048392705,0.810613614416227,0.348225055377979,0.317317829447498,0.531712971443251,0.45853947925444,0.359484805078138,0.156560971307733,0.373501664875453,0.199605899185345,0.898525839512425,0.210638121314136,0.30985781173977,0.294805580221899,0.831776098384049,0.608468078772253,0.69058509804779,0.194774809618417,0.636030914894182,0.310369494006921,0.398243295420805,0.499038010156515,0.260317978881197,0.720930645445818,0.581764213311123,0.50338828173995,0.445112669041387,0.884487783850162,0.577464042351791,0.465786960263782,0.4205750960853,0.367807424016315,0.373860635164159,0.0982248954057334,0.2284685956559,0.38442121835568,0.289074379741426,0.291468552265274,0.418089681764314,0.437117710393568,0.607723145244836,0.216774541183202,0.0808705351413708,0.508011567262141,0.606010899260242,0.61957674879637,0.776598294688634,0.440896201659235,0.329338143076123,0.35834349077362,0.326349555005639,0.449786982052339,0.35511620716535,0.724748139447282,0.40992534834426,0.316378462507206,0.53231040375235],"Value_se":[0.00761113308683017,0.0453172505076982,0.0302291243484196,0.0464407893235083,0.0338148695228212,0.035130508224155,0.00806871498891141,0.0181119595176345,0.0634081467341214,0.032382044126865,0.081521132449901,0.0302633742214278,0.0291869099723929,0.007478087917467,0.0330066389445343,0.0391297451847969,0.0322466784619096,0.0391000345301525,0.0416879612489305,0.0253111931337328,0.041167528958136,0.0707519876062338,0.0408726249517938,0.0604840509695274,0.023490134225565,0.0651740693117237,0.0195116050767995,0.0671915048313988,0.023021398771618,0.0543684453098323,0.0248833656280995,0.0516298494857584,0.0153656744347722,0.0410647957229894,0.0696708580710933,0.0348319642321529,0.0780793865482459,0.047874984669189,0.063819897599764,0.0561081888424547,0.0964072921276561,0.0510252323460101,0.0795422892022531,0.0275894916476169,0.032848176686217,0.0329177363948205,0.0318133369817605,0.0696049148544778,0.0325876770372206,0.0401228547829807,0.0481539176564907,0.0484630960545976,0.0553193509152001,0.0854797682336674,0.0519311420971509,0.0753020271945253,0.0261814865208864,0.051030579907768,0.0326659237857993,0.0412548845684255,0.0733697036274366,0.0362715742110353,0.0910812386459101,0.0326111563443096,0.0655701241524607,0.0213496163873646,0.0580687715147917,0.0201121699178292,0.0577988538606376,0.0189969634675347,0.0656060625777654,0.0280869311914512,0.0210797512168241,0.0665411484502724,0.0338823968692253,0.0633727015992284,0.0169429888933941,0.0479853187179758,0.0148777850251075,0.0610678129628007,0.0213462979394559,0.0639712983460757,0.0196058499094505,0.0354911566754956,0.0342943378240039,0.0162028179789332,0.0588927902475612,0.0384089221027468,0.042202778381432,0.0284344543227234,0.0398044239467322,0.036137410462628,0.0519170418353271,0.0238478737647344,0.0706113989530525,0.0171518786349634,0.0343515702588435,0.0224648738979689,0.0200946183912313,0.0589590833876792,0.0249969732185302,0.0695650419598137,0.0482141827284914,0.0438960144149202,0.0431630910940169,0.0731363668927236,0.0355434887528445,0.0688438510609789,0.0319020520353423,0.0264475818950708,0.0316937949328936,0.0257244744876755,0.0600423715021792,0.0202639502359987,0.0820838518706526,0.0426289375199907,0.0561087769840449,0.0412225957568618,0.0921063845661151,0.0200819293630119,0.0765825290808287,0.0172000854793693,0.0659296311052709,0.0245347298868459,0.0274460394874067,0.0582988936633314,0.0201014026835748,0.066836817931884,0.0366672003789205,0.0353866676691347,0.049006123820176,0.0533300964873218,0.0134717832125336,0.0647830105949547,0.0526590953257995,0.0324465165365153,0.0275262812623771,0.0375363762641148,0.0646752371996931,0.0352419208569586,0.0803992473158164,0.0456190716713063,0.0396877361365722,0.036865731027501,0.0760440282377642,0.00700746328747624,0.051669240754102,0.0294505844517879,0.0506863944777436,0.0274415293882774,0.023025547754921,0.0602056565641548,0.0319846525680481,0.0229529637388073,0.0537452509485133,0.0562389155769813,0.0495287002834307,0.0458190688934203,0.0307283617451548,0.0751873448715304,0.0232565031441796,0.0485312057190138,0.0324670220913278,0.0495403671491666,0.0637103884395271,0.0289187202488278,0.0731315133562187,0.0435319769985936,0.0553417477425123,0.0443230558413396,0.055535207109171,0.0420036750949254,0.0680885484485533,0.0224816406265269,0.0230966977178693,0.028027151553269,0.0319632483475099,0.0587173680184809,0.0357726445285585,0.065423871305323,0.033460073477186,0.0419178373580674,0.054069349709365,0.0631976383563386,0.065493281500352,0.0896560729339612,0.0212025699217935,0.0307709401816853,0.0307978935660305,0.0384155823927201,0.0784013686044281,0.0276637976932913,0.0962392800734181,0.0505265838648708,0.0635906398994704,0.0530065748917899,0.0694141788409076,0.0199511586506853,0.0462126214610334,0.0191055124717127,0.0561961972144908,0.0274112738115239,0.0485485934097889,0.0675110756691211,0.0387782420943446,0.0549353533677871,0.0231679456054069,0.0624442113192112,0.0513436499282347,0.0790087110929298,0.0302681941277448,0.0889397276295636,0.0315008449778917,0.0646503060905459,0.0187218115693243,0.0396669488178753,0.0648223061650203,0.036179357509057,0.0827281356575331,0.043666158038044,0.0546706311170215],"var_name":[403,403,403,403,403,403,403,403,403,403,403,403,403,404,404,404,404,404,404,404,404,404,404,404,404,404,405,405,405,405,405,405,405,405,405,405,405,405,405,406,406,406,406,406,406,406,406,406,406,406,406,406,407,407,407,407,407,407,407,407,407,407,407,407,407,408,408,408,408,408,408,408,408,408,408,408,408,408,409,409,409,409,409,409,409,409,409,409,409,409,409,410,410,410,410,410,410,410,410,410,410,410,410,410,411,411,411,411,411,411,411,411,411,411,411,411,411,412,412,412,412,412,412,412,412,412,412,412,412,412,413,413,413,413,413,413,413,413,413,413,413,413,413,414,414,414,414,414,414,414,414,414,414,414,414,414,415,415,415,415,415,415,415,415,415,415,415,415,415,416,416,416,416,416,416,416,416,416,416,416,416,416,417,417,417,417,417,417,417,417,417,417,417,417,417,418,418,418,418,418,418,418,418,418,418,418,418,418,419,419,419,419,419,419,419,419,419,419,419,419,419],"label":["Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments"],"lower":[0.963207350568141,0.804539211711761,0.829545920815746,0.821998021652121,0.610067975672343,0.475247433599488,0.943698941207195,0.86574473210055,0.671633608728459,0.864235457831101,0.573674352586888,0.776116805038792,0.813741468102365,0.0136501638904498,0.0546499309482482,0.119023520380027,0.0446749878096276,0.345920475541092,0.164607915469161,0.184560389095411,0.0796713623273723,0.173581706300841,0.373756601144401,0.0781016931763741,0.0374739720601699,0.424609507610246,0.0514603861953782,0.299902719394385,0.0399377732993432,0.138446128307006,0.548970024347233,0.269155951311551,0.593915658765549,0.3671861971256,0.351799908629552,0.617803665990459,0.290060360863902,0.150556898876515,0.436134673195925,0.536057426621462,0.187159297252717,0.718191292502443,0.41623572960838,0.424964732601615,0.736930788719883,0.746542939310009,0.606284663335856,0.464009299375974,0.639892636300733,0.774923263821363,0.533486199275415,0.508804855833557,0.329073433880857,0.187572939490132,0.140003334803427,0.36498825972836,0.180098122905915,0.197643605935805,0.427818793319223,0.491486487870171,0.349166075639854,0.319424886362837,0.254779585784728,0.0692820727320897,0.47413612336199,0.0445194935853822,0.137541928003995,0.0264250359577908,0.112533236425939,0.187381534930713,0.240642830452593,0.245453002141219,0.111682469727717,0.176255457197011,0.187853725310478,0.0491069270918907,0.0273713575719672,0.203066049170011,0.0279524219990724,0.148070166007812,0.0697718708268888,0.193797896420391,0.0967568335873589,0.567557483152715,0.110705405214884,0.041640659634988,0.0949224406472237,0.819605160442538,0.0144960261246068,0.0146393300071338,0.14332631831954,0.114110186234027,0.127277930050638,0.0365624619328428,0.428590059301545,0.104693197213645,0.661315413606456,0.193972025542687,0.16090468453994,0.129902087884516,0.859847407679703,0.163708410058965,0.203293059441432,0.241177950840632,0.272346815938351,0.317692188074168,0.0534029176624473,0.544700772722132,0.248532352187763,0.582769403940894,0.360318854913369,0.296226970755163,0.212218304460111,0.841887791692945,0.229015071190204,0.458857717181765,0.358620344960511,0.436382595170038,0.179552743882569,0.0611346515647715,0.486198142607675,0.1348206020215,0.402347101019551,0.165311069445388,0.0846327218038764,0.114136847058832,0.745774184131164,0.108802038535686,0.27227704550171,0.121158819771327,0.16474800108331,0.410134494921607,0.0189674927341604,0.538677203387413,0.307443336785781,0.529448415801662,0.379772428161994,0.402992524918062,0.362677373349782,0.573189534657369,0.182290897284137,0.192171090581175,0.159989828326021,0.782528895439078,0.440502062940679,0.00456175924479332,0.681689360802651,0.366283280383274,0.174306776340343,0.828286638405594,0.816937813671708,0.586725888861786,0.850013757168997,0.848992916554144,0.407745336108729,0.306510399657,0.32399744862627,0.223289969280277,0.178325250203582,0.312365054741054,0.594267455116472,0.319580356385964,0.486395349085294,0.444645761355003,0.392850687051232,0.753932922728525,0.204887289199791,0.231995154530255,0.423243145867927,0.371666289805415,0.250635799144163,0.0742337681216793,0.240048109916289,0.155541883557353,0.853256311985401,0.155704904269729,0.247209844978651,0.179719538905676,0.761661715108074,0.48023729101382,0.625003354032505,0.112615848396604,0.530054989463826,0.186502122828498,0.269876463680116,0.323312107205951,0.218760941834482,0.660619602689714,0.521400341921703,0.428093740250219,0.291445986576708,0.830266740371311,0.388835053407891,0.366754855888635,0.295937441882338,0.263914537228407,0.23780884463598,0.0591206244503902,0.137891857592275,0.346974413911123,0.178929833201024,0.237742455594687,0.322934438681128,0.304796002082091,0.53171779073992,0.109101248582339,0.0354613617547733,0.385620913076487,0.505377345400902,0.464719675054228,0.717272634198254,0.26657433550529,0.267596486919456,0.23162889083615,0.289654804329763,0.372039762369303,0.22806448708191,0.65383659872953,0.247778202455496,0.23079279275264,0.425155966762988],"upper":[0.993042992268515,0.982182833701938,0.948044088261551,1.00404591580027,0.742622264201802,0.612959025838175,0.975328303963727,0.936743613409677,0.920193543926215,0.991173070808412,0.8932371917905,0.894749231986789,0.928154155194145,0.0429642685269204,0.184035955610823,0.272412121504431,0.171081967380313,0.49919261089929,0.328024723564969,0.283780266179643,0.241048075843265,0.450929497717278,0.533977290955433,0.315199172976922,0.129555298224385,0.680091859312203,0.127945878096432,0.563293418333468,0.130181656484086,0.351570433921549,0.646512817609383,0.471544961295724,0.654149102549856,0.528160196359718,0.624909672268237,0.754344965780499,0.596131556133026,0.338226838779736,0.686308671787,0.756001526883885,0.565075882393129,0.918210203298802,0.728041503281212,0.533115539860273,0.865695641329853,0.875580465977705,0.730992944304357,0.736860565605527,0.767636330286638,0.932204854570648,0.722249556488858,0.69878019236758,0.545925289468441,0.522653630966109,0.343573411824259,0.660172206330899,0.28272955006779,0.397683479174256,0.555869214559556,0.653205635378399,0.636775313859405,0.461609457270095,0.611818041276696,0.197117805601783,0.731171010039635,0.128209989823851,0.365171512341979,0.105264742035681,0.339104743559638,0.261849631723449,0.497818595757433,0.355553772411708,0.194315094497668,0.437096759122079,0.320672721037841,0.297527917360866,0.0937878740340723,0.391168498544476,0.0862733392974938,0.387455992821991,0.153449358749556,0.444565385937008,0.173611765232405,0.706682817320658,0.245139209484979,0.105155706112406,0.325782178417664,0.970168135085305,0.17993091737982,0.12610239095221,0.29935966019073,0.255768835247529,0.33079273404512,0.130046127090602,0.705386743197511,0.171928561462701,0.795973569021123,0.282034331222725,0.239675588633566,0.361021694764218,0.957835542696341,0.436403374541435,0.392292655737118,0.413250327347119,0.441546133026898,0.604386746293644,0.192733393573598,0.814568668881169,0.373588396166305,0.686443924969571,0.484558531050312,0.397066910746851,0.447584400748653,0.92132247661806,0.550783770523162,0.625963152260129,0.578566750737967,0.597975170536936,0.540609771381741,0.139855814667778,0.786401656604524,0.202244937100628,0.660791254952213,0.261487210601824,0.192221196594511,0.342668510219091,0.824571682650777,0.370802364828671,0.416012470987079,0.259874557034335,0.3568520064584,0.619188473151909,0.0717768829272922,0.792626604919635,0.513866990462915,0.656638760624802,0.487675450710512,0.550135119873392,0.616204303172579,0.711337864416647,0.497455946762137,0.370997851532695,0.315565753981385,0.927042561066882,0.738594653632714,0.0320310153317002,0.884232784558731,0.481729571434282,0.372997442693098,0.935857433607641,0.907197960870998,0.822732062593273,0.975393595235745,0.938968534410268,0.618426719826901,0.526966948718766,0.518149953737318,0.402900719342484,0.298780428244589,0.607099446637454,0.685432947441656,0.509822682804498,0.613666075683299,0.638844000579736,0.642595409734178,0.86729430610393,0.491562821556168,0.402640504364742,0.640182797018575,0.545412668703466,0.468333811012113,0.238888174493787,0.506955219834618,0.243669914813338,0.943795367039449,0.265571338358543,0.37250577850089,0.409891621538121,0.901890481660023,0.736698866530686,0.756166842063074,0.276933770840229,0.742006840324537,0.434236865185345,0.526610127161495,0.674763913107079,0.301875015927912,0.781241688201921,0.642128084700543,0.578682823229682,0.598779351506066,0.938708827329013,0.766093031295691,0.564819064638929,0.545212750288262,0.471700310804223,0.509912425692338,0.137329166361077,0.319045333719526,0.421868022800236,0.399218926281828,0.345194648935861,0.5132449248475,0.569439418705045,0.683728499749751,0.324447833784065,0.126279708527968,0.630402221447795,0.706644453119582,0.774433822538512,0.835923955179013,0.61521806781318,0.391079799232791,0.48505809071109,0.363044305681515,0.527534201735375,0.482167927248789,0.795659680165034,0.572072494233025,0.401964132261773,0.639464840741712]},"columns":[{"accessor":"county","name":"county","type":"character"},{"accessor":"Value","name":"Value","type":"numeric"},{"accessor":"Value_se","name":"Value_se","type":"numeric"},{"accessor":"var_name","name":"var_name","type":"numeric"},{"accessor":"label","name":"label","type":"character"},{"accessor":"lower","name":"lower","type":"numeric"},{"accessor":"upper","name":"upper","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":50,"crosstalkKey":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200","201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","220","221"],"crosstalkGroup":"SharedData93cf9f57","dataKey":"512e8688ff485ec816f2139932072ffa","key":"512e8688ff485ec816f2139932072ffa"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-80bdab373535b595ca63">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"county":["Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau","Akobo","Baliet","Budi","Duk","Jur River","Kapoeta North","Leer","Mayendit","Paynijar","Pibor","Ulang","Uror","Wau"],"label":["Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Cereals","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Roots/tubers","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Vitamin A vegetables","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Leafy greens","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Other vegetables","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Vitamin A fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Other fruits","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Organ meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Domesticated meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Bush meat","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Eggs","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Fish","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Legumes","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Milk products","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Oil and fats","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Sweets","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments","Spices/condiments"],"Value":[0.978125171418328,0.89336102270685,0.888795004538648,0.913021968726198,0.676345119937072,0.544103229718832,0.959513622585461,0.901244172755114,0.795913576327337,0.927704264319757,0.733455772188694,0.83543301851279,0.870947811648255,0.0283072162086851,0.119342943279535,0.195717820942229,0.107878477594971,0.422556543220191,0.246316319517065,0.234170327637527,0.160359719085319,0.31225560200906,0.453866946049917,0.196650433076648,0.0835146351422772,0.552350683461225,0.0897031321459052,0.431598068863926,0.0850597148917146,0.245008281114278,0.597741420978308,0.370350456303638,0.624032380657703,0.447673196742659,0.488354790448894,0.686074315885479,0.443095958498464,0.244391868828125,0.561221672491463,0.646029476752674,0.376117589822923,0.818200747900623,0.572138616444796,0.479040136230944,0.801313215024868,0.811061702643857,0.668638803820106,0.600434932490751,0.703764483293686,0.853564059196006,0.627867877882137,0.603792524100569,0.437499361674649,0.355113285228121,0.241788373313843,0.512580233029629,0.231413836486853,0.29766354255503,0.491844003939389,0.572346061624285,0.49297069474963,0.390517171816466,0.433298813530712,0.133199939166937,0.602653566700812,0.0863647417046168,0.251356720172987,0.0658448889967359,0.225818989992789,0.224615583327081,0.369230713105013,0.300503387276463,0.152998782112693,0.306676108159545,0.25426322317416,0.173317422226378,0.0605796158030198,0.297117273857243,0.0571128806482831,0.267763079414901,0.111610614788222,0.319181641178699,0.135184299409882,0.637120150236686,0.177922307349931,0.073398182873697,0.210352309532444,0.894886647763921,0.0972134717522135,0.0703708604796717,0.221342989255135,0.184939510740778,0.229035332047879,0.0833042945117223,0.566988401249528,0.138310879338173,0.72864449131379,0.238003178382706,0.200290136586753,0.245461891324367,0.908841475188022,0.3000558923002,0.297792857589275,0.327214139093876,0.356946474482625,0.461039467183906,0.123068155618023,0.679634720801651,0.311060374177034,0.634606664455233,0.42243869298184,0.346646940751007,0.329901352604382,0.881605134155503,0.389899420856683,0.542410434720947,0.468593547849239,0.517178882853487,0.360081257632155,0.100495233116275,0.636299899606099,0.168532769561064,0.531569177985882,0.213399140023606,0.138426959199194,0.228402678638962,0.78517293339097,0.239802201682178,0.344144758244394,0.190516688402831,0.260800003770855,0.514661484036758,0.0453721878307263,0.665651904153524,0.410655163624348,0.593043588213232,0.433723939436253,0.476563822395727,0.489440838261181,0.642263699537008,0.339873422023137,0.281584471056935,0.237777791153703,0.85478572825298,0.589548358286696,0.0182963872882468,0.782961072680691,0.424006425908778,0.27365210951672,0.882072036006617,0.862067887271353,0.70472897572753,0.912703676202371,0.893980725482206,0.513086027967815,0.416738674187883,0.421073701181794,0.313095344311381,0.238552839224085,0.459732250689254,0.639850201279064,0.414701519595231,0.550030712384296,0.54174488096737,0.517723048392705,0.810613614416227,0.348225055377979,0.317317829447498,0.531712971443251,0.45853947925444,0.359484805078138,0.156560971307733,0.373501664875453,0.199605899185345,0.898525839512425,0.210638121314136,0.30985781173977,0.294805580221899,0.831776098384049,0.608468078772253,0.69058509804779,0.194774809618417,0.636030914894182,0.310369494006921,0.398243295420805,0.499038010156515,0.260317978881197,0.720930645445818,0.581764213311123,0.50338828173995,0.445112669041387,0.884487783850162,0.577464042351791,0.465786960263782,0.4205750960853,0.367807424016315,0.373860635164159,0.0982248954057334,0.2284685956559,0.38442121835568,0.289074379741426,0.291468552265274,0.418089681764314,0.437117710393568,0.607723145244836,0.216774541183202,0.0808705351413708,0.508011567262141,0.606010899260242,0.61957674879637,0.776598294688634,0.440896201659235,0.329338143076123,0.35834349077362,0.326349555005639,0.449786982052339,0.35511620716535,0.724748139447282,0.40992534834426,0.316378462507206,0.53231040375235],"lower":[0.963207350568141,0.804539211711761,0.829545920815746,0.821998021652121,0.610067975672343,0.475247433599488,0.943698941207195,0.86574473210055,0.671633608728459,0.864235457831101,0.573674352586888,0.776116805038792,0.813741468102365,0.0136501638904498,0.0546499309482482,0.119023520380027,0.0446749878096276,0.345920475541092,0.164607915469161,0.184560389095411,0.0796713623273723,0.173581706300841,0.373756601144401,0.0781016931763741,0.0374739720601699,0.424609507610246,0.0514603861953782,0.299902719394385,0.0399377732993432,0.138446128307006,0.548970024347233,0.269155951311551,0.593915658765549,0.3671861971256,0.351799908629552,0.617803665990459,0.290060360863902,0.150556898876515,0.436134673195925,0.536057426621462,0.187159297252717,0.718191292502443,0.41623572960838,0.424964732601615,0.736930788719883,0.746542939310009,0.606284663335856,0.464009299375974,0.639892636300733,0.774923263821363,0.533486199275415,0.508804855833557,0.329073433880857,0.187572939490132,0.140003334803427,0.36498825972836,0.180098122905915,0.197643605935805,0.427818793319223,0.491486487870171,0.349166075639854,0.319424886362837,0.254779585784728,0.0692820727320897,0.47413612336199,0.0445194935853822,0.137541928003995,0.0264250359577908,0.112533236425939,0.187381534930713,0.240642830452593,0.245453002141219,0.111682469727717,0.176255457197011,0.187853725310478,0.0491069270918907,0.0273713575719672,0.203066049170011,0.0279524219990724,0.148070166007812,0.0697718708268888,0.193797896420391,0.0967568335873589,0.567557483152715,0.110705405214884,0.041640659634988,0.0949224406472237,0.819605160442538,0.0144960261246068,0.0146393300071338,0.14332631831954,0.114110186234027,0.127277930050638,0.0365624619328428,0.428590059301545,0.104693197213645,0.661315413606456,0.193972025542687,0.16090468453994,0.129902087884516,0.859847407679703,0.163708410058965,0.203293059441432,0.241177950840632,0.272346815938351,0.317692188074168,0.0534029176624473,0.544700772722132,0.248532352187763,0.582769403940894,0.360318854913369,0.296226970755163,0.212218304460111,0.841887791692945,0.229015071190204,0.458857717181765,0.358620344960511,0.436382595170038,0.179552743882569,0.0611346515647715,0.486198142607675,0.1348206020215,0.402347101019551,0.165311069445388,0.0846327218038764,0.114136847058832,0.745774184131164,0.108802038535686,0.27227704550171,0.121158819771327,0.16474800108331,0.410134494921607,0.0189674927341604,0.538677203387413,0.307443336785781,0.529448415801662,0.379772428161994,0.402992524918062,0.362677373349782,0.573189534657369,0.182290897284137,0.192171090581175,0.159989828326021,0.782528895439078,0.440502062940679,0.00456175924479332,0.681689360802651,0.366283280383274,0.174306776340343,0.828286638405594,0.816937813671708,0.586725888861786,0.850013757168997,0.848992916554144,0.407745336108729,0.306510399657,0.32399744862627,0.223289969280277,0.178325250203582,0.312365054741054,0.594267455116472,0.319580356385964,0.486395349085294,0.444645761355003,0.392850687051232,0.753932922728525,0.204887289199791,0.231995154530255,0.423243145867927,0.371666289805415,0.250635799144163,0.0742337681216793,0.240048109916289,0.155541883557353,0.853256311985401,0.155704904269729,0.247209844978651,0.179719538905676,0.761661715108074,0.48023729101382,0.625003354032505,0.112615848396604,0.530054989463826,0.186502122828498,0.269876463680116,0.323312107205951,0.218760941834482,0.660619602689714,0.521400341921703,0.428093740250219,0.291445986576708,0.830266740371311,0.388835053407891,0.366754855888635,0.295937441882338,0.263914537228407,0.23780884463598,0.0591206244503902,0.137891857592275,0.346974413911123,0.178929833201024,0.237742455594687,0.322934438681128,0.304796002082091,0.53171779073992,0.109101248582339,0.0354613617547733,0.385620913076487,0.505377345400902,0.464719675054228,0.717272634198254,0.26657433550529,0.267596486919456,0.23162889083615,0.289654804329763,0.372039762369303,0.22806448708191,0.65383659872953,0.247778202455496,0.23079279275264,0.425155966762988],"upper":[0.993042992268515,0.982182833701938,0.948044088261551,1.00404591580027,0.742622264201802,0.612959025838175,0.975328303963727,0.936743613409677,0.920193543926215,0.991173070808412,0.8932371917905,0.894749231986789,0.928154155194145,0.0429642685269204,0.184035955610823,0.272412121504431,0.171081967380313,0.49919261089929,0.328024723564969,0.283780266179643,0.241048075843265,0.450929497717278,0.533977290955433,0.315199172976922,0.129555298224385,0.680091859312203,0.127945878096432,0.563293418333468,0.130181656484086,0.351570433921549,0.646512817609383,0.471544961295724,0.654149102549856,0.528160196359718,0.624909672268237,0.754344965780499,0.596131556133026,0.338226838779736,0.686308671787,0.756001526883885,0.565075882393129,0.918210203298802,0.728041503281212,0.533115539860273,0.865695641329853,0.875580465977705,0.730992944304357,0.736860565605527,0.767636330286638,0.932204854570648,0.722249556488858,0.69878019236758,0.545925289468441,0.522653630966109,0.343573411824259,0.660172206330899,0.28272955006779,0.397683479174256,0.555869214559556,0.653205635378399,0.636775313859405,0.461609457270095,0.611818041276696,0.197117805601783,0.731171010039635,0.128209989823851,0.365171512341979,0.105264742035681,0.339104743559638,0.261849631723449,0.497818595757433,0.355553772411708,0.194315094497668,0.437096759122079,0.320672721037841,0.297527917360866,0.0937878740340723,0.391168498544476,0.0862733392974938,0.387455992821991,0.153449358749556,0.444565385937008,0.173611765232405,0.706682817320658,0.245139209484979,0.105155706112406,0.325782178417664,0.970168135085305,0.17993091737982,0.12610239095221,0.29935966019073,0.255768835247529,0.33079273404512,0.130046127090602,0.705386743197511,0.171928561462701,0.795973569021123,0.282034331222725,0.239675588633566,0.361021694764218,0.957835542696341,0.436403374541435,0.392292655737118,0.413250327347119,0.441546133026898,0.604386746293644,0.192733393573598,0.814568668881169,0.373588396166305,0.686443924969571,0.484558531050312,0.397066910746851,0.447584400748653,0.92132247661806,0.550783770523162,0.625963152260129,0.578566750737967,0.597975170536936,0.540609771381741,0.139855814667778,0.786401656604524,0.202244937100628,0.660791254952213,0.261487210601824,0.192221196594511,0.342668510219091,0.824571682650777,0.370802364828671,0.416012470987079,0.259874557034335,0.3568520064584,0.619188473151909,0.0717768829272922,0.792626604919635,0.513866990462915,0.656638760624802,0.487675450710512,0.550135119873392,0.616204303172579,0.711337864416647,0.497455946762137,0.370997851532695,0.315565753981385,0.927042561066882,0.738594653632714,0.0320310153317002,0.884232784558731,0.481729571434282,0.372997442693098,0.935857433607641,0.907197960870998,0.822732062593273,0.975393595235745,0.938968534410268,0.618426719826901,0.526966948718766,0.518149953737318,0.402900719342484,0.298780428244589,0.607099446637454,0.685432947441656,0.509822682804498,0.613666075683299,0.638844000579736,0.642595409734178,0.86729430610393,0.491562821556168,0.402640504364742,0.640182797018575,0.545412668703466,0.468333811012113,0.238888174493787,0.506955219834618,0.243669914813338,0.943795367039449,0.265571338358543,0.37250577850089,0.409891621538121,0.901890481660023,0.736698866530686,0.756166842063074,0.276933770840229,0.742006840324537,0.434236865185345,0.526610127161495,0.674763913107079,0.301875015927912,0.781241688201921,0.642128084700543,0.578682823229682,0.598779351506066,0.938708827329013,0.766093031295691,0.564819064638929,0.545212750288262,0.471700310804223,0.509912425692338,0.137329166361077,0.319045333719526,0.421868022800236,0.399218926281828,0.345194648935861,0.5132449248475,0.569439418705045,0.683728499749751,0.324447833784065,0.126279708527968,0.630402221447795,0.706644453119582,0.774433822538512,0.835923955179013,0.61521806781318,0.391079799232791,0.48505809071109,0.363044305681515,0.527534201735375,0.482167927248789,0.795659680165034,0.572072494233025,0.401964132261773,0.639464840741712]},"columns":[{"accessor":"county","name":"County","type":"character"},{"accessor":"label","name":"Food Item","type":"character"},{"accessor":"Value","name":"Percent","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"lower","name":"Lower","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"upper","name":"Upper","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"crosstalkKey":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200","201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","220","221"],"crosstalkGroup":"SharedData93cf9f57","dataKey":"d10ee9ba80e3c0d97673be7379aafe06","key":"d10ee9ba80e3c0d97673be7379aafe06"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
@@ -4202,7 +4277,7 @@
 <h1 data-number="3"><span class="header-section-number">3</span> Food insecurity</h1>
 <section id="food-insecure-behavior-in-previous-12-months" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="food-insecure-behavior-in-previous-12-months"><span class="header-section-number">3.1</span> Food insecure behavior in previous 12 months</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-16_7bbac2bd796904b7d3c1c5d54b25ee13">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-20_b546f9622fccd9d79ee895b08e8ca1a7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>q422 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_422, <span class="st">"worried"</span>, <span class="st">"Worried about not enough to eat"</span>) <span class="sc">%&gt;%</span></span>
@@ -4259,7 +4334,7 @@
 <span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="co">#fies_items</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-18_5b32b02c712e897f6ebdf82eba3fc081">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-22_80fa6ca317e9320ad52e0c4fbfecfa59">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fies_items_gt <span class="ot">&lt;-</span> fies_items <span class="sc">%&gt;%</span></span>
@@ -4275,12 +4350,12 @@
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>fies_items_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="tpxalxvvvv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="alxvvvvkdg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tpxalxvvvv .gt_table {
+#alxvvvvkdg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -4305,7 +4380,7 @@
   border-left-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_heading {
+#alxvvvvkdg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4317,7 +4392,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_title {
+#alxvvvvkdg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4329,7 +4404,7 @@
   border-bottom-width: 0;
 }
 
-#tpxalxvvvv .gt_subtitle {
+#alxvvvvkdg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4341,13 +4416,13 @@
   border-top-width: 0;
 }
 
-#tpxalxvvvv .gt_bottom_border {
+#alxvvvvkdg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_col_headings {
+#alxvvvvkdg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4362,7 +4437,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_col_heading {
+#alxvvvvkdg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4382,7 +4457,7 @@
   overflow-x: hidden;
 }
 
-#tpxalxvvvv .gt_column_spanner_outer {
+#alxvvvvkdg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4394,15 +4469,15 @@
   padding-right: 4px;
 }
 
-#tpxalxvvvv .gt_column_spanner_outer:first-child {
+#alxvvvvkdg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tpxalxvvvv .gt_column_spanner_outer:last-child {
+#alxvvvvkdg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tpxalxvvvv .gt_column_spanner {
+#alxvvvvkdg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4414,7 +4489,7 @@
   width: 100%;
 }
 
-#tpxalxvvvv .gt_group_heading {
+#alxvvvvkdg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4439,7 +4514,7 @@
   vertical-align: middle;
 }
 
-#tpxalxvvvv .gt_empty_group_heading {
+#alxvvvvkdg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4454,15 +4529,15 @@
   vertical-align: middle;
 }
 
-#tpxalxvvvv .gt_from_md > :first-child {
+#alxvvvvkdg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tpxalxvvvv .gt_from_md > :last-child {
+#alxvvvvkdg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tpxalxvvvv .gt_row {
+#alxvvvvkdg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4481,7 +4556,7 @@
   overflow-x: hidden;
 }
 
-#tpxalxvvvv .gt_stub {
+#alxvvvvkdg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4494,7 +4569,7 @@
   padding-right: 5px;
 }
 
-#tpxalxvvvv .gt_stub_row_group {
+#alxvvvvkdg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4508,11 +4583,11 @@
   vertical-align: top;
 }
 
-#tpxalxvvvv .gt_row_group_first td {
+#alxvvvvkdg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tpxalxvvvv .gt_summary_row {
+#alxvvvvkdg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4522,16 +4597,16 @@
   padding-right: 5px;
 }
 
-#tpxalxvvvv .gt_first_summary_row {
+#alxvvvvkdg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_first_summary_row.thick {
+#alxvvvvkdg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tpxalxvvvv .gt_last_summary_row {
+#alxvvvvkdg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4541,7 +4616,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_grand_summary_row {
+#alxvvvvkdg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4551,7 +4626,7 @@
   padding-right: 5px;
 }
 
-#tpxalxvvvv .gt_first_grand_summary_row {
+#alxvvvvkdg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4561,11 +4636,11 @@
   border-top-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_striped {
+#alxvvvvkdg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tpxalxvvvv .gt_table_body {
+#alxvvvvkdg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4574,7 +4649,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_footnotes {
+#alxvvvvkdg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4588,7 +4663,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_footnote {
+#alxvvvvkdg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -4597,7 +4672,7 @@
   padding-right: 5px;
 }
 
-#tpxalxvvvv .gt_sourcenotes {
+#alxvvvvkdg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4611,7 +4686,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tpxalxvvvv .gt_sourcenote {
+#alxvvvvkdg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4619,60 +4694,60 @@
   padding-right: 5px;
 }
 
-#tpxalxvvvv .gt_left {
+#alxvvvvkdg .gt_left {
   text-align: left;
 }
 
-#tpxalxvvvv .gt_center {
+#alxvvvvkdg .gt_center {
   text-align: center;
 }
 
-#tpxalxvvvv .gt_right {
+#alxvvvvkdg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tpxalxvvvv .gt_font_normal {
+#alxvvvvkdg .gt_font_normal {
   font-weight: normal;
 }
 
-#tpxalxvvvv .gt_font_bold {
+#alxvvvvkdg .gt_font_bold {
   font-weight: bold;
 }
 
-#tpxalxvvvv .gt_font_italic {
+#alxvvvvkdg .gt_font_italic {
   font-style: italic;
 }
 
-#tpxalxvvvv .gt_super {
+#alxvvvvkdg .gt_super {
   font-size: 65%;
 }
 
-#tpxalxvvvv .gt_footnote_marks {
+#alxvvvvkdg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#tpxalxvvvv .gt_asterisk {
+#alxvvvvkdg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tpxalxvvvv .gt_slash_mark {
+#alxvvvvkdg .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#tpxalxvvvv .gt_fraction_numerator {
+#alxvvvvkdg .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#tpxalxvvvv .gt_fraction_denominator {
+#alxvvvvkdg .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -4739,7 +4814,7 @@
 </section>
 <section id="food-insecure-behavior-in-previous-four-weeks" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="food-insecure-behavior-in-previous-four-weeks"><span class="header-section-number">3.2</span> Food insecure behavior in previous four weeks</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-20_1d158cfad3b8d8c06d0d6e5f2baa9ec2">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-24_1caf69a21cf6b2a052ba40289865257e">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>q430 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_430, <span class="st">"no_food"</span>, <span class="st">"No food in house"</span>) <span class="sc">%&gt;%</span></span>
@@ -4751,12 +4826,12 @@
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>q430</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="kdgcuhngde" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="cuhngdekjq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#kdgcuhngde .gt_table {
+#cuhngdekjq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -4781,7 +4856,7 @@
   border-left-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_heading {
+#cuhngdekjq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4793,7 +4868,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_title {
+#cuhngdekjq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4805,7 +4880,7 @@
   border-bottom-width: 0;
 }
 
-#kdgcuhngde .gt_subtitle {
+#cuhngdekjq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4817,13 +4892,13 @@
   border-top-width: 0;
 }
 
-#kdgcuhngde .gt_bottom_border {
+#cuhngdekjq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_col_headings {
+#cuhngdekjq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4838,7 +4913,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_col_heading {
+#cuhngdekjq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4858,7 +4933,7 @@
   overflow-x: hidden;
 }
 
-#kdgcuhngde .gt_column_spanner_outer {
+#cuhngdekjq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4870,15 +4945,15 @@
   padding-right: 4px;
 }
 
-#kdgcuhngde .gt_column_spanner_outer:first-child {
+#cuhngdekjq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kdgcuhngde .gt_column_spanner_outer:last-child {
+#cuhngdekjq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kdgcuhngde .gt_column_spanner {
+#cuhngdekjq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4890,7 +4965,7 @@
   width: 100%;
 }
 
-#kdgcuhngde .gt_group_heading {
+#cuhngdekjq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4915,7 +4990,7 @@
   vertical-align: middle;
 }
 
-#kdgcuhngde .gt_empty_group_heading {
+#cuhngdekjq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4930,15 +5005,15 @@
   vertical-align: middle;
 }
 
-#kdgcuhngde .gt_from_md > :first-child {
+#cuhngdekjq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kdgcuhngde .gt_from_md > :last-child {
+#cuhngdekjq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kdgcuhngde .gt_row {
+#cuhngdekjq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4957,7 +5032,7 @@
   overflow-x: hidden;
 }
 
-#kdgcuhngde .gt_stub {
+#cuhngdekjq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4970,7 +5045,7 @@
   padding-right: 5px;
 }
 
-#kdgcuhngde .gt_stub_row_group {
+#cuhngdekjq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4984,11 +5059,11 @@
   vertical-align: top;
 }
 
-#kdgcuhngde .gt_row_group_first td {
+#cuhngdekjq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kdgcuhngde .gt_summary_row {
+#cuhngdekjq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4998,16 +5073,16 @@
   padding-right: 5px;
 }
 
-#kdgcuhngde .gt_first_summary_row {
+#cuhngdekjq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_first_summary_row.thick {
+#cuhngdekjq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kdgcuhngde .gt_last_summary_row {
+#cuhngdekjq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5017,7 +5092,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_grand_summary_row {
+#cuhngdekjq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5027,7 +5102,7 @@
   padding-right: 5px;
 }
 
-#kdgcuhngde .gt_first_grand_summary_row {
+#cuhngdekjq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5037,11 +5112,11 @@
   border-top-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_striped {
+#cuhngdekjq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kdgcuhngde .gt_table_body {
+#cuhngdekjq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5050,7 +5125,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_footnotes {
+#cuhngdekjq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5064,7 +5139,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_footnote {
+#cuhngdekjq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -5073,7 +5148,7 @@
   padding-right: 5px;
 }
 
-#kdgcuhngde .gt_sourcenotes {
+#cuhngdekjq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5087,7 +5162,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kdgcuhngde .gt_sourcenote {
+#cuhngdekjq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5095,60 +5170,60 @@
   padding-right: 5px;
 }
 
-#kdgcuhngde .gt_left {
+#cuhngdekjq .gt_left {
   text-align: left;
 }
 
-#kdgcuhngde .gt_center {
+#cuhngdekjq .gt_center {
   text-align: center;
 }
 
-#kdgcuhngde .gt_right {
+#cuhngdekjq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kdgcuhngde .gt_font_normal {
+#cuhngdekjq .gt_font_normal {
   font-weight: normal;
 }
 
-#kdgcuhngde .gt_font_bold {
+#cuhngdekjq .gt_font_bold {
   font-weight: bold;
 }
 
-#kdgcuhngde .gt_font_italic {
+#cuhngdekjq .gt_font_italic {
   font-style: italic;
 }
 
-#kdgcuhngde .gt_super {
+#cuhngdekjq .gt_super {
   font-size: 65%;
 }
 
-#kdgcuhngde .gt_footnote_marks {
+#cuhngdekjq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#kdgcuhngde .gt_asterisk {
+#cuhngdekjq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kdgcuhngde .gt_slash_mark {
+#cuhngdekjq .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#kdgcuhngde .gt_fraction_numerator {
+#cuhngdekjq .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#kdgcuhngde .gt_fraction_denominator {
+#cuhngdekjq .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -5176,7 +5251,7 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-22_2231af0d0445c4e2c773dcb160970dbd">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-26_8dc3920c675a59ede914a7fc60530c34">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked</span></span>
@@ -5197,12 +5272,12 @@
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>q431</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="kjqcmpxayc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="cmpxaycukf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#kjqcmpxayc .gt_table {
+#cmpxaycukf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -5227,7 +5302,7 @@
   border-left-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_heading {
+#cmpxaycukf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5239,7 +5314,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_title {
+#cmpxaycukf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5251,7 +5326,7 @@
   border-bottom-width: 0;
 }
 
-#kjqcmpxayc .gt_subtitle {
+#cmpxaycukf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5263,13 +5338,13 @@
   border-top-width: 0;
 }
 
-#kjqcmpxayc .gt_bottom_border {
+#cmpxaycukf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_col_headings {
+#cmpxaycukf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5284,7 +5359,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_col_heading {
+#cmpxaycukf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5304,7 +5379,7 @@
   overflow-x: hidden;
 }
 
-#kjqcmpxayc .gt_column_spanner_outer {
+#cmpxaycukf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5316,15 +5391,15 @@
   padding-right: 4px;
 }
 
-#kjqcmpxayc .gt_column_spanner_outer:first-child {
+#cmpxaycukf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kjqcmpxayc .gt_column_spanner_outer:last-child {
+#cmpxaycukf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kjqcmpxayc .gt_column_spanner {
+#cmpxaycukf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5336,7 +5411,7 @@
   width: 100%;
 }
 
-#kjqcmpxayc .gt_group_heading {
+#cmpxaycukf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5361,7 +5436,7 @@
   vertical-align: middle;
 }
 
-#kjqcmpxayc .gt_empty_group_heading {
+#cmpxaycukf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5376,15 +5451,15 @@
   vertical-align: middle;
 }
 
-#kjqcmpxayc .gt_from_md > :first-child {
+#cmpxaycukf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kjqcmpxayc .gt_from_md > :last-child {
+#cmpxaycukf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kjqcmpxayc .gt_row {
+#cmpxaycukf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5403,7 +5478,7 @@
   overflow-x: hidden;
 }
 
-#kjqcmpxayc .gt_stub {
+#cmpxaycukf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5416,7 +5491,7 @@
   padding-right: 5px;
 }
 
-#kjqcmpxayc .gt_stub_row_group {
+#cmpxaycukf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5430,11 +5505,11 @@
   vertical-align: top;
 }
 
-#kjqcmpxayc .gt_row_group_first td {
+#cmpxaycukf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kjqcmpxayc .gt_summary_row {
+#cmpxaycukf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5444,16 +5519,16 @@
   padding-right: 5px;
 }
 
-#kjqcmpxayc .gt_first_summary_row {
+#cmpxaycukf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_first_summary_row.thick {
+#cmpxaycukf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kjqcmpxayc .gt_last_summary_row {
+#cmpxaycukf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5463,7 +5538,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_grand_summary_row {
+#cmpxaycukf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5473,7 +5548,7 @@
   padding-right: 5px;
 }
 
-#kjqcmpxayc .gt_first_grand_summary_row {
+#cmpxaycukf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5483,11 +5558,11 @@
   border-top-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_striped {
+#cmpxaycukf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kjqcmpxayc .gt_table_body {
+#cmpxaycukf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5496,7 +5571,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_footnotes {
+#cmpxaycukf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5510,7 +5585,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_footnote {
+#cmpxaycukf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -5519,7 +5594,7 @@
   padding-right: 5px;
 }
 
-#kjqcmpxayc .gt_sourcenotes {
+#cmpxaycukf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5533,7 +5608,7 @@
   border-right-color: #D3D3D3;
 }
 
-#kjqcmpxayc .gt_sourcenote {
+#cmpxaycukf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5541,60 +5616,60 @@
   padding-right: 5px;
 }
 
-#kjqcmpxayc .gt_left {
+#cmpxaycukf .gt_left {
   text-align: left;
 }
 
-#kjqcmpxayc .gt_center {
+#cmpxaycukf .gt_center {
   text-align: center;
 }
 
-#kjqcmpxayc .gt_right {
+#cmpxaycukf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kjqcmpxayc .gt_font_normal {
+#cmpxaycukf .gt_font_normal {
   font-weight: normal;
 }
 
-#kjqcmpxayc .gt_font_bold {
+#cmpxaycukf .gt_font_bold {
   font-weight: bold;
 }
 
-#kjqcmpxayc .gt_font_italic {
+#cmpxaycukf .gt_font_italic {
   font-style: italic;
 }
 
-#kjqcmpxayc .gt_super {
+#cmpxaycukf .gt_super {
   font-size: 65%;
 }
 
-#kjqcmpxayc .gt_footnote_marks {
+#cmpxaycukf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#kjqcmpxayc .gt_asterisk {
+#cmpxaycukf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kjqcmpxayc .gt_slash_mark {
+#cmpxaycukf .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#kjqcmpxayc .gt_fraction_numerator {
+#cmpxaycukf .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#kjqcmpxayc .gt_fraction_denominator {
+#cmpxaycukf .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -5622,7 +5697,7 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-24_14abbdcb8c4f4b7285c008ae556afbc7">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-28_bb2b92e37155845ca621b83aeb738349">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>q432 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_432, <span class="st">"slept_hungry"</span>, <span class="st">"Went to bed hungry"</span>) <span class="sc">%&gt;%</span></span>
@@ -5635,12 +5710,12 @@
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>q432</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="pblajfuwih" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rlgfhhmyew" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pblajfuwih .gt_table {
+#rlgfhhmyew .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -5665,7 +5740,7 @@
   border-left-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_heading {
+#rlgfhhmyew .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5677,7 +5752,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_title {
+#rlgfhhmyew .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5689,7 +5764,7 @@
   border-bottom-width: 0;
 }
 
-#pblajfuwih .gt_subtitle {
+#rlgfhhmyew .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5701,13 +5776,13 @@
   border-top-width: 0;
 }
 
-#pblajfuwih .gt_bottom_border {
+#rlgfhhmyew .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_col_headings {
+#rlgfhhmyew .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5722,7 +5797,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_col_heading {
+#rlgfhhmyew .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5742,7 +5817,7 @@
   overflow-x: hidden;
 }
 
-#pblajfuwih .gt_column_spanner_outer {
+#rlgfhhmyew .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5754,15 +5829,15 @@
   padding-right: 4px;
 }
 
-#pblajfuwih .gt_column_spanner_outer:first-child {
+#rlgfhhmyew .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pblajfuwih .gt_column_spanner_outer:last-child {
+#rlgfhhmyew .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pblajfuwih .gt_column_spanner {
+#rlgfhhmyew .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5774,7 +5849,7 @@
   width: 100%;
 }
 
-#pblajfuwih .gt_group_heading {
+#rlgfhhmyew .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5799,7 +5874,7 @@
   vertical-align: middle;
 }
 
-#pblajfuwih .gt_empty_group_heading {
+#rlgfhhmyew .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5814,15 +5889,15 @@
   vertical-align: middle;
 }
 
-#pblajfuwih .gt_from_md > :first-child {
+#rlgfhhmyew .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pblajfuwih .gt_from_md > :last-child {
+#rlgfhhmyew .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pblajfuwih .gt_row {
+#rlgfhhmyew .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5841,7 +5916,7 @@
   overflow-x: hidden;
 }
 
-#pblajfuwih .gt_stub {
+#rlgfhhmyew .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5854,7 +5929,7 @@
   padding-right: 5px;
 }
 
-#pblajfuwih .gt_stub_row_group {
+#rlgfhhmyew .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5868,11 +5943,11 @@
   vertical-align: top;
 }
 
-#pblajfuwih .gt_row_group_first td {
+#rlgfhhmyew .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pblajfuwih .gt_summary_row {
+#rlgfhhmyew .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5882,16 +5957,16 @@
   padding-right: 5px;
 }
 
-#pblajfuwih .gt_first_summary_row {
+#rlgfhhmyew .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_first_summary_row.thick {
+#rlgfhhmyew .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pblajfuwih .gt_last_summary_row {
+#rlgfhhmyew .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5901,7 +5976,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_grand_summary_row {
+#rlgfhhmyew .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5911,7 +5986,7 @@
   padding-right: 5px;
 }
 
-#pblajfuwih .gt_first_grand_summary_row {
+#rlgfhhmyew .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5921,11 +5996,11 @@
   border-top-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_striped {
+#rlgfhhmyew .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pblajfuwih .gt_table_body {
+#rlgfhhmyew .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5934,7 +6009,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_footnotes {
+#rlgfhhmyew .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5948,7 +6023,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_footnote {
+#rlgfhhmyew .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -5957,7 +6032,7 @@
   padding-right: 5px;
 }
 
-#pblajfuwih .gt_sourcenotes {
+#rlgfhhmyew .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5971,7 +6046,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pblajfuwih .gt_sourcenote {
+#rlgfhhmyew .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5979,60 +6054,60 @@
   padding-right: 5px;
 }
 
-#pblajfuwih .gt_left {
+#rlgfhhmyew .gt_left {
   text-align: left;
 }
 
-#pblajfuwih .gt_center {
+#rlgfhhmyew .gt_center {
   text-align: center;
 }
 
-#pblajfuwih .gt_right {
+#rlgfhhmyew .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pblajfuwih .gt_font_normal {
+#rlgfhhmyew .gt_font_normal {
   font-weight: normal;
 }
 
-#pblajfuwih .gt_font_bold {
+#rlgfhhmyew .gt_font_bold {
   font-weight: bold;
 }
 
-#pblajfuwih .gt_font_italic {
+#rlgfhhmyew .gt_font_italic {
   font-style: italic;
 }
 
-#pblajfuwih .gt_super {
+#rlgfhhmyew .gt_super {
   font-size: 65%;
 }
 
-#pblajfuwih .gt_footnote_marks {
+#rlgfhhmyew .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#pblajfuwih .gt_asterisk {
+#rlgfhhmyew .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pblajfuwih .gt_slash_mark {
+#rlgfhhmyew .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#pblajfuwih .gt_fraction_numerator {
+#rlgfhhmyew .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#pblajfuwih .gt_fraction_denominator {
+#rlgfhhmyew .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -6060,7 +6135,7 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-26_e5b783d56f2b69683d62bdfac4533ea7">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-30_7f8966a64a49e719e4048cd3f40dfb57">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked</span></span>
@@ -6081,12 +6156,12 @@
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>q433</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="ubnxkpohbe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="papqimtvpb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ubnxkpohbe .gt_table {
+#papqimtvpb .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -6111,7 +6186,7 @@
   border-left-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_heading {
+#papqimtvpb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -6123,7 +6198,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_title {
+#papqimtvpb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -6135,7 +6210,7 @@
   border-bottom-width: 0;
 }
 
-#ubnxkpohbe .gt_subtitle {
+#papqimtvpb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -6147,13 +6222,13 @@
   border-top-width: 0;
 }
 
-#ubnxkpohbe .gt_bottom_border {
+#papqimtvpb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_col_headings {
+#papqimtvpb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6168,7 +6243,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_col_heading {
+#papqimtvpb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6188,7 +6263,7 @@
   overflow-x: hidden;
 }
 
-#ubnxkpohbe .gt_column_spanner_outer {
+#papqimtvpb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6200,15 +6275,15 @@
   padding-right: 4px;
 }
 
-#ubnxkpohbe .gt_column_spanner_outer:first-child {
+#papqimtvpb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ubnxkpohbe .gt_column_spanner_outer:last-child {
+#papqimtvpb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ubnxkpohbe .gt_column_spanner {
+#papqimtvpb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -6220,7 +6295,7 @@
   width: 100%;
 }
 
-#ubnxkpohbe .gt_group_heading {
+#papqimtvpb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6245,7 +6320,7 @@
   vertical-align: middle;
 }
 
-#ubnxkpohbe .gt_empty_group_heading {
+#papqimtvpb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -6260,15 +6335,15 @@
   vertical-align: middle;
 }
 
-#ubnxkpohbe .gt_from_md > :first-child {
+#papqimtvpb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ubnxkpohbe .gt_from_md > :last-child {
+#papqimtvpb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ubnxkpohbe .gt_row {
+#papqimtvpb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6287,7 +6362,7 @@
   overflow-x: hidden;
 }
 
-#ubnxkpohbe .gt_stub {
+#papqimtvpb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6300,7 +6375,7 @@
   padding-right: 5px;
 }
 
-#ubnxkpohbe .gt_stub_row_group {
+#papqimtvpb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6314,11 +6389,11 @@
   vertical-align: top;
 }
 
-#ubnxkpohbe .gt_row_group_first td {
+#papqimtvpb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ubnxkpohbe .gt_summary_row {
+#papqimtvpb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6328,16 +6403,16 @@
   padding-right: 5px;
 }
 
-#ubnxkpohbe .gt_first_summary_row {
+#papqimtvpb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_first_summary_row.thick {
+#papqimtvpb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ubnxkpohbe .gt_last_summary_row {
+#papqimtvpb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6347,7 +6422,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_grand_summary_row {
+#papqimtvpb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6357,7 +6432,7 @@
   padding-right: 5px;
 }
 
-#ubnxkpohbe .gt_first_grand_summary_row {
+#papqimtvpb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6367,11 +6442,11 @@
   border-top-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_striped {
+#papqimtvpb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ubnxkpohbe .gt_table_body {
+#papqimtvpb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6380,7 +6455,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_footnotes {
+#papqimtvpb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6394,7 +6469,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_footnote {
+#papqimtvpb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -6403,7 +6478,7 @@
   padding-right: 5px;
 }
 
-#ubnxkpohbe .gt_sourcenotes {
+#papqimtvpb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6417,7 +6492,7 @@
   border-right-color: #D3D3D3;
 }
 
-#ubnxkpohbe .gt_sourcenote {
+#papqimtvpb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6425,60 +6500,60 @@
   padding-right: 5px;
 }
 
-#ubnxkpohbe .gt_left {
+#papqimtvpb .gt_left {
   text-align: left;
 }
 
-#ubnxkpohbe .gt_center {
+#papqimtvpb .gt_center {
   text-align: center;
 }
 
-#ubnxkpohbe .gt_right {
+#papqimtvpb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ubnxkpohbe .gt_font_normal {
+#papqimtvpb .gt_font_normal {
   font-weight: normal;
 }
 
-#ubnxkpohbe .gt_font_bold {
+#papqimtvpb .gt_font_bold {
   font-weight: bold;
 }
 
-#ubnxkpohbe .gt_font_italic {
+#papqimtvpb .gt_font_italic {
   font-style: italic;
 }
 
-#ubnxkpohbe .gt_super {
+#papqimtvpb .gt_super {
   font-size: 65%;
 }
 
-#ubnxkpohbe .gt_footnote_marks {
+#papqimtvpb .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ubnxkpohbe .gt_asterisk {
+#papqimtvpb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ubnxkpohbe .gt_slash_mark {
+#papqimtvpb .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#ubnxkpohbe .gt_fraction_numerator {
+#papqimtvpb .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#ubnxkpohbe .gt_fraction_denominator {
+#papqimtvpb .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -6506,7 +6581,7 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-28_2a144f0952bf774b30d474ea18c8239e">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-32_c1f1f461fce1d5c88440c3f994cc1a98">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>q434 <span class="ot">&lt;-</span> <span class="fu">svy_disag</span>(svyrdat, <span class="st">""</span>, q_434, <span class="st">"fast"</span>, <span class="st">"Went whole day without eating"</span>) <span class="sc">%&gt;%</span></span>
@@ -6519,12 +6594,12 @@
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>q434</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="yfkccxzdpe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="eaucwwktut" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yfkccxzdpe .gt_table {
+#eaucwwktut .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -6549,7 +6624,7 @@
   border-left-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_heading {
+#eaucwwktut .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -6561,7 +6636,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_title {
+#eaucwwktut .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -6573,7 +6648,7 @@
   border-bottom-width: 0;
 }
 
-#yfkccxzdpe .gt_subtitle {
+#eaucwwktut .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -6585,13 +6660,13 @@
   border-top-width: 0;
 }
 
-#yfkccxzdpe .gt_bottom_border {
+#eaucwwktut .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_col_headings {
+#eaucwwktut .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6606,7 +6681,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_col_heading {
+#eaucwwktut .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6626,7 +6701,7 @@
   overflow-x: hidden;
 }
 
-#yfkccxzdpe .gt_column_spanner_outer {
+#eaucwwktut .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6638,15 +6713,15 @@
   padding-right: 4px;
 }
 
-#yfkccxzdpe .gt_column_spanner_outer:first-child {
+#eaucwwktut .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yfkccxzdpe .gt_column_spanner_outer:last-child {
+#eaucwwktut .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yfkccxzdpe .gt_column_spanner {
+#eaucwwktut .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -6658,7 +6733,7 @@
   width: 100%;
 }
 
-#yfkccxzdpe .gt_group_heading {
+#eaucwwktut .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6683,7 +6758,7 @@
   vertical-align: middle;
 }
 
-#yfkccxzdpe .gt_empty_group_heading {
+#eaucwwktut .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -6698,15 +6773,15 @@
   vertical-align: middle;
 }
 
-#yfkccxzdpe .gt_from_md > :first-child {
+#eaucwwktut .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yfkccxzdpe .gt_from_md > :last-child {
+#eaucwwktut .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yfkccxzdpe .gt_row {
+#eaucwwktut .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6725,7 +6800,7 @@
   overflow-x: hidden;
 }
 
-#yfkccxzdpe .gt_stub {
+#eaucwwktut .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6738,7 +6813,7 @@
   padding-right: 5px;
 }
 
-#yfkccxzdpe .gt_stub_row_group {
+#eaucwwktut .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6752,11 +6827,11 @@
   vertical-align: top;
 }
 
-#yfkccxzdpe .gt_row_group_first td {
+#eaucwwktut .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yfkccxzdpe .gt_summary_row {
+#eaucwwktut .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6766,16 +6841,16 @@
   padding-right: 5px;
 }
 
-#yfkccxzdpe .gt_first_summary_row {
+#eaucwwktut .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_first_summary_row.thick {
+#eaucwwktut .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yfkccxzdpe .gt_last_summary_row {
+#eaucwwktut .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6785,7 +6860,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_grand_summary_row {
+#eaucwwktut .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6795,7 +6870,7 @@
   padding-right: 5px;
 }
 
-#yfkccxzdpe .gt_first_grand_summary_row {
+#eaucwwktut .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6805,11 +6880,11 @@
   border-top-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_striped {
+#eaucwwktut .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yfkccxzdpe .gt_table_body {
+#eaucwwktut .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6818,7 +6893,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_footnotes {
+#eaucwwktut .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6832,7 +6907,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_footnote {
+#eaucwwktut .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -6841,7 +6916,7 @@
   padding-right: 5px;
 }
 
-#yfkccxzdpe .gt_sourcenotes {
+#eaucwwktut .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6855,7 +6930,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yfkccxzdpe .gt_sourcenote {
+#eaucwwktut .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6863,60 +6938,60 @@
   padding-right: 5px;
 }
 
-#yfkccxzdpe .gt_left {
+#eaucwwktut .gt_left {
   text-align: left;
 }
 
-#yfkccxzdpe .gt_center {
+#eaucwwktut .gt_center {
   text-align: center;
 }
 
-#yfkccxzdpe .gt_right {
+#eaucwwktut .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yfkccxzdpe .gt_font_normal {
+#eaucwwktut .gt_font_normal {
   font-weight: normal;
 }
 
-#yfkccxzdpe .gt_font_bold {
+#eaucwwktut .gt_font_bold {
   font-weight: bold;
 }
 
-#yfkccxzdpe .gt_font_italic {
+#eaucwwktut .gt_font_italic {
   font-style: italic;
 }
 
-#yfkccxzdpe .gt_super {
+#eaucwwktut .gt_super {
   font-size: 65%;
 }
 
-#yfkccxzdpe .gt_footnote_marks {
+#eaucwwktut .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#yfkccxzdpe .gt_asterisk {
+#eaucwwktut .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yfkccxzdpe .gt_slash_mark {
+#eaucwwktut .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#yfkccxzdpe .gt_fraction_numerator {
+#eaucwwktut .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#yfkccxzdpe .gt_fraction_denominator {
+#eaucwwktut .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -6944,7 +7019,7 @@
 </div>
 </div>
 </div>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-30_af9afffad863f40ff63d7dd55d7fd253">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-34_02907bfae94ed7110920ed1ab8ea27bd">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use survey package due to presence of not asked</span></span>
@@ -6965,12 +7040,12 @@
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>q435</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="xjxbktvupb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="kobqivrqaw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xjxbktvupb .gt_table {
+#kobqivrqaw .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -6995,7 +7070,7 @@
   border-left-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_heading {
+#kobqivrqaw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -7007,7 +7082,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_title {
+#kobqivrqaw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -7019,7 +7094,7 @@
   border-bottom-width: 0;
 }
 
-#xjxbktvupb .gt_subtitle {
+#kobqivrqaw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -7031,13 +7106,13 @@
   border-top-width: 0;
 }
 
-#xjxbktvupb .gt_bottom_border {
+#kobqivrqaw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_col_headings {
+#kobqivrqaw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7052,7 +7127,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_col_heading {
+#kobqivrqaw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7072,7 +7147,7 @@
   overflow-x: hidden;
 }
 
-#xjxbktvupb .gt_column_spanner_outer {
+#kobqivrqaw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7084,15 +7159,15 @@
   padding-right: 4px;
 }
 
-#xjxbktvupb .gt_column_spanner_outer:first-child {
+#kobqivrqaw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xjxbktvupb .gt_column_spanner_outer:last-child {
+#kobqivrqaw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xjxbktvupb .gt_column_spanner {
+#kobqivrqaw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -7104,7 +7179,7 @@
   width: 100%;
 }
 
-#xjxbktvupb .gt_group_heading {
+#kobqivrqaw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7129,7 +7204,7 @@
   vertical-align: middle;
 }
 
-#xjxbktvupb .gt_empty_group_heading {
+#kobqivrqaw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -7144,15 +7219,15 @@
   vertical-align: middle;
 }
 
-#xjxbktvupb .gt_from_md > :first-child {
+#kobqivrqaw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xjxbktvupb .gt_from_md > :last-child {
+#kobqivrqaw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xjxbktvupb .gt_row {
+#kobqivrqaw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7171,7 +7246,7 @@
   overflow-x: hidden;
 }
 
-#xjxbktvupb .gt_stub {
+#kobqivrqaw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7184,7 +7259,7 @@
   padding-right: 5px;
 }
 
-#xjxbktvupb .gt_stub_row_group {
+#kobqivrqaw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7198,11 +7273,11 @@
   vertical-align: top;
 }
 
-#xjxbktvupb .gt_row_group_first td {
+#kobqivrqaw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xjxbktvupb .gt_summary_row {
+#kobqivrqaw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7212,16 +7287,16 @@
   padding-right: 5px;
 }
 
-#xjxbktvupb .gt_first_summary_row {
+#kobqivrqaw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_first_summary_row.thick {
+#kobqivrqaw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xjxbktvupb .gt_last_summary_row {
+#kobqivrqaw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7231,7 +7306,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_grand_summary_row {
+#kobqivrqaw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7241,7 +7316,7 @@
   padding-right: 5px;
 }
 
-#xjxbktvupb .gt_first_grand_summary_row {
+#kobqivrqaw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7251,11 +7326,11 @@
   border-top-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_striped {
+#kobqivrqaw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xjxbktvupb .gt_table_body {
+#kobqivrqaw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7264,7 +7339,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_footnotes {
+#kobqivrqaw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7278,7 +7353,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_footnote {
+#kobqivrqaw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -7287,7 +7362,7 @@
   padding-right: 5px;
 }
 
-#xjxbktvupb .gt_sourcenotes {
+#kobqivrqaw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7301,7 +7376,7 @@
   border-right-color: #D3D3D3;
 }
 
-#xjxbktvupb .gt_sourcenote {
+#kobqivrqaw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -7309,60 +7384,60 @@
   padding-right: 5px;
 }
 
-#xjxbktvupb .gt_left {
+#kobqivrqaw .gt_left {
   text-align: left;
 }
 
-#xjxbktvupb .gt_center {
+#kobqivrqaw .gt_center {
   text-align: center;
 }
 
-#xjxbktvupb .gt_right {
+#kobqivrqaw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xjxbktvupb .gt_font_normal {
+#kobqivrqaw .gt_font_normal {
   font-weight: normal;
 }
 
-#xjxbktvupb .gt_font_bold {
+#kobqivrqaw .gt_font_bold {
   font-weight: bold;
 }
 
-#xjxbktvupb .gt_font_italic {
+#kobqivrqaw .gt_font_italic {
   font-style: italic;
 }
 
-#xjxbktvupb .gt_super {
+#kobqivrqaw .gt_super {
   font-size: 65%;
 }
 
-#xjxbktvupb .gt_footnote_marks {
+#kobqivrqaw .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#xjxbktvupb .gt_asterisk {
+#kobqivrqaw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xjxbktvupb .gt_slash_mark {
+#kobqivrqaw .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#xjxbktvupb .gt_fraction_numerator {
+#kobqivrqaw .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#xjxbktvupb .gt_fraction_denominator {
+#kobqivrqaw .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -7396,7 +7471,7 @@
 <h1 data-number="4"><span class="header-section-number">4</span> Household involvement in the community</h1>
 <section id="community-group-participation" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="community-group-participation"><span class="header-section-number">4.1</span> Community group participation</h2>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-32_629f64c2459f9da5e6fe0436112babd1">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-36_63d8cd41b68cee472a5827b1ff75d3d0">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>grps_sum <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"output/tables/resilience/groups weighted.csv"</span>))</span>
@@ -7407,12 +7482,12 @@
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>grps_sum_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="vvvcpfsize" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mlgyjixpvt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vvvcpfsize .gt_table {
+#mlgyjixpvt .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -7437,7 +7512,7 @@
   border-left-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_heading {
+#mlgyjixpvt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -7449,7 +7524,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_title {
+#mlgyjixpvt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -7461,7 +7536,7 @@
   border-bottom-width: 0;
 }
 
-#vvvcpfsize .gt_subtitle {
+#mlgyjixpvt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -7473,13 +7548,13 @@
   border-top-width: 0;
 }
 
-#vvvcpfsize .gt_bottom_border {
+#mlgyjixpvt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_col_headings {
+#mlgyjixpvt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7494,7 +7569,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_col_heading {
+#mlgyjixpvt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7514,7 +7589,7 @@
   overflow-x: hidden;
 }
 
-#vvvcpfsize .gt_column_spanner_outer {
+#mlgyjixpvt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7526,15 +7601,15 @@
   padding-right: 4px;
 }
 
-#vvvcpfsize .gt_column_spanner_outer:first-child {
+#mlgyjixpvt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vvvcpfsize .gt_column_spanner_outer:last-child {
+#mlgyjixpvt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vvvcpfsize .gt_column_spanner {
+#mlgyjixpvt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -7546,7 +7621,7 @@
   width: 100%;
 }
 
-#vvvcpfsize .gt_group_heading {
+#mlgyjixpvt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7571,7 +7646,7 @@
   vertical-align: middle;
 }
 
-#vvvcpfsize .gt_empty_group_heading {
+#mlgyjixpvt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -7586,15 +7661,15 @@
   vertical-align: middle;
 }
 
-#vvvcpfsize .gt_from_md > :first-child {
+#mlgyjixpvt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vvvcpfsize .gt_from_md > :last-child {
+#mlgyjixpvt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vvvcpfsize .gt_row {
+#mlgyjixpvt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7613,7 +7688,7 @@
   overflow-x: hidden;
 }
 
-#vvvcpfsize .gt_stub {
+#mlgyjixpvt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7626,7 +7701,7 @@
   padding-right: 5px;
 }
 
-#vvvcpfsize .gt_stub_row_group {
+#mlgyjixpvt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -7640,11 +7715,11 @@
   vertical-align: top;
 }
 
-#vvvcpfsize .gt_row_group_first td {
+#mlgyjixpvt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vvvcpfsize .gt_summary_row {
+#mlgyjixpvt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7654,16 +7729,16 @@
   padding-right: 5px;
 }
 
-#vvvcpfsize .gt_first_summary_row {
+#mlgyjixpvt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_first_summary_row.thick {
+#mlgyjixpvt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vvvcpfsize .gt_last_summary_row {
+#mlgyjixpvt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7673,7 +7748,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_grand_summary_row {
+#mlgyjixpvt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -7683,7 +7758,7 @@
   padding-right: 5px;
 }
 
-#vvvcpfsize .gt_first_grand_summary_row {
+#mlgyjixpvt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -7693,11 +7768,11 @@
   border-top-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_striped {
+#mlgyjixpvt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vvvcpfsize .gt_table_body {
+#mlgyjixpvt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -7706,7 +7781,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_footnotes {
+#mlgyjixpvt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7720,7 +7795,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_footnote {
+#mlgyjixpvt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -7729,7 +7804,7 @@
   padding-right: 5px;
 }
 
-#vvvcpfsize .gt_sourcenotes {
+#mlgyjixpvt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -7743,7 +7818,7 @@
   border-right-color: #D3D3D3;
 }
 
-#vvvcpfsize .gt_sourcenote {
+#mlgyjixpvt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -7751,60 +7826,60 @@
   padding-right: 5px;
 }
 
-#vvvcpfsize .gt_left {
+#mlgyjixpvt .gt_left {
   text-align: left;
 }
 
-#vvvcpfsize .gt_center {
+#mlgyjixpvt .gt_center {
   text-align: center;
 }
 
-#vvvcpfsize .gt_right {
+#mlgyjixpvt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vvvcpfsize .gt_font_normal {
+#mlgyjixpvt .gt_font_normal {
   font-weight: normal;
 }
 
-#vvvcpfsize .gt_font_bold {
+#mlgyjixpvt .gt_font_bold {
   font-weight: bold;
 }
 
-#vvvcpfsize .gt_font_italic {
+#mlgyjixpvt .gt_font_italic {
   font-style: italic;
 }
 
-#vvvcpfsize .gt_super {
+#mlgyjixpvt .gt_super {
   font-size: 65%;
 }
 
-#vvvcpfsize .gt_footnote_marks {
+#mlgyjixpvt .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#vvvcpfsize .gt_asterisk {
+#mlgyjixpvt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vvvcpfsize .gt_slash_mark {
+#mlgyjixpvt .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#vvvcpfsize .gt_fraction_numerator {
+#mlgyjixpvt .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#vvvcpfsize .gt_fraction_denominator {
+#mlgyjixpvt .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
