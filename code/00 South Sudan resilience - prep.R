@@ -73,102 +73,6 @@ dark_grey <- "#6C6463"
 medium_grey <- "#8C8985"
 light_grey <- "#CFCDC9"
 
-
-
-
-# functions ----
-
-ov_tab <- function(design, var) {
-
-  design %>%
-    #group_by({{groupvar}}) %>%
-    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
-              Sample=survey_total({{var}}, na.rm=T)) %>%
-    mutate(ind_type="Overall",
-           disag="disag",
-           margin = prop_se*1.96,
-           lower=prop - margin,
-           upper=prop + margin,
-           ci=paste(round(lower,3), round(upper,3), sep="-"))
-}
-
-disag_tab <- function(design, var, groupvar, ind_type, key) {
-
-  key <- key %>%
-    rename(disag=2)
-
-  design %>%
-    group_by({{groupvar}}) %>%
-    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
-              Sample=survey_total({{var}}, na.rm=T)) %>%
-    mutate(ind_type=ind_type,
-           margin = prop_se*1.96,
-           lower=prop - margin,
-           upper=prop + margin,
-           ci=paste(round(lower,3), round(upper,3), sep="-")) %>%
-    left_join(key) %>%
-    relocate(disag, .after=ind_type)
-}
-
-
-svy_disag <- function(design, disaggregate, item, varname, label) {
-  temp <- design %>%
-    group_by({{disaggregate}}) %>%
-    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
-    mutate(#item={{item}},
-      var_name={{varname}},
-      label={{label}},
-      lower=Value-1.96*Value_se,
-      upper=Value+1.96*Value_se)
-  temp
-}
-
-
-
-tidy_out <- function(data, term_key=term_key) {
-  tidy(data) %>%
-    mutate(lower = estimate - 1.96*std.error,
-           upper = estimate + 1.96*std.error,
-           color=case_when(lower > 0 ~ "#002F6C",
-                           upper < 0 ~ "#BA0C2F",
-                           TRUE ~ "#8C8985")) %>%
-    left_join(term_key) %>%
-    filter(term_lab != "Intercept")
-}
-
-
-regplot <- function(data, xmin, xmax, limits) {
-  p <- ggplot(data, aes(x=estimate, y=fct_reorder(term_lab, estimate)), color = color, fill = color) +
-    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
-    geom_errorbarh(aes(xmin=lower, xmax=upper), color=data$color, height=0, size=1.2, alpha = 0.7) +
-    geom_label(aes(label=paste0(round(estimate*100,1), "%" )),color = data$color, size=4.5) +
-    scale_x_continuous(breaks=seq(xmin, xmax, .05),
-                       limits=limits,
-                       labels = scales::percent_format(accuracy=1)) +
-    labs(x = "", y = "")
-
-  return(p)
-}
-
-revcode <- function(x) {
-  out <- (max(x) + 1) - x
-  out
-}
-
-print_factors <- function(x) {
-  print(paste("The factors of",x,"are:"))
-  for(i in 1:x) {
-    if((x %% i) == 0) {
-      print(i)
-    }
-  }
-}
-
-print_factors(105)
-
-#revcode(1:5)
-
-
 # data ----
 
 #dat <- read_dta(here("data/local/mesp_household_baseline_hh_survey_weighted.dta"))
@@ -433,4 +337,100 @@ emerg_labs <- c("Emergency action plan in place",
   "Emergency plan successfully mitigated effect of shock",
   "Disaster planning group in community")
 
+
+# functions ----
+
+ov_tab <- function(design, var) {
+  
+  design %>%
+    #group_by({{groupvar}}) %>%
+    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
+              Sample=survey_total({{var}}, na.rm=T)) %>%
+    mutate(ind_type="Overall",
+           disag="disag",
+           margin = prop_se*1.96,
+           lower=prop - margin,
+           upper=prop + margin,
+           ci=paste(round(lower,3), round(upper,3), sep="-"))
+}
+
+# disag_tab <- function(design, var, groupvar, ind_type, key) {
+# 
+#   key <- key %>%
+#     rename(disag=2)
+# 
+#   design %>%
+#     group_by({{groupvar}}) %>%
+#     summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
+#               Sample=survey_total({{var}}, na.rm=T)) %>%
+#     mutate(ind_type=ind_type,
+#            margin = prop_se*1.96,
+#            lower=prop - margin,
+#            upper=prop + margin,
+#            ci=paste(round(lower,3), round(upper,3), sep="-")) %>%
+#     left_join(key) %>%
+#     relocate(disag, .after=ind_type)
+# }
+
+#disag_tab(svyrdat, q_403, county, "County", county_key)
+
+
+svy_disag <- function(design, disaggregate, item, varname, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(#item={{item}},
+      var_name={{varname}},
+      label={{label}},
+      lower=Value-1.96*Value_se,
+      upper=Value+1.96*Value_se)
+  temp
+}
+
+#svy_disag(svyrdat, county, q_403, "cereals","Cereals")
+
+
+
+tidy_out <- function(data, term_key=term_key) {
+  tidy(data) %>%
+    mutate(lower = estimate - 1.96*std.error,
+           upper = estimate + 1.96*std.error,
+           color=case_when(lower > 0 ~ "#002F6C",
+                           upper < 0 ~ "#BA0C2F",
+                           TRUE ~ "#8C8985")) %>%
+    left_join(term_key) %>%
+    filter(term_lab != "Intercept")
+}
+
+
+regplot <- function(data, xmin, xmax, limits) {
+  p <- ggplot(data, aes(x=estimate, y=fct_reorder(term_lab, estimate)), color = color, fill = color) +
+    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
+    geom_errorbarh(aes(xmin=lower, xmax=upper), color=data$color, height=0, size=1.2, alpha = 0.7) +
+    geom_label(aes(label=paste0(round(estimate*100,1), "%" )),color = data$color, size=4.5) +
+    scale_x_continuous(breaks=seq(xmin, xmax, .05),
+                       limits=limits,
+                       labels = scales::percent_format(accuracy=1)) +
+    labs(x = "", y = "")
+  
+  return(p)
+}
+
+revcode <- function(x) {
+  out <- (max(x) + 1) - x
+  out
+}
+
+print_factors <- function(x) {
+  print(paste("The factors of",x,"are:"))
+  for(i in 1:x) {
+    if((x %% i) == 0) {
+      print(i)
+    }
+  }
+}
+
+print_factors(105)
+
+#revcode(1:5)
 

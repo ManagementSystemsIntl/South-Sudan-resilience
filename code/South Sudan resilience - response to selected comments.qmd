@@ -1,0 +1,83 @@
+---
+title: "South Sudan Resilience Baseline"
+subtitle: "Responses to selected comments"
+author: "Dan Killian"
+toc: true
+toc-depth: 3
+number-sections: true
+format: 
+  html:
+    code-fold: true
+editor: visual
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+
+# standard figure size and generate clean output
+knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+source("00 South Sudan resilience - prep.R")
+```
+
+# Background
+
+# Comments
+
+### pg 17, Brian Hilton
+
+### Comment
+
+There should be changes in food security between rainy season and dry season. Could we compare adjacent counties for example Budi and Kapoeta N. The second comparison could be Mayendit and Leer?
+
+### Response
+
+Compare food insecurity across counties:
+
+```{r}
+
+out <- dat %>%
+  group_by(county) %>%
+  summarize(food_insec=mean(fies_raw, na.rm=T),
+            fies_se=std.error(fies_raw))
+
+out
+
+
+
+```
+
+```{r}
+m1 <- aov(fies_raw ~ as.factor(county), dat)
+m1
+summary(m1)
+ranef(m1)
+```
+
+## 
+
+
+
+
+
+
+
+
+pg 17, Brian Hilton
+
+
+
+
+
+
+
+
+
+
+
+
+
+There should be changes in food security between rainy
+season and dry season.  Could we compare
+adjacent counties for example Budi and Kapoeta N.  The second comparison could be Mayendit and
+Leer?
