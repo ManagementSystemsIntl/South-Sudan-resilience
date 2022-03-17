@@ -3,12 +3,14 @@ unnamed-chunk-4	inc_gt	inc_ov	inc_ov_mn	inc_ov_se	ov_cols
 unnamed-chunk-8	cnty_cols	inc_cnty	inc_cnty_gt	inc_cnty_mn	inc_cnty_se
 unnamed-chunk-6	inc_cnty_tmp
 unnamed-chunk-10	inc_cnty_wide	inc_cnty_wide_gt
-unnamed-chunk-12	fies_items	q422	q423	q424	q425	q426	q427	q428	q429
-unnamed-chunk-14	fies_items_gt
-unnamed-chunk-16	q430
-unnamed-chunk-18	q431
-unnamed-chunk-20	q432
-unnamed-chunk-22	q433
-unnamed-chunk-24	q434
-unnamed-chunk-26	q435
-unnamed-chunk-28	grps_sum	grps_sum_gt
+unnamed-chunk-12	diet_ov	diet_ov_gt	q403	q404	q405	q406	q407	q408	q409	q410	q411	q412	q413	q414	q415	q416	q417	q418	q419
+unnamed-chunk-14	diet_cnty	q403_cnty	q404_cnty	q405_cnty	q406_cnty	q407_cnty	q408_cnty	q409_cnty	q410_cnty	q411_cnty	q412_cnty	q413_cnty	q414_cnty	q415_cnty	q416_cnty	q417_cnty	q418_cnty	q419_cnty
+unnamed-chunk-16	fies_items	q422	q423	q424	q425	q426	q427	q428	q429
+unnamed-chunk-18	fies_items_gt
+unnamed-chunk-20	q430
+unnamed-chunk-22	q431
+unnamed-chunk-24	q432
+unnamed-chunk-26	q433
+unnamed-chunk-28	q434
+unnamed-chunk-30	q435
+unnamed-chunk-32	grps_sum	grps_sum_gt

@@ -883,6 +883,24 @@ dat <- dat %>%
 
 frq(dat$ability_recover_bin)
 
+## additional prep March 2022 (response to comments) ---- 
+
+dat <- dat %>%
+  mutate(date=as.POSIXct(strptime(date, format="%m-%d-%Y")),
+         phase = case_when(county=="Akobo" |
+                             county=="Budi" |
+                             county=="Duk" |
+                             county=="Leer"|
+                             county=="Pibor"|
+                             county=="Uror" ~ "Phase 1",
+                           TRUE ~ "Phase 2")) 
+
+
+
+#table(dat$county, dat$phase)
+
+
+
 # Save prepared data ---- 
 
 #write_dta(dat_unw, "data/local/SSD resilience baseline prepared (9 Nov 2021).dta")
