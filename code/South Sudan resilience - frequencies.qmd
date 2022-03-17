@@ -5,7 +5,7 @@ author: "Dan Killian"
 toc: true
 toc-depth: 3
 number-sections: true
-format: 
+format:
   html:
     code-fold: true
 editor: visual
@@ -41,12 +41,12 @@ inc_ov_tmp <- svyrdat %>%
             honey = survey_mean(q_401_l_bin),
             petty_trade_other = survey_mean(q_401_m_bin),
             petty_trade_own = survey_mean(q_401_n_bin),
-            ownbiz_ag = survey_mean(q_401_o_bin), 
+            ownbiz_ag = survey_mean(q_401_o_bin),
             ownbiz_nonag = survey_mean(q_401_p_bin),
             rent = survey_mean(q_401_q_bin),
             remit = survey_mean(q_401_r_bin),
             gifts = survey_mean(q_401_s_bin),
-            safety_net = survey_mean(q_401_t_bin)) 
+            safety_net = survey_mean(q_401_t_bin))
 
 ```
 
@@ -79,7 +79,7 @@ inc_gt <- inc_ov %>%
               decimals=1) %>%
   cols_label(inc_lab="Income source") %>%
   tab_source_note("Survey instsrument items 401a-t")
-  
+
 
 inc_gt
 
@@ -106,12 +106,12 @@ inc_cnty_tmp <- svyrdat %>%
             honey = survey_mean(q_401_l_bin),
             petty_trade_other = survey_mean(q_401_m_bin),
             petty_trade_own = survey_mean(q_401_n_bin),
-            ownbiz_ag = survey_mean(q_401_o_bin), 
+            ownbiz_ag = survey_mean(q_401_o_bin),
             ownbiz_nonag = survey_mean(q_401_p_bin),
             rent = survey_mean(q_401_q_bin),
             remit = survey_mean(q_401_r_bin),
             gifts = survey_mean(q_401_s_bin),
-            safety_net = survey_mean(q_401_t_bin)) 
+            safety_net = survey_mean(q_401_t_bin))
 ```
 
 ```{r}
@@ -137,10 +137,10 @@ inc_cnty <- inc_cnty_mn %>%
          upper=Percent+margin) %>%
   relocate(inc_lab, .after=income_source)
 
-inc_cnty_gt <- inc_cnty %>% 
+inc_cnty_gt <- inc_cnty %>%
   select(-2, -5) %>%
   gt() %>%
-  fmt_percent(3:6, 
+  fmt_percent(3:6,
               decimals=1) %>%
   cols_label(county="County",
              inc_lab="Income source")
@@ -191,8 +191,8 @@ q417 <- svy_disag(svyrdat, "", q_417, "417","Oil and fats")
 q418 <- svy_disag(svyrdat, "", q_418, "418","Sweets")
 q419 <- svy_disag(svyrdat, "", q_419, "419","Spices/condiments")
 
-diet_ov <- bind_rows(q403, 
-                       q404, 
+diet_ov <- bind_rows(q403,
+                       q404,
                        q405,
                        q406,
                        q407,
@@ -247,8 +247,8 @@ q417_cnty <- svy_disag(svyrdat, county, q_417, "417","Oil and fats")
 q418_cnty <- svy_disag(svyrdat, county, q_418, "418","Sweets")
 q419_cnty <- svy_disag(svyrdat, county, q_419, "419","Spices/condiments")
 
-diet_cnty <- bind_rows(q403_cnty, 
-                       q404_cnty, 
+diet_cnty <- bind_rows(q403_cnty,
+                       q404_cnty,
                        q405_cnty,
                        q406_cnty,
                        q407_cnty,
@@ -266,6 +266,13 @@ diet_cnty <- bind_rows(q403_cnty,
                        q419_cnty)
 
 write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"))
+
+# Object diet_cnty_obj is the object of "diet items by
+# county.csv"
+
+diet_cnty_obj <- read_csv("output/tables/food insecurity/diet items by county.csv")
+
+
 
 ```
 
@@ -315,7 +322,7 @@ q429 <- svy_disag(svyrdat, "", q_429, "wholeday", "Went a day without eating") %
 
 #q429
 
-fies_items <- do.call(rbind, 
+fies_items <- do.call(rbind,
                       list(q422,
                            q423,
                            q424,
@@ -355,7 +362,7 @@ q430 <- svy_disag(svyrdat, "", q_430, "no_food", "No food in house") %>%
   select("In previous four weeks.."=5,Percent=2,6,7) %>%
   gt() %>%
   fmt_percent(2:4,
-              decimals=1) 
+              decimals=1)
 
 q430
 
@@ -363,7 +370,7 @@ q430
 
 ```{r}
 
-# need to use survey package due to presence of not asked 
+# need to use survey package due to presence of not asked
 
 q431 <- svytable(~q_431,
                      svydat,
@@ -396,7 +403,7 @@ q432
 
 ```{r}
 
-# need to use survey package due to presence of not asked 
+# need to use survey package due to presence of not asked
 
 q433 <- svytable(~q_433,
                      svydat,
@@ -407,7 +414,7 @@ q433 <- svytable(~q_433,
                     "Often (More than 10 times)")) %>%
   select(3,Percent=2) %>%
   gt() %>%
-  fmt_percent(2, 
+  fmt_percent(2,
               decimals=1) %>%
   cols_label(Response=html("How often went to bed<br>hungry in past four weeks?"))
 
@@ -427,7 +434,7 @@ q434
 
 ```{r}
 
-# need to use survey package due to presence of not asked 
+# need to use survey package due to presence of not asked
 
 q435 <- svytable(~q_435,
                      svydat,
@@ -438,7 +445,7 @@ q435 <- svytable(~q_435,
                     "Often (More than 10 times)")) %>%
   select(3,Percent=2) %>%
   gt() %>%
-  fmt_percent(2, 
+  fmt_percent(2,
               decimals=1) %>%
   cols_label(Response=html("How often went a whole day<br>without eating in past four weeks?"))
 
