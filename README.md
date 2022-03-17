@@ -19,4 +19,4 @@ Environmental forces may play a role in affecting household resilience, and mode
 [**Household shocks**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South-Sudan-resilience---Shocks-explore.html)
 
 
-[**Dietary diversity**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South-Sudan-resilience---frequencies.html)
+[**Dietary diversity**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South%20Sudan%20resilience%20-%20frequencies.html)
