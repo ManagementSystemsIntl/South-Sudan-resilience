@@ -309,7 +309,10 @@ bscols(
                        , ~inc_lab))
   , reactable(data_inc_cnty_wide, showPageSizeOptions = T, highlight = T,  columns = list(
     inc_lab = colDef(name = "Income source"
-                     , minWidth = 150)
+                     , minWidth = 150
+                     , sticky = "left"
+                     , style = list(borderRight = "1px solid #eee"),
+      headerStyle = list(borderRight = "1px solid #eee"))
     , Akobo = colDef(name = "Akobo"
                        , format = colFormat(percent = T, digits = 1))
     , Baliet = colDef(name = "Baliet"
