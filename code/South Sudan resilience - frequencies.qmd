@@ -101,6 +101,11 @@ frq(hh$q_314) %>%
   select(3:5) %>%
   gt()
 ```
+What proportion of households
+```{r}
+
+```
+
 
 ## 315 Vaccinated for measles
 ```{r}
