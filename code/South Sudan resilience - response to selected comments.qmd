@@ -90,3 +90,17 @@ out <- hh %>%
 out %>%
   gt()
 ```
+
+## 314 Economic activity of household member
+
+```{r}
+frq(hh$q_314) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+```{r}
+Occ <- hh %>%
+  group_by()
+```
