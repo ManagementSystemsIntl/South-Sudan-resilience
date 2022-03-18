@@ -21,8 +21,94 @@ source("00 South Sudan resilience - prep.R")
 library(crosstalk) #Allows objects to "talk" to each other
 library(reactable) #Creates a table that can be interactive
 
+hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>%
+  rename(age = q_304, 
+         sex=q_302)
+
 ```
 
+# Household roster 
+
+The following frequencies describe the 41,824 household members enumerated in the 7,872 household interviews. 
+
+## 302 Sex of household member
+```{r}
+frq(hh$sex) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt() 
+```
+## 303 Relationship to head of household
+```{r}
+frq(hh$q_303) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+## 304 Age
+```{r}
+describe(hh$age)
+```
+
+```{r}
+ggplot(hh, aes(age)) + 
+  geom_density(color="blue", fill="lavender", alpha=.8)
+```
+
+## 305 Can read or write
+
+```{r}
+frq(hh$q_305) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+## 306 Ever attended school
+```{r}
+frq(hh$q_306) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+## 307 Reason never attended school
+```{r}
+frq(hh$q_307) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 308 Highest education attained
+```{r}
+frq(hh$q_308) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+## 309 Marital status
+
+```{r}
+frq(hh$q_309) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 314 Economic activity of household member
+```{r}
+frq(hh$q_314) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 315 Vaccinated for measles
+```{r}
+frq(hh$q_315) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
 # Household Income and Consumption
 
 ## Overall
@@ -284,33 +370,8 @@ diet_cnty_obj <- read_csv(here("output/tables/food insecurity/diet items by coun
 
 data_diet_cnty_obj <- SharedData$new(diet_cnty_obj)
 
-# bscols(
-#   widths = c(3, 9)
-#   , list(filter_select("county"
-#                        , "County"
-#                        , data_diet_cnty_obj
-#                        , ~county)
-#   , reactable(data_diet_cnty_obj                       
-#   , ~county)
-#   ,filter_select("label"
-#                        , "Label"
-#                        , data_diet_cnty_obj
-#                        , ~label))
-#   , reactable(data_diet_cnty_obj, columns = list(
-#     county = colDef(name = "County")
-#     , label = colDef(name = "Food Item")
-#     , Value = colDef(name = "Value"
-#                      , format = colFormat(percent = T
-#                                           , digits = 1))
-#     , lower = colDef(name = "Lower"
-#                      , format = colFormat(percent = T
-#                                           , digits = 1))
-#     , upper = colDef(name = "Upper"
-#                      , format = colFormat(percent = T
-#                                           , digits = 1))
-#   )))
-
 ```
+
 ```{r}
 bscols(
   widths = c(3, 9)

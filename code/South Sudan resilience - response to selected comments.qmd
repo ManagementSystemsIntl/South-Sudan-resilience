@@ -4,7 +4,7 @@ subtitle: "Responses to selected comments"
 author: "Dan Killian"
 toc: true
 toc-depth: 3
-number-sections: true
+number-sections: false
 format: 
   html:
     code-fold: true
@@ -20,10 +20,6 @@ library(here)
 source("00 South Sudan resilience - prep.R")
 ```
 
-# Background
-
-# Comments
-
 ### pg 17, Brian Hilton
 
 ### Comment
@@ -35,49 +31,62 @@ There should be changes in food security between rainy season and dry season. C
 Compare food insecurity across counties:
 
 ```{r}
+s1 <- svyglm(fies_raw ~ county - 1,
+             design=svydat)
+summary(s1)
+```
 
-out <- dat %>%
-  group_by(county) %>%
-  summarize(food_insec=mean(fies_raw, na.rm=T),
-            fies_se=std.error(fies_raw))
+Test each county difference for statistical significance
 
-out
+```{r}
 
+s1_aov <- aov(s1) 
 
+s1_comp <- data.frame(TukeyHSD(s1_aov)$county) %>%
+  rownames_to_column("comparison") %>%
+  filter(p.adj<.050001) %>%
+  arrange(p.adj) 
 
+s1_comp[,2:5] <- map(s1_comp[,2:5], function(x) round(x, 3))
+
+s1_comp %>%
+  gt()
+
+```
+
+We do see reduced food insecurity as we move from phase 1 data collection during the rainy season to phase 2 data collection during the dry season. This decline in food insecurity is found in Budi, Paynijar, and Wau.
+
+```{r}
+include_graphics(here("output/viz/food security/fies by day.png"))
 ```
 
 ```{r}
-m1 <- aov(fies_raw ~ as.factor(county), dat)
-m1
-summary(m1)
-ranef(m1)
+include_graphics(here("output/viz/food security/fies by day county.png"))
 ```
 
-## 
+On a cursory view, this decline in food insecurity is noisy and could easily be statistical noise.
 
+## pg 19, Brian Hilton
 
+### Comment
 
+The mission has a youth focus could we get education and livelihood disaggregated by youth?
 
+### Response
 
+```{r}
+frq(hh$q_314)
 
+out <- hh %>%
+  mutate(income=as_character(q_314)) %>%
+  group_by(income) %>%
+  summarize(age_se = std.error(age),
+            age=mean(age),
+            n=n()) %>%
+  arrange(age) %>%
+  mutate(margin=round(age_se*1.96,2)) %>%
+  select(1,3,5, 4)
 
-
-pg 17, Brian Hilton
-
-
-
-
-
-
-
-
-
-
-
-
-
-There should be changes in food security between rainy
-season and dry season.  Could we compare
-adjacent counties for example Budi and Kapoeta N.  The second comparison could be Mayendit and
-Leer?
+out %>%
+  gt()
+```
