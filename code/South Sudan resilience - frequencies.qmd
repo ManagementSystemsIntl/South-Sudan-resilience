@@ -27,25 +27,30 @@ hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combi
 
 ```
 
-# Household roster 
+# Household roster
 
-The following frequencies describe the 41,824 household members enumerated in the 7,872 household interviews. 
+The following frequencies describe the 41,824 household members enumerated in the 7,872 household interviews.
 
 ## 302 Sex of household member
+
 ```{r}
 frq(hh$sex) %>%
   data.frame() %>%
   select(3:5) %>%
   gt() 
 ```
+
 ## 303 Relationship to head of household
+
 ```{r}
 frq(hh$q_303) %>%
   data.frame() %>%
   select(3:5) %>%
   gt()
 ```
+
 ## 304 Age
+
 ```{r}
 describe(hh$age)
 ```
@@ -63,14 +68,18 @@ frq(hh$q_305) %>%
   select(3:5) %>%
   gt()
 ```
+
 ## 306 Ever attended school
+
 ```{r}
 frq(hh$q_306) %>%
   data.frame() %>%
   select(3:5) %>%
   gt()
 ```
+
 ## 307 Reason never attended school
+
 ```{r}
 frq(hh$q_307) %>%
   data.frame() %>%
@@ -79,12 +88,14 @@ frq(hh$q_307) %>%
 ```
 
 ## 308 Highest education attained
+
 ```{r}
 frq(hh$q_308) %>%
   data.frame() %>%
   select(3:5) %>%
   gt()
 ```
+
 ## 309 Marital status
 
 ```{r}
@@ -95,25 +106,29 @@ frq(hh$q_309) %>%
 ```
 
 ## 314 Economic activity of household member
+
 ```{r}
 frq(hh$q_314) %>%
   data.frame() %>%
   select(3:5) %>%
   gt()
 ```
+
 What proportion of households
+
 ```{r}
 
 ```
 
-
 ## 315 Vaccinated for measles
+
 ```{r}
 frq(hh$q_315) %>%
   data.frame() %>%
   select(3:5) %>%
   gt()
 ```
+
 # Household Income and Consumption
 
 ## Overall
@@ -231,15 +246,46 @@ inc_cnty <- inc_cnty_mn %>%
          upper=Percent+margin) %>%
   relocate(inc_lab, .after=income_source)
 
-inc_cnty_gt <- inc_cnty %>%
-  select(-2, -5) %>%
-  gt() %>%
-  fmt_percent(3:6,
-              decimals=1) %>%
-  cols_label(county="County",
-             inc_lab="Income source")
+#Reactable with filters for county and income source
 
-inc_cnty_gt
+inc_cnty_obj <- inc_cnty %>% 
+  select(-2, -5, -6) 
+
+data_inc_cnty_obj <- SharedData$new(inc_cnty_obj)
+
+bscols(
+  widths = c(3, 9)
+  , list(filter_select("county"
+                       , "County"
+                       , data_inc_cnty_obj
+                       , ~county)
+         ,filter_select("inc_lab"
+                       , "Income source"
+                       , data_inc_cnty_obj
+                       , ~inc_lab))
+  , reactable(data_inc_cnty_obj, showPageSizeOptions = T, highlight = T, columns = list(
+    county = colDef(name = "County")
+    , inc_lab = colDef(name = "Income source", minWidth = 150)
+    , Percent = colDef(name = "Percent"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , lower = colDef(name = "Lower"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , upper = colDef(name = "Upper"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+  )))
+
+#inc_cnty_gt <- inc_cnty %>%
+ # select(-2, -5) %>%
+ # gt() %>%
+ # fmt_percent(3:6,
+ #             decimals=1) %>%
+ # cols_label(county="County",
+ #            inc_lab="Income source")
+
+#inc_cnty_gt
 ```
 
 ### Wide format to better show income source across county.
@@ -252,14 +298,66 @@ inc_cnty_wide <- inc_cnty %>%
   pivot_wider(names_from=county,
               values_from=Percent)
 
+#Reactable with filter on Income source
+data_inc_cnty_wide <- SharedData$new(inc_cnty_wide)
 
-inc_cnty_wide_gt <- inc_cnty_wide %>%
-  gt() %>%
-  fmt_percent(2:14,
-              decimals=0) %>%
-  cols_label(inc_lab="Income source")
+bscols(
+  widths = c(3, 9)
+  , list(filter_select("inc_lab"
+                       , "Income source"
+                       , data_inc_cnty_wide
+                       , ~inc_lab))
+  , reactable(data_inc_cnty_wide, showPageSizeOptions = T, highlight = T,  columns = list(
+    inc_lab = colDef(name = "Income source"
+                     , minWidth = 150)
+    , Akobo = colDef(name = "Akobo"
+                       , format = colFormat(percent = T, digits = 1))
+    , Baliet = colDef(name = "Baliet"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Budi = colDef(name = "Budi"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Duk = colDef(name = "Duk"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , "Jur River" = colDef(name = "Jur River"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , "Kapoeta North" = colDef(name = "Kapoeta North"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Leer = colDef(name = "Leer"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Mayendit = colDef(name = "Mayendit"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Paynijar = colDef(name = "Paynijar"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Pibor = colDef(name = "Pibor"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Ulang = colDef(name = "Ulang"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Uror = colDef(name = "Uror"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Wau = colDef(name = "Wau"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+  )))
 
-inc_cnty_wide_gt
+
+#inc_cnty_wide_gt <- inc_cnty_wide %>%
+#  gt() %>%
+ # fmt_percent(2:14,
+ #             decimals=0) %>%
+ # cols_label(inc_lab="Income source")
+
+#inc_cnty_wide_gt
 ```
 
 # Dietary diversity
@@ -388,9 +486,10 @@ bscols(
                        , "Food Item"
                        , data_diet_cnty_obj
                        , ~label))
-  , reactable(data_diet_cnty_obj, columns = list(
+  , reactable(data_diet_cnty_obj, showPageSizeOptions = T, highlight = T, columns = list(
     county = colDef(name = "County")
-    , label = colDef(name = "Food Item")
+    , label = colDef(name = "Food Item"
+                     , minWidth = 150)
     , Value = colDef(name = "Percent"
                      , format = colFormat(percent = T
                                           , digits = 1))
@@ -403,7 +502,6 @@ bscols(
   )))
 
 ```
-
 
 # Food insecurity
 
