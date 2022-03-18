@@ -9,21 +9,22 @@ unnamed-chunk-16
 unnamed-chunk-18	
 unnamed-chunk-20	
 unnamed-chunk-22	
-unnamed-chunk-24	inc_ov_tmp
-unnamed-chunk-26	inc_gt	inc_ov	inc_ov_mn	inc_ov_se	ov_cols
-unnamed-chunk-28	inc_cnty_tmp
-unnamed-chunk-30	cnty_cols	inc_cnty	inc_cnty_gt	inc_cnty_mn	inc_cnty_se
-unnamed-chunk-32	inc_cnty_wide	inc_cnty_wide_gt
-unnamed-chunk-34	diet_ov	diet_ov_gt	q403	q404	q405	q406	q407	q408	q409	q410	q411	q412	q413	q414	q415	q416	q417	q418	q419
-unnamed-chunk-36	diet_cnty	q403_cnty	q404_cnty	q405_cnty	q406_cnty	q407_cnty	q408_cnty	q409_cnty	q410_cnty	q411_cnty	q412_cnty	q413_cnty	q414_cnty	q415_cnty	q416_cnty	q417_cnty	q418_cnty	q419_cnty
-unnamed-chunk-38	data_diet_cnty_obj	diet_cnty_obj
-unnamed-chunk-40	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-40_ddfb9604f80916cac4355d52cded9ba7_meta
-unnamed-chunk-42	fies_items	q422	q423	q424	q425	q426	q427	q428	q429
-unnamed-chunk-44	fies_items_gt
-unnamed-chunk-46	q430
-unnamed-chunk-48	q431
-unnamed-chunk-50	q432
-unnamed-chunk-52	q433
-unnamed-chunk-54	q434
-unnamed-chunk-56	q435
-unnamed-chunk-58	grps_sum	grps_sum_gt
+unnamed-chunk-24	
+unnamed-chunk-26	inc_ov_tmp
+unnamed-chunk-28	inc_gt	inc_ov	inc_ov_mn	inc_ov_se	ov_cols
+unnamed-chunk-30	inc_cnty_tmp
+unnamed-chunk-32	cnty_cols	data_inc_cnty_obj	inc_cnty	inc_cnty_mn	inc_cnty_obj	inc_cnty_se	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-32_2cb0ba0d822345d43e430cb3c854f9ce_meta
+unnamed-chunk-34	data_inc_cnty_wide	inc_cnty_wide	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-34_48e23bfcca33331835e686d40eac31f5_meta
+unnamed-chunk-36	diet_ov	diet_ov_gt	q403	q404	q405	q406	q407	q408	q409	q410	q411	q412	q413	q414	q415	q416	q417	q418	q419
+unnamed-chunk-38	diet_cnty	q403_cnty	q404_cnty	q405_cnty	q406_cnty	q407_cnty	q408_cnty	q409_cnty	q410_cnty	q411_cnty	q412_cnty	q413_cnty	q414_cnty	q415_cnty	q416_cnty	q417_cnty	q418_cnty	q419_cnty
+unnamed-chunk-40	data_diet_cnty_obj	diet_cnty_obj
+unnamed-chunk-42	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-42_c0c23f44afcdcdf839a979853064040f_meta
+unnamed-chunk-44	fies_items	q422	q423	q424	q425	q426	q427	q428	q429
+unnamed-chunk-46	fies_items_gt
+unnamed-chunk-48	q430
+unnamed-chunk-50	q431
+unnamed-chunk-52	q432
+unnamed-chunk-54	q433
+unnamed-chunk-56	q434
+unnamed-chunk-58	q435
+unnamed-chunk-60	grps_sum	grps_sum_gt
