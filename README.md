@@ -20,3 +20,7 @@ Environmental forces may play a role in affecting household resilience, and mode
 
 
 [**General frequencies**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South%20Sudan%20resilience%20-%20frequencies.html)
+
+
+[**Response to comments**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South%20Sudan%20resilience%20-%20response%20to%20selected%20comments.html)
+
