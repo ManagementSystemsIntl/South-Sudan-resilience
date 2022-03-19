@@ -363,6 +363,36 @@ bscols(
 #inc_cnty_wide_gt
 ```
 
+## By reported conflicts
+
+```{r}
+inc_ov_tmp <- svyrdat %>%
+  group_by() %>%
+  summarize(crop_production=survey_mean(q_401_a_bin),
+            cattle_production = survey_mean(q_401_b_bin),
+            goat_production = survey_mean(q_401_c_bin),
+            sheep_production = survey_mean(q_401_d_bin),
+            fishing = survey_mean(q_401_e_bin),
+            Agwage_within = survey_mean(q_401_f_bin),
+            Agwage_without = survey_mean(q_401_g_bin),
+            nonAgwage_within = survey_mean(q_401_h_bin),
+            nonAgwage_without = survey_mean(q_401_i_bin),
+            salary = survey_mean(q_401_j_bin),
+            bush_products = survey_mean(q_401_k_bin),
+            honey = survey_mean(q_401_l_bin),
+            petty_trade_other = survey_mean(q_401_m_bin),
+            petty_trade_own = survey_mean(q_401_n_bin),
+            ownbiz_ag = survey_mean(q_401_o_bin),
+            ownbiz_nonag = survey_mean(q_401_p_bin),
+            rent = survey_mean(q_401_q_bin),
+            remit = survey_mean(q_401_r_bin),
+            gifts = survey_mean(q_401_s_bin),
+            safety_net = survey_mean(q_401_t_bin))
+
+```
+
+
+
 # Dietary diversity
 
 Overall frequencies, ranked in descending order
@@ -695,3 +725,16 @@ grps_sum_gt <- grps_sum %>%
 
 grps_sum_gt
 ```
+
+
+# Household shocks
+
+```{r}
+q436 <- svy_disag(svyrdat, q_436, "436","Flooding")
+q436
+```
+
+
+
+
+

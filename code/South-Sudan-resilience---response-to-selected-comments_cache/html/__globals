@@ -1,5 +1,10 @@
-unnamed-chunk-2	~	summary	svydat	svyglm
-unnamed-chunk-4	$	%>%	[<-	aov	arrange	data.frame	gt	map	p.adj	round	rownames_to_column	s1	TukeyHSD
-unnamed-chunk-6	here	include_graphics
+unnamed-chunk-2	%>%	~	==	c	case_when	educ	here	ifelse	mutate	q_302	q_304	read_dta	rename	set_labels	sex
+unnamed-chunk-4	~	summary	svydat	svyglm
+unnamed-chunk-6	$	%>%	[<-	<	aov	arrange	data.frame	filter	gt	map	p.adj	round	rownames_to_column	s1	TukeyHSD
 unnamed-chunk-8	here	include_graphics
 unnamed-chunk-10	here	include_graphics
+unnamed-chunk-12	$	%>%	data.frame	frq	gt	hh	select
+unnamed-chunk-14	$	%>%	age	as_character	fmt_percent	frq	group_by	gt	hh	income	mean	mutate	n	primary	q_314	select	std.error	summarize	T
+unnamed-chunk-16	$	%>%	arrange	as_character	desc	fmt_percent	frq	group_by	gt	hh	income	mean	mutate	q_314	summarize	youth
+unnamed-chunk-18	$	%>%	frq	ifelse	is.na	mutate	q_602_2
+unnamed-chunk-20	%>%	arrange	as.data.frame	c	conflict_water_all	dat	desc	group_by	gt	incrank_fac_agwage	incrank_fac_farm	incrank_fac_honeygiftfish	incrank_fac_livestock	incrank_fac_pettytradeown	incrank_fac_rentremitsal	incrank_fac_selfemployed	incrank_fac_wageout	mean	rownames_to_column	set_names	slice	summarize	t	T	Water conflict
