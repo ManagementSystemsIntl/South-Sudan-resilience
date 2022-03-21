@@ -55,6 +55,9 @@ facet_style <- function(){theme_bw() +
           strip.text=element_text(size=14, family="Source Sans Pro"))
 }
 
+# keys
+
+county_key <- read_csv("output/tables/keys/county_key.csv")
 
 # read data
 

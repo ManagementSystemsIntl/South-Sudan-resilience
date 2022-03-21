@@ -17,3 +17,10 @@ The survey asks six questions relating to problems with thoughts, feelings, beha
 Environmental forces may play a role in affecting household resilience, and modeling that influence may help stakeholders better understand household resilience. The study team gathered three sources of contextual data: conflict event data, a measure of human displacement by county, and the length of paved roads by county. This output  explores this contextual information to assess its suitability for incorporating into descriptive models of household resilience. 
 
 [**Household shocks**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South-Sudan-resilience---Shocks-explore.html)
+
+
+[**General frequencies**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South%20Sudan%20resilience%20-%20frequencies.html)
+
+
+[**Response to comments**](https://managementsystemsintl.github.io/South-Sudan-resilience/code/South%20Sudan%20resilience%20-%20response%20to%20selected%20comments.html)
+

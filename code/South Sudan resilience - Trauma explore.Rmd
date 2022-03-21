@@ -23,11 +23,6 @@ library(here)
 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-svyrdat <- dat %>%
-  as_survey_design(ids = ea,
-                   strata=county,
-                   weights=final_wt1)
-
 ```
 
 # Introduction
@@ -92,6 +87,13 @@ trauma_out <- svyrdat %>%
 
 trauma_out
 
+trauma_out_gt <- trauma_out %>%
+  gt() %>%
+  fmt_percent(4,
+             decimals=1)
+
+
+trauma_out_gt
 
 ```
 

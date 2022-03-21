@@ -24,7 +24,7 @@ shock_key <- shock_key %>%
 shock_key
 str(shock_key)
 
-write_csv(shock_key, "output/tables/shocks/shock key.csv")
+write_csv(here(shock_key, "output/tables/shocks/shock key.csv"))
 
 getwd()
 

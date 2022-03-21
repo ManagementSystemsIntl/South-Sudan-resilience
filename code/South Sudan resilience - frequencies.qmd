@@ -1,0 +1,740 @@
+---
+title: "South Sudan resilience baseline"
+subtitle: "Survey frequencies"
+author: "Dan Killian"
+toc: true
+toc-depth: 3
+number-sections: true
+format:
+  html:
+    code-fold: true
+editor: visual
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+
+# standard figure size and generate clean output
+knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+source("00 South Sudan resilience - prep.R")
+library(crosstalk) #Allows objects to "talk" to each other
+library(reactable) #Creates a table that can be interactive
+
+hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>%
+  rename(age = q_304, 
+         sex=q_302)
+
+```
+
+# Household roster
+
+The following frequencies describe the 41,824 household members enumerated in the 7,872 household interviews.
+
+## 302 Sex of household member
+
+```{r}
+frq(hh$sex) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt() 
+```
+
+## 303 Relationship to head of household
+
+```{r}
+frq(hh$q_303) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 304 Age
+
+```{r}
+describe(hh$age)
+```
+
+```{r}
+ggplot(hh, aes(age)) + 
+  geom_density(color="blue", fill="lavender", alpha=.8)
+```
+
+## 305 Can read or write
+
+```{r}
+frq(hh$q_305) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 306 Ever attended school
+
+```{r}
+frq(hh$q_306) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 307 Reason never attended school
+
+```{r}
+frq(hh$q_307) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 308 Highest education attained
+
+```{r}
+frq(hh$q_308) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 309 Marital status
+
+```{r}
+frq(hh$q_309) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+## 314 Economic activity of household member
+
+```{r}
+frq(hh$q_314) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+What proportion of households
+
+```{r}
+
+```
+
+## 315 Vaccinated for measles
+
+```{r}
+frq(hh$q_315) %>%
+  data.frame() %>%
+  select(3:5) %>%
+  gt()
+```
+
+# Household Income and Consumption
+
+## Overall
+
+```{r}
+inc_ov_tmp <- svyrdat %>%
+  group_by() %>%
+  summarize(crop_production=survey_mean(q_401_a_bin),
+            cattle_production = survey_mean(q_401_b_bin),
+            goat_production = survey_mean(q_401_c_bin),
+            sheep_production = survey_mean(q_401_d_bin),
+            fishing = survey_mean(q_401_e_bin),
+            Agwage_within = survey_mean(q_401_f_bin),
+            Agwage_without = survey_mean(q_401_g_bin),
+            nonAgwage_within = survey_mean(q_401_h_bin),
+            nonAgwage_without = survey_mean(q_401_i_bin),
+            salary = survey_mean(q_401_j_bin),
+            bush_products = survey_mean(q_401_k_bin),
+            honey = survey_mean(q_401_l_bin),
+            petty_trade_other = survey_mean(q_401_m_bin),
+            petty_trade_own = survey_mean(q_401_n_bin),
+            ownbiz_ag = survey_mean(q_401_o_bin),
+            ownbiz_nonag = survey_mean(q_401_p_bin),
+            rent = survey_mean(q_401_q_bin),
+            remit = survey_mean(q_401_r_bin),
+            gifts = survey_mean(q_401_s_bin),
+            safety_net = survey_mean(q_401_t_bin))
+
+```
+
+```{r}
+ov_cols <- seq_len(40) %% 2
+
+inc_ov_mn <- inc_ov_tmp[, ov_cols==T] %>%
+    pivot_longer(cols=1:20,
+               names_to="income_source",
+               values_to="Percent") %>%
+  mutate(inc_lab=inc_labs) %>%
+  relocate(inc_lab, .after=income_source)
+
+inc_ov_se <- inc_ov_tmp[,ov_cols==F] %>%
+  pivot_longer(cols=1:20,
+               names_to="income_source",
+               values_to="se")
+
+inc_ov <- inc_ov_mn %>%
+  bind_cols(inc_ov_se[,2]) %>%
+  mutate(margin=se*1.96,
+         lower=Percent-margin,
+         upper=Percent+margin)
+
+inc_gt <- inc_ov %>%
+  select(-1, -4) %>%
+  arrange(desc(Percent)) %>%
+  gt() %>%
+  fmt_percent(2:5,
+              decimals=1) %>%
+  cols_label(inc_lab="Income source") %>%
+  tab_source_note("Survey instsrument items 401a-t")
+
+
+inc_gt
+
+```
+
+## By county
+
+### Long format, with confidence intervals
+
+```{r}
+inc_cnty_tmp <- svyrdat %>%
+  group_by(county) %>%
+  summarize(crop_production=survey_mean(q_401_a_bin),
+            cattle_production = survey_mean(q_401_b_bin),
+            goat_production = survey_mean(q_401_c_bin),
+            sheep_production = survey_mean(q_401_d_bin),
+            fishing = survey_mean(q_401_e_bin),
+            Agwage_within = survey_mean(q_401_f_bin),
+            Agwage_without = survey_mean(q_401_g_bin),
+            nonAgwage_within = survey_mean(q_401_h_bin),
+            nonAgwage_without = survey_mean(q_401_i_bin),
+            salary = survey_mean(q_401_j_bin),
+            bush_products = survey_mean(q_401_k_bin),
+            honey = survey_mean(q_401_l_bin),
+            petty_trade_other = survey_mean(q_401_m_bin),
+            petty_trade_own = survey_mean(q_401_n_bin),
+            ownbiz_ag = survey_mean(q_401_o_bin),
+            ownbiz_nonag = survey_mean(q_401_p_bin),
+            rent = survey_mean(q_401_q_bin),
+            remit = survey_mean(q_401_r_bin),
+            gifts = survey_mean(q_401_s_bin),
+            safety_net = survey_mean(q_401_t_bin))
+```
+
+```{r}
+cnty_cols <- seq_len(41) %% 2
+
+inc_cnty_mn <- inc_cnty_tmp[, cnty_cols==F] %>%
+  mutate(county=county_key$county) %>%
+  relocate(county, .before=1) %>%
+  pivot_longer(cols=2:21,
+               names_to="income_source",
+               values_to="Percent") %>%
+  mutate(inc_lab = rep(inc_labs, 13))
+
+inc_cnty_se <- inc_cnty_tmp[,cnty_cols==T] %>%
+  pivot_longer(cols=2:21,
+               names_to="income_source",
+               values_to="se")
+
+inc_cnty <- inc_cnty_mn %>%
+  bind_cols(inc_cnty_se[,3]) %>%
+  mutate(margin=se*1.96,
+         lower=Percent-margin,
+         upper=Percent+margin) %>%
+  relocate(inc_lab, .after=income_source)
+
+#Reactable with filters for county and income source
+
+inc_cnty_obj <- inc_cnty %>% 
+  select(-2, -5, -6) 
+
+data_inc_cnty_obj <- SharedData$new(inc_cnty_obj)
+
+bscols(
+  widths = c(3, 9)
+  , list(filter_select("county"
+                       , "County"
+                       , data_inc_cnty_obj
+                       , ~county)
+         ,filter_select("inc_lab"
+                       , "Income source"
+                       , data_inc_cnty_obj
+                       , ~inc_lab))
+  , reactable(data_inc_cnty_obj, showPageSizeOptions = T, highlight = T, columns = list(
+    county = colDef(name = "County")
+    , inc_lab = colDef(name = "Income source", minWidth = 150)
+    , Percent = colDef(name = "Percent"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , lower = colDef(name = "Lower"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , upper = colDef(name = "Upper"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+  )))
+
+#inc_cnty_gt <- inc_cnty %>%
+ # select(-2, -5) %>%
+ # gt() %>%
+ # fmt_percent(3:6,
+ #             decimals=1) %>%
+ # cols_label(county="County",
+ #            inc_lab="Income source")
+
+#inc_cnty_gt
+```
+
+### Wide format to better show income source across county.
+
+```{r}
+
+inc_cnty_wide <- inc_cnty %>%
+  select(1,3,4) %>%
+  as.data.frame() %>%
+  pivot_wider(names_from=county,
+              values_from=Percent)
+
+#Reactable with filter on Income source
+data_inc_cnty_wide <- SharedData$new(inc_cnty_wide)
+
+bscols(
+  widths = c(3, 9)
+  , list(filter_select("inc_lab"
+                       , "Income source"
+                       , data_inc_cnty_wide
+                       , ~inc_lab))
+  , reactable(data_inc_cnty_wide, showPageSizeOptions = T, highlight = T,  columns = list(
+    inc_lab = colDef(name = "Income source"
+                     , minWidth = 150
+                     , sticky = "left"
+                     , style = list(borderRight = "1px solid #eee"),
+      headerStyle = list(borderRight = "1px solid #eee"))
+    , Akobo = colDef(name = "Akobo"
+                       , format = colFormat(percent = T, digits = 1))
+    , Baliet = colDef(name = "Baliet"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Budi = colDef(name = "Budi"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Duk = colDef(name = "Duk"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , "Jur River" = colDef(name = "Jur River"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , "Kapoeta North" = colDef(name = "Kapoeta North"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Leer = colDef(name = "Leer"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Mayendit = colDef(name = "Mayendit"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Paynijar = colDef(name = "Paynijar"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Pibor = colDef(name = "Pibor"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Ulang = colDef(name = "Ulang"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Uror = colDef(name = "Uror"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Wau = colDef(name = "Wau"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+  )))
+
+
+#inc_cnty_wide_gt <- inc_cnty_wide %>%
+#  gt() %>%
+ # fmt_percent(2:14,
+ #             decimals=0) %>%
+ # cols_label(inc_lab="Income source")
+
+#inc_cnty_wide_gt
+```
+
+## By reported conflicts
+
+```{r}
+inc_ov_tmp <- svyrdat %>%
+  group_by() %>%
+  summarize(crop_production=survey_mean(q_401_a_bin),
+            cattle_production = survey_mean(q_401_b_bin),
+            goat_production = survey_mean(q_401_c_bin),
+            sheep_production = survey_mean(q_401_d_bin),
+            fishing = survey_mean(q_401_e_bin),
+            Agwage_within = survey_mean(q_401_f_bin),
+            Agwage_without = survey_mean(q_401_g_bin),
+            nonAgwage_within = survey_mean(q_401_h_bin),
+            nonAgwage_without = survey_mean(q_401_i_bin),
+            salary = survey_mean(q_401_j_bin),
+            bush_products = survey_mean(q_401_k_bin),
+            honey = survey_mean(q_401_l_bin),
+            petty_trade_other = survey_mean(q_401_m_bin),
+            petty_trade_own = survey_mean(q_401_n_bin),
+            ownbiz_ag = survey_mean(q_401_o_bin),
+            ownbiz_nonag = survey_mean(q_401_p_bin),
+            rent = survey_mean(q_401_q_bin),
+            remit = survey_mean(q_401_r_bin),
+            gifts = survey_mean(q_401_s_bin),
+            safety_net = survey_mean(q_401_t_bin))
+
+```
+
+
+
+# Dietary diversity
+
+Overall frequencies, ranked in descending order
+
+```{r}
+q403 <- svy_disag(svyrdat, "", q_403, "403","Cereals")
+q404 <- svy_disag(svyrdat, "", q_404, "404","Roots/tubers")
+q405 <- svy_disag(svyrdat, "", q_405, "405","Vitamin A vegetables")
+q406 <- svy_disag(svyrdat, "", q_406, "406","Leafy greens")
+q407 <- svy_disag(svyrdat, "", q_407, "407","Other vegetables")
+q408 <- svy_disag(svyrdat, "", q_408, "408","Vitamin A fruits")
+q409 <- svy_disag(svyrdat, "", q_409, "409","Other fruits")
+q410 <- svy_disag(svyrdat, "", q_410, "410","Organ meat")
+q411 <- svy_disag(svyrdat, "", q_411, "411","Domesticated meat")
+q412 <- svy_disag(svyrdat, "", q_412, "412","Bush meat")
+q413 <- svy_disag(svyrdat, "", q_413, "413","Eggs")
+q414 <- svy_disag(svyrdat, "", q_414, "414","Fish")
+q415 <- svy_disag(svyrdat, "", q_415, "415","Legumes")
+q416 <- svy_disag(svyrdat, "", q_416, "416","Milk products")
+q417 <- svy_disag(svyrdat, "", q_417, "417","Oil and fats")
+q418 <- svy_disag(svyrdat, "", q_418, "418","Sweets")
+q419 <- svy_disag(svyrdat, "", q_419, "419","Spices/condiments")
+
+diet_ov <- bind_rows(q403,
+                       q404,
+                       q405,
+                       q406,
+                       q407,
+                       q408,
+                       q409,
+                       q410,
+                       q411,
+                       q412,
+                       q413,
+                       q414,
+                       q415,
+                       q416,
+                       q417,
+                       q418,
+                       q419) %>%
+  select(Item=var_name,
+         Food=label,
+         Percent=Value, lower, upper) %>%
+  arrange(desc(Percent))
+
+write_csv(diet_ov, here("output/tables/food insecurity/diet items overall.csv"))
+
+#gtsave(diet_ov_gt, here("output/tables/food insecurity/diet items overall.rtf"))
+
+diet_ov_gt <- diet_ov %>%
+  gt() %>%
+  fmt_percent(3:5,
+              decimals=1)
+
+diet_ov_gt
+
+```
+
+## Dietary diversity by county
+
+```{r}
+q403_cnty <- svy_disag(svyrdat, county, q_403, "403","Cereals")
+q404_cnty <- svy_disag(svyrdat, county, q_404, "404","Roots/tubers")
+q405_cnty <- svy_disag(svyrdat, county, q_405, "405","Vitamin A vegetables")
+q406_cnty <- svy_disag(svyrdat, county, q_406, "406","Leafy greens")
+q407_cnty <- svy_disag(svyrdat, county, q_407, "407","Other vegetables")
+q408_cnty <- svy_disag(svyrdat, county, q_408, "408","Vitamin A fruits")
+q409_cnty <- svy_disag(svyrdat, county, q_409, "409","Other fruits")
+q410_cnty <- svy_disag(svyrdat, county, q_410, "410","Organ meat")
+q411_cnty <- svy_disag(svyrdat, county, q_411, "411","Domesticated meat")
+q412_cnty <- svy_disag(svyrdat, county, q_412, "412","Bush meat")
+q413_cnty <- svy_disag(svyrdat, county, q_413, "413","Eggs")
+q414_cnty <- svy_disag(svyrdat, county, q_414, "414","Fish")
+q415_cnty <- svy_disag(svyrdat, county, q_415, "415","Legumes")
+q416_cnty <- svy_disag(svyrdat, county, q_416, "416","Milk products")
+q417_cnty <- svy_disag(svyrdat, county, q_417, "417","Oil and fats")
+q418_cnty <- svy_disag(svyrdat, county, q_418, "418","Sweets")
+q419_cnty <- svy_disag(svyrdat, county, q_419, "419","Spices/condiments")
+
+diet_cnty <- bind_rows(q403_cnty,
+                       q404_cnty,
+                       q405_cnty,
+                       q406_cnty,
+                       q407_cnty,
+                       q408_cnty,
+                       q409_cnty,
+                       q410_cnty,
+                       q411_cnty,
+                       q412_cnty,
+                       q413_cnty,
+                       q414_cnty,
+                       q415_cnty,
+                       q416_cnty,
+                       q417_cnty,
+                       q418_cnty,
+                       q419_cnty)
+
+write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"))
+
+# Object diet_cnty_obj is the object of "diet items by
+# county.csv"
+
+```
+
+```{r}
+
+# Object diet_cnty_obj is the object of "diet items by county.csv"
+
+diet_cnty_obj <- read_csv(here("output/tables/food insecurity/diet items by county.csv")) %>% 
+  select(county, label, Value, lower, upper)
+
+data_diet_cnty_obj <- SharedData$new(diet_cnty_obj)
+
+```
+
+```{r}
+bscols(
+  widths = c(3, 9)
+  , list(filter_select("county"
+                       , "County"
+                       , data_diet_cnty_obj
+                       , ~county)
+         ,filter_select("label"
+                       , "Food Item"
+                       , data_diet_cnty_obj
+                       , ~label))
+  , reactable(data_diet_cnty_obj, showPageSizeOptions = T, highlight = T, columns = list(
+    county = colDef(name = "County")
+    , label = colDef(name = "Food Item"
+                     , minWidth = 150)
+    , Value = colDef(name = "Percent"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , lower = colDef(name = "Lower"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , upper = colDef(name = "Upper"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+  )))
+
+```
+
+# Food insecurity
+
+## Food insecure behavior in previous 12 months
+
+```{r}
+
+q422 <- svy_disag(svyrdat, "", q_422, "worried", "Worried about not enough to eat") %>%
+  select(4,5,2,6,7)
+
+#q422
+
+q423 <- svy_disag(svyrdat, "", q_423, "unhealthy", "Unable to eat healthy") %>%
+  select(4,5,2,6,7)
+
+#q423
+
+q424 <- svy_disag(svyrdat, "", q_424, "few_foods", "Ate few kinds of foods") %>%
+  select(4,5,2,6,7)
+
+#q424
+
+q425 <- svy_disag(svyrdat, "", q_425, "skip", "Skipped a meal") %>%
+  select(4,5,2,6,7)
+
+#q425
+
+q426 <- svy_disag(svyrdat, "", q_426, "ate_less", "Ate less than needed") %>%
+  select(4,5,2,6,7)
+
+#q426
+
+q427 <- svy_disag(svyrdat, "", q_427, "no_food", "Did not have food") %>%
+  select(4,5,2,6,7)
+
+#q427
+
+q428 <- svy_disag(svyrdat, "", q_428, "not_eat", "Did not eat") %>%
+  select(4,5,2,6,7)
+
+#q428
+
+q429 <- svy_disag(svyrdat, "", q_429, "wholeday", "Went a day without eating") %>%
+  select(4,5,2,6,7)
+
+#q429
+
+fies_items <- do.call(rbind,
+                      list(q422,
+                           q423,
+                           q424,
+                           q425,
+                           q426,
+                           q427,
+                           q428,
+                           q429))
+
+
+#fies_items
+
+
+```
+
+```{r}
+fies_items_gt <- fies_items %>%
+  select(-1) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) %>%
+  cols_label(label="In previous 12 months..",
+             Value="Percent") %>%
+  tab_source_note("Survey instrument items 422-429") #%>%
+  #tab_source_note("Behavior in past 12 months")
+
+fies_items_gt
+
+#gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
+```
+
+## Food insecure behavior in previous four weeks
+
+```{r}
+
+q430 <- svy_disag(svyrdat, "", q_430, "no_food", "No food in house") %>%
+  select("In previous four weeks.."=5,Percent=2,6,7) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1)
+
+q430
+
+```
+
+```{r}
+
+# need to use survey package due to presence of not asked
+
+q431 <- svytable(~q_431,
+                     svydat,
+                     Ntotal=T) %>%
+  as.data.frame() %>%
+  mutate(Response=c("Rarely (1-2 times)",
+                    "Sometimes (3-10 times)",
+                    "Often (More than 10 times)")) %>%
+  select(3,Percent=2) %>%
+  gt() %>%
+  fmt_percent(2,
+              decimals=1) %>%
+  cols_label(Response=html("How often no food in house<br>in previous four weeks?"))
+
+q431
+```
+
+```{r}
+
+q432 <- svy_disag(svyrdat, "", q_432, "slept_hungry", "Went to bed hungry") %>%
+  select(5,Percent=2,6,7) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) %>%
+  cols_label(label="In the previous four weeks..")
+
+q432
+
+```
+
+```{r}
+
+# need to use survey package due to presence of not asked
+
+q433 <- svytable(~q_433,
+                     svydat,
+                     Ntotal=T) %>%
+  as.data.frame() %>%
+  mutate(Response=c("Rarely (1-2 times)",
+                    "Sometimes (3-10 times)",
+                    "Often (More than 10 times)")) %>%
+  select(3,Percent=2) %>%
+  gt() %>%
+  fmt_percent(2,
+              decimals=1) %>%
+  cols_label(Response=html("How often went to bed<br>hungry in past four weeks?"))
+
+q433
+```
+
+```{r}
+q434 <- svy_disag(svyrdat, "", q_434, "fast", "Went whole day without eating") %>%
+  select(5,Percent=2,6,7) %>%
+  gt() %>%
+  fmt_percent(2:4,
+              decimals=1) %>%
+  cols_label(label="In the previous four weeks..")
+
+q434
+```
+
+```{r}
+
+# need to use survey package due to presence of not asked
+
+q435 <- svytable(~q_435,
+                     svydat,
+                     Ntotal=T) %>%
+  as.data.frame() %>%
+  mutate(Response=c("Rarely (1-2 times)",
+                    "Sometimes (3-10 times)",
+                    "Often (More than 10 times)")) %>%
+  select(3,Percent=2) %>%
+  gt() %>%
+  fmt_percent(2,
+              decimals=1) %>%
+  cols_label(Response=html("How often went a whole day<br>without eating in past four weeks?"))
+
+q435
+```
+
+# Household involvement in the community
+
+## Community group participation
+
+```{r}
+
+grps_sum <- read_csv(here("output/tables/resilience/groups weighted.csv"))
+
+grps_sum_gt <- grps_sum %>%
+  gt()
+
+grps_sum_gt
+```
+
+
+# Household shocks
+
+```{r}
+q436 <- svy_disag(svyrdat, q_436, "436","Flooding")
+q436
+```
+
+
+
+
+

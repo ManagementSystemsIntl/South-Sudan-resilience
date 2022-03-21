@@ -1,6 +1,8 @@
 # South Sudan resilience 
 # data prep
 
+# packages ---- 
+
 packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr","extrafont", "extrafontdb", "janitor",
               "reshape2","tidyr","broom", "caret", "haven", "HH","Hmisc","lubridate","knitr", "margins", "magrittr", "plotrix",
               "scales","survey", "srvyr", "sysfonts", "foreign","car", "ICC", "openxlsx", "ggrepel", "readr",
@@ -10,6 +12,8 @@ packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr
               "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest", "ltm")
 
 lapply(packages, library, character.only=T)
+
+# formatting ---- 
 
 # font_import()
 # loadfonts(device="win")
@@ -47,86 +51,27 @@ faceted <- theme_bw() +
         strip.text=element_text(size=14, family="Source Sans Pro"))
 
 
+# colors
 
+# color_names <- c("USAID_blue","USAID_red","rich_black","medium_blue","light_blue", "web_blue","dark_red","dark_gray","medium_gray","light_gray")
+# 
+# color_id <- c("#002F6C", "#BA0C2F", "#212721", "#0067B9","#A7C6ED", "#205493","#651D32", "#6C6463", "#8C8985", "#CFCDC9")
+# 
+# USAID_palette <- data.frame(color=color_names,
+#                             id=color_id)
+# 
+# USAID_palette
 
-# functions ----
-
-ov_tab <- function(design, var) {
-
-  design %>%
-    #group_by({{groupvar}}) %>%
-    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
-              Sample=survey_total({{var}}, na.rm=T)) %>%
-    mutate(ind_type="Overall",
-           disag="disag",
-           margin = prop_se*1.96,
-           lower=prop - margin,
-           upper=prop + margin,
-           ci=paste(round(lower,3), round(upper,3), sep="-"))
-}
-
-disag_tab <- function(design, var, groupvar, ind_type, key) {
-
-  key <- key %>%
-    rename(disag=2)
-
-  design %>%
-    group_by({{groupvar}}) %>%
-    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
-              Sample=survey_total({{var}}, na.rm=T)) %>%
-    mutate(ind_type=ind_type,
-           margin = prop_se*1.96,
-           lower=prop - margin,
-           upper=prop + margin,
-           ci=paste(round(lower,3), round(upper,3), sep="-")) %>%
-    left_join(key) %>%
-    relocate(disag, .after=ind_type)
-}
-
-
-tidy_out <- function(data, term_key=term_key) {
-  tidy(data) %>%
-    mutate(lower = estimate - 1.96*std.error,
-           upper = estimate + 1.96*std.error,
-           color=case_when(lower > 0 ~ "#002F6C",
-                           upper < 0 ~ "#BA0C2F",
-                           TRUE ~ "#8C8985")) %>%
-    left_join(term_key) %>%
-    filter(term_lab != "Intercept")
-}
-
-
-regplot <- function(data, xmin, xmax, limits) {
-  p <- ggplot(data, aes(x=estimate, y=fct_reorder(term_lab, estimate)), color = color, fill = color) +
-    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
-    geom_errorbarh(aes(xmin=lower, xmax=upper), color=data$color, height=0, size=1.2, alpha = 0.7) +
-    geom_label(aes(label=paste0(round(estimate*100,1), "%" )),color = data$color, size=4.5) +
-    scale_x_continuous(breaks=seq(xmin, xmax, .05),
-                       limits=limits,
-                       labels = scales::percent_format(accuracy=1)) +
-    labs(x = "", y = "")
-
-  return(p)
-}
-
-revcode <- function(x) {
-  out <- (max(x) + 1) - x
-  out
-}
-
-print_factors <- function(x) {
-  print(paste("The factors of",x,"are:"))
-  for(i in 1:x) {
-    if((x %% i) == 0) {
-      print(i)
-    }
-  }
-}
-
-print_factors(105)
-
-#revcode(1:5)
-
+usaid_blue <- "#002F6C"
+usaid_red <- "#BA0C2F"
+rich_black <- "#212721"
+medium_blue <- "#0067B9"
+light_blue <- "#A7C6ED"
+web_blue <- "#205493"
+dark_red <- "#651D32"
+dark_grey <- "#6C6463"
+medium_grey <- "#8C8985"
+light_grey <- "#CFCDC9"
 
 # data ----
 
@@ -154,29 +99,10 @@ svyrdat <- dat %>%
    as_survey_design(ids = ea,
                     strata=county,
                     weights=final_wt1)
+
+# labels and keys ---- 
  
- 
- # colors
- 
- # color_names <- c("USAID_blue","USAID_red","rich_black","medium_blue","light_blue", "web_blue","dark_red","dark_gray","medium_gray","light_gray")
- # 
- # color_id <- c("#002F6C", "#BA0C2F", "#212721", "#0067B9","#A7C6ED", "#205493","#651D32", "#6C6463", "#8C8985", "#CFCDC9")
- # 
- # USAID_palette <- data.frame(color=color_names,
- #                             id=color_id)
- # 
- # USAID_palette
- 
- usaid_blue <- "#002F6C"
- usaid_red <- "#BA0C2F"
- rich_black <- "#212721"
- medium_blue <- "#0067B9"
- light_blue <- "#A7C6ED"
- web_blue <- "#205493"
- dark_red <- "#651D32"
- dark_grey <- "#6C6463"
- medium_grey <- "#8C8985"
- light_grey <- "#CFCDC9"
+
  
  inc_labs <- c("Farm/crop production",
                "Cattle production/sales",
@@ -220,7 +146,7 @@ svyrdat <- dat %>%
                "s. Gifts/inheritance",
                "t. Food / cash safety net")
 
-inc_key <- read_csv(here("output/tables/inc key.csv"))
+inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
   
 # inc_key <- data.frame(inc_code=1:20,
 #                        varname=names(inc),
@@ -287,6 +213,8 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 
  cnty_key 
  
+ county_key <- read_csv(here("output/tables/keys/county_key.csv"))
+ 
  diet_labs <- c("Cereals",
                 "Roots/tubers",
                 "Vit A vegetables",
@@ -308,8 +236,9 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
  diet_key <- data.frame(diet_code=1:17,
                         diet_lab=diet_labs) 
  
+ fies_key <- read_csv(here("output/tables/keys/fies key.csv"))
  
- conf_labs <- c("Land",
+  conf_labs <- c("Land",
                 "Water",
                 "Pasture",
                 "Forestry",
@@ -332,7 +261,7 @@ inc_key <- read_csv(here("output/tables/inc key.csv"))
 #  
 # write_csv(conf_key, "output/tables/conf_key.csv")
 
-conf_key <- read_csv("output/tables/conf_key.csv")
+conf_key <- read_csv(here("output/tables/keys/conf_key.csv"))
  
 conf_key 
 
@@ -381,7 +310,7 @@ grp_labs <- c("Water users",
               "Cattle protection",
               "Small animal herding")
 
-grp_key <- data.frame(grp_code=1:15,
+grp_key <- data.frame(grp_code=1:16,
                       grp_name = grp_labs)
 
 grp_key
@@ -402,3 +331,106 @@ ews_key <- data.frame(ews_code = 1:11,
                       ews_lab = ews_labs)
 
 ews_key
+
+emerg_labs <- c("Emergency action plan in place",
+  "Emergency plan addressed shock that household faced",
+  "Emergency plan successfully mitigated effect of shock",
+  "Disaster planning group in community")
+
+
+# functions ----
+
+ov_tab <- function(design, var) {
+  
+  design %>%
+    #group_by({{groupvar}}) %>%
+    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
+              Sample=survey_total({{var}}, na.rm=T)) %>%
+    mutate(ind_type="Overall",
+           disag="disag",
+           margin = prop_se*1.96,
+           lower=prop - margin,
+           upper=prop + margin,
+           ci=paste(round(lower,3), round(upper,3), sep="-"))
+}
+
+# disag_tab <- function(design, var, groupvar, ind_type, key) {
+# 
+#   key <- key %>%
+#     rename(disag=2)
+# 
+#   design %>%
+#     group_by({{groupvar}}) %>%
+#     summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
+#               Sample=survey_total({{var}}, na.rm=T)) %>%
+#     mutate(ind_type=ind_type,
+#            margin = prop_se*1.96,
+#            lower=prop - margin,
+#            upper=prop + margin,
+#            ci=paste(round(lower,3), round(upper,3), sep="-")) %>%
+#     left_join(key) %>%
+#     relocate(disag, .after=ind_type)
+# }
+
+#disag_tab(svyrdat, q_403, county, "County", county_key)
+
+
+svy_disag <- function(design, disaggregate, item, varname, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(#item={{item}},
+      var_name={{varname}},
+      label={{label}},
+      lower=Value-1.96*Value_se,
+      upper=Value+1.96*Value_se)
+  temp
+}
+
+#svy_disag(svyrdat, county, q_403, "cereals","Cereals")
+
+
+
+tidy_out <- function(data, term_key=term_key) {
+  tidy(data) %>%
+    mutate(lower = estimate - 1.96*std.error,
+           upper = estimate + 1.96*std.error,
+           color=case_when(lower > 0 ~ "#002F6C",
+                           upper < 0 ~ "#BA0C2F",
+                           TRUE ~ "#8C8985")) %>%
+    left_join(term_key) %>%
+    filter(term_lab != "Intercept")
+}
+
+
+regplot <- function(data, xmin, xmax, limits) {
+  p <- ggplot(data, aes(x=estimate, y=fct_reorder(term_lab, estimate)), color = color, fill = color) +
+    geom_vline(xintercept=0, color="darkgrey", size=1.2) +
+    geom_errorbarh(aes(xmin=lower, xmax=upper), color=data$color, height=0, size=1.2, alpha = 0.7) +
+    geom_label(aes(label=paste0(round(estimate*100,1), "%" )),color = data$color, size=4.5) +
+    scale_x_continuous(breaks=seq(xmin, xmax, .05),
+                       limits=limits,
+                       labels = scales::percent_format(accuracy=1)) +
+    labs(x = "", y = "")
+  
+  return(p)
+}
+
+revcode <- function(x) {
+  out <- (max(x) + 1) - x
+  out
+}
+
+print_factors <- function(x) {
+  print(paste("The factors of",x,"are:"))
+  for(i in 1:x) {
+    if((x %% i) == 0) {
+      print(i)
+    }
+  }
+}
+
+print_factors(105)
+
+#revcode(1:5)
+
