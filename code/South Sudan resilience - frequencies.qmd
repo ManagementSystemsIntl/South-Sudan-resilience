@@ -391,8 +391,6 @@ inc_ov_tmp <- svyrdat %>%
 
 ```
 
-
-
 # Dietary diversity
 
 Overall frequencies, ranked in descending order
@@ -726,15 +724,9 @@ grps_sum_gt <- grps_sum %>%
 grps_sum_gt
 ```
 
-
 # Household shocks
 
 ```{r}
 q436 <- svy_disag(svyrdat, q_436, "436","Flooding")
 q436
 ```
-
-
-
-
-
