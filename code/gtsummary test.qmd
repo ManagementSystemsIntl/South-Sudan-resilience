@@ -1,0 +1,53 @@
+---
+title: "Frequency testing"
+format: html
+editor: visual
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+
+# standard figure size and generate clean output
+knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here)
+source("00 South Sudan resilience - prep.R")
+library(crosstalk) #Allows objects to "talk" to each other
+library(reactable) #Creates a table that can be interactive
+
+hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>%
+  rename(age = q_304, 
+         sex=q_302)
+
+```
+
+```{r}
+dat %>%
+  tbl_summary(include=c(q_436, q_439),
+              label=list(q_436 ~ "Flooding",
+                         q_439 ~ "Drought"),
+              #type=all_continuous() ~ "continuous2",
+              statistic=all_continuous() ~ ("{mean}"),
+              missing="no") %>%
+  add_ci(pattern="{stat} ({ci})") %>%
+  bold_labels()
+```
+
+```{r}
+svydat %>%
+  tbl_svysummary(include=c("q_436", "q_439"),
+              label=list(q_436 ~ "Flooding",
+                         q_439 ~ "Drought"),
+              statistic=list(all_continuous() ~ "{mean}")) %>%
+  bold_labels()
+
+```
+
+```{r}
+svydat %>%
+  tbl_svysummary(include=c("q_436", "q_439"),
+              by=region,
+              label=list(q_436 ~ "Flooding",
+                         q_439 ~ "Drought"),
+              statistic=list(all_continuous() ~ "{mean} ({se})")) %>%
+  bold_labels()
+```

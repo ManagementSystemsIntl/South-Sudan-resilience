@@ -143,7 +143,7 @@ occ_yth %>%
 
 ## pg 27, Brian Hilton
 
-### Comment 
+### Comment
 
 Drinking water for people or water for cattle?
 
