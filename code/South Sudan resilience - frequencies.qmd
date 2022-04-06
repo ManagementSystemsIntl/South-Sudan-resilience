@@ -277,15 +277,6 @@ bscols(
                                           , digits = 1))
   )))
 
-#inc_cnty_gt <- inc_cnty %>%
- # select(-2, -5) %>%
- # gt() %>%
- # fmt_percent(3:6,
- #             decimals=1) %>%
- # cols_label(county="County",
- #            inc_lab="Income source")
-
-#inc_cnty_gt
 ```
 
 ### Wide format to better show income source across county.
@@ -390,8 +381,6 @@ inc_ov_tmp <- svyrdat %>%
             safety_net = survey_mean(q_401_t_bin))
 
 ```
-
-
 
 # Dietary diversity
 
@@ -726,15 +715,63 @@ grps_sum_gt <- grps_sum %>%
 grps_sum_gt
 ```
 
-
 # Household shocks
 
 ```{r}
-q436 <- svy_disag(svyrdat, q_436, "436","Flooding")
-q436
+
+#Flooding
+q436 <- ov_tab(design = svyrdat, var = q_436)
+
+#gt table
+
+q436_cnty <- svy_disag(design = svyrdat, item = q_436, disaggregate = county, varname = "q436", label = "Flooding")
+
+#Drought
+q439 <- ov_tab(design = svyrdat, var = q_439)
+
+q439_cnty <- svy_disag(design = svyrdat, item = q_439, disaggregate = county, varname = "q439", label = "Drought")
+
+#Erosion
+q442 <- ov_tab(design = svyrdat, var = q_442)
+
+q442_cnty <- svy_disag(design = svyrdat, item = q_442, disaggregate = county, varname = "q442", label = "Erosion")
+
+#Loss of land
+q445 <- ov_tab(design = svyrdat, var = q_445)
+
+q445_cnty <- svy_disag(design = svyrdat, item = q_445, disaggregate = county, varname = "q445", label = "Loss of land")
+
+#Increase in food prices
+q448 <- ov_tab(design = svyrdat, var = q_448)
+
+q448_cnty <- svy_disag(design = svyrdat, item = q_448, disaggregate = county, varname = "q448", label = "Increase in food prices")
+
+#Theft
+q451 <- ov_tab(design = svyrdat, var = q_451)
+
+q451_cnty <- svy_disag(design = svyrdat, item = q_451, disaggregate = county, varname = "q451", label = "Theft")
+
+#No crop inputs
+q455 <- ov_tab(design = svyrdat, var = q_455)
+
+q455_cnty <- svy_disag(design = svyrdat, item = q_455, disaggregate = county, varname = "q455", label = "No crop inputs")
+
+#Crop disease
+q458 <- ov_tab(design = svyrdat, var = q_458)
+
+q458_cnty <- svy_disag(design = svyrdat, item = q_458, disaggregate = county, varname = "q458", label = "Crop disease")
+
+#Crop pests
+q461 <- ov_tab(design = svyrdat, var = q_461)
+
+q461_cnty <- svy_disag(design = svyrdat, item = q_461, disaggregate = county, varname = "q461", label = "Crop pests")
+
+#Crop theft
+q464 <- ov_tab(design = svyrdat, var = q_464)
+
+q464_cnty <- svy_disag(design = svyrdat, item = q_464, disaggregate = county, varname = "q464", label = "Crop theft")
+                       
+#Make a mammoth table of all counties and #shocks 
+
+
 ```
-
-
-
-
-

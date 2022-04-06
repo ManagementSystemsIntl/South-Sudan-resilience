@@ -63,8 +63,13 @@ dat <- dat %>%
 trauma <- dat %>%
   select(trauma_thoughts:trauma_function)
 
+<<<<<<< HEAD
+trauma_out <- trauma %>%
+  summarize(trauma_thoughts=mean(trauma_thoughts))
+=======
 #trauma_out <- trauma %>%
 #  summarize(trauma_thoughts=mean(trauma_thoughts))
+>>>>>>> 53697d484cb70458c87d3338f2aaa536f3391614
 
 trauma_out <- svyrdat %>%
   group_by() %>%
@@ -90,6 +95,11 @@ trauma_out <- svyrdat %>%
 
 trauma_out
 
+<<<<<<< HEAD
+
+```
+
+=======
 trauma_out_gt <- trauma_out %>%
   gt() %>%
   fmt_percent(4,
@@ -161,6 +171,7 @@ gtsave(trauma_gt, here("output/tables/trauma items.rtf"))
 ```
 
 
+>>>>>>> 53697d484cb70458c87d3338f2aaa536f3391614
 A composite variable takes the value one if any of those symptoms were reported, zero otherwise. The incidence of this composite variable for exposure to trauma is 84 percent. 
 
 ```{r}
@@ -208,6 +219,8 @@ ggsave(here("output/viz/any trauma, by county label.png"),
        width=7)
 ```
 
+<<<<<<< HEAD
+=======
 ```{r}
 trauma_cnty2 <- svyrdat %>%
   group_by(county) %>%
@@ -222,6 +235,7 @@ trauma_cnty2
 ```
 
 
+>>>>>>> 53697d484cb70458c87d3338f2aaa536f3391614
 # Factor analysis 
 
 Using a composite variable for any sort of trauma is of uncertain utility. It may be more of interest to think of trauma as a psychosocial condition resulting from the stress of a household dealing with its schedule of shocks and stresses. We can conduct additional analysis to investigate whether the trauma variables cluster around specific types of trauma. 
@@ -282,6 +296,9 @@ feelings_cnty <- svyrdat %>%
   arrange(desc(trauma_feelings))
 
 feelings_cnty
+<<<<<<< HEAD
+```
+=======
 
 write_csv(feelings_cnty, here("output/tables/trauma feelings by county.csv"))
 
@@ -295,6 +312,7 @@ gtsave(feelings_cnty_gt, here("output/tables/trauma feelings by county.rtf"))
 
 ```
 
+>>>>>>> 53697d484cb70458c87d3338f2aaa536f3391614
 ```{r}
 ggplot(feelings_cnty, aes(trauma_feelings, fct_reorder(county, trauma_feelings))) + 
   geom_vline(xintercept=feelings_mn[,1], size=1, alpha=.7, color="darkgoldenrod2") +
