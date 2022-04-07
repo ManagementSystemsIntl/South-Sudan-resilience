@@ -718,6 +718,7 @@ grps_sum_gt
 # Household shocks
 
 Overall frequencies, ranked in descending order
+
 ```{r}
 
 #Flooding
@@ -959,4 +960,3 @@ bscols(
                                )))
 
 ```
-

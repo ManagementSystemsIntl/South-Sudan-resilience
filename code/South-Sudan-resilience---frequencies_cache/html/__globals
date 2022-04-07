@@ -29,4 +29,6 @@ unnamed-chunk-56	%>%	~	as.data.frame	c	cols_label	fmt_percent	gt	html	mutate	sel
 unnamed-chunk-58	%>%	cols_label	fmt_percent	gt	q_434	select	svy_disag	svyrdat
 unnamed-chunk-60	%>%	~	as.data.frame	c	cols_label	fmt_percent	gt	html	mutate	select	svydat	svytable	T
 unnamed-chunk-62	%>%	gt	here	read_csv
-unnamed-chunk-64	q_436	svy_disag	svyrdat
+unnamed-chunk-64	%>%	arrange	bind_rows	county	desc	fmt_percent	gt	here	lower	margin	mutate	ov_tab	Percent	prop	q_436	q_439	q_442	q_445	q_448	q_451	q_455	q_458	q_461	q_464	q_468	q_471	q_474	q_477	q_480	q_484	relocate	select	shock_labs	Shocks	svy_disag	svyrdat	upper	write_csv
+unnamed-chunk-66	$	%>%	~	bind_rows	bscols	c	colDef	colFormat	county	filter_select	label	list	lower	q436_cnty	q439_cnty	q442_cnty	q445_cnty	q448_cnty	q451_cnty	q455_cnty	q458_cnty	q461_cnty	q464_cnty	q468_cnty	q471_cnty	q474_cnty	q477_cnty	q480_cnty	q484_cnty	reactable	select	SharedData	T	upper	Value
+unnamed-chunk-68	$	%>%	~	as.data.frame	bscols	c	colDef	colFormat	County	filter_select	list	Percent	pivot_wider	reactable	select	SharedData	shocks_ov_cnty	T
