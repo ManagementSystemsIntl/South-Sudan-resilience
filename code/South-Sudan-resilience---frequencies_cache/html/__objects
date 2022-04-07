@@ -14,7 +14,11 @@ unnamed-chunk-26	inc_ov_tmp
 unnamed-chunk-28	inc_gt	inc_ov	inc_ov_mn	inc_ov_se	ov_cols
 unnamed-chunk-30	inc_cnty_tmp
 unnamed-chunk-32	cnty_cols	data_inc_cnty_obj	inc_cnty	inc_cnty_mn	inc_cnty_obj	inc_cnty_se	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-32_86982098571ba8e4ac631f9fbd0027b0_meta
+<<<<<<< HEAD
 unnamed-chunk-34	data_inc_cnty_wide	inc_cnty_wide
+=======
+unnamed-chunk-34	data_inc_cnty_wide	inc_cnty_wide	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-34_1b3e9a8da4ffc2041e6707a5ae9de83c_meta
+>>>>>>> 52f099c56dd27814726d24d795fe90a2c4d9303c
 unnamed-chunk-36	inc_ov_tmp
 unnamed-chunk-38	diet_ov	diet_ov_gt	q403	q404	q405	q406	q407	q408	q409	q410	q411	q412	q413	q414	q415	q416	q417	q418	q419
 unnamed-chunk-40	diet_cnty	q403_cnty	q404_cnty	q405_cnty	q406_cnty	q407_cnty	q408_cnty	q409_cnty	q410_cnty	q411_cnty	q412_cnty	q413_cnty	q414_cnty	q415_cnty	q416_cnty	q417_cnty	q418_cnty	q419_cnty
@@ -31,4 +35,8 @@ unnamed-chunk-60	q435
 unnamed-chunk-62	grps_sum	grps_sum_gt
 unnamed-chunk-64	q436	q436_cnty	q439	q439_cnty	q442	q442_cnty	q445	q445_cnty	q448	q448_cnty	q451	q451_cnty	q455	q455_cnty	q458	q458_cnty	q461	q461_cnty	q464	q464_cnty	q468	q468_cnty	q471	q471_cnty	q474	q474_cnty	q477	q477_cnty	q480	q480_cnty	q484	q484_cnty	shocks_ov	shocks_ov_gt
 unnamed-chunk-66	data_shocks_ov_cnty	shocks_ov_cnty	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-66_3972467721f35e20a5c68712a5a698a4_meta
+<<<<<<< HEAD
 unnamed-chunk-68	data_shocks_cnty_wide	shocks_cnty_wide
+=======
+unnamed-chunk-68	data_shocks_cnty_wide	shocks_cnty_wide	.South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-68_585cce62b9eb44201af488f55e095234_meta
+>>>>>>> 52f099c56dd27814726d24d795fe90a2c4d9303c
