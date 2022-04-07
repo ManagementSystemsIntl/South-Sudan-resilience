@@ -279,7 +279,7 @@ bscols(
 
 ```
 
-### Wide format to better show income source across county.
+### Wide format to better show income source across counties
 
 ```{r}
 
@@ -717,6 +717,7 @@ grps_sum_gt
 
 # Household shocks
 
+Overall frequencies, ranked in descending order
 ```{r}
 
 #Flooding
@@ -837,7 +838,8 @@ shocks_ov_gt <- shocks_ov %>%
 shocks_ov_gt
 ```
 
-#Make a mammoth table of all counties and #shocks 
+## Household shocks by county
+
 ```{r}
 shocks_ov_cnty <- bind_rows(q436_cnty,
                        q439_cnty,
@@ -890,3 +892,71 @@ bscols(
 
 
 ```
+
+### Wide format to better show shocks across counties
+
+```{r}
+shocks_cnty_wide <- shocks_ov_cnty %>%
+  select(1, 2, 3) %>% 
+  as.data.frame() %>% 
+  pivot_wider(names_from=County
+              , values_from=Percent)
+
+#Reactable with filter on Shocks
+data_shocks_cnty_wide <- SharedData$new(shocks_cnty_wide)
+
+bscols(
+  widths= c(3,9)
+  , list(filter_select("Shocks"
+                       , "Shocks"
+                       , data_shocks_cnty_wide
+                       , ~Shocks))
+  , reactable(data_shocks_cnty_wide, showPageSizeOptions = T
+              , highlight = T
+              , columns = list(Shocks = colDef(name = "Shocks"
+                                               , minWidth = 150
+                                               , sticky = "left"
+                                               , style = list(borderRight = "1px solid #eee")
+                                               , headerStyle = list(borderRight = "1px solid #eee"))
+                               , Akobo = colDef(name = "Akobo"
+                       , format = colFormat(percent = T, digits = 1))
+    , Baliet = colDef(name = "Baliet"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Budi = colDef(name = "Budi"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Duk = colDef(name = "Duk"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , "Jur River" = colDef(name = "Jur River"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , "Kapoeta North" = colDef(name = "Kapoeta North"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Leer = colDef(name = "Leer"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Mayendit = colDef(name = "Mayendit"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Paynijar = colDef(name = "Paynijar"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Pibor = colDef(name = "Pibor"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Ulang = colDef(name = "Ulang"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Uror = colDef(name = "Uror"
+                     , format = colFormat(percent = T
+                                          , digits = 1))
+    , Wau = colDef(name = "Wau"
+                     , format = colFormat(percent = T
+                                          , digits = 1)) 
+                               )))
+
+```
+
