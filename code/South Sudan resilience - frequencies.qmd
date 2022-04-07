@@ -722,9 +722,7 @@ grps_sum_gt
 #Flooding
 q436 <- ov_tab(design = svyrdat, var = q_436)
 
-#gt table
-
-q436_cnty <- svy_disag(design = svyrdat, item = q_436, disaggregate = county, varname = "q436", label = "Flooding")
+q436_cnty <- svy_disag(design = svyrdat, item = q_436, disaggregate = county, varname = "q436", label = "Floods")
 
 #Drought
 q439 <- ov_tab(design = svyrdat, var = q_439)
@@ -770,8 +768,125 @@ q461_cnty <- svy_disag(design = svyrdat, item = q_461, disaggregate = county, va
 q464 <- ov_tab(design = svyrdat, var = q_464)
 
 q464_cnty <- svy_disag(design = svyrdat, item = q_464, disaggregate = county, varname = "q464", label = "Crop theft")
-                       
+
+#No livestock inputs
+q468 <- ov_tab(design = svyrdat, var = q_468)
+
+q468_cnty <- svy_disag(design = svyrdat, item = q_468, disaggregate = county, varname = "q468", label = "No livestock inputs")
+
+#Livestock disease
+q471 <- ov_tab(design = svyrdat, var = q_471)
+
+q471_cnty <- svy_disag(design = svyrdat, item = q_471, disaggregate = county, varname = "q471", label = "Livestock disease")
+
+#Livestock theft
+q474 <- ov_tab(design = svyrdat, var = q_474)
+
+q474_cnty <- svy_disag(design = svyrdat, item = q_474, disaggregate = county, varname = "q474", label = "Livestock theft")
+
+#Unable to sell
+q477 <- ov_tab(design = svyrdat, var = q_477)
+
+q477_cnty <- svy_disag(design = svyrdat, item = q_477, disaggregate = county, varname = "q477", label = "Unable to sell")
+
+#Illness in household
+q480 <- ov_tab(design = svyrdat, var = q_480)
+
+q480_cnty <- svy_disag(design = svyrdat, item = q_480, disaggregate = county, varname = "q480", label = "Illness in household")
+
+#Death in household
+q484 <- ov_tab(design = svyrdat, var = q_484)
+
+q484_cnty <- svy_disag(design = svyrdat, item = q_484, disaggregate = county, varname = "q484", label = "Death in household")
+
+#Shocks overall frequencies
+shocks_ov <- bind_rows(q436,
+                       q439,
+                       q442,
+                       q445,
+                       q448,
+                       q451,
+                       q455,
+                       q458,
+                       q461,
+                       q464,
+                       q468,
+                       q471,
+                       q474,
+                       q477,
+                       q480,
+                       q484) %>% 
+  mutate(Shocks = shock_labs) %>% 
+  relocate(Shocks, .before=prop) %>% 
+  select(Shocks,
+         Percent=prop
+         , margin
+         , lower
+         , upper) %>% 
+  arrange(desc(Percent))
+
+write_csv(shocks_ov, here("output/tables/shocks/shocks overall.csv"))
+
+#gtsave(diet_ov_gt, here("output/tables/food insecurity/diet items overall.rtf"))
+
+shocks_ov_gt <- shocks_ov %>%
+  gt() %>%
+  fmt_percent(2:5,
+              decimals=1)
+
+shocks_ov_gt
+```
+
 #Make a mammoth table of all counties and #shocks 
+```{r}
+shocks_ov_cnty <- bind_rows(q436_cnty,
+                       q439_cnty,
+                       q442_cnty,
+                       q445_cnty,
+                       q448_cnty,
+                       q451_cnty,
+                       q455_cnty,
+                       q458_cnty,
+                       q461_cnty,
+                       q464_cnty,
+                       q468_cnty,
+                       q471_cnty,
+                       q474_cnty,
+                       q477_cnty,
+                       q480_cnty,
+                       q484_cnty)  %>% 
+  select(County = county
+         , Shocks = label
+         , Percent = Value
+         , Lower = lower
+         , Upper = upper)
+   
+#reactable for shocks by county
+data_shocks_ov_cnty <- SharedData$new(shocks_ov_cnty)
+
+bscols(
+  widths = c(3,9)
+  , list(filter_select("County"
+                       , "County"
+                       , data_shocks_ov_cnty
+                       , ~County)
+         , filter_select("Shocks"
+                         , "Shocks"
+                         , data_shocks_ov_cnty
+                         , ~Shocks))
+  , reactable(data_shocks_ov_cnty, showPageSizeOptions = T
+              , highlight = T
+              , columns = list(County = colDef(name = "County")
+                               , Shocks = colDef(minWidth = 150)
+                               , Percent = colDef(format = colFormat(percent = T
+                                                                     , digits = 1))
+                               , Lower = colDef(format = colFormat(percent = T
+                                                                     , digits = 1))
+                               , Upper = colDef(format = colFormat(percent = T
+                                                                     , digits = 1))
+              )))
+
+ 
 
 
 ```
