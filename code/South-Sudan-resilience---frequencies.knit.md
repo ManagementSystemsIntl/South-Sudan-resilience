@@ -950,7 +950,7 @@ describe(hh$age)
 ```
 
 ::: {.cell-output-display}
-preserve4bea74f4334feb69
+preserve2301afdf4bca7050
 :::
 :::
 
@@ -10327,7 +10327,7 @@ bscols(
 
 ### Wide format to better show shocks across counties
 
-::: {.cell hash='South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-68_585cce62b9eb44201af488f55e095234'}
+::: {.cell hash='South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-68_25131e0dc79297e80670e6b132598522'}
 
 ```{.r .cell-code}
 shocks_cnty_wide <- shocks_ov_cnty %>%
@@ -10345,13 +10345,13 @@ bscols(
                        , "Shocks"
                        , data_shocks_cnty_wide
                        , ~Shocks))
-  , reactable(data_shocks_cnty_wide, showPageSizeOptions = T
+  , reactable::reactable(data_shocks_cnty_wide, showPageSizeOptions = T
               , highlight = T
               , columns = list(Shocks = colDef(name = "Shocks"
-                                               , minWidth = 150
-                                               , sticky = "left"
-                                               , style = list(borderRight = "1px solid #eee")
-                                               , headerStyle = list(borderRight = "1px solid #eee"))
+                , minWidth = 150
+                , sticky = "left" 
+                , style = list(borderRight = "1px solid #eee")                                   , headerStyle = list(borderRight = "1px solid #eee"))
+                
                                , Akobo = colDef(name = "Akobo"
                        , format = colFormat(percent = T, digits = 1))
     , Baliet = colDef(name = "Baliet"
