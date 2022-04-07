@@ -907,14 +907,14 @@ shocks_cnty_wide <- shocks_ov_cnty %>%
 data_shocks_cnty_wide <- SharedData$new(shocks_cnty_wide)
 
 bscols(
-  widths= c(3,9)
-  , list(filter_select("Shocks"
+  widths= c(2,10)
+  , list(filter_select("Shock"
                        , "Shocks"
                        , data_shocks_cnty_wide
                        , ~Shocks))
   , reactable::reactable(data_shocks_cnty_wide, showPageSizeOptions = T
               , highlight = T
-              , columns = list(Shocks = colDef(name = "Shocks"
+              , columns = list(Shocks = colDef(name = "Shock"
                 , minWidth = 150
                 , sticky = "left" 
                 , style = list(borderRight = "1px solid #eee")                                   , headerStyle = list(borderRight = "1px solid #eee"))
