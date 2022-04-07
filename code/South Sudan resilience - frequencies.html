@@ -97,7 +97,7 @@
   <script src="South Sudan resilience - frequencies_files\libs/react-17.0.0/react-dom.min.js"></script>
   <script src="South Sudan resilience - frequencies_files\libs/reactwidget-1.0.0/react-tools.js"></script>
   <script src="South Sudan resilience - frequencies_files\libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-  <script src="South Sudan resilience - frequencies_files\libs/reactable-binding-0.2.3.9000/reactable.js"></script>
+  <script src="South Sudan resilience - frequencies_files\libs/reactable-binding-0.2.3/reactable.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="South Sudan resilience - frequencies_files\libs/bootstrap-grid-3.4.1/bootstrap-grid.min.css" rel="stylesheet">
   <!--[if lt IE 9]>
@@ -10398,7 +10398,7 @@
 </div>
 <section id="wide-format-to-better-show-shocks-across-counties" class="level3" data-number="6.1.1">
 <h3 data-number="6.1.1" class="anchored" data-anchor-id="wide-format-to-better-show-shocks-across-counties"><span class="header-section-number">6.1.1</span> Wide format to better show shocks across counties</h3>
-<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-68_25131e0dc79297e80670e6b132598522">
+<div class="cell" data-hash="South-Sudan-resilience---frequencies_cache/html/unnamed-chunk-68_87a152688992a2e312ecebac63467c25">
 <details>
 <summary>Code</summary>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>shocks_cnty_wide <span class="ot">&lt;-</span> shocks_ov_cnty <span class="sc">%&gt;%</span></span>
@@ -10411,14 +10411,14 @@
 <span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>data_shocks_cnty_wide <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(shocks_cnty_wide)</span>
 <span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">bscols</span>(</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">widths=</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">9</span>)</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">list</span>(<span class="fu">filter_select</span>(<span class="st">"Shocks"</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">widths=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">10</span>) <span class="co">#this sets the width of the filter to 2 and the table to 10</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  , <span class="fu">list</span>(<span class="fu">filter_select</span>(<span class="st">"Shock"</span></span>
 <span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                       , <span class="st">"Shocks"</span></span>
 <span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>                       , data_shocks_cnty_wide</span>
 <span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>                       , <span class="sc">~</span>Shocks))</span>
 <span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  , reactable<span class="sc">::</span><span class="fu">reactable</span>(data_shocks_cnty_wide, <span class="at">showPageSizeOptions =</span> T</span>
 <span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>              , <span class="at">highlight =</span> T</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>              , <span class="at">columns =</span> <span class="fu">list</span>(<span class="at">Shocks =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Shocks"</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>              , <span class="at">columns =</span> <span class="fu">list</span>(<span class="at">Shocks =</span> <span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Shock"</span></span>
 <span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>                , <span class="at">minWidth =</span> <span class="dv">150</span></span>
 <span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>                , <span class="at">sticky =</span> <span class="st">"left"</span> </span>
 <span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>                , <span class="at">style =</span> <span class="fu">list</span>(<span class="at">borderRight =</span> <span class="st">"1px solid #eee"</span>)                                   , <span class="at">headerStyle =</span> <span class="fu">list</span>(<span class="at">borderRight =</span> <span class="st">"1px solid #eee"</span>))</span>
@@ -10463,48 +10463,8 @@
 <span id="cb36-60"><a href="#cb36-60" aria-hidden="true" tabindex="-1"></a>                                          , <span class="at">digits =</span> <span class="dv">1</span>)) </span>
 <span id="cb36-61"><a href="#cb36-61" aria-hidden="true" tabindex="-1"></a>                               )))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display no-overflow-x">
-<div class="container-fluid crosstalk-bscols">
-<div class="row">
-<div class="col-xs-3">
-<div id="Shocks" class="form-group crosstalk-input-select crosstalk-input">
-<label class="control-label" for="Shocks">Shocks</label>
-<div>
-<select multiple=""></select>
-<script type="application/json" data-for="Shocks">{
-  "items": {
-    "value": ["Crop disease", "Crop pests", "Crop theft", "Death in household", "Drought", "Erosion", "Floods", "Illness in household", "Increase in food prices", "Livestock disease", "Livestock theft", "Loss of land", "No crop inputs", "No livestock inputs", "Theft", "Unable to sell"],
-    "label": ["Crop disease", "Crop pests", "Crop theft", "Death in household", "Drought", "Erosion", "Floods", "Illness in household", "Increase in food prices", "Livestock disease", "Livestock theft", "Loss of land", "No crop inputs", "No livestock inputs", "Theft", "Unable to sell"]
-  },
-  "map": {
-    "Crop disease": ["8"],
-    "Crop pests": ["9"],
-    "Crop theft": ["10"],
-    "Death in household": ["16"],
-    "Drought": ["2"],
-    "Erosion": ["3"],
-    "Floods": ["1"],
-    "Illness in household": ["15"],
-    "Increase in food prices": ["5"],
-    "Livestock disease": ["12"],
-    "Livestock theft": ["13"],
-    "Loss of land": ["4"],
-    "No crop inputs": ["7"],
-    "No livestock inputs": ["11"],
-    "Theft": ["6"],
-    "Unable to sell": ["14"]
-  },
-  "group": ["SharedData7d566ec3"]
-}</script>
-</div>
-</div>
-</div>
-<div class="col-xs-9">
-<div id="htmlwidget-cbea70ada24c8a9493a4" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-cbea70ada24c8a9493a4">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Shocks":["Floods","Drought","Erosion","Loss of land","Increase in food prices","Theft","No crop inputs","Crop disease","Crop pests","Crop theft","No livestock inputs","Livestock disease","Livestock theft","Unable to sell","Illness in household","Death in household"],"Akobo":[0.876022857347586,0.231684139186719,0.580552016445777,0.484242419361837,0.862322038000632,0.226004964933254,0.696206659272038,0.676292038020787,0.6596802954517,0.194299120155105,0.768524205994163,0.827954464249132,0.398201028102386,0.727389277698388,0.393203204262666,0.225504220556127],"Baliet":[0.929183260002104,0.56373540535935,0.539137046419465,0.676704466232862,0.862672480937769,0.343829733945688,0.73547529741494,0.776047714002866,0.845778215310668,0.281808964457626,0.613288452013833,0.713884617465678,0.288647383260711,0.633548644095057,0.675069099746302,0.428727119169708],"Budi":[0.345707464746825,0.349774501841461,0.294818246642463,0.21832575912234,0.679892898932027,0.210689939302893,0.500352482048111,0.480168747791997,0.464763014068731,0.224617723294126,0.348113649701777,0.503522865405798,0.283416287452557,0.326358952172352,0.391987897312606,0.278990337803913],"Duk":[0.954301219530044,0.635475183041758,0.834137199391447,0.841224857120992,0.987165919521297,0.636456184070971,0.931107315052735,0.93004308612032,0.918901185282628,0.668747998791549,0.957804414993936,0.958542092058859,0.901167404921718,0.844689402196846,0.672757376465677,0.505100000081152],"Jur River":[0.642853304088897,0.66420899193691,0.470054238138845,0.345377950174559,0.735853672564925,0.361768384807455,0.671632320760967,0.554338623771579,0.565073113304468,0.319713899353853,0.559748504440166,0.667853008275038,0.297200570307641,0.390238751853776,0.35324764676577,0.27061525976443],"Kapoeta North":[0.460985893877525,0.850023018689271,0.394472915885304,0.366764939326346,0.846291216501529,0.248613236494934,0.750820975645827,0.88477078741472,0.852809699510548,0.261789805345694,0.69053293451706,0.872762032331131,0.695189364451675,0.797988173620421,0.473556017934174,0.259637060045339],"Leer":[0.975100599002697,0.69044377259041,0.851244616477269,0.75311901456059,0.9531138153557,0.588862418938446,0.688552488490776,0.486596204354431,0.684912743939486,0.38007995691509,0.588746948115311,0.629338990282131,0.659770600642612,0.773174086420429,0.507477082637402,0.271583365375059],"Mayendit":[0.966203589124861,0.446168381846902,0.878011137756261,0.851330742877086,0.919967697098655,0.457031056195393,0.502964066290022,0.635561328624294,0.570330022790923,0.289241873624802,0.623474709428479,0.747765774199837,0.525452071616005,0.741078169582561,0.557169243107044,0.244014348551759],"Paynijar":[0.959329778164418,0.100465953967923,0.814140182406584,0.79003343799027,0.912271670874024,0.308505693529218,0.43559827322095,0.297831473569996,0.302250825166521,0.183755667190921,0.519402302549875,0.794705859235165,0.38121164465432,0.514323555046148,0.68657783473703,0.322582870636798],"Pibor":[0.899275427315784,0.719363201429039,0.298706552689136,0.277660459790255,0.866075509420233,0.580880916588262,0.713975145838189,0.68871189715316,0.655741981648551,0.471288030770355,0.786431676621402,0.859443420262769,0.842611944548412,0.783425477516153,0.673504601598655,0.390631335463435],"Ulang":[0.934932258816945,0.81132126542673,0.844451069336899,0.842490415571842,0.914382032551023,0.460575102833639,0.836431754802382,0.850476831939829,0.848692338578994,0.459156627445331,0.851155567028102,0.899524932745991,0.615553035739979,0.81812458042675,0.652213293140501,0.539322960346489],"Uror":[0.928100475650757,0.329183375892159,0.725338338477914,0.614827963984728,0.898969932254581,0.601353484239,0.806486460744304,0.76363239159301,0.667651671178854,0.493315458819438,0.822767049034528,0.865910420684735,0.690339158146504,0.819021655592934,0.677346110934716,0.360294603651857],"Wau":[0.315402236263016,0.309065555973961,0.164882508992909,0.158128153849711,0.516552956102582,0.40836822147339,0.480915478525926,0.423878177138523,0.400298800046027,0.30431692294984,0.434799283327757,0.403502890215858,0.408177320412125,0.377564153989891,0.366867509912265,0.310035463111569]},"columns":[{"accessor":"Shocks","name":"Shocks","type":"character","minWidth":150,"sticky":"left","style":{"borderRight":"1px solid #eee"},"headerStyle":{"borderRight":"1px solid #eee"}},{"accessor":"Akobo","name":"Akobo","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Baliet","name":"Baliet","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Budi","name":"Budi","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Duk","name":"Duk","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Jur River","name":"Jur River","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Kapoeta North","name":"Kapoeta North","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Leer","name":"Leer","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Mayendit","name":"Mayendit","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Paynijar","name":"Paynijar","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Pibor","name":"Pibor","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Ulang","name":"Ulang","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Uror","name":"Uror","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"Wau","name":"Wau","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}}],"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"crosstalkKey":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],"crosstalkGroup":"SharedData7d566ec3","dataKey":"a573ac0783e2591b058ab7b921e0650e"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-</div>
+<div class="cell-output-error">
+<pre><code>Error in colDef(name = "Shock", minWidth = 150, sticky = "left", style = list(borderRight = "1px solid #eee"), : unused argument (sticky = "left")</code></pre>
 </div>
 </div>
 
