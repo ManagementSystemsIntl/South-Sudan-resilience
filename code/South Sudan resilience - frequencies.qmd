@@ -481,6 +481,13 @@ diet_cnty <- bind_rows(q403_cnty,
 
 write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"))
 
+diet_cnty_gt <- diet_cnty %>%
+  select(County=county, Food=label, Percent=Value) %>%
+  gt() %>%
+  fmt_percent(3, decimals=1)
+
+diet_cnty_gt
+
 # Object diet_cnty_obj is the object of "diet items by
 # county.csv"
 
