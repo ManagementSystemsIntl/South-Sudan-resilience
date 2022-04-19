@@ -50,6 +50,29 @@ dat <- dat %>%
   mutate(loc_sum = sum(c(q636_bin, q637_bin,q638_bin), na.rm=T)) %>%
   ungroup()
 
+## household hunger scale ---- 
+
+dat <- dat %>%
+  mutate(hhs_1 = case_when(q_431<3 ~ 1,
+                           q_431==3 ~ 2,
+                           is.na(q_431) ~ 0),
+         hhs_2 = case_when(q_433<3 ~ 1,
+                           q_433==3 ~ 2,
+                           is.na(q_433) ~ 0),
+         hhs_3 = case_when(q_435<3 ~ 1,
+                           q_435==3 ~ 2,
+                           is.na(q_435) ~ 0),
+         hhs = hhs_1 + hhs_2 + hhs_3,
+         hhs_cat = case_when(hhs<2 ~ 1,
+                             hhs==2 | hhs==3 ~ 2,
+                             hhs>3 ~ 3)
+  ) %>%
+  set_labels(hhs_1:hhs_3, labels=hhs_labs) %>%
+  set_labels(hhs_cat, labels=c("No hunger","Moderate hunger","Severe hunger")) %>%
+  mutate(hhs_ord = ordered(hhs_cat,
+                           levels=1:3,
+                           labels=hhs_cat_labs))
+
 ## aspirations comp ---- 
 
 asp <- dat %>%

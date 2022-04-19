@@ -337,6 +337,16 @@ emerg_labs <- c("Emergency action plan in place",
   "Emergency plan successfully mitigated effect of shock",
   "Disaster planning group in community")
 
+rate_labs <- c("Never",
+               "Rarely",
+               "Sometimes",
+               "Often")
+rate_labs
+
+hhs_labs <- c("Never",
+              "Sometimes",
+              "Often")
+
 
 # functions ----
 
@@ -352,6 +362,17 @@ ov_tab <- function(design, var) {
            lower=prop - margin,
            upper=prop + margin,
            ci=paste(round(lower,3), round(upper,3), sep="-"))
+}
+
+ov_tab_cat <- function(design, disaggregate, varname, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean()) %>%
+    mutate(var_name={{varname}},
+           label={{label}},
+           lower=Value-1.96*Value_se,
+           upper=Value+1.96*Value_se)
+  temp
 }
 
 # disag_tab <- function(design, var, groupvar, ind_type, key) {
@@ -386,6 +407,7 @@ svy_disag <- function(design, disaggregate, item, varname, label) {
       upper=Value+1.96*Value_se)
   temp
 }
+
 
 #svy_disag(svyrdat, county, q_403, "cereals","Cereals")
 

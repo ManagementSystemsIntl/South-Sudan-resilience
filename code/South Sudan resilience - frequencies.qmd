@@ -603,7 +603,9 @@ fies_items_gt
 #gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
 ```
 
-## Food insecure behavior in previous four weeks
+# Household hunger
+
+## Raw frequencies
 
 ```{r}
 
@@ -699,6 +701,62 @@ q435 <- svytable(~q_435,
   cols_label(Response=html("How often went a whole day<br>without eating in past four weeks?"))
 
 q435
+```
+
+## Household hunger scale items
+
+```{r}
+
+
+args(svy_disag)
+svy_disag
+
+hhs_1 <- svy_disag(design = svyrdat, 
+                   disaggregate = hhs_1,
+                   varname = "hhs_1", 
+                   label = "Went a day without eating")
+
+args(ov_tab_cat)
+
+hhs_1 <- ov_tab_cat(svyrdat, hhs_1, "hhs_1", "No food in house") %>%
+  mutate(rate=hhs_labs) %>%
+  select(hhs_1, rate, Percent=Value, lower, upper)
+
+hhs_1
+
+hhs_2 <- ov_tab_cat(svyrdat, hhs_2, "hhs_2", "Went to be hungry") %>%
+  mutate(rate=hhs_labs) %>%
+  select(rate, Percent=Value, lower, upper)
+
+hhs_2
+
+hhs_3 <- ov_tab_cat(svyrdat, hhs_3, "hhs_3", "Went a day without eating") %>%
+  mutate(rate=hhs_labs) %>%
+  select(rate, Percent=Value, lower, upper)
+
+hhs_items <- bind_rows(hhs_1, hhs_2, hhs_3) 
+
+hhs_items
+
+hhs_items %>%
+  gt()
+
+
+
+
+svyrdat %>%
+  group_by(hhs_1) %>%
+  summarize(hhs_1=survey_mean(na.rm=T))
+
+hhs_1 <- svytable(~hhs_1,
+                     svydat,
+                     Ntotal=T)
+  
+hhs_1
+
+svyrdat %>%
+  tbl_svysummary(hhs_1)
+  
 ```
 
 # Household involvement in the community
