@@ -479,14 +479,18 @@ diet_cnty <- bind_rows(q403_cnty,
                        q418_cnty,
                        q419_cnty)
 
-write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"))
+#write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"#))
 
 diet_cnty_gt <- diet_cnty %>%
   select(County=county, Food=label, Percent=Value) %>%
+  pivot_wider(names_from=County,
+              values_from=Percent) %>%
   gt() %>%
-  fmt_percent(3, decimals=1)
+  fmt_percent(2:13, decimals=1)
 
-diet_cnty_gt
+#diet_cnty_gt
+
+#gtsave(diet_cnty_gt, here("output/tables/food insecurity/diet items by county wide.rtf"))
 
 # Object diet_cnty_obj is the object of "diet items by
 # county.csv"
