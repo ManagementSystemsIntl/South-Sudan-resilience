@@ -1,0 +1,126 @@
+---
+title: "South Sudan resilience baseline"
+subtitle: "Demographic profiles"
+author: "USAID South Sudan, Monitoring and Evaluation Support Project (MESP)"
+toc: false
+toc-depth: 3
+number-sections: true
+format:
+  html:
+    code-fold: true
+editor: visual
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+
+# standard figure size and generate clean output
+
+knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+
+library(here) 
+source(here("code/00 South Sudan resilience - prep.R"))
+
+hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>% rename(age = q_304, sex=q_302)
+
+```
+
+# Introduction
+
+# Overall
+
+# By county
+
+## Bahr el Gazal
+
+::: panel-tabset
+### Jur River
+
+```{r}
+#flextable(mtcars[1:5, 1:6])
+
+frq(dat$county)
+
+jur <- dat %>%
+  filter(county=="Jur River")
+
+hhjur <- hh %>%
+  filter(county=="Jur River")
+  
+# Economic activity
+
+jur_314 <- data.frame(frq(hhjur$q_314)) %>%
+  select(2:4) %>%
+  na.omit() %>%
+  arrange(desc(frq)) %>%
+  mutate(percent=round(frq/sum(frq),3),
+         rank=rev(rank(frq)))
+
+jur_314_gt <- jur_314 %>%
+  select(-1, Income=2) %>%
+  gt() 
+
+jur_314_gt
+
+```
+:::
+
+```{r}
+
+datNames <- data.frame(names(dat))
+
+# Educational attainment
+
+frq(jur$edu_index)
+frq(jur$hh_edu)
+frq(hhjur$q_308)
+
+
+```
+
+```{r}
+frq(jur$q_401_a_bin)
+```
+
+::: panel-tabset
+
+frq(jur\$q_401)\
+
+# Educational attainment
+
+### Wau
+
+```{r}
+ggplot(mtcars, aes(wt, mpg)) + 
+  geom_point()
+```
+:::
+
+## Equatoria
+
+::: panel-tabset
+### Budi
+
+### Kapoeta North
+:::
+
+## Greater Upper Nile
+
+::: panel-tabset
+### Akobo
+
+### Baliet
+
+### Duk
+
+### Leer
+
+### Mayendit
+
+### Paynjar
+
+### Pibor
+
+### Ulang
+
+### Uror
+:::

@@ -1,0 +1,137 @@
+---
+title: "Test document"
+subtitle: "USAID template"
+author: "Dan Killian"
+editor: visual
+format:
+  docx:
+    reference-doc: USAID-report-template-02.docx
+always_allow_html: true
+---
+
+```{r global_options, include=F, warning=F, message=F, echo=F, error=F}
+
+# standard figure size and generate clean output
+knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=F)
+
+library(here)
+library(knitr)
+# prep file: source(here("00 South Sudan resilience - prep.R"))
+# prep fil should include the USAID colors
+
+```
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+### Heading 4
+
+#### This is a test
+
+This is a test of a Quarto document that is saved in MS Word and should look like a USAID-formatted document.
+
+In using Quarto to export to Word, the idea is that we would post only formatted tables and figures. Accordingly, the global options sets echo = F such that any calculations are hidden and we only see the output. So if we do a simple calculation of 2+2, we won't see the code box executing that calculation.
+
+```{r}
+2+2
+```
+
+From a report standpoint, we don't want to do that. Rather, we just want finished tables and figures. Here's a table.
+
+```{r results='asis'}
+library(tidyverse)
+library(gt)
+library(flextable)
+
+#|fig-cap: A table
+#|fig-subcap: ["A table!"]
+
+#out <- mtcars %>%
+#  gt()
+
+flextable(mtcars[1:5,1:6])
+
+```
+
+This is flextable. I normally use gt but that doesn't support exporting to Word just yet.
+
+And a figure.
+
+```{r}
+
+#|fig-cap: A figure
+#|fig-subcap: ["A figure!"]
+
+data(mtcars)
+
+ggplot(mtcars, aes(wt, mpg)) + 
+  geom_point(color="dodgerblue2") + 
+  stat_smooth(method="lm") +
+  theme_bw()
+```
+
+And a diagram.
+
+```{r}
+library(DiagrammeR)
+
+a <- grViz("
+      digraph{
+      
+      graph[layout=dot, rankdir=BT]
+      
+      node[shape=box, color='lightpink', style='filled', fontsize=16]
+      A[label='Familiarity with USAID']
+      
+      node[shape=box, color='cadetblue2', style='filled', fontsize=16]
+      B[label='Maturation']
+      C[label='Education']
+      D[label='Sex']
+      E[label='Donor\nactivity']
+      F[label='Donor\noutreach']
+      
+      node[shape=box, color='darkseagreen1', style='filled', fontsize=16]
+      G[label='Conflict']
+      H[label='Humanitarian\nneed']
+      I[label='Media\nmessaging']
+      J[label='Activity\nbranding']
+      
+      edge[penwidth=1.5]
+      {B C D E F} -> A
+      B -> C
+      {G H} -> E
+      {I J} -> F
+      J -> E
+
+      }
+      
+      ")
+
+```
+
+However, this is html and does not render to Word. Instead we can save the diagram and call the picture.
+
+```{r}
+# not run
+#a_svg <- export_svg(a)
+#aRaw <- charToRaw(a_svg)
+#rsvg_png(aRaw, here("output/viz/data provenance.png"))
+
+```
+
+```{r}
+include_graphics("C:/Users/dan.killian/Documents/Palestinian Perception Study/output/viz/logic models/familiar with USAID.png")
+```
+
+Of course, we'll want to use Adam Bloom's dolled up version of a diagram we might create.
+
+```{r}
+include_graphics("C:/Users/dan.killian/Documents/Palestinian Perception Study/output/viz/logic models/familiar 2.png")
+```
+
+Let's see if this Quarto to Word pipeline ends up having some applications at MSI.
+
+Finis!

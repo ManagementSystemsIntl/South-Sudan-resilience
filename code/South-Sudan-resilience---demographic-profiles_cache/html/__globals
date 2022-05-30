@@ -1,0 +1,4 @@
+unnamed-chunk-1	$	%>%	==	arrange	county	dat	data.frame	desc	filter	frq	gt	hh	mutate	na.omit	rank	rev	round	select	sum
+unnamed-chunk-2	$	dat	data.frame	frq	hhjur	jur	names
+unnamed-chunk-3	$	frq	jur
+unnamed-chunk-4	aes	geom_point	ggplot	mpg	mtcars	wt
