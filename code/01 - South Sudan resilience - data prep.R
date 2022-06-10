@@ -16,6 +16,24 @@
 
 # background ---- 
 
+frq(hh$age)
+
+hh <- hh %>%
+  mutate(age_dec=case_when(age<10 ~ 1,
+                           age>9 & age<20 ~ 2,
+                           age>19 & age<30 ~ 3,
+                           age> 29 & age<40 ~ 4,
+                           age>39 & age<50 ~ 5,
+                           age>49 & age<60 ~ 6,
+                           age>59 & age<70 ~ 7,
+                           age>69 & age<80 ~ 8,
+                           age>79 & age<90 ~ 9,
+                           age>89 ~ 10,
+                           TRUE ~ NA_real_)) %>%
+  set_labels(age_dec, labels=age_dec_key[,2])
+
+frq(hh$age_dec)
+
 dat <- dat %>%
   mutate(locality = as_character(q_206),
          urban=ifelse(q_206==2, 1,0),

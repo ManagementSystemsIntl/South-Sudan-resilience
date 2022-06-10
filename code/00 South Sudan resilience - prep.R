@@ -102,9 +102,13 @@ svyrdat <- dat %>%
 
 # labels and keys ---- 
  
+sex_key <- data.frame(sex=1:2,
+                      sex_lab=c("Male","Female"))
 
- 
- inc_labs <- c("Farm/crop production",
+sex_key 
+
+
+inc_labs <- c("Farm/crop production",
                "Cattle production/sales",
                "Goat production/sales",
                "Sheep production/sales",
@@ -347,6 +351,30 @@ hhs_labs <- c("Never",
               "Sometimes",
               "Often")
 
+q314_key <- data.frame(q_314=1:9,
+                       activity_lab=c("Crop farming",
+                                      "Defense",
+                                      "Education",
+                                      "Animal husbandry",
+                                      "Trade",
+                                      "Public administration",
+                                      "Health",
+                                      "Construction",
+                                      "Public servant"))
+
+age_dec_key <- data.frame(age_dec=1:10,
+                          age_lab=c("0-10",
+                                    "11-19",
+                                    "20-29",
+                                    "30-39",
+                                    "40-49",
+                                    "50-59",
+                                    "60-69",
+                                    "70-79",
+                                    "80-89",
+                                    "90+"))
+
+age_dec_key
 
 # functions ----
 

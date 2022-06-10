@@ -52,7 +52,46 @@ hhjur <- hh %>%
   filter(county=="Jur River")
 ```
 
+## Age
+
+```{r}
+frq(hhjur$sex)
+
+#hhjur <- hhjur %>%
+#  mutate()
+
+#age_jur <- data.frame(table(hhjur$age_dec, hhjur$sex))
+
+ age_jur <- hhjur %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key)
+ 
+age_jur
+
+```
+
+```{r}
+
+
+ 
+ ggplot(age_jur, aes(sex_count, age_dec, fill=sex_lab)) +
+   geom_bar(stat="identity") +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip()
+
+
+```
+
 ## Economic activity in last 10 years (Q314)
+
+```{r}
+jur_ec <-ec_act_cnty_lst$`Jur River` %>%
+  arrange(desc(freq))
+
+jur_ec
+```
 
 ```{r}
 jur_314 <- data.frame(frq(hhjur$q_314)) %>%
@@ -73,7 +112,8 @@ jur_314_gt
 
 ```{r}
 
-frq(dat$q401)
+jur_inc <- inc_cnty_lst$`Jur River`
+jur_inc
 
 ```
 
