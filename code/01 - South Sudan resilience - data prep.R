@@ -27,6 +27,21 @@ dat <- dat %>%
 dat <- dat %>%
   mutate(fies_severe=ifelse(fies_raw>6, 1,0))
 
+# household hunger scale ---- 
+
+frq(dat$hhs)
+frq(dat$hhs_cat)
+frq(dat$hhs_ord)
+frq(dat$hhs_3)
+
+frq(dat$q_434)
+frq(dat$q_435)
+
+dat <- dat %>%
+  mutate(hhs_severe=ifelse(hhs_cat==3, 1,0))
+
+frq(dat$hhs_severe)
+
 # 6.29 - 6.38 Personal agency ---- 
 
 dat <- dat %>%

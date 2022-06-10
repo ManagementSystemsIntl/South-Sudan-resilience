@@ -114,6 +114,44 @@ frq(hh$q_314) %>%
   gt()
 ```
 
+### Economic activity by county
+
+```{r}
+
+out <- hh %>%
+  dummy.data.frame(q_314)
+
+```
+
+```{r}
+
+out <- hh %>%
+  dummy.data.frame(q_314)
+
+ec_cnty_tmp <- svyrdat %>%
+  group_by(county) %>%
+  summarize(crop_production=survey_mean(q_401_a_bin),
+            cattle_production = survey_mean(q_401_b_bin),
+            goat_production = survey_mean(q_401_c_bin),
+            sheep_production = survey_mean(q_401_d_bin),
+            fishing = survey_mean(q_401_e_bin),
+            Agwage_within = survey_mean(q_401_f_bin),
+            Agwage_without = survey_mean(q_401_g_bin),
+            nonAgwage_within = survey_mean(q_401_h_bin),
+            nonAgwage_without = survey_mean(q_401_i_bin),
+            salary = survey_mean(q_401_j_bin),
+            bush_products = survey_mean(q_401_k_bin),
+            honey = survey_mean(q_401_l_bin),
+            petty_trade_other = survey_mean(q_401_m_bin),
+            petty_trade_own = survey_mean(q_401_n_bin),
+            ownbiz_ag = survey_mean(q_401_o_bin),
+            ownbiz_nonag = survey_mean(q_401_p_bin),
+            rent = survey_mean(q_401_q_bin),
+            remit = survey_mean(q_401_r_bin),
+            gifts = survey_mean(q_401_s_bin),
+            safety_net = survey_mean(q_401_t_bin))
+```
+
 What proportion of households
 
 ```{r}
@@ -243,8 +281,20 @@ inc_cnty <- inc_cnty_mn %>%
   bind_cols(inc_cnty_se[,3]) %>%
   mutate(margin=se*1.96,
          lower=Percent-margin,
-         upper=Percent+margin) %>%
-  relocate(inc_lab, .after=income_source)
+         upper=Percent+margin,
+         ci=paste(round(lower*100,1), "%", " - ", round(upper*100,1), "%", sep="")) %>%
+  relocate(inc_lab, .after=income_source) %>%
+  group_by(county) %>%
+  mutate(county_rank=rank(-Percent)) %>%
+  ungroup() %>%
+  arrange(county, county_rank) 
+#%>%
+  # group_by(inc_lab) %>%
+  # mutate(inc_rank=rank(-Percent)) %>%
+  # ungroup() %>%
+  # arrange(inc_lab, inc_rank)
+
+str(inc_cnty)
 
 #Reactable with filters for county and income source
 
