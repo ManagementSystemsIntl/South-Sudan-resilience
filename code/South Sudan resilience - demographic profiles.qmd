@@ -6,8 +6,10 @@ toc: true
 toc-depth: 3
 number-sections: true
 format:
-#  docx:
-  html:
+  docx:
+    reference-doc: USAID-report-template-02.docx
+    highlight-style: github
+#  html:
     code-fold: true
 editor: visual
 ---
@@ -16,12 +18,12 @@ editor: visual
 
 # standard figure size and generate clean output
 
-knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=T, echo=T)
+knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=F, echo=T)
 
 library(here) 
 source(here("code/00 South Sudan resilience - prep.R"))
 
-hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>% rename(age = q_304, sex=q_302)
+#hh <- read_dta(here("data/local/SSD resilience baseline household roster.dta"))
 
 # to switch to Word
 
@@ -29,6 +31,15 @@ hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combi
 #   docx:
 #     reference-doc: USAID-report-template-02.docx
 # always_allow_html: true
+
+# ---
+# title: "My Document"
+# format:
+#   docx:
+#     toc: true
+#     number-sections: true
+#     highlight-style: github
+# ---
 
 ```
 
@@ -55,7 +66,7 @@ hhjur <- hh %>%
 ## Age
 
 ```{r}
-frq(hhjur$sex)
+#frq(hhjur$sex)
 
 #hhjur <- hhjur %>%
 #  mutate()
@@ -66,7 +77,9 @@ frq(hhjur$sex)
    group_by(age_dec, sex) %>%
    summarize(sex_count=n()) %>%
    left_join(age_dec_key) %>%
-   left_join(sex_key)
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
  
 age_jur
 
@@ -76,11 +89,40 @@ age_jur
 
 
  
- ggplot(age_jur, aes(sex_count, age_dec, fill=sex_lab)) +
-   geom_bar(stat="identity") +
+ ggplot(age_jur, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
    scale_fill_manual(values=c("dodgerblue2","maroon")) +
-   coord_flip()
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nJur River")
 
+
+```
+
+```{r}
+ggplot(hhjur, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhjur$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Jur River")
+```
+
+## Literate
+
+```{r}
+hhjur %>%
+  filter(age>5) %>%
+  describe(.[,literate])
 
 ```
 

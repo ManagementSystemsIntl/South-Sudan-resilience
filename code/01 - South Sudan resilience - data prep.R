@@ -14,11 +14,15 @@
 
 #dat <- read_dta(here("data/local/SSD resilience baseline prepared (16 Dec 2021).dta"))
 
+
 # background ---- 
 
+names(hh)
 frq(hh$age)
+frq(hh$)
 
 hh <- hh %>%
+  #rename(age = q_304, sex=q_302) %>%
   mutate(age_dec=case_when(age<10 ~ 1,
                            age>9 & age<20 ~ 2,
                            age>19 & age<30 ~ 3,
@@ -29,15 +33,44 @@ hh <- hh %>%
                            age>69 & age<80 ~ 8,
                            age>79 & age<90 ~ 9,
                            age>89 ~ 10,
-                           TRUE ~ NA_real_)) %>%
+                           TRUE ~ NA_real_),
+         age_cat = case_when(age<10 ~ 1,
+                             age>9 & age<30 ~ 2,
+                             age>29 & age<55 ~ 3,
+                             age>54 ~ 4),
+         literate=ifelse(q_305==1, 1,0),
+         no_ed=ifelse(q_308==0, 1,0),
+         prim_ed = ifelse(q_308==1, 1,0),
+         sec_ed = ifelse(q_308>1, 1,0),
+         measles_vacc = ifelse(q_315==1, 1,0)) %>%
   set_labels(age_dec, labels=age_dec_key[,2])
+  
 
 frq(hh$age_dec)
+frq(hh$literate)
+frq(hh$q_308)
+frq(hh$no_educ)
+frq(hh$q_306)
+frq(hh$measles_vacc)
 
 dat <- dat %>%
   mutate(locality = as_character(q_206),
          urban=ifelse(q_206==2, 1,0),
-         hh_sex = as_character(hh_head_sex))
+         hh_sex = as_character(hh_head_sex),
+         hh_ed_ord = case_when(hh_edu==0 ~ 0,
+                               hh_edu==1 ~ 1,
+                               hh_edu>1 ~ 2),
+         no_educ = ifelse(hh_ed_ord==0, 1,0),
+         prim_educ = ifelse(hh_ed_ord==1, 1,0),
+         sec_educ = ifelse(hh_ed_ord==2, 1,0),
+         visited_clinic=ifelse(q_704==1, 1,0),
+         hlth_rating = ifelse(q_706<3, 1,0)) %>%
+  set_labels(hh_ed_ord, labels=c("None","Primary","Secondary or higher"))
+
+frq(dat$hh_ed_ord)
+frq(dat$prim_educ)
+frq(dat$visited_clinic)
+frq(dat$hlth_rating)
 
 
 # 4.22 - 4.35 Food insecurity ---- 
@@ -966,5 +999,7 @@ write_dta(dat, "data/local/SSD resilience baseline prepared (16 Dec 2021).dta")
 lapply(dat, class)
 
 write_csv(datNames, here("data/local/prepared varnames.csv"))
+
+write_dta(hh, "data/local/SSD resilience baseline household roster.dta")
 
 

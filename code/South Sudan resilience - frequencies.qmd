@@ -21,9 +21,9 @@ source("00 South Sudan resilience - prep.R")
 library(crosstalk) #Allows objects to "talk" to each other
 library(reactable) #Creates a table that can be interactive
 
-hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>%
-  rename(age = q_304, 
-         sex=q_302)
+# hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>%
+#   rename(age = q_304, 
+#          sex=q_302)
 
 ```
 
@@ -96,6 +96,30 @@ frq(hh$q_308) %>%
   gt()
 ```
 
+## Respondent education
+
+```{r}
+
+ed_cnty <- dat %>%
+  group_by(county, hh_ed_ord) %>%
+  summarize(Number = n()) %>%
+  na.omit() %>%
+  mutate(tot = sum(Number),
+         freq=Number/tot,
+         rank=round(rank(-freq),0)) %>%
+  left_join(ed_ord_key) %>%
+  na.omit()
+
+ed_cnty
+
+out <- data.frame(dummy(dat$hh_ed_ord))
+
+write_csv(ec_act_cnty, here("output/tables/economic activity by county.csv"))
+
+ec_act_cnty_lst <- split(ec_act_cnty, ec_act_cnty$county)
+
+```
+
 ## 309 Marital status
 
 ```{r}
@@ -133,6 +157,8 @@ ec_act_cnty
 write_csv(ec_act_cnty, here("output/tables/economic activity by county.csv"))
 
 ec_act_cnty_lst <- split(ec_act_cnty, ec_act_cnty$county)
+
+write_rds(ec_act_cnty_lst, here("output/tables/economic activity by county.rds"))
 
 # ec_act_cnty_flx <- ec_act_cnty %>%
 #   select(`Activity code`=2,
@@ -304,6 +330,8 @@ str(inc_cnty)
 write_csv(inc_cnty, here("output/tables/income sources by county.csv"))
 
 inc_cnty_lst <- split(inc_cnty, inc_cnty$county)
+
+write_rds(inc_cnty_lst, here("output/tables/income sources by county.rds"))
 
 #Reactable with filters for county and income source
 

@@ -9,7 +9,7 @@ packages <- c("arm", "BMA", "brms", "corrplot", "dummies","DescTools", "estimatr
               "readxl", "sjmisc", "sjPlot", "sjstats", "sjlabelled", "skimr","labelled", "texreg", "janitor","psych","dplyr",
               "tidyverse", "viridis", "here", "ggridges", "ggthemes", "DT", "jtools", "huxtable", "stringi", "gghighlight",
               "plm", "brms", "rstan", "rstanarm","tidybayes","texreg","gt","gtsummary","huxtable","stargazer", "gsynth",
-              "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest", "ltm", "crosstalk", "reactable", "flextable")
+              "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest", "ltm", "crosstalk", "reactable", "flextable", "officer")
 
 lapply(packages, library, character.only=T)
 
@@ -19,21 +19,27 @@ lapply(packages, library, character.only=T)
 # loadfonts(device="win")
 # windwsFonts()
 
-font_add_google("Source Sans Pro", "sans-serif")
+font_add_google("Open Sans", "sans-serif")
 
 options(digits=3, scipen=8)
 #options(digits=8, scipen=9)
 
+set_flextable_defaults(font.size=10,
+                       font.family="Gill Sans Mt")
+
+bigbrdr <- fp_border(width=2)
+smlbrdr <- fp_border(width=1, color="#666666")
+
 # set default
 base <- theme_bw() + theme(panel.grid.minor.x=element_blank(),
                            panel.grid.minor.y=element_blank(),
-                           plot.title=element_text(face="bold",size=18, hjust=.5, family = "Source Sans Pro"),
-                           plot.subtitle = element_text(size=16, family="Source Sans Pro"),
-                           plot.caption=element_text(size=12, family="Source Sans Pro"),
-                           axis.title=element_text(size=16, family="Source Sans Pro"),
-                           axis.text=element_text(size=14, family="Source Sans Pro"),
-                           legend.text=element_text(size=14, family="Source Sans Pro"),
-                           strip.text=element_text(size=14, family="Source Sans Pro"),
+                           plot.title=element_text(face="bold",size=18, hjust=.5, family = "Gill Sans Mt"),
+                           plot.subtitle = element_text(size=16, family="Gill Sans Mt"),
+                           plot.caption=element_text(size=12, family="Gill Sans Mt"),
+                           axis.title=element_text(size=16, family="Gill Sans Mt"),
+                           axis.text=element_text(size=14, family="Gill Sans Mt"),
+                           legend.text=element_text(size=14, family="Gill Sans Mt"),
+                           strip.text=element_text(size=14, family="Gill Sans Mt"),
                            panel.border=element_blank(),
                            axis.ticks = element_blank())
 
@@ -42,13 +48,13 @@ theme_set(base)
 faceted <- theme_bw() +
   theme(panel.grid.minor.x=element_blank(),
         panel.grid.minor.y=element_blank(),
-        plot.title=element_text(face="bold",size=18, hjust=.5, family = "Source Sans Pro"),
-        plot.subtitle = element_text(size=16, family="Source Sans Pro"),
-        plot.caption=element_text(size=12, family="Source Sans Pro"),
-        axis.title=element_text(size=16, family="Source Sans Pro"),
-        axis.text=element_text(size=14, family="Source Sans Pro"),
-        legend.text=element_text(size=14, family="Source Sans Pro"),
-        strip.text=element_text(size=14, family="Source Sans Pro"))
+        plot.title=element_text(face="bold",size=18, hjust=.5, family = "Gill Sans Mt"),
+        plot.subtitle = element_text(size=16, family="Gill Sans Mt"),
+        plot.caption=element_text(size=12, family="Gill Sans Mt"),
+        axis.title=element_text(size=16, family="Gill Sans Mt"),
+        axis.text=element_text(size=14, family="Gill Sans Mt"),
+        legend.text=element_text(size=14, family="Gill Sans Mt"),
+        strip.text=element_text(size=14, family="Gill Sans Mt"))
 
 
 # colors
@@ -99,6 +105,15 @@ svyrdat <- dat %>%
    as_survey_design(ids = ea,
                     strata=county,
                     weights=final_wt1)
+
+#hh <- read_dta(here("data/local/mesp_household_baseline_hh_survey_schedule_combined_weighted.dta")) %>% #rename(age = q_304, sex=q_302)
+
+hh <- read_dta(here("data/local/SSD resilience baseline household roster.dta"))
+
+hh_srvyr <- hh %>% 
+  as_survey_design(ids = ea,
+                   strata=county,
+                   weights=final_wt1)
 
 # labels and keys ---- 
  
@@ -376,65 +391,131 @@ age_dec_key <- data.frame(age_dec=1:10,
 
 age_dec_key
 
+ed_ord_key <- data.frame(hh_ed_ord=0:2,
+                         ed_lab=c("None","Primary","Secondary or higher"))
+
+ed_ord_key
+
 # functions ----
 
-ov_tab <- function(design, var) {
+fac_tab <- function(design, var) {
   
   design %>%
-    #group_by({{groupvar}}) %>%
-    summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
-              Sample=survey_total({{var}}, na.rm=T)) %>%
-    mutate(ind_type="Overall",
-           disag="disag",
-           margin = prop_se*1.96,
-           lower=prop - margin,
-           upper=prop + margin,
-           ci=paste(round(lower,3), round(upper,3), sep="-"))
+    group_by({{var}}) %>%
+    summarize(Percent=survey_mean(na.rm=T, deff="replace"),
+              Number=survey_total()) %>%
+    mutate(#ind_type="Overall",
+      #disag="disag",
+      margin = Percent_se*1.96,
+      Lower=Percent - margin,
+      Upper=Percent + margin,
+      ci=paste(round(Lower*100,1), "%", " - ", round(Upper*100,1), "%", sep=""))
 }
 
-ov_tab_cat <- function(design, disaggregate, varname, label) {
-  temp <- design %>%
-    group_by({{disaggregate}}) %>%
-    summarize(Value=survey_mean()) %>%
-    mutate(var_name={{varname}},
-           label={{label}},
-           lower=Value-1.96*Value_se,
-           upper=Value+1.96*Value_se)
-  temp
+#fac_tab(svyrdat, q2)
+
+# univariate frequency, binary form
+
+ov_tab <- function(design, var, item, label) {
+  
+  design %>%
+    summarise(Percent=survey_mean({{var}}, na.rm=T, deff="replace"),
+              Number=survey_total({{var}}, na.rm=T)) %>%
+    mutate(Item=item,
+           Label=label,
+           Disaggregation="Overall",
+           disag_val=NA,
+           `Disaggregation type`=label,
+           margin = Percent_se*1.96,
+           Lower=Percent - margin,
+           Upper=Percent + margin,
+           ci=paste(round(Lower*100,1), "%", " - ", round(Upper*100,1), "%", sep="")) %>%
+    select(Item, Label, Disaggregation, disag_val, `Disaggregation type`, Number, Percent, std.err=Percent_se, 
+           deff=Percent_deff, margin:ci)
 }
 
-# disag_tab <- function(design, var, groupvar, ind_type, key) {
+
+disag_tab <- function(design, var, groupvar, key, item, label, disaggregation) {
+  
+  key <- key %>%
+    rename(`Disaggregation type`=2)
+  
+  design %>%
+    group_by({{groupvar}}) %>%
+    summarise(Percent=survey_mean({{var}}, na.rm=T, deff="replace"),
+              Number=survey_total({{var}}, na.rm=T)) %>%
+    mutate(#`Disaggregation type` = key$dis,
+      Item=item,
+      Label=label,
+      Disaggregation=disaggregation,
+      margin = Percent_se*1.96,
+      Lower=Percent - margin,
+      Upper=Percent + margin,
+      ci=paste(round(Lower*100,1), "%", " - ", round(Upper*100,1), "%", sep="")) %>%
+    left_join(key) %>%
+    select(Item, Label, Disaggregation, disag_val=1, `Disaggregation type`, Number, Percent, std.err=Percent_se, 
+           deff=Percent_deff, margin:ci) 
+  #left_join(key)
+}
+
 # 
-#   key <- key %>%
-#     rename(disag=2)
-# 
+# ov_tab <- function(design, var) {
+#   
 #   design %>%
-#     group_by({{groupvar}}) %>%
+#     #group_by({{groupvar}}) %>%
 #     summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
 #               Sample=survey_total({{var}}, na.rm=T)) %>%
-#     mutate(ind_type=ind_type,
+#     mutate(ind_type="Overall",
+#            disag="disag",
 #            margin = prop_se*1.96,
 #            lower=prop - margin,
 #            upper=prop + margin,
-#            ci=paste(round(lower,3), round(upper,3), sep="-")) %>%
-#     left_join(key) %>%
-#     relocate(disag, .after=ind_type)
+#            ci=paste(round(lower,3), round(upper,3), sep="-"))
 # }
-
-#disag_tab(svyrdat, q_403, county, "County", county_key)
-
-
-svy_disag <- function(design, disaggregate, item, varname, label) {
-  temp <- design %>%
-    group_by({{disaggregate}}) %>%
-    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
-    mutate(#item={{item}},
-      var_name={{varname}},
-      label={{label}},
-      lower=Value-1.96*Value_se,
-      upper=Value+1.96*Value_se)
-  temp
-}
+# 
+# ov_tab_cat <- function(design, disaggregate, varname, label) {
+#   temp <- design %>%
+#     group_by({{disaggregate}}) %>%
+#     summarize(Value=survey_mean()) %>%
+#     mutate(var_name={{varname}},
+#            label={{label}},
+#            lower=Value-1.96*Value_se,
+#            upper=Value+1.96*Value_se)
+#   temp
+# }
+# 
+# # disag_tab <- function(design, var, groupvar, ind_type, key) {
+# # 
+# #   key <- key %>%
+# #     rename(disag=2)
+# # 
+# #   design %>%
+# #     group_by({{groupvar}}) %>%
+# #     summarise(prop=survey_mean({{var}}, na.rm=T, deff="replace"),
+# #               Sample=survey_total({{var}}, na.rm=T)) %>%
+# #     mutate(ind_type=ind_type,
+# #            margin = prop_se*1.96,
+# #            lower=prop - margin,
+# #            upper=prop + margin,
+# #            ci=paste(round(lower,3), round(upper,3), sep="-")) %>%
+# #     left_join(key) %>%
+# #     relocate(disag, .after=ind_type)
+# # }
+# 
+# #disag_tab(svyrdat, q_403, county, "County", county_key)
+# 
+# 
+# svy_disag <- function(design, disaggregate, item, varname, label) {
+#   temp <- design %>%
+#     group_by({{disaggregate}}) %>%
+#     summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+#     mutate(#item={{item}},
+#       var_name={{varname}},
+#       label={{label}},
+#       lower=Value-1.96*Value_se,
+#       upper=Value+1.96*Value_se)
+#   temp
+# }
 
 
 #svy_disag(svyrdat, county, q_403, "cereals","Cereals")
