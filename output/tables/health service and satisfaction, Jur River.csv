@@ -1,0 +1,10 @@
+Region,State,County,Service,Value,ci,Satisfied,Confidence interval
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Check-up,0.5858042021600052,51.3% - 65.8%,0.5279741492015428,42.9% - 62.7%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Family planning,0.0829602822058812,3.9% - 12.7%,0.43760403899493033,29.6% - 57.9%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Growth monitoring,0.02206418774201388,0.8% - 3.6%,0.32566871063897873,2.8% - 62.3%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,HIV service,0.02355311425892453,0.7% - 4%,0.4961324108294158,18.5% - 80.7%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Illness,0.8562869376219705,79% - 92.3%,0.4862335641921774,40% - 57.2%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Immunization,0.5661827975771678,47.8% - 65.4%,0.5160109134208872,40.9% - 62.3%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Malnutrition,0.04962724353578589,2.4% - 7.5%,0.5004310223686725,19.8% - 80.3%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Postnatal care,0.1972635515770897,11.4% - 28.1%,0.4597955382851814,29.3% - 62.7%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Prenatal care,0.19202018773533697,11.3% - 27.1%,0.49078748150126106,33.8% - 64.4%

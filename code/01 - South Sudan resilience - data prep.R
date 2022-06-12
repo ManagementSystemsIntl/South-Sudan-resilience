@@ -64,7 +64,8 @@ dat <- dat %>%
          prim_educ = ifelse(hh_ed_ord==1, 1,0),
          sec_educ = ifelse(hh_ed_ord==2, 1,0),
          visited_clinic=ifelse(q_704==1, 1,0),
-         hlth_rating = ifelse(q_706<3, 1,0)) %>%
+         hlth_rating = ifelse(q_706<3, 1,0),
+         hlth_satis = ifelse(q_707<3, 1,0)) %>%
   set_labels(hh_ed_ord, labels=c("None","Primary","Secondary or higher"))
 
 frq(dat$hh_ed_ord)

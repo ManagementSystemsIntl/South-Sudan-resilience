@@ -234,6 +234,14 @@ inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
  
  county_key <- read_csv(here("output/tables/keys/county_key.csv"))
  
+ reg_state_cnty_key <- dat %>%
+   group_by(region, state, county) %>%
+   summarize(n=n()) %>%
+   select(-n)
+ 
+geo_key <- read_csv(here("output/tables/geo key.csv"))
+ 
+ 
  diet_labs <- c("Cereals",
                 "Roots/tubers",
                 "Vit A vegetables",
@@ -437,8 +445,8 @@ ov_tab <- function(design, var, item, label) {
 
 disag_tab <- function(design, var, groupvar, key, item, label, disaggregation) {
   
-  key <- key %>%
-    rename(`Disaggregation type`=2)
+  #key <- key %>%
+  #  rename(`Disaggregation type`=2)
   
   design %>%
     group_by({{groupvar}}) %>%
@@ -452,7 +460,7 @@ disag_tab <- function(design, var, groupvar, key, item, label, disaggregation) {
       Lower=Percent - margin,
       Upper=Percent + margin,
       ci=paste(round(Lower*100,1), "%", " - ", round(Upper*100,1), "%", sep="")) %>%
-    left_join(key) %>%
+    #left_join(key) %>%
     select(Item, Label, Disaggregation, disag_val=1, `Disaggregation type`, Number, Percent, std.err=Percent_se, 
            deff=Percent_deff, margin:ci) 
   #left_join(key)
@@ -505,17 +513,25 @@ disag_tab <- function(design, var, groupvar, key, item, label, disaggregation) {
 # #disag_tab(svyrdat, q_403, county, "County", county_key)
 # 
 # 
-# svy_disag <- function(design, disaggregate, item, varname, label) {
-#   temp <- design %>%
-#     group_by({{disaggregate}}) %>%
-#     summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
-#     mutate(#item={{item}},
-#       var_name={{varname}},
-#       label={{label}},
-#       lower=Value-1.96*Value_se,
-#       upper=Value+1.96*Value_se)
-#   temp
-# }
+
+svy_disag <- function(design, disaggregate, item, varname, label) {
+  temp <- design %>%
+    group_by({{disaggregate}}) %>%
+    summarize(Value=survey_mean({{item}}, na.rm=T)) %>%
+    mutate(#item={{item}},
+      var_name={{varname}},
+      label={{label}},
+      margin=1.96*Value_se,
+      lower=Value-1.96*Value_se,
+      upper=Value+1.96*Value_se,
+      ci=paste(round(lower*100,1), "%", " - ", round(upper*100,1),"%", sep=""),
+      ci2=paste(round(lower,1), round(upper,1), sep=" - "))
+  temp
+}
+
+#svyrdat %>%
+#  summarize(q=mean(q_705_1, na.rm=T))
+
 
 
 #svy_disag(svyrdat, county, q_403, "cereals","Cereals")

@@ -564,9 +564,44 @@ diet_cnty <- bind_rows(q403_cnty,
                        q416_cnty,
                        q417_cnty,
                        q418_cnty,
-                       q419_cnty)
+                       q419_cnty) %>%
+  group_by(county) %>%
+  mutate(cnty_rnk=rank(-Value)) %>%
+  ungroup() %>%
+#  group_by(label) %>%
+#  mutate(food_rnk=rank(-Value)) %>%
+  arrange(county, desc(Value)) #%>%
+  #arrange(label, desc(Value))
 
-#write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"#))
+str(diet_cnty)
+
+write_csv(diet_cnty, here("output/tables/food insecurity/diet items by county.csv"))
+
+diet_cnty_flx <- diet_cnty %>%
+  select(County=county,
+         Food=label,
+         Percent=Value,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4:5,
+        align="center") %>%
+  add_footer_lines(values="Food items consumed")
+
+diet_cnty_flx
+
+#save_as_docx(diet_cnty_flx, path=here("output/tables/Jur River/dietary diversity table Jur #River.docx"))
+
+```
+
+```{r}
 
 diet_cnty_wide <- diet_cnty %>%
   select(County=county, Food=label, Percent=Value) %>%
@@ -626,6 +661,49 @@ bscols(
                                           , digits = 1))
   )))
 
+```
+
+```{r}
+
+#frq(dat$hdds)
+
+#out <- disag_tab(svyrdat, hhds, county, 
+#                 "hdds","Household Dietary Diversity Scale", "County")
+
+#args(svy_disag)
+
+hdds_cnty <- svy_disag(svyrdat, county, hdds, "hdds", "Household Dietary Diversity Scale") %>%
+  mutate(cnty_rnk=rank(-Value),
+         Range="0-12") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Range, Score=Value, everything()) %>%
+  arrange(cnty_rnk)
+
+hdds_cnty
+
+write_csv(hdds_cnty, here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_cnty_flx <- hdds_cnty %>%
+  select(1:3,
+         Indicator,
+         Score,
+         `Confidence interval`=ci2) %>%
+  flextable() %>%
+  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4:5,
+        align="center") %>%
+  add_footer_lines(values="Household Dietary Diversity Score (1-12)")
+
+hdds_cnty_flx
+
+#save_as_docx(diet_cnty_flx, path=here("output/tables/Jur River/dietary diversity table Jur #River.docx"))
+  
+  
 ```
 
 # Food insecurity
@@ -704,6 +782,44 @@ fies_items_gt <- fies_items %>%
 fies_items_gt
 
 #gtsave(fies_items_gt, here("output/tables/food insecurity/fies items.rtf"))
+```
+
+```{r}
+frq(dat$fies_raw)
+
+fies_cnty <- svy_disag(svyrdat, county, fies_raw, "fies", "Food Insecurity Experience Scale") %>%
+  mutate(cnty_rnk=rank(-Value),
+         Range="0-9") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Range, Score=Value, everything()) %>%
+  arrange(cnty_rnk)
+
+fies_cnty
+
+write_csv(fies_cnty, here("output/tables/food insecurity/fies by county.csv"))
+
+fies_cnty_flx <- fies_cnty %>%
+  select(1:3,
+         Indicator,
+         Score,
+         `Confidence interval`=ci2) %>%
+  flextable() %>%
+  colformat_double(j=5,
+                   digits=1) %>%
+  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4:5,
+        align="center") %>%
+  add_footer_lines(values="Food Insecurity Experience Scale (0-9)")
+
+fies_cnty_flx
+
+#save_as_docx(fies_cnty_flx, path=here("output/tables/Jur River/fies county Jur River.docx"))
+
 ```
 
 # Household hunger
@@ -860,6 +976,41 @@ hhs_1
 svyrdat %>%
   tbl_svysummary(hhs_1)
   
+```
+
+```{r}
+
+hhs_cnty <- svy_disag(svyrdat, county, hhs, "hhs", "Household Hunger Scale") %>%
+  mutate(cnty_rnk=rank(-Value),
+         Range="0-6") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Range, Score=Value, everything()) %>%
+  arrange(cnty_rnk)
+
+hhs_cnty
+
+write_csv(hhs_cnty, here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_cnty_flx <- hhs_cnty %>%
+  select(1:3,
+         Indicator,
+         Score,
+         `Confidence interval`=ci2) %>%
+  flextable() %>%
+  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4:5,
+        align="center") %>%
+  add_footer_lines(values="Household Hunger Scale (0-6)")
+
+hhs_cnty_flx
+
+#save_as_docx(hhs_cnty_flx, path=here("output/tables/Jur River/hhs county Jur River.docx"))
+
 ```
 
 # Household involvement in the community
@@ -1119,5 +1270,108 @@ bscols(
                      , format = colFormat(percent = T
                                           , digits = 1)) 
                                )))
+
+```
+
+# Health
+
+## Purpose of visit
+
+```{r}
+
+# code lost 11 June 2022
+
+hlth_service_cnty <- read_csv(here("output/tables/health clinic care by county.csv"))
+
+
+```
+
+```{r}
+
+out <- svyrdat %>%
+  group_by(county, q_705_1) %>%
+  summarize(Value=survey_mean(hlth_satis, na.rm=T))
+
+out
+```
+
+```{r}
+out2 <- svyrdat %>%
+  filter(q_705_1==1) %>%
+  group_by(county) %>%
+  summarize(Value=survey_mean(hlth_satis, na.rm=T))
+
+out2
+```
+
+```{r}
+
+satis_705_1_cnty <- svy_disag(filter(svyrdat, q_705_1==1), county, hlth_satis, "hlth_satis", "Check-up") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+
+  mutate(cnty_rnk=rank(-Value),
+         Range="0-6") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Range, Score=Value, everything()) %>%
+  arrange(cnty_rnk)
+
+satis_705_1_cnty
+
+
+
+```
+
+## Satisfaction by service
+
+```{r}
+satis_705_1_cnty <- svy_disag(filter(svyrdat, q_705_1==1), county, hlth_satis, "hlth_satis", "Check-up") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_2_cnty <- svy_disag(filter(svyrdat, q_705_2==1), county, hlth_satis, "hlth_satis", "Immunization") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_3_cnty <- svy_disag(filter(svyrdat, q_705_3==1), county, hlth_satis, "hlth_satis", "Illness") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_4_cnty <- svy_disag(filter(svyrdat, q_705_4==1), county, hlth_satis, "hlth_satis", "Prenatal care") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_5_cnty <- svy_disag(filter(svyrdat, q_705_5==1), county, hlth_satis, "hlth_satis", "Postnatal care") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_6_cnty <- svy_disag(filter(svyrdat, q_705_6==1), county, hlth_satis, "hlth_satis", "Family planning") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_7_cnty <- svy_disag(filter(svyrdat, q_705_7==1), county, hlth_satis, "hlth_satis", "HIV service") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_8_cnty <- svy_disag(filter(svyrdat, q_705_8==1), county, hlth_satis, "hlth_satis", "Growth monitoring") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+satis_705_9_cnty <- svy_disag(filter(svyrdat, q_705_9==1), county, hlth_satis, "hlth_satis", "Malnutrition") %>%
+  left_join(geo_key) %>%
+  select(Region=region, State=state, County=county, Indicator=label, Percent=Value, `Confidence interval`=ci)
+
+# satis_service_cnty <- bind_rows(satis_705_1_cnty,
+#                                 satis_705_2_cnty,
+#                                 satis_705_3_cnty,
+#                                 satis_705_4_cnty,
+#                                 satis_705_5_cnty,
+#                                 satis_705_6_cnty,
+#                                 satis_705_7_cnty,
+#                                 satis_705_8_cnty,
+#                                 satis_705_9_cnty)
+
+#write_csv(satis_service_cnty, here("output/tables/satisfaction by health service and county.csv"))
 
 ```

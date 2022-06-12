@@ -3,7 +3,7 @@ title: "South Sudan resilience baseline"
 subtitle: "Demographic profiles" 
 author: "Monitoring and Evaluation Support Project (MESP)"
 toc: true
-toc-depth: 3
+toc-depth: 2
 number-sections: true
 format:
   docx:
@@ -11,6 +11,7 @@ format:
     highlight-style: github
 #  html:
 #    code-fold: true
+tbl-cap-location: top
 execute: 
   echo: false
 editor: visual
@@ -51,7 +52,7 @@ source(here("code/00 South Sudan resilience - prep.R"))
 #table(dat$region, dat$county)
 ```
 
-# Jur River (Bahr el Gazal)
+# Jur River (Western Bahr el Gazal)
 
 ```{r}
 jur <- dat %>%
@@ -70,27 +71,14 @@ hhjur <- hh %>%
 ## Age
 
 ```{r}
-#frq(hhjur$sex)
 
-#hhjur <- hhjur %>%
-#  mutate()
+jur_age <- jur_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
 
-#age_jur <- data.frame(table(hhjur$age_dec, hhjur$sex))
-
- age_jur <- hhjur %>%
-   group_by(age_dec, sex) %>%
-   summarize(sex_count=n()) %>%
-   left_join(age_dec_key) %>%
-   left_join(sex_key) %>%
-   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
-   na.omit()
- 
-#age_jur %>%
-#  flextable()
-
-```
-
-```{r}
+#jur_age
 
 age_dens <- ggplot(hhjur, aes(age)) + 
   stat_density(fill="dodgerblue2", alpha=.5) + 
@@ -100,7 +88,10 @@ age_dens <- ggplot(hhjur, aes(age)) +
         axis.ticks.y=element_blank()) +
   labs(x="",
        y="",
-       title="Age, Jur River")
+       title="Age, Jur River",
+       caption=paste("Mean age", round(jur_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(jur_age,1), sep=" "))
 
 ggsave(here("output/viz/Jur River/age density, Jur River.png"),
        age_dens,
@@ -110,8 +101,20 @@ ggsave(here("output/viz/Jur River/age density, Jur River.png"),
        width=7)
 ```
 
-```{r echo=T}
+```{r echo=T, fig.cap="Age distribution of all household members, Jur River"}
 include_graphics(here("output/viz/Jur River/age density, Jur River.png"))
+```
+
+```{r}
+
+age_jur <- hhjur %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
 ```
 
 ```{r}
@@ -127,9 +130,11 @@ pyr <-  ggplot(age_jur, aes(age_lab, count, fill=sex_lab)) +
          axis.text.x=element_blank()) +
    labs(x="",
         y="",
-        title="Age pyramid\nJur River")
+        title="Age pyramid\nJur River", 
+        caption="Source: Household roster")
 
 ggsave(here("output/viz/Jur River/age pyramid, Jur River.png"),
+       pyr,
        device="png",
        type="cairo",
        height=4,
@@ -137,13 +142,11 @@ ggsave(here("output/viz/Jur River/age pyramid, Jur River.png"),
 
 ```
 
-```{r echo=T}
-include_graphics(here("output/viz/age pyramid, Jur River.png"))
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Jur River/age pyramid, Jur River.png"))
 ```
 
 ## Education
-
-### Literate
 
 ```{r}
 
@@ -168,7 +171,8 @@ ed_flx <- ed %>%
         part="header") %>%
   align(j=4,
         align="center") %>%
-  add_footer_lines(values="Level of education in household")
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
 
 ed_flx
 
@@ -187,7 +191,7 @@ ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"
 jur_ec <-ec_act_cnty_lst$`Jur River` %>%
   arrange(desc(freq))
 
-jur_ec %>%
+jur_ec_flx <- jur_ec %>%
   ungroup() %>%
   select(Activity=activity_lab,
          Number,
@@ -197,38 +201,10 @@ jur_ec %>%
   set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
   width(j=1, width=1.5, unit="in") %>%
   align(align="center",
-        part="header")
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
 
-# q1g_disag_flx <- q1g_disag %>% 
-#   select(3,5:7, `Confidence interval`=13) %>%
-#   flextable() %>%
-#   set_table_properties(layout="autofit") %>%
-#   add_footer_lines(values="Q315. Economic activity in past 10 years")
-  # align(j=5, align="center") %>%
-  # merge_v(j="Disaggregation") %>%
-  # fix_border_issues() %>%
-  # hline(i=c(1,3,7,10,12,15,18), border=smlbrdr) %>%
-  # set_table_properties(layout="autofit") %>%
-  # add_footer_lines(values="Q1. Seen USAID logo in past year")
-  # 
-
-#save_as_docx(q1g_disag_flx, path=here("output/tables/eval Q1/q1g_disag.docx"))
-
-```
-
-```{r}
-# jur_314 <- data.frame(frq(hhjur$q_314)) %>%
-#   select(2:4) %>%
-#   na.omit() %>%
-#   arrange(desc(frq)) %>%
-#   mutate(percent=round(frq/sum(frq),3),
-#          rank=rev(rank(frq)))
-# 
-# jur_314_gt <- jur_314 %>%
-#   select(-1, Income=2) %>%
-#   gt() 
-# 
-# jur_314_gt
 ```
 
 ### Income sources (Q401-Q402)
@@ -239,7 +215,7 @@ inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
 
 jur_inc <- inc_cnty_lst$`Jur River`
 
-jur_inc %>%
+jur_inc_flx <- jur_inc %>%
   ungroup() %>%
   select(`Income source`=inc_lab,
          #Number,
@@ -247,27 +223,99 @@ jur_inc %>%
 #         `Rank within county`=rank) %>%
   flextable() %>%
   set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
-  width(j=1, width=2, unit="in")
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
 
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+jur_ec_flx
+jur_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_jur <- fies_cnty %>%
+  filter(County=="Jur River") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_jur <- hhs_cnty %>%
+  filter(County=="Jur River") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_jur
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_jur <- hdds_cnty %>%
+  filter(County=="Jur River") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_jur
+
+insec <- bind_rows(fies_jur, hhs_jur, hdds_jur)
+#insec
+
+#write_csv(insec, here("output/tables/Jur River/food insecurity indicators Jur River.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
 ```
 
 ## Health
 
-```{r}
+```{r eval=F, include=F}
 #frq(hh$q_315)
 #frq(hh$measles_vacc)
-
+# 
 meas <- ov_tab(filter(jur_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
 
-#visit_clin <- ov_tab(jur_svyr, visited_clinic, "visited_clinic", "Visited health clinic in #past six months")
+visit_clin <- ov_tab(jur_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
 
-#hlth_rating <- ov_tab(filter(jur_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", #"Positive rating of health clinic visit")
+hlth_rating <- ov_tab(filter(jur_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
 
-hlth_rating2 <- ov_tab(jur_svyr, hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+hlth_satis <- ov_tab(jur_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
 
-hlth <- bind_rows(list(meas, hlth_rating2))
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
 
 #write_csv(hlth, here("output/tables/Jur River/health table Jur River.csv"))
+
+```
+
+```{r}
+
+hlth <- read_csv(here("output/tables/Jur River/health table Jur River.csv"))
 
 hlth_flx <- hlth %>%
   select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
@@ -279,7 +327,8 @@ hlth_flx <- hlth %>%
         part="header") %>%
   align(j=4,
         align="center") %>%
-  add_footer_lines(values="Health indicators")
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
 
 hlth_flx
 
@@ -287,5 +336,121 @@ hlth_flx
 
 
 ```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_jur <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Jur River") %>%
+  arrange(label)
+
+#hlth_service_jur
+
+```
+
+```{r}
+
+hlth_service_jur_flx <- hlth_service_jur %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_jur_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_jur_flx <- satis_service_cnty %>%
+  filter(County=="Jur River") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_jur_flx
+```
+
+```{r}
+
+#names(satis_service_jur)
+#names(hlth_service_jur)
+
+satis_service_jur <- satis_service_cnty %>%
+  filter(County=="Jur River") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_jur  
+
+```
+
+```{r}
+
+#hlth_service_jur
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_jur[,4], hlth_service_jur[,c(2,9)], satis_service_jur[,5:6])
+#out
+#write_csv(out, here("output/tables/health service and satisfaction, Jur River.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Jur River")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+#save_as_docx(out_flx, path=here("output/tables/Jur River/health service with satisfaction Jur River.docx"))
+
+```
+
+
+
 
 # Wau (Bahr el Gazal)
