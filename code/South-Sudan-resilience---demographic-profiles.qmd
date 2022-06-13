@@ -46,12 +46,6 @@ source(here("code/00 South Sudan resilience - prep.R"))
 
 ```
 
-```{r}
-
-#frq(dat$county)
-#table(dat$region, dat$county)
-```
-
 # Jur River (Western Bahr el Gazal)
 
 ```{r}
@@ -450,7 +444,4794 @@ out_flx
 
 ```
 
+# Wau (Western Bahr el Gazal)
+
+```{r}
+wau <- dat %>%
+  filter(county=="Wau")
+
+wau_svyr <- svyrdat %>%
+  filter(county=="Wau")
+
+wau_hh_svyr <- hh_srvyr %>%
+  filter(county=="Wau")
+
+hhwau <- hh %>%
+  filter(county=="Wau")
+```
+
+## Age
+
+```{r}
+
+wau_age <- wau_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#wau_age
+
+age_dens <- ggplot(hhwau, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhwau$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Wau",
+       caption=paste("Mean age", round(wau_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(wau_age,1), sep=" "))
+
+ggsave(here("output/viz/Wau/age density, Wau.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Wau"}
+include_graphics(here("output/viz/Wau/age density, Wau.png"))
+```
+
+```{r}
+
+age_wau <- hhwau %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_wau, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nWau", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Wau/age pyramid, Wau.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Wau/age pyramid, Wau.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(wau_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(wau_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(wau_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(wau_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Wau/education hh.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Wau/ed_flx.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+wau_ec <-ec_act_cnty_lst$`Wau` %>%
+  arrange(desc(freq))
+
+wau_ec_flx <- wau_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+wau_inc <- inc_cnty_lst$`Wau`
+
+wau_inc_flx <- wau_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+wau_ec_flx
+wau_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_wau <- fies_cnty %>%
+  filter(County=="Wau") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_wau <- hhs_cnty %>%
+  filter(County=="Wau") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_wau
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_wau <- hdds_cnty %>%
+  filter(County=="Wau") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_wau
+
+insec <- bind_rows(fies_wau, hhs_wau, hdds_wau)
+#insec
+
+write_csv(insec, here("output/tables/Wau/food insecurity indicators Wau.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(wau_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(wau_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(wau_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(wau_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Wau/health table Wau.csv"))
+
+```
+
+```{r}
+
+hlth <- read_csv(here("output/tables/Wau/health table Wau.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Wau/health table Wau.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_wau <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Wau") %>%
+  arrange(label)
+
+#hlth_service_wau
+
+```
+
+```{r}
+
+hlth_service_wau_flx <- hlth_service_wau %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_wau_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_wau_flx <- satis_service_cnty %>%
+  filter(County=="Wau") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_wau_flx
+```
+
+```{r}
+
+#names(satis_service_wau)
+#names(hlth_service_wau)
+
+satis_service_wau <- satis_service_cnty %>%
+  filter(County=="Wau") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_wau  
+
+```
+
+```{r}
+
+#hlth_service_wau
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_wau[,4], hlth_service_wau[,c(2,9)], satis_service_wau[,5:6])
+#out
+write_csv(out, here("output/tables/Wau/health service and satisfaction, Wau.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Wau")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Wau/health service with satisfaction Wau.docx"))
+
+```
+
+# Budi (Eastern Equatoria)
+
+```{r}
+budi <- dat %>%
+  filter(county=="Budi")
+
+budi_svyr <- svyrdat %>%
+  filter(county=="Budi")
+
+budi_hh_svyr <- hh_srvyr %>%
+  filter(county=="Budi")
+
+hhbudi <- hh %>%
+  filter(county=="Budi")
+```
+
+## Age
+
+```{r}
+
+budi_age <- budi_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#budi_age
+
+age_dens <- ggplot(hhbudi, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhbudi$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Budi",
+       caption=paste("Mean age", round(budi_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(budi_age,1), sep=" "))
+
+ggsave(here("output/viz/Budi/age density, Budi.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Budi"}
+include_graphics(here("output/viz/Budi/age density, Budi.png"))
+```
+
+```{r}
+
+age_budi <- hhbudi %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_budi, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nBudi", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Budi/age pyramid, Budi.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Budi/age pyramid, Budi.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(budi_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(budi_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(budi_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(budi_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Budi/education hh Budi.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Budi/education hh Budi.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+budi_ec <-ec_act_cnty_lst$`Budi` %>%
+  arrange(desc(freq))
+
+budi_ec_flx <- budi_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+budi_inc <- inc_cnty_lst$`Budi`
+
+budi_inc_flx <- budi_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+budi_ec_flx
+budi_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_budi <- fies_cnty %>%
+  filter(County=="Budi") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_budi <- hhs_cnty %>%
+  filter(County=="Budi") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_budi
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_budi <- hdds_cnty %>%
+  filter(County=="Budi") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_budi
+
+insec <- bind_rows(fies_budi, hhs_budi, hdds_budi)
+#insec
+
+write_csv(insec, here("output/tables/Budi/food insecurity indicators Budi.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(budi_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(budi_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(budi_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(budi_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Budi/health table Budi.csv"))
+
+```
+
+```{r}
+
+hlth <- read_csv(here("output/tables/Budi/health table Budi.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Budi/health table Budi.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_budi <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Budi") %>%
+  arrange(label)
+
+#hlth_service_budi
+
+```
+
+```{r}
+
+hlth_service_budi_flx <- hlth_service_budi %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_budi_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_budi_flx <- satis_service_cnty %>%
+  filter(County=="Budi") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_budi_flx
+```
+
+```{r}
+
+#names(satis_service_budi)
+#names(hlth_service_budi)
+
+satis_service_budi <- satis_service_cnty %>%
+  filter(County=="Budi") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_budi  
+
+```
+
+```{r}
+
+#hlth_service_budi
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_budi[,4], hlth_service_budi[,c(2,9)], satis_service_budi[,5:6])
+#out
+write_csv(out, here("output/tables/Budi/health service and satisfaction, Budi.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Budi")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Budi/health service with satisfaction Budi.docx"))
+
+```
+
+# Kapoeta North (Eastern Equatoria)
+
+```{r}
+kapo <- dat %>%
+  filter(county=="Kapoeta North")
+
+kapo_svyr <- svyrdat %>%
+  filter(county=="Kapoeta North")
+
+kapo_hh_svyr <- hh_srvyr %>%
+  filter(county=="Kapoeta North")
+
+hhkapo <- hh %>%
+  filter(county=="Kapoeta North")
+```
+
+## Age
+
+```{r}
+
+kapo_age <- kapo_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#kapo_age
+
+age_dens <- ggplot(hhkapo, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhkapo$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Kapoeta North",
+       caption=paste("Mean age", round(kapo_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(kapo_age,1), sep=" "))
+
+ggsave(here("output/viz/Kapoeta North/age density, Kapoeta North.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Kapoeta North"}
+include_graphics(here("output/viz/Kapoeta North/age density, Kapoeta North.png"))
+```
+
+```{r}
+
+age_kapo <- hhkapo %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_kapo, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nKapoeta North", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Kapoeta North/age pyramid, Kapoeta North.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Kapoeta North/age pyramid, Kapoeta North.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(kapo_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(kapo_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(kapo_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(kapo_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Kapoeta North/education hh Kapoeta North.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Kapoeta North/education hh Kapoeta North.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+kapo_ec <-ec_act_cnty_lst$`Kapoeta North` %>%
+  arrange(desc(freq))
+
+kapo_ec_flx <- kapo_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+kapo_inc <- inc_cnty_lst$`Kapoeta North`
+
+kapo_inc_flx <- kapo_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+kapo_ec_flx
+kapo_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_kapo <- fies_cnty %>%
+  filter(County=="Kapoeta North") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_kapo <- hhs_cnty %>%
+  filter(County=="Kapoeta North") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_kapo
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_kapo <- hdds_cnty %>%
+  filter(County=="Kapoeta North") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_kapo
+
+insec <- bind_rows(fies_kapo, hhs_kapo, hdds_kapo)
+#insec
+
+write_csv(insec, here("output/tables/Kapoeta North/food insecurity indicators Kapoeta North.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(kapo_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(kapo_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(kapo_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(kapo_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Kapoeta North/health table Kapoeta North.csv"))
+
+```
+
+```{r}
+
+hlth <- read_csv(here("output/tables/Kapoeta North/health table Kapoeta North.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Kapoeta North/health table Kapoeta North.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_kapo <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Kapoeta North") %>%
+  arrange(label)
+
+#hlth_service_kapo
+
+```
+
+```{r}
+
+hlth_service_kapo_flx <- hlth_service_kapo %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_kapo_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_kapo_flx <- satis_service_cnty %>%
+  filter(County=="Kapoeta North") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_kapo_flx
+```
+
+```{r}
+
+#names(satis_service_kapo)
+#names(hlth_service_kapo)
+
+satis_service_kapo <- satis_service_cnty %>%
+  filter(County=="Kapoeta North") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_kapo  
+
+```
+
+```{r}
+
+#hlth_service_kapo
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_kapo[,4], hlth_service_kapo[,c(2,9)], satis_service_kapo[,5:6])
+#out
+write_csv(out, here("output/tables/Kapoeta North/health service and satisfaction, Kapoeta North.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Kapoeta North")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Kapoeta North/health service with satisfaction Kapoeta North.docx"))
+
+```
+
+# Akobo (Jonglei)
+
+```{r}
+akobo <- dat %>%
+  filter(county=="Akobo")
+
+akobo_svyr <- svyrdat %>%
+  filter(county=="Akobo")
+
+akobo_hh_svyr <- hh_srvyr %>%
+  filter(county=="Akobo")
+
+hhakobo <- hh %>%
+  filter(county=="Akobo")
+```
+
+## Age
+
+```{r}
+
+akobo_age <- akobo_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#akobo_age
+
+age_dens <- ggplot(hhakobo, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhakobo$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Akobo",
+       caption=paste("Mean age", round(akobo_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(akobo_age,1), sep=" "))
+
+ggsave(here("output/viz/Akobo/age density, Akobo.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Akobo"}
+include_graphics(here("output/viz/Akobo/age density, Akobo.png"))
+```
+
+```{r}
+
+age_akobo <- hhakobo %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_akobo, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nAkobo", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Akobo/age pyramid, Akobo.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Akobo/age pyramid, Akobo.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(akobo_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(akobo_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(akobo_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(akobo_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Akobo/education hh Akobo.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Akobo/education hh Akobo.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+akobo_ec <-ec_act_cnty_lst$`Akobo` %>%
+  arrange(desc(freq))
+
+akobo_ec_flx <- akobo_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+akobo_inc <- inc_cnty_lst$`Akobo`
+
+akobo_inc_flx <- akobo_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+akobo_ec_flx
+akobo_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_akobo <- fies_cnty %>%
+  filter(County=="Akobo") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_akobo <- hhs_cnty %>%
+  filter(County=="Akobo") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_akobo
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_akobo <- hdds_cnty %>%
+  filter(County=="Akobo") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_akobo
+
+insec <- bind_rows(fies_akobo, hhs_akobo, hdds_akobo)
+#insec
+
+write_csv(insec, here("output/tables/Akobo/food insecurity indicators Akobo.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(akobo_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(akobo_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(akobo_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(akobo_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Akobo/health table Akobo.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Akobo/health table Akobo.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Akobo/health table Akobo.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_akobo <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Akobo") %>%
+  arrange(label)
+
+#hlth_service_akobo
+
+```
+
+```{r}
+
+hlth_service_akobo_flx <- hlth_service_akobo %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_akobo_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_akobo_flx <- satis_service_cnty %>%
+  filter(County=="Akobo") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_akobo_flx
+```
+
+```{r}
+
+#names(satis_service_akobo)
+#names(hlth_service_akobo)
+
+satis_service_akobo <- satis_service_cnty %>%
+  filter(County=="Akobo") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_akobo  
+
+```
+
+```{r}
+
+#hlth_service_akobo
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_akobo[,4], hlth_service_akobo[,c(2,9)], satis_service_akobo[,5:6])
+#out
+write_csv(out, here("output/tables/Akobo/health service and satisfaction, Akobo.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Akobo")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Akobo/health service with satisfaction Akobo.docx"))
+
+```
+# Duk (Jonglei)
+
+```{r}
+duk <- dat %>%
+  filter(county=="Duk")
+
+duk_svyr <- svyrdat %>%
+  filter(county=="Duk")
+
+duk_hh_svyr <- hh_srvyr %>%
+  filter(county=="Duk")
+
+hhduk <- hh %>%
+  filter(county=="Duk")
+```
+
+## Age
+
+```{r}
+
+duk_age <- duk_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#duk_age
+
+age_dens <- ggplot(hhduk, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhduk$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Duk",
+       caption=paste("Mean age", round(duk_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(duk_age,1), sep=" "))
+
+ggsave(here("output/viz/Duk/age density, Duk.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Duk"}
+include_graphics(here("output/viz/Duk/age density, Duk.png"))
+```
+
+```{r}
+
+age_duk <- hhduk %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_duk, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nDuk", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Duk/age pyramid, Duk.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Duk/age pyramid, Duk.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(duk_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(duk_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(duk_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(duk_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Duk/education hh Duk.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Duk/education hh Duk.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+duk_ec <-ec_act_cnty_lst$`Duk` %>%
+  arrange(desc(freq))
+
+duk_ec_flx <- duk_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+duk_inc <- inc_cnty_lst$`Duk`
+
+duk_inc_flx <- duk_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+duk_ec_flx
+duk_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_duk <- fies_cnty %>%
+  filter(County=="Duk") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_duk <- hhs_cnty %>%
+  filter(County=="Duk") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_duk
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_duk <- hdds_cnty %>%
+  filter(County=="Duk") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_duk
+
+insec <- bind_rows(fies_duk, hhs_duk, hdds_duk)
+#insec
+
+write_csv(insec, here("output/tables/Duk/food insecurity indicators Duk.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(duk_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(duk_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(duk_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(duk_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Duk/health table Duk.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Duk/health table Duk.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Duk/health table Duk.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_duk <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Duk") %>%
+  arrange(label)
+
+#hlth_service_duk
+
+```
+
+```{r}
+
+hlth_service_duk_flx <- hlth_service_duk %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_duk_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_duk_flx <- satis_service_cnty %>%
+  filter(County=="Duk") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_duk_flx
+```
+
+```{r}
+
+#names(satis_service_duk)
+#names(hlth_service_duk)
+
+satis_service_duk <- satis_service_cnty %>%
+  filter(County=="Duk") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_duk  
+
+```
+
+```{r}
+
+#hlth_service_duk
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_duk[,4], hlth_service_duk[,c(2,9)], satis_service_duk[,5:6])
+#out
+write_csv(out, here("output/tables/Duk/health service and satisfaction, Duk.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Duk")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Duk/health service with satisfaction Duk.docx"))
+
+```
+
+
+# Pibor (Jonglei)
+
+```{r}
+pibor <- dat %>%
+  filter(county=="Pibor")
+
+pibor_svyr <- svyrdat %>%
+  filter(county=="Pibor")
+
+pibor_hh_svyr <- hh_srvyr %>%
+  filter(county=="Pibor")
+
+hhpibor <- hh %>%
+  filter(county=="Pibor")
+```
+
+## Age
+
+```{r}
+
+pibor_age <- pibor_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#pibor_age
+
+age_dens <- ggplot(hhpibor, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhpibor$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Pibor",
+       caption=paste("Mean age", round(pibor_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(pibor_age,1), sep=" "))
+
+ggsave(here("output/viz/Pibor/age density, Pibor.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Pibor"}
+include_graphics(here("output/viz/Pibor/age density, Pibor.png"))
+```
+
+```{r}
+
+age_pibor <- hhpibor %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_pibor, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nPibor", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Pibor/age pyramid, Pibor.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Pibor/age pyramid, Pibor.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(pibor_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(pibor_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(pibor_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(pibor_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Pibor/education hh Pibor.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Pibor/education hh Pibor.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+pibor_ec <-ec_act_cnty_lst$`Pibor` %>%
+  arrange(desc(freq))
+
+pibor_ec_flx <- pibor_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+pibor_inc <- inc_cnty_lst$`Pibor`
+
+pibor_inc_flx <- pibor_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+pibor_ec_flx
+pibor_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_pibor <- fies_cnty %>%
+  filter(County=="Pibor") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_pibor <- hhs_cnty %>%
+  filter(County=="Pibor") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_pibor
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_pibor <- hdds_cnty %>%
+  filter(County=="Pibor") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_pibor
+
+insec <- bind_rows(fies_pibor, hhs_pibor, hdds_pibor)
+#insec
+
+write_csv(insec, here("output/tables/Pibor/food insecurity indicators Pibor.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(pibor_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(pibor_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(pibor_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(pibor_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Pibor/health table Pibor.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Pibor/health table Pibor.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Pibor/health table Pibor.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_pibor <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Pibor") %>%
+  arrange(label)
+
+#hlth_service_pibor
+
+```
+
+```{r}
+
+hlth_service_pibor_flx <- hlth_service_pibor %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_pibor_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_pibor_flx <- satis_service_cnty %>%
+  filter(County=="Pibor") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_pibor_flx
+```
+
+```{r}
+
+#names(satis_service_pibor)
+#names(hlth_service_pibor)
+
+satis_service_pibor <- satis_service_cnty %>%
+  filter(County=="Pibor") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_pibor  
+
+```
+
+```{r}
+
+#hlth_service_pibor
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_pibor[,4], hlth_service_pibor[,c(2,9)], satis_service_pibor[,5:6])
+#out
+write_csv(out, here("output/tables/Pibor/health service and satisfaction, Pibor.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Pibor")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Pibor/health service with satisfaction Pibor.docx"))
+
+```
+
+# Uror (Jonglei)
+
+```{r}
+uror <- dat %>%
+  filter(county=="Uror")
+
+uror_svyr <- svyrdat %>%
+  filter(county=="Uror")
+
+uror_hh_svyr <- hh_srvyr %>%
+  filter(county=="Uror")
+
+hhuror <- hh %>%
+  filter(county=="Uror")
+```
+
+## Age
+
+```{r}
+
+uror_age <- uror_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#uror_age
+
+age_dens <- ggplot(hhuror, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhuror$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Uror",
+       caption=paste("Mean age", round(uror_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(uror_age,1), sep=" "))
+
+ggsave(here("output/viz/Uror/age density, Uror.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Uror"}
+include_graphics(here("output/viz/Uror/age density, Uror.png"))
+```
+
+```{r}
+
+age_uror <- hhuror %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_uror, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nUror", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Uror/age pyramid, Uror.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Uror/age pyramid, Uror.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(uror_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(uror_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(uror_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(uror_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Uror/education hh Uror.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Uror/education hh Uror.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+uror_ec <-ec_act_cnty_lst$`Uror` %>%
+  arrange(desc(freq))
+
+uror_ec_flx <- uror_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+uror_inc <- inc_cnty_lst$`Uror`
+
+uror_inc_flx <- uror_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+uror_ec_flx
+uror_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_uror <- fies_cnty %>%
+  filter(County=="Uror") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_uror <- hhs_cnty %>%
+  filter(County=="Uror") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_uror
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_uror <- hdds_cnty %>%
+  filter(County=="Uror") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_uror
+
+insec <- bind_rows(fies_uror, hhs_uror, hdds_uror)
+#insec
+
+write_csv(insec, here("output/tables/Uror/food insecurity indicators Uror.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(uror_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(uror_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(uror_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(uror_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Uror/health table Uror.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Uror/health table Uror.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Uror/health table Uror.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_uror <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Uror") %>%
+  arrange(label)
+
+#hlth_service_uror
+
+```
+
+```{r}
+
+hlth_service_uror_flx <- hlth_service_uror %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_uror_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_uror_flx <- satis_service_cnty %>%
+  filter(County=="Uror") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_uror_flx
+```
+
+```{r}
+
+#names(satis_service_uror)
+#names(hlth_service_uror)
+
+satis_service_uror <- satis_service_cnty %>%
+  filter(County=="Uror") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_uror  
+
+```
+
+```{r}
+
+#hlth_service_uror
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_uror[,4], hlth_service_uror[,c(2,9)], satis_service_uror[,5:6])
+#out
+write_csv(out, here("output/tables/Uror/health service and satisfaction, Uror.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Uror")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Uror/health service with satisfaction Uror.docx"))
+
+```
+
+# Leer (Unity)
+
+```{r}
+leer <- dat %>%
+  filter(county=="Leer")
+
+leer_svyr <- svyrdat %>%
+  filter(county=="Leer")
+
+leer_hh_svyr <- hh_srvyr %>%
+  filter(county=="Leer")
+
+hhleer <- hh %>%
+  filter(county=="Leer")
+```
+
+## Age
+
+```{r}
+
+leer_age <- leer_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#leer_age
+
+age_dens <- ggplot(hhleer, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhleer$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Leer",
+       caption=paste("Mean age", round(leer_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(leer_age,1), sep=" "))
+
+ggsave(here("output/viz/Leer/age density, Leer.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Leer"}
+include_graphics(here("output/viz/Leer/age density, Leer.png"))
+```
+
+```{r}
+
+age_leer <- hhleer %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_leer, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nLeer", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Leer/age pyramid, Leer.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Leer/age pyramid, Leer.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(leer_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(leer_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(leer_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(leer_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Leer/education hh Leer.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Leer/education hh Leer.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+leer_ec <-ec_act_cnty_lst$`Leer` %>%
+  arrange(desc(freq))
+
+leer_ec_flx <- leer_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+leer_inc <- inc_cnty_lst$`Leer`
+
+leer_inc_flx <- leer_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+leer_ec_flx
+leer_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_leer <- fies_cnty %>%
+  filter(County=="Leer") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_leer <- hhs_cnty %>%
+  filter(County=="Leer") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_leer
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_leer <- hdds_cnty %>%
+  filter(County=="Leer") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_leer
+
+insec <- bind_rows(fies_leer, hhs_leer, hdds_leer)
+#insec
+
+write_csv(insec, here("output/tables/Leer/food insecurity indicators Leer.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(leer_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(leer_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(leer_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(leer_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Leer/health table Leer.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Leer/health table Leer.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Leer/health table Leer.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_leer <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Leer") %>%
+  arrange(label)
+
+#hlth_service_leer
+
+```
+
+```{r}
+
+hlth_service_leer_flx <- hlth_service_leer %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_leer_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_leer_flx <- satis_service_cnty %>%
+  filter(County=="Leer") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_leer_flx
+```
+
+```{r}
+
+#names(satis_service_leer)
+#names(hlth_service_leer)
+
+satis_service_leer <- satis_service_cnty %>%
+  filter(County=="Leer") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_leer  
+
+```
+
+```{r}
+
+#hlth_service_leer
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_leer[,4], hlth_service_leer[,c(2,9)], satis_service_leer[,5:6])
+#out
+write_csv(out, here("output/tables/Leer/health service and satisfaction, Leer.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Leer")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Leer/health service with satisfaction Leer.docx"))
+
+```
+
+# Mayendit (Unity)
+
+```{r}
+mayendit <- dat %>%
+  filter(county=="Mayendit")
+
+mayendit_svyr <- svyrdat %>%
+  filter(county=="Mayendit")
+
+mayendit_hh_svyr <- hh_srvyr %>%
+  filter(county=="Mayendit")
+
+hhmayendit <- hh %>%
+  filter(county=="Mayendit")
+```
+
+## Age
+
+```{r}
+
+mayendit_age <- mayendit_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#mayendit_age
+
+age_dens <- ggplot(hhmayendit, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhmayendit$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Mayendit",
+       caption=paste("Mean age", round(mayendit_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(mayendit_age,1), sep=" "))
+
+ggsave(here("output/viz/Mayendit/age density, Mayendit.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Mayendit"}
+include_graphics(here("output/viz/Mayendit/age density, Mayendit.png"))
+```
+
+```{r}
+
+age_mayendit <- hhmayendit %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_mayendit, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nMayendit", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Mayendit/age pyramid, Mayendit.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Mayendit/age pyramid, Mayendit.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(mayendit_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(mayendit_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(mayendit_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(mayendit_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Mayendit/education hh Mayendit.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Mayendit/education hh Mayendit.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+mayendit_ec <-ec_act_cnty_lst$`Mayendit` %>%
+  arrange(desc(freq))
+
+mayendit_ec_flx <- mayendit_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+mayendit_inc <- inc_cnty_lst$`Mayendit`
+
+mayendit_inc_flx <- mayendit_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+mayendit_ec_flx
+mayendit_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_mayendit <- fies_cnty %>%
+  filter(County=="Mayendit") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_mayendit <- hhs_cnty %>%
+  filter(County=="Mayendit") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_mayendit
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_mayendit <- hdds_cnty %>%
+  filter(County=="Mayendit") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_mayendit
+
+insec <- bind_rows(fies_mayendit, hhs_mayendit, hdds_mayendit)
+#insec
+
+write_csv(insec, here("output/tables/Mayendit/food insecurity indicators Mayendit.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(mayendit_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(mayendit_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(mayendit_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(mayendit_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Mayendit/health table Mayendit.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Mayendit/health table Mayendit.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Mayendit/health table Mayendit.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_mayendit <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Mayendit") %>%
+  arrange(label)
+
+#hlth_service_mayendit
+
+```
+
+```{r}
+
+hlth_service_mayendit_flx <- hlth_service_mayendit %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_mayendit_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_mayendit_flx <- satis_service_cnty %>%
+  filter(County=="Mayendit") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_mayendit_flx
+```
+
+```{r}
+
+#names(satis_service_mayendit)
+#names(hlth_service_mayendit)
+
+satis_service_mayendit <- satis_service_cnty %>%
+  filter(County=="Mayendit") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_mayendit  
+
+```
+
+```{r}
+
+#hlth_service_mayendit
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_mayendit[,4], hlth_service_mayendit[,c(2,9)], satis_service_mayendit[,5:6])
+#out
+write_csv(out, here("output/tables/Mayendit/health service and satisfaction, Mayendit.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Mayendit")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Mayendit/health service with satisfaction Mayendit.docx"))
+
+```
+
+# Paynijar (Unity)
+
+```{r}
+payn <- dat %>%
+  filter(county=="Paynijar")
+
+payn_svyr <- svyrdat %>%
+  filter(county=="Paynijar")
+
+payn_hh_svyr <- hh_srvyr %>%
+  filter(county=="Paynijar")
+
+hhpayn <- hh %>%
+  filter(county=="Paynijar")
+```
+
+## Age
+
+```{r}
+
+payn_age <- payn_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#payn_age
+
+age_dens <- ggplot(hhpayn, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhpayn$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Paynijar",
+       caption=paste("Mean age", round(payn_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(payn_age,1), sep=" "))
+
+ggsave(here("output/viz/Paynijar/age density, Paynijar.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Paynijar"}
+include_graphics(here("output/viz/Paynijar/age density, Paynijar.png"))
+```
+
+```{r}
+
+age_payn <- hhpayn %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_payn, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nPaynijar", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Paynijar/age pyramid, Paynijar.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Paynijar/age pyramid, Paynijar.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(payn_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(payn_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(payn_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(payn_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Paynijar/education hh Paynijar.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Paynijar/education hh Paynijar.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+payn_ec <-ec_act_cnty_lst$`Paynijar` %>%
+  arrange(desc(freq))
+
+payn_ec_flx <- payn_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+payn_inc <- inc_cnty_lst$`Paynijar`
+
+payn_inc_flx <- payn_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+payn_ec_flx
+payn_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_payn <- fies_cnty %>%
+  filter(County=="Paynijar") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_payn <- hhs_cnty %>%
+  filter(County=="Paynijar") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_payn
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_payn <- hdds_cnty %>%
+  filter(County=="Paynijar") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_payn
+
+insec <- bind_rows(fies_payn, hhs_payn, hdds_payn)
+#insec
+
+write_csv(insec, here("output/tables/Paynijar/food insecurity indicators Paynijar.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(payn_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(payn_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(payn_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(payn_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Paynijar/health table Paynijar.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Paynijar/health table Paynijar.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Paynijar/health table Paynijar.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_payn <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Paynijar") %>%
+  arrange(label)
+
+#hlth_service_payn
+
+```
+
+```{r}
+
+hlth_service_payn_flx <- hlth_service_payn %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_payn_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_payn_flx <- satis_service_cnty %>%
+  filter(County=="Paynijar") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_payn_flx
+```
+
+```{r}
+
+#names(satis_service_payn)
+#names(hlth_service_payn)
+
+satis_service_payn <- satis_service_cnty %>%
+  filter(County=="Paynijar") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_payn  
+
+```
+
+```{r}
+
+#hlth_service_payn
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_payn[,4], hlth_service_payn[,c(2,9)], satis_service_payn[,5:6])
+#out
+write_csv(out, here("output/tables/Paynijar/health service and satisfaction, Paynijar.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Paynijar")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Paynijar/health service with satisfaction Paynijar.docx"))
+
+```
+
+# Baliet (Upper Nile)
+
+```{r}
+baliet <- dat %>%
+  filter(county=="Baliet")
+
+baliet_svyr <- svyrdat %>%
+  filter(county=="Baliet")
+
+baliet_hh_svyr <- hh_srvyr %>%
+  filter(county=="Baliet")
+
+hhbaliet <- hh %>%
+  filter(county=="Baliet")
+```
+
+## Age
+
+```{r}
+
+baliet_age <- baliet_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#baliet_age
+
+age_dens <- ggplot(hhbaliet, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhbaliet$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Baliet",
+       caption=paste("Mean age", round(baliet_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(baliet_age,1), sep=" "))
+
+ggsave(here("output/viz/Baliet/age density, Baliet.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Baliet"}
+include_graphics(here("output/viz/Baliet/age density, Baliet.png"))
+```
+
+```{r}
+
+age_baliet <- hhbaliet %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_baliet, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nBaliet", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Baliet/age pyramid, Baliet.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Baliet/age pyramid, Baliet.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(baliet_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(baliet_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(baliet_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(baliet_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Baliet/education hh Baliet.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Baliet/education hh Baliet.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+baliet_ec <-ec_act_cnty_lst$`Baliet` %>%
+  arrange(desc(freq))
+
+baliet_ec_flx <- baliet_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+baliet_inc <- inc_cnty_lst$`Baliet`
+
+baliet_inc_flx <- baliet_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+baliet_ec_flx
+baliet_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_baliet <- fies_cnty %>%
+  filter(County=="Baliet") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_baliet <- hhs_cnty %>%
+  filter(County=="Baliet") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_baliet
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_baliet <- hdds_cnty %>%
+  filter(County=="Baliet") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_baliet
+
+insec <- bind_rows(fies_baliet, hhs_baliet, hdds_baliet)
+#insec
+
+write_csv(insec, here("output/tables/Baliet/food insecurity indicators Baliet.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(baliet_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(baliet_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(baliet_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(baliet_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Baliet/health table Baliet.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Baliet/health table Baliet.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Baliet/health table Baliet.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_baliet <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Baliet") %>%
+  arrange(label)
+
+#hlth_service_baliet
+
+```
+
+```{r}
+
+hlth_service_baliet_flx <- hlth_service_baliet %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_baliet_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_baliet_flx <- satis_service_cnty %>%
+  filter(County=="Baliet") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_baliet_flx
+```
+
+```{r}
+
+#names(satis_service_baliet)
+#names(hlth_service_baliet)
+
+satis_service_baliet <- satis_service_cnty %>%
+  filter(County=="Baliet") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_baliet  
+
+```
+
+```{r}
+
+#hlth_service_baliet
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_baliet[,4], hlth_service_baliet[,c(2,9)], satis_service_baliet[,5:6])
+#out
+write_csv(out, here("output/tables/Baliet/health service and satisfaction, Baliet.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Baliet")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Baliet/health service with satisfaction Baliet.docx"))
+
+```
 
 
 
-# Wau (Bahr el Gazal)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Ulang (Upper Nile)
+
+```{r}
+ulang <- dat %>%
+  filter(county=="Ulang")
+
+ulang_svyr <- svyrdat %>%
+  filter(county=="Ulang")
+
+ulang_hh_svyr <- hh_srvyr %>%
+  filter(county=="Ulang")
+
+hhulang <- hh %>%
+  filter(county=="Ulang")
+```
+
+## Age
+
+```{r}
+
+ulang_age <- ulang_hh_svyr %>% 
+  group_by() %>%
+  summarise(age=survey_mean(age,na.rm=T)) %>%
+  unlist(.[1,1]) %>%
+  .[1]
+
+#ulang_age
+
+age_dens <- ggplot(hhulang, aes(age)) + 
+  stat_density(fill="dodgerblue2", alpha=.5) + 
+  geom_vline(xintercept=mean(hhulang$age, na.rm=T), color="darkgoldenrod2", size=1) +
+  scale_x_continuous(breaks=seq(0,80,10)) +
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x="",
+       y="",
+       title="Age, Ulang",
+       caption=paste("Mean age", round(ulang_age,1), sep=" ")) 
+
+#  annotate("text", x=33, y=.06, label=paste("Mean age", round(ulang_age,1), sep=" "))
+
+ggsave(here("output/viz/Ulang/age density, Ulang.png"),
+       age_dens,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+```
+
+```{r echo=T, fig.cap="Age distribution of all household members, Ulang"}
+include_graphics(here("output/viz/Ulang/age density, Ulang.png"))
+```
+
+```{r}
+
+age_ulang <- hhulang %>%
+   group_by(age_dec, sex) %>%
+   summarize(sex_count=n()) %>%
+   left_join(age_dec_key) %>%
+   left_join(sex_key) %>%
+   mutate(count=ifelse(sex_lab=="Male", sex_count, sex_count*-1)) %>%
+   na.omit()
+
+```
+
+```{r}
+
+pyr <-  ggplot(age_ulang, aes(age_lab, count, fill=sex_lab)) +
+   geom_bar(stat="identity", alpha=.8, width=.6) +
+   scale_fill_manual(values=c("dodgerblue2","maroon")) +
+   coord_flip() +
+   #scale_y_continuous(labels=age_dec_key$age_lab) +
+   theme(legend.title=element_blank(),
+         legend.position="bottom",
+         axis.ticks.x=element_blank(),
+         axis.text.x=element_blank()) +
+   labs(x="",
+        y="",
+        title="Age pyramid\nUlang", 
+        caption="Source: Household roster")
+
+ggsave(here("output/viz/Ulang/age pyramid, Ulang.png"),
+       pyr,
+       device="png",
+       type="cairo",
+       height=4,
+       width=7)
+
+```
+
+```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+include_graphics(here("output/viz/Ulang/age pyramid, Ulang.png"))
+```
+
+## Education
+
+```{r}
+
+lit <- ov_tab(ulang_hh_svyr, literate, "literate", "Literate (6+)") 
+
+no_ed <- ov_tab(ulang_hh_svyr, no_educ, "no_educ", "No education (6+)")
+
+prim_ed <- ov_tab(filter(ulang_hh_svyr, age>11), prim_ed, "prim_ed", "Primary education (12+)")
+
+sec_ed <- ov_tab(filter(ulang_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary education (18+)")
+
+ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
+
+write_csv(ed, here("output/tables/Ulang/education hh Ulang.csv"))
+
+ed_flx <- ed %>%
+  select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=c(1,4), width=1.7, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Level of education in household")
+#  add_footer_lines(values="Level of education in household")
+
+ed_flx
+
+save_as_docx(ed_flx, path=here("output/tables/Ulang/education hh Ulang.docx"))
+
+```
+
+## Livelihoods
+
+### Economic activity in last 10 years (Q314)
+
+```{r}
+
+ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
+
+ulang_ec <-ec_act_cnty_lst$`Ulang` %>%
+  arrange(desc(freq))
+
+ulang_ec_flx <- ulang_ec %>%
+  ungroup() %>%
+  select(Activity=activity_lab,
+         Number,
+         Percent=freq) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.5, unit="in") %>%
+  align(align="center",
+        part="header")  %>%
+  set_caption("Economic activity in past ten years")
+#  add_footer_lines(values="Economic activity in past ten years")
+
+```
+
+### Income sources (Q401-Q402)
+
+```{r}
+
+inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
+
+ulang_inc <- inc_cnty_lst$`Ulang`
+
+ulang_inc_flx <- ulang_inc %>%
+  ungroup() %>%
+  select(`Income source`=inc_lab,
+         #Number,
+         Percent) %>%
+#         `Rank within county`=rank) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=2, unit="in")  %>%
+  set_caption("Sources of household income")
+#  add_footer_lines(values="Sources of income")
+
+```
+
+```{r}
+#| column: screen-inset-shaded
+#| layout-nrow: 1
+
+ulang_ec_flx
+ulang_inc_flx
+
+```
+
+## Food security
+
+```{r}
+
+fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
+
+fies_ulang <- fies_cnty %>%
+  filter(County=="Ulang") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
+
+hhs_ulang <- hhs_cnty %>%
+  filter(County=="Ulang") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hhs_ulang
+
+hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
+
+hdds_ulang <- hdds_cnty %>%
+  filter(County=="Ulang") %>%
+  select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
+
+#hdds_ulang
+
+insec <- bind_rows(fies_ulang, hhs_ulang, hdds_ulang)
+#insec
+
+write_csv(insec, here("output/tables/Ulang/food insecurity indicators Ulang.csv"))
+
+```
+
+```{r}
+
+insec_flx <- insec %>%
+  flextable() %>%
+  colformat_double(j=3,
+                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Food security indicators")
+#  add_footer_lines(values="Food security indicators")
+
+insec_flx
+```
+
+## Health
+
+```{r eval=F, include=F}
+#frq(hh$q_315)
+#frq(hh$measles_vacc)
+# 
+meas <- ov_tab(filter(ulang_hh_svyr, !is.na(measles_vacc)), measles_vacc, "measles_vacc", "Vaccinated for measles (9+ months)")
+
+visit_clin <- ov_tab(ulang_svyr, visited_clinic, "visited_clinic", "Visited health clinic in past six months")
+
+hlth_rating <- ov_tab(filter(ulang_svyr, !is.na(hlth_rating)), hlth_rating, "hlth_rating", "Positive rating of health clinic visit")
+
+hlth_satis <- ov_tab(ulang_svyr, hlth_satis, "hlth_satis", "Satisfaction with health clinic service")
+
+hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
+
+#hlth
+
+write_csv(hlth, here("output/tables/Ulang/health table Ulang.csv"))
+
+```
+
+```{r}
+
+#hlth <- read_csv(here("output/tables/Ulang/health table Ulang.csv"))
+
+hlth_flx <- hlth %>%
+  select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=1, width=2.6, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=4,
+        align="center") %>%
+  set_caption("Health indicators")
+#  add_footer_lines(values="Health indicators")
+
+hlth_flx
+
+save_as_docx(hlth_flx, path=here("output/tables/Ulang/health table Ulang.docx"))
+
+
+```
+
+### Purpose of visit, with satisfaction rates
+
+```{r}
+hlth_service_ulang <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
+  filter(county=="Ulang") %>%
+  arrange(label)
+
+#hlth_service_ulang
+
+```
+
+```{r}
+
+hlth_service_ulang_flx <- hlth_service_ulang %>%
+  select(Service=label,
+         `Reason for visit`=Value,
+         `Confidence interval`=ci) %>%
+         #`County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(`Reason for visit`=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.3, unit="in") %>%
+  width(j=2, width=1.4, unit="in") %>%
+  width(j=3, width=1.3, unit="in")  %>%
+#  width(j=4, width=1, unit="in") %>%
+  align(j=3,
+        align="center") %>%
+  add_footer_lines(values="Health clinic care")
+  
+#hlth_service_ulang_flx
+```
+
+```{r}
+
+satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
+
+satis_service_ulang_flx <- satis_service_cnty %>%
+  filter(County=="Ulang") %>%
+  arrange(desc(Percent)) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  width(j=1, width=1.4, unit="in") %>%
+  width(j=2, width=2.2, unit="in")  %>%
+  width(j=4, width=1.6, unit="in") %>%
+  width(j=6, width=1.6, unit="in") %>%
+  align(j=6,
+        align="center",
+        part="all") %>%
+  add_footer_lines(values="Health clinic satisfaction by service")
+  
+#satis_service_ulang_flx
+```
+
+```{r}
+
+#names(satis_service_ulang)
+#names(hlth_service_ulang)
+
+satis_service_ulang <- satis_service_cnty %>%
+  filter(County=="Ulang") %>%
+  rename(Service=Indicator,
+         Satisfied=Percent) %>%
+  arrange(Service) %>%
+  mutate()
+
+#satis_service_ulang  
+
+```
+
+```{r}
+
+#hlth_service_ulang
+
+```
+
+```{r}
+
+out <- bind_cols(satis_service_ulang[,4], hlth_service_ulang[,c(2,9)], satis_service_ulang[,5:6])
+#out
+write_csv(out, here("output/tables/Ulang/health service and satisfaction, Ulang.csv"))
+```
+
+```{r}
+out_flx <- out %>%
+  rename(`Reason for visit`=Service,
+         Percent=Value,
+         `Confidence interval (visit)`=ci,
+         `Confidence interval (satisfaction)`=`Confidence interval`) %>% 
+  arrange(desc(Percent)) %>%
+  mutate(`Satisfaction rank`=rank(-Satisfied)) %>%
+  flextable()  %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_formatter(Satisfied=function(x) sprintf("%.1f%%", x*100)) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1, width=3, unit="in") %>%
+#  width(j=2, width=1, unit="in") %>%
+#  width(j=3, width=1, unit="in") %>%
+#  width(j=4, width=1.6, unit="in") %>%
+#  width(j=5, width=1, unit="in") %>%
+#  width(j=6, width=1.6, unit="in") %>%
+#  width(j=8, width=2, unit="in") %>%
+#  width(j=9, width=1, unit="in") %>%
+  align(j=c(3, 5:6),
+        align="center",
+        part="all") %>%
+  set_caption("Health clinic satisfaction by service, Ulang")
+#  add_footer_lines(values="Health clinic satisfaction by service")
+
+out_flx  
+
+save_as_docx(out_flx, path=here("output/tables/Ulang/health service with satisfaction Ulang.docx"))
+
+```
