@@ -1,118 +1,118 @@
 Region,State,County,Indicator,Percent,Confidence interval
-Great Upper Nile,Jonglei,Akobo,Check-up,0.3663749155905004,20.3% - 53%
-Great Upper Nile,Upper Nile,Baliet,Check-up,0.6187970309955854,46.6% - 77.2%
-Equatoria,Eastern Equatoria,Budi,Check-up,0.6508645177637579,44.3% - 85.9%
-Great Upper Nile,Jonglei,Duk,Check-up,0.5920920290346243,44.6% - 73.8%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Check-up,0.5279741492015428,42.9% - 62.7%
-Equatoria,Eastern Equatoria,Kapoeta North,Check-up,0.7700241579036186,67.8% - 86.2%
-Great Upper Nile,Unity,Leer,Check-up,0.3633436786512598,24.1% - 48.6%
-Great Upper Nile,Unity,Mayendit,Check-up,0.6575394039479314,51.7% - 79.8%
-Great Upper Nile,Unity,Paynijar,Check-up,0.30313864387158973,11.8% - 48.8%
-Great Upper Nile,Jonglei,Pibor,Check-up,0.565468538301806,40.7% - 72.4%
-Great Upper Nile,Upper Nile,Ulang,Check-up,0.4437895892613402,26.6% - 62.2%
-Great Upper Nile,Jonglei,Uror,Check-up,0.06266147636260751,1.1% - 11.4%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Check-up,0.6589807976472288,55.8% - 76%
-Great Upper Nile,Jonglei,Akobo,Immunization,0.3577681092161628,21.8% - 49.7%
-Great Upper Nile,Upper Nile,Baliet,Immunization,0.5105523917117123,34.2% - 67.9%
-Equatoria,Eastern Equatoria,Budi,Immunization,0.6632216339120338,39.7% - 92.9%
-Great Upper Nile,Jonglei,Duk,Immunization,0.6131258322206187,45.2% - 77.5%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Immunization,0.5160109134208872,40.9% - 62.3%
-Equatoria,Eastern Equatoria,Kapoeta North,Immunization,0.6284879727910748,54.1% - 71.6%
-Great Upper Nile,Unity,Leer,Immunization,0.3611682498562295,24% - 48.2%
-Great Upper Nile,Unity,Mayendit,Immunization,0.6583163439704879,51.5% - 80.2%
-Great Upper Nile,Unity,Paynijar,Immunization,0.313961545117035,10.9% - 51.9%
-Great Upper Nile,Jonglei,Pibor,Immunization,0.6518124207377838,54.5% - 75.8%
-Great Upper Nile,Upper Nile,Ulang,Immunization,0.47301000389274545,24.8% - 69.8%
-Great Upper Nile,Jonglei,Uror,Immunization,0.05965293504822976,0.8% - 11.1%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Immunization,0.5221899218972778,40.9% - 63.5%
-Great Upper Nile,Jonglei,Akobo,Illness,0.3646863071324617,24.9% - 48%
-Great Upper Nile,Upper Nile,Baliet,Illness,0.4681907761282968,31.9% - 61.7%
-Equatoria,Eastern Equatoria,Budi,Illness,0.6905789933323714,55% - 83.1%
-Great Upper Nile,Jonglei,Duk,Illness,0.5165544464415275,34.1% - 69.2%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Illness,0.4862335641921774,40% - 57.2%
-Equatoria,Eastern Equatoria,Kapoeta North,Illness,0.7013018677549526,61% - 79.3%
-Great Upper Nile,Unity,Leer,Illness,0.3041894510672592,20.5% - 40.3%
-Great Upper Nile,Unity,Mayendit,Illness,0.4854046826527637,41.3% - 55.7%
-Great Upper Nile,Unity,Paynijar,Illness,0.2563949223281273,15.3% - 36%
-Great Upper Nile,Jonglei,Pibor,Illness,0.36138739690513383,29.5% - 42.8%
-Great Upper Nile,Upper Nile,Ulang,Illness,0.3081407254380707,11.6% - 50%
-Great Upper Nile,Jonglei,Uror,Illness,0.05040577449503045,1.8% - 8.3%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Illness,0.6517569481574519,55.9% - 74.5%
-Great Upper Nile,Jonglei,Akobo,Prenatal care,0.5508950499141911,37.9% - 72.3%
-Great Upper Nile,Upper Nile,Baliet,Prenatal care,0.5908818349464667,44.5% - 73.6%
-Equatoria,Eastern Equatoria,Budi,Prenatal care,0.9209817551766452,84.2% - 100%
-Great Upper Nile,Jonglei,Duk,Prenatal care,0.7805184812504312,62.5% - 93.6%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Prenatal care,0.49078748150126106,33.8% - 64.4%
-Equatoria,Eastern Equatoria,Kapoeta North,Prenatal care,0.6983855680873179,58.4% - 81.3%
-Great Upper Nile,Unity,Leer,Prenatal care,0.3773040947623969,21.9% - 53.5%
-Great Upper Nile,Unity,Mayendit,Prenatal care,0.6698601860423171,55% - 79%
-Great Upper Nile,Unity,Paynijar,Prenatal care,0.40869183841304946,16.7% - 65%
-Great Upper Nile,Jonglei,Pibor,Prenatal care,0.2793914223577154,14.8% - 41.1%
-Great Upper Nile,Upper Nile,Ulang,Prenatal care,0.5003908440999474,21.6% - 78.5%
-Great Upper Nile,Jonglei,Uror,Prenatal care,0.13393064856408646,0.1% - 26.7%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Prenatal care,0.6595760735767993,49.5% - 82.4%
-Great Upper Nile,Jonglei,Akobo,Postnatal care,0.4711975187800005,22.2% - 72%
-Great Upper Nile,Upper Nile,Baliet,Postnatal care,0.6220695875529605,44.9% - 79.5%
-Equatoria,Eastern Equatoria,Budi,Postnatal care,0.9414136497147914,85.5% - 102.8%
-Great Upper Nile,Jonglei,Duk,Postnatal care,0.8360241450068375,69.6% - 97.6%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Postnatal care,0.4597955382851814,29.3% - 62.7%
-Equatoria,Eastern Equatoria,Kapoeta North,Postnatal care,0.5981067966954668,47.7% - 72%
-Great Upper Nile,Unity,Leer,Postnatal care,0.3722743119191086,23.5% - 51%
-Great Upper Nile,Unity,Mayendit,Postnatal care,0.44390171823738295,31.2% - 57.6%
-Great Upper Nile,Unity,Paynijar,Postnatal care,0.4106229420989793,14.8% - 67.3%
-Great Upper Nile,Jonglei,Pibor,Postnatal care,0.3622597741529294,22.1% - 50.4%
-Great Upper Nile,Upper Nile,Ulang,Postnatal care,0.5785917414880511,32.8% - 82.9%
-Great Upper Nile,Jonglei,Uror,Postnatal care,0.14679857124089188,-0.4% - 29.7%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Postnatal care,0.5326997563739065,34.8% - 71.7%
-Great Upper Nile,Jonglei,Akobo,Family planning,0.3490055704863888,-6.3% - 76.1%
-Great Upper Nile,Upper Nile,Baliet,Family planning,0.6204718361548707,28.9% - 95.2%
+Great Upper Nile,Jonglei,Akobo,Check-up,0.366374916,20.3% - 53%
+Great Upper Nile,Upper Nile,Baliet,Check-up,0.618797031,46.6% - 77.2%
+Equatoria,Eastern Equatoria,Budi,Check-up,0.650864518,44.3% - 85.9%
+Great Upper Nile,Jonglei,Duk,Check-up,0.592092029,44.6% - 73.8%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Check-up,0.527974149,42.9% - 62.7%
+Equatoria,Eastern Equatoria,Kapoeta North,Check-up,0.770024158,67.8% - 86.2%
+Great Upper Nile,Unity,Leer,Check-up,0.363343679,24.1% - 48.6%
+Great Upper Nile,Unity,Mayendit,Check-up,0.657539404,51.7% - 79.8%
+Great Upper Nile,Unity,Panyijar,Check-up,0.303138644,11.8% - 48.8%
+Great Upper Nile,Jonglei,Pibor,Check-up,0.565468538,40.7% - 72.4%
+Great Upper Nile,Upper Nile,Ulang,Check-up,0.443789589,26.6% - 62.2%
+Great Upper Nile,Jonglei,Uror,Check-up,0.062661476,1.1% - 11.4%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Check-up,0.658980798,55.8% - 76%
+Great Upper Nile,Jonglei,Akobo,Immunization,0.357768109,21.8% - 49.7%
+Great Upper Nile,Upper Nile,Baliet,Immunization,0.510552392,34.2% - 67.9%
+Equatoria,Eastern Equatoria,Budi,Immunization,0.663221634,39.7% - 92.9%
+Great Upper Nile,Jonglei,Duk,Immunization,0.613125832,45.2% - 77.5%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Immunization,0.516010913,40.9% - 62.3%
+Equatoria,Eastern Equatoria,Kapoeta North,Immunization,0.628487973,54.1% - 71.6%
+Great Upper Nile,Unity,Leer,Immunization,0.36116825,24% - 48.2%
+Great Upper Nile,Unity,Mayendit,Immunization,0.658316344,51.5% - 80.2%
+Great Upper Nile,Unity,Panyijar,Immunization,0.313961545,10.9% - 51.9%
+Great Upper Nile,Jonglei,Pibor,Immunization,0.651812421,54.5% - 75.8%
+Great Upper Nile,Upper Nile,Ulang,Immunization,0.473010004,24.8% - 69.8%
+Great Upper Nile,Jonglei,Uror,Immunization,0.059652935,0.8% - 11.1%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Immunization,0.522189922,40.9% - 63.5%
+Great Upper Nile,Jonglei,Akobo,Illness,0.364686307,24.9% - 48%
+Great Upper Nile,Upper Nile,Baliet,Illness,0.468190776,31.9% - 61.7%
+Equatoria,Eastern Equatoria,Budi,Illness,0.690578993,55% - 83.1%
+Great Upper Nile,Jonglei,Duk,Illness,0.516554446,34.1% - 69.2%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Illness,0.486233564,40% - 57.2%
+Equatoria,Eastern Equatoria,Kapoeta North,Illness,0.701301868,61% - 79.3%
+Great Upper Nile,Unity,Leer,Illness,0.304189451,20.5% - 40.3%
+Great Upper Nile,Unity,Mayendit,Illness,0.485404683,41.3% - 55.7%
+Great Upper Nile,Unity,Panyijar,Illness,0.256394922,15.3% - 36%
+Great Upper Nile,Jonglei,Pibor,Illness,0.361387397,29.5% - 42.8%
+Great Upper Nile,Upper Nile,Ulang,Illness,0.308140725,11.6% - 50%
+Great Upper Nile,Jonglei,Uror,Illness,0.050405774,1.8% - 8.3%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Illness,0.651756948,55.9% - 74.5%
+Great Upper Nile,Jonglei,Akobo,Prenatal care,0.55089505,37.9% - 72.3%
+Great Upper Nile,Upper Nile,Baliet,Prenatal care,0.590881835,44.5% - 73.6%
+Equatoria,Eastern Equatoria,Budi,Prenatal care,0.920981755,84.2% - 100%
+Great Upper Nile,Jonglei,Duk,Prenatal care,0.780518481,62.5% - 93.6%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Prenatal care,0.490787482,33.8% - 64.4%
+Equatoria,Eastern Equatoria,Kapoeta North,Prenatal care,0.698385568,58.4% - 81.3%
+Great Upper Nile,Unity,Leer,Prenatal care,0.377304095,21.9% - 53.5%
+Great Upper Nile,Unity,Mayendit,Prenatal care,0.669860186,55% - 79%
+Great Upper Nile,Unity,Panyijar,Prenatal care,0.408691838,16.7% - 65%
+Great Upper Nile,Jonglei,Pibor,Prenatal care,0.279391422,14.8% - 41.1%
+Great Upper Nile,Upper Nile,Ulang,Prenatal care,0.500390844,21.6% - 78.5%
+Great Upper Nile,Jonglei,Uror,Prenatal care,0.133930649,0.1% - 26.7%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Prenatal care,0.659576074,49.5% - 82.4%
+Great Upper Nile,Jonglei,Akobo,Postnatal care,0.471197519,22.2% - 72%
+Great Upper Nile,Upper Nile,Baliet,Postnatal care,0.622069588,44.9% - 79.5%
+Equatoria,Eastern Equatoria,Budi,Postnatal care,0.94141365,85.5% - 102.8%
+Great Upper Nile,Jonglei,Duk,Postnatal care,0.836024145,69.6% - 97.6%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Postnatal care,0.459795538,29.3% - 62.7%
+Equatoria,Eastern Equatoria,Kapoeta North,Postnatal care,0.598106797,47.7% - 72%
+Great Upper Nile,Unity,Leer,Postnatal care,0.372274312,23.5% - 51%
+Great Upper Nile,Unity,Mayendit,Postnatal care,0.443901718,31.2% - 57.6%
+Great Upper Nile,Unity,Panyijar,Postnatal care,0.410622942,14.8% - 67.3%
+Great Upper Nile,Jonglei,Pibor,Postnatal care,0.362259774,22.1% - 50.4%
+Great Upper Nile,Upper Nile,Ulang,Postnatal care,0.578591741,32.8% - 82.9%
+Great Upper Nile,Jonglei,Uror,Postnatal care,0.146798571,-0.301
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Postnatal care,0.532699756,34.8% - 71.7%
+Great Upper Nile,Jonglei,Akobo,Family planning,0.34900557,-0.824
+Great Upper Nile,Upper Nile,Baliet,Family planning,0.620471836,28.9% - 95.2%
 Equatoria,Eastern Equatoria,Budi,Family planning,1,100% - 100%
-Great Upper Nile,Jonglei,Duk,Family planning,0.8486064668923207,70.3% - 99.4%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Family planning,0.43760403899493033,29.6% - 57.9%
-Equatoria,Eastern Equatoria,Kapoeta North,Family planning,0.6295040022083203,47% - 78.9%
-Great Upper Nile,Unity,Leer,Family planning,0.6743325328528733,54.8% - 80.1%
-Great Upper Nile,Unity,Mayendit,Family planning,0.8449024187765196,71.8% - 97.2%
-Great Upper Nile,Unity,Paynijar,Family planning,0.27607066963476234,3.5% - 51.8%
-Great Upper Nile,Jonglei,Pibor,Family planning,0.46290806136832063,30.8% - 61.8%
-Great Upper Nile,Upper Nile,Ulang,Family planning,0.5290981740982691,26% - 79.8%
+Great Upper Nile,Jonglei,Duk,Family planning,0.848606467,70.3% - 99.4%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Family planning,0.437604039,29.6% - 57.9%
+Equatoria,Eastern Equatoria,Kapoeta North,Family planning,0.629504002,47% - 78.9%
+Great Upper Nile,Unity,Leer,Family planning,0.674332533,54.8% - 80.1%
+Great Upper Nile,Unity,Mayendit,Family planning,0.844902419,71.8% - 97.2%
+Great Upper Nile,Unity,Panyijar,Family planning,0.27607067,3.5% - 51.8%
+Great Upper Nile,Jonglei,Pibor,Family planning,0.462908061,30.8% - 61.8%
+Great Upper Nile,Upper Nile,Ulang,Family planning,0.529098174,26% - 79.8%
 Great Upper Nile,Jonglei,Uror,Family planning,0,0% - 0%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Family planning,0.5773264102031747,40.9% - 74.6%
-Great Upper Nile,Jonglei,Akobo,HIV service,0.4273927677232651,0.6% - 84.9%
-Great Upper Nile,Upper Nile,Baliet,HIV service,0.6440830278906984,11.9% - 116.9%
-Equatoria,Eastern Equatoria,Budi,HIV service,0.831963510640056,59.5% - 106.9%
-Great Upper Nile,Jonglei,Duk,HIV service,0.9024453470006659,76.3% - 104.2%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,HIV service,0.4961324108294158,18.5% - 80.7%
-Equatoria,Eastern Equatoria,Kapoeta North,HIV service,0.633243867327097,44.9% - 81.7%
-Great Upper Nile,Unity,Leer,HIV service,0.39108804687479015,26.8% - 51.5%
-Great Upper Nile,Unity,Mayendit,HIV service,0.8356319869415886,73.9% - 93.2%
-Great Upper Nile,Unity,Paynijar,HIV service,0.6388303978480996,27.7% - 100%
-Great Upper Nile,Jonglei,Pibor,HIV service,0.4147094688731784,-0.9% - 83.9%
-Great Upper Nile,Upper Nile,Ulang,HIV service,0.6117070039679171,37.7% - 84.6%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Family planning,0.57732641,40.9% - 74.6%
+Great Upper Nile,Jonglei,Akobo,HIV service,0.427392768,0.6% - 84.9%
+Great Upper Nile,Upper Nile,Baliet,HIV service,0.644083028,11.9% - 116.9%
+Equatoria,Eastern Equatoria,Budi,HIV service,0.831963511,59.5% - 106.9%
+Great Upper Nile,Jonglei,Duk,HIV service,0.902445347,76.3% - 104.2%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,HIV service,0.496132411,18.5% - 80.7%
+Equatoria,Eastern Equatoria,Kapoeta North,HIV service,0.633243867,44.9% - 81.7%
+Great Upper Nile,Unity,Leer,HIV service,0.391088047,26.8% - 51.5%
+Great Upper Nile,Unity,Mayendit,HIV service,0.835631987,73.9% - 93.2%
+Great Upper Nile,Unity,Panyijar,HIV service,0.638830398,27.7% - 100%
+Great Upper Nile,Jonglei,Pibor,HIV service,0.414709469,-0.848
+Great Upper Nile,Upper Nile,Ulang,HIV service,0.611707004,37.7% - 84.6%
 Great Upper Nile,Jonglei,Uror,HIV service,0,0% - 0%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,HIV service,0.561720368543241,33.3% - 79.1%
-Great Upper Nile,Jonglei,Akobo,Growth monitoring,0.6630955826331932,29.6% - 103%
-Great Upper Nile,Upper Nile,Baliet,Growth monitoring,0.7656929558717265,54.8% - 98.3%
-Equatoria,Eastern Equatoria,Budi,Growth monitoring,0.8983772166874875,79.5% - 100.1%
-Great Upper Nile,Jonglei,Duk,Growth monitoring,0.844694571600269,68.2% - 100.7%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Growth monitoring,0.32566871063897873,2.8% - 62.3%
-Equatoria,Eastern Equatoria,Kapoeta North,Growth monitoring,0.766675600372422,65.6% - 87.7%
-Great Upper Nile,Unity,Leer,Growth monitoring,0.3621237085971323,22% - 50.5%
-Great Upper Nile,Unity,Mayendit,Growth monitoring,0.7050161203910725,56.4% - 84.6%
-Great Upper Nile,Unity,Paynijar,Growth monitoring,0.17795585175482329,14.7% - 20.9%
-Great Upper Nile,Jonglei,Pibor,Growth monitoring,0.44566356061847884,34.2% - 54.9%
-Great Upper Nile,Upper Nile,Ulang,Growth monitoring,0.49380819675017557,24.4% - 74.3%
-Great Upper Nile,Jonglei,Uror,Growth monitoring,0.24050670273194744,-16.7% - 64.8%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Growth monitoring,0.6351629281252597,44.6% - 82.4%
-Great Upper Nile,Jonglei,Akobo,Malnutrition,0.2547350760272373,-15.6% - 66.6%
-Great Upper Nile,Upper Nile,Baliet,Malnutrition,0.5475256498106509,32.5% - 77%
-Equatoria,Eastern Equatoria,Budi,Malnutrition,0.2560763686173023,-4.8% - 56%
-Great Upper Nile,Jonglei,Duk,Malnutrition,0.7114767465564175,52.7% - 89.6%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Malnutrition,0.5004310223686725,19.8% - 80.3%
-Equatoria,Eastern Equatoria,Kapoeta North,Malnutrition,0.629645519294859,52.5% - 73.5%
-Great Upper Nile,Unity,Leer,Malnutrition,0.7646072176521205,59.3% - 93.6%
-Great Upper Nile,Unity,Mayendit,Malnutrition,0.2676468759121465,12.8% - 40.7%
-Great Upper Nile,Unity,Paynijar,Malnutrition,0.3178234220318418,18.4% - 45.2%
-Great Upper Nile,Jonglei,Pibor,Malnutrition,0.4328256900540651,32.1% - 54.4%
-Great Upper Nile,Upper Nile,Ulang,Malnutrition,0.3397881610484062,14.3% - 53.6%
-Great Upper Nile,Jonglei,Uror,Malnutrition,0.09370111973838365,3.4% - 15.4%
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Malnutrition,0.605576831152501,38.5% - 82.7%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,HIV service,0.561720369,33.3% - 79.1%
+Great Upper Nile,Jonglei,Akobo,Growth monitoring,0.663095583,29.6% - 103%
+Great Upper Nile,Upper Nile,Baliet,Growth monitoring,0.765692956,54.8% - 98.3%
+Equatoria,Eastern Equatoria,Budi,Growth monitoring,0.898377217,79.5% - 100.1%
+Great Upper Nile,Jonglei,Duk,Growth monitoring,0.844694572,68.2% - 100.7%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Growth monitoring,0.325668711,2.8% - 62.3%
+Equatoria,Eastern Equatoria,Kapoeta North,Growth monitoring,0.7666756,65.6% - 87.7%
+Great Upper Nile,Unity,Leer,Growth monitoring,0.362123709,22% - 50.5%
+Great Upper Nile,Unity,Mayendit,Growth monitoring,0.70501612,56.4% - 84.6%
+Great Upper Nile,Unity,Panyijar,Growth monitoring,0.177955852,14.7% - 20.9%
+Great Upper Nile,Jonglei,Pibor,Growth monitoring,0.445663561,34.2% - 54.9%
+Great Upper Nile,Upper Nile,Ulang,Growth monitoring,0.493808197,24.4% - 74.3%
+Great Upper Nile,Jonglei,Uror,Growth monitoring,0.240506703,-0.815
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Growth monitoring,0.635162928,44.6% - 82.4%
+Great Upper Nile,Jonglei,Akobo,Malnutrition,0.254735076,-0.822
+Great Upper Nile,Upper Nile,Baliet,Malnutrition,0.54752565,32.5% - 77%
+Equatoria,Eastern Equatoria,Budi,Malnutrition,0.256076369,-0.608
+Great Upper Nile,Jonglei,Duk,Malnutrition,0.711476747,52.7% - 89.6%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Malnutrition,0.500431022,19.8% - 80.3%
+Equatoria,Eastern Equatoria,Kapoeta North,Malnutrition,0.629645519,52.5% - 73.5%
+Great Upper Nile,Unity,Leer,Malnutrition,0.764607218,59.3% - 93.6%
+Great Upper Nile,Unity,Mayendit,Malnutrition,0.267646876,12.8% - 40.7%
+Great Upper Nile,Unity,Panyijar,Malnutrition,0.317823422,18.4% - 45.2%
+Great Upper Nile,Jonglei,Pibor,Malnutrition,0.43282569,32.1% - 54.4%
+Great Upper Nile,Upper Nile,Ulang,Malnutrition,0.339788161,14.3% - 53.6%
+Great Upper Nile,Jonglei,Uror,Malnutrition,0.09370112,3.4% - 15.4%
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Malnutrition,0.605576831,38.5% - 82.7%
