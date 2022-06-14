@@ -1,14 +1,14 @@
 Region,State,County,Indicator,Household size,Value_se,var_name,margin,lower,upper,ci,ci2,cnty_rnk
-Great Upper Nile,Unity,Leer,Household size,7.1957333724018,0.15515715677418068,household_members,0.3041080272773941,6.891625345124406,7.499841399679194,689.2% - 750%,6.9 - 7.5,1
-Great Upper Nile,Upper Nile,Ulang,Household size,7.166294588871198,0.44000560021490764,household_members,0.862410976421219,6.303883612449979,8.028705565292416,630.4% - 802.9%,6.3 - 8,2
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Household size,6.703226314180263,0.18640460999911895,household_members,0.36535303559827315,6.33787327858199,7.0685793497785365,633.8% - 706.9%,6.3 - 7.1,3
-Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Household size,6.12110639072889,0.22409347538922594,household_members,0.4392232117628828,5.681883178966007,6.560329602491773,568.2% - 656%,5.7 - 6.6,4
-Great Upper Nile,Jonglei,Duk,Household size,5.834414948968939,0.14063710893493173,household_members,0.27564873351246616,5.5587662154564725,6.110063682481405,555.9% - 611%,5.6 - 6.1,5
-Great Upper Nile,Unity,Paynijar,Household size,5.579234505982641,0.17720083046354584,household_members,0.34731362770854984,5.231920878274091,5.926548133691191,523.2% - 592.7%,5.2 - 5.9,6
-Great Upper Nile,Upper Nile,Baliet,Household size,5.534985084541894,0.18744275894389908,household_members,0.3673878075300422,5.167597277011852,5.902372892071936,516.8% - 590.2%,5.2 - 5.9,7
-Great Upper Nile,Jonglei,Akobo,Household size,5.3498852033179976,0.15476221970588921,household_members,0.30333395062354285,5.046551252694455,5.65321915394154,504.7% - 565.3%,5 - 5.7,8
-Equatoria,Eastern Equatoria,Budi,Household size,5.274940803253224,0.19115457307243705,household_members,0.3746629632219766,4.900277840031247,5.649603766475201,490% - 565%,4.9 - 5.6,9
-Great Upper Nile,Jonglei,Uror,Household size,5.178345932820767,0.21425911074618884,household_members,0.41994785706253013,4.758398075758237,5.5982937898832965,475.8% - 559.8%,4.8 - 5.6,10
-Great Upper Nile,Unity,Mayendit,Household size,5.163358824990748,0.18728015168706602,household_members,0.3670690973066494,4.796289727684099,5.530427922297398,479.6% - 553%,4.8 - 5.5,11
-Equatoria,Eastern Equatoria,Kapoeta North,Household size,3.2001636087357785,0.4686520770855289,household_members,0.9185580710876367,2.281605537648142,4.118721679823415,228.2% - 411.9%,2.3 - 4.1,12
-Great Upper Nile,Jonglei,Pibor,Household size,1.0082804876840195,0.006323760444814679,household_members,0.012394570471836772,0.9958859172121827,1.0206750581558561,99.6% - 102.1%,1 - 1,13
+Great Upper Nile,Unity,Leer,Household size,7.195733372,0.155157157,household_members,0.304108027,6.891625345,7.4998414,689.2% - 750%,6.9 - 7.5,1
+Great Upper Nile,Upper Nile,Ulang,Household size,7.166294589,0.4400056,household_members,0.862410976,6.303883612,8.028705565,630.4% - 802.9%,6.3 - 8,2
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Jur River,Household size,6.703226314,0.18640461,household_members,0.365353036,6.337873279,7.06857935,633.8% - 706.9%,6.3 - 7.1,3
+Bahr-El-Ghazel,Western Bahr-El-Ghazel,Wau,Household size,6.121106391,0.224093475,household_members,0.439223212,5.681883179,6.560329602,568.2% - 656%,5.7 - 6.6,4
+Great Upper Nile,Jonglei,Duk,Household size,5.834414949,0.140637109,household_members,0.275648734,5.558766215,6.110063682,555.9% - 611%,5.6 - 6.1,5
+Great Upper Nile,Unity,Panyijar,Household size,5.579234506,0.17720083,household_members,0.347313628,5.231920878,5.926548134,523.2% - 592.7%,5.2 - 5.9,6
+Great Upper Nile,Upper Nile,Baliet,Household size,5.534985085,0.187442759,household_members,0.367387808,5.167597277,5.902372892,516.8% - 590.2%,5.2 - 5.9,7
+Great Upper Nile,Jonglei,Akobo,Household size,5.349885203,0.15476222,household_members,0.303333951,5.046551253,5.653219154,504.7% - 565.3%,5 - 5.7,8
+Equatoria,Eastern Equatoria,Budi,Household size,5.274940803,0.191154573,household_members,0.374662963,4.90027784,5.649603766,490% - 565%,4.9 - 5.6,9
+Great Upper Nile,Jonglei,Uror,Household size,5.178345933,0.214259111,household_members,0.419947857,4.758398076,5.59829379,475.8% - 559.8%,4.8 - 5.6,10
+Great Upper Nile,Unity,Mayendit,Household size,5.163358825,0.187280152,household_members,0.367069097,4.796289728,5.530427922,479.6% - 553%,4.8 - 5.5,11
+Equatoria,Eastern Equatoria,Kapoeta North,Household size,3.200163609,0.468652077,household_members,0.918558071,2.281605538,4.11872168,228.2% - 411.9%,2.3 - 4.1,12
+Great Upper Nile,Jonglei,Pibor,Household size,1.008280488,0.00632376,household_members,0.01239457,0.995885917,1.020675058,99.6% - 102.1%,1-Jan,13

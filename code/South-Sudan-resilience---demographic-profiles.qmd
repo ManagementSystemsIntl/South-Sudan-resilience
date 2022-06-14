@@ -14,6 +14,8 @@ format:
 tbl-cap-location: top
 execute: 
   echo: false
+project: 
+  execute-dir: project
 editor: visual
 ---
 
@@ -141,7 +143,7 @@ include_graphics(here("output/viz/Jur River/age density, Jur River.png"))
 include_graphics(here("output/viz/Jur River/age pyramid, Jur River.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -172,7 +174,6 @@ jur_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -210,7 +211,6 @@ jur_married_flx <- jur_married %>%
 jur_married_flx
 
 ```
-
 
 ## Education
 
@@ -641,7 +641,7 @@ include_graphics(here("output/viz/Wau/age density, Wau.png"))
 include_graphics(here("output/viz/Wau/age pyramid, Wau.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -672,7 +672,6 @@ wau_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -1132,7 +1131,7 @@ ggsave(here("output/viz/Budi/age pyramid, Budi.png"),
 include_graphics(here("output/viz/Budi/age pyramid, Budi.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -1163,7 +1162,6 @@ budi_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -1201,8 +1199,6 @@ budi_married_flx <- budi_married %>%
 budi_married_flx
 
 ```
-
-
 
 ## Education
 
@@ -1626,7 +1622,7 @@ ggsave(here("output/viz/Kapoeta North/age pyramid, Kapoeta North.png"),
 include_graphics(here("output/viz/Kapoeta North/age pyramid, Kapoeta North.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -1657,7 +1653,6 @@ kapo_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -2117,7 +2112,7 @@ ggsave(here("output/viz/Akobo/age pyramid, Akobo.png"),
 include_graphics(here("output/viz/Akobo/age pyramid, Akobo.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -2148,7 +2143,6 @@ akobo_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -2513,6 +2507,7 @@ out_flx
 save_as_docx(out_flx, path=here("output/tables/Akobo/health service with satisfaction Akobo.docx"))
 
 ```
+
 # Duk (Jonglei)
 
 ```{r}
@@ -2607,7 +2602,7 @@ ggsave(here("output/viz/Duk/age pyramid, Duk.png"),
 include_graphics(here("output/viz/Duk/age pyramid, Duk.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -2638,7 +2633,6 @@ duk_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -3004,7 +2998,6 @@ save_as_docx(out_flx, path=here("output/tables/Duk/health service with satisfact
 
 ```
 
-
 # Pibor (Jonglei)
 
 ```{r}
@@ -3128,7 +3121,6 @@ include_graphics(here("output/viz/Pibor/age pyramid, Pibor.png"))
 
 ```
 
-  
 ```{r}
 
 # yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -3588,7 +3580,7 @@ ggsave(here("output/viz/Uror/age pyramid, Uror.png"),
 include_graphics(here("output/viz/Uror/age pyramid, Uror.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -3619,7 +3611,6 @@ uror_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -4079,7 +4070,7 @@ ggsave(here("output/viz/Leer/age pyramid, Leer.png"),
 include_graphics(here("output/viz/Leer/age pyramid, Leer.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -4110,7 +4101,6 @@ leer_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -4570,7 +4560,7 @@ ggsave(here("output/viz/Mayendit/age pyramid, Mayendit.png"),
 include_graphics(here("output/viz/Mayendit/age pyramid, Mayendit.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -4601,7 +4591,6 @@ mayendit_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -5061,9 +5050,9 @@ ggsave(here("output/viz/Panyijar/age pyramid, Panyijar.png"),
 include_graphics(here("output/viz/Panyijar/age pyramid, Panyijar.png"))
 ```
 
-## Household 
+## Household
 
-```{r}
+```{r cache = F}
 
 hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
 
@@ -5092,8 +5081,7 @@ payn_hhsize_flx
 
 ```
 
-  
-```{r}
+```{r cache = F}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
 
@@ -5225,7 +5213,7 @@ payn_inc_flx
 
 ## Food security
 
-```{r}
+```{r cache = F}
 
 fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
 
@@ -5256,7 +5244,7 @@ write_csv(insec, here("output/tables/Panyijar/food insecurity indicators Panyija
 
 ```
 
-```{r}
+```{r cache=F}
 
 insec_flx <- insec %>%
   flextable() %>%
@@ -5552,7 +5540,7 @@ ggsave(here("output/viz/Baliet/age pyramid, Baliet.png"),
 include_graphics(here("output/viz/Baliet/age pyramid, Baliet.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -5583,7 +5571,6 @@ baliet_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
@@ -5949,22 +5936,6 @@ save_as_docx(out_flx, path=here("output/tables/Baliet/health service with satisf
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Ulang (Upper Nile)
 
 ```{r}
@@ -6059,7 +6030,7 @@ ggsave(here("output/viz/Ulang/age pyramid, Ulang.png"),
 include_graphics(here("output/viz/Ulang/age pyramid, Ulang.png"))
 ```
 
-## Household 
+## Household
 
 ```{r}
 
@@ -6090,7 +6061,6 @@ ulang_hhsize_flx
 
 ```
 
-  
 ```{r}
 
 yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
