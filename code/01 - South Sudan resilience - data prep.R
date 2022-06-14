@@ -38,13 +38,47 @@ hh <- hh %>%
                              age>9 & age<30 ~ 2,
                              age>29 & age<55 ~ 3,
                              age>54 ~ 4),
+         youth_cat = case_when(age<10 ~ 1,
+                          age>9&age<15 ~ 2,
+                          age>14&age<20 ~ 3,
+                          age>19&age<25 ~ 4,
+                          age>24&age<30 ~ 5,
+                          age>29&age<55 ~ 6,
+                          age>54 ~ 7),
+         yth12_18 = case_when(age>11&age<19 ~ 1,
+                              TRUE ~ 0),
+         early_marriage = case_when(yth12_18 ==1 & q_309>1 ~ 1,
+                                    TRUE ~ 0),
          literate=ifelse(q_305==1, 1,0),
          no_ed=ifelse(q_308==0, 1,0),
          prim_ed = ifelse(q_308==1, 1,0),
          sec_ed = ifelse(q_308>1, 1,0),
          measles_vacc = ifelse(q_315==1, 1,0)) %>%
-  set_labels(age_dec, labels=age_dec_key[,2])
-  
+  set_labels(age_dec, labels=age_dec_key[,2]) %>%
+  set_labels(age_cat, labels=c("0-9","10-29","30-54","55+"))
+# 
+# frq(hh$yth12_18)
+# table(hh$yth12_18, hh$early_marriage)
+# 
+# hh %>%
+#   group_by(sex) %>%
+#   summarize(s = sum(early_marriage),
+#             m = mean(early_marriage, na.rm=T))
+# 
+# hh %>%
+#   filter(yth12_18==1) %>%
+#   group_by(sex) %>%
+#   summarize(s = sum(early_marriage),
+#             m = mean(early_marriage, na.rm=T))
+# 
+# out <- hh %>%
+#   group_by(record_id, youth_cat) %>%
+#   summarize(early_marriage=sum(early_marriage))
+# 
+# out %>%
+#   group_by(youth_cat) %>%
+#   summarize(tot = sum(early_marriage, na.rm=T),
+#             mn=mean(early_marriage, na.rm=T))
 
 frq(hh$age_dec)
 frq(hh$literate)
@@ -72,6 +106,15 @@ frq(dat$hh_ed_ord)
 frq(dat$prim_educ)
 frq(dat$visited_clinic)
 frq(dat$hlth_rating)
+
+# replace mis-spelled county
+
+dat <- dat %>%
+  mutate(county=str_replace_all(county, "Paynijar", "Panyijar"))
+
+hh <- hh %>%
+  mutate(county=str_replace_all(county, "Paynijar", "Panyijar"))
+
 
 
 # 4.22 - 4.35 Food insecurity ---- 

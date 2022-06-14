@@ -21,7 +21,7 @@ editor: visual
 
 # standard figure size and generate clean output
 
-knitr::opts_chunk$set(autodep=T, fig.height=4, fig.width=6, warning=FALSE, message=FALSE, cache=TRUE, error=F)#, echo=T)
+knitr::opts_chunk$set(autodep=T, fig.height=2, fig.width=3, warning=FALSE, message=FALSE, cache=TRUE, error=F)#, echo=T)
 
 library(here) 
 source(here("code/00 South Sudan resilience - prep.R"))
@@ -95,8 +95,8 @@ ggsave(here("output/viz/Jur River/age density, Jur River.png"),
        width=7)
 ```
 
-```{r echo=T, fig.cap="Age distribution of all household members, Jur River"}
-include_graphics(here("output/viz/Jur River/age density, Jur River.png"))
+```{r echo=T}
+#include_graphics(here("output/viz/Jur River/age density, Jur River.png"))
 ```
 
 ```{r}
@@ -136,9 +136,81 @@ ggsave(here("output/viz/Jur River/age pyramid, Jur River.png"),
 
 ```
 
-```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+```{r echo=T, out.width="60%"}
+include_graphics(here("output/viz/Jur River/age density, Jur River.png"))
 include_graphics(here("output/viz/Jur River/age pyramid, Jur River.png"))
 ```
+
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+jur_hhsize <-hhsize_cnty %>%
+  filter(County=="Jur River")
+
+jur_hhsize_flx <- jur_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Jur River")
+
+jur_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+jur12_18 <- yth12_18_cnty %>%
+  filter(County=="Jur River")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+jur_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Jur River")
+
+jur_married <- bind_rows(jur12_18, jur_femearlymar)
+
+jur_married_flx <- jur_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Jur River")
+
+#jur_hhsize_flx
+jur_married_flx
+
+```
+
 
 ## Education
 
@@ -258,7 +330,12 @@ hdds_jur <- hdds_cnty %>%
 
 #hdds_jur
 
-insec <- bind_rows(fies_jur, hhs_jur, hdds_jur)
+insec <- bind_rows(fies_jur, hhs_jur, hdds_jur) 
+
+
+  # mutate(Comment=c("Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity",
+  #                 "Household hunger divided into moderate (2-3) and severe (4-6) hunger",
+  #                 ""))
 #insec
 
 #write_csv(insec, here("output/tables/Jur River/food insecurity indicators Jur River.csv"))
@@ -279,10 +356,35 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_cnty <- read_csv(here("output/tables/food insecurity/Severe household hunger by county.csv"))
+
+hhs_sev_jur <- hhs_sev_cnty %>%
+  filter(County=="Jur River") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_jur_flx <- hhs_sev_jur %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_jur_flx
 ```
 
 ## Health
@@ -493,8 +595,8 @@ ggsave(here("output/viz/Wau/age density, Wau.png"),
        width=7)
 ```
 
-```{r echo=T, fig.cap="Age distribution of all household members, Wau"}
-include_graphics(here("output/viz/Wau/age density, Wau.png"))
+```{r echo=T}
+
 ```
 
 ```{r}
@@ -534,8 +636,79 @@ ggsave(here("output/viz/Wau/age pyramid, Wau.png"),
 
 ```
 
-```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
+```{r echo=T, out.width="70%"}
+include_graphics(here("output/viz/Wau/age density, Wau.png"))
 include_graphics(here("output/viz/Wau/age pyramid, Wau.png"))
+```
+
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+wau_hhsize <-hhsize_cnty %>%
+  filter(County=="Wau")
+
+wau_hhsize_flx <- wau_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Wau")
+
+wau_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+wau12_18 <- yth12_18_cnty %>%
+  filter(County=="Wau")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+wau_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Wau")
+
+wau_married <- bind_rows(wau12_18, wau_femearlymar)
+
+wau_married_flx <- wau_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Wau")
+
+#wau_hhsize_flx
+wau_married_flx
+
 ```
 
 ## Education
@@ -677,10 +850,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_wau <- hhs_sev_cnty %>%
+  filter(County=="Wau") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_wau_flx <- hhs_sev_wau %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_wau_flx
 ```
 
 ## Health
@@ -936,6 +1132,78 @@ ggsave(here("output/viz/Budi/age pyramid, Budi.png"),
 include_graphics(here("output/viz/Budi/age pyramid, Budi.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+budi_hhsize <-hhsize_cnty %>%
+  filter(County=="Budi")
+
+budi_hhsize_flx <- budi_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Budi")
+
+budi_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+budi12_18 <- yth12_18_cnty %>%
+  filter(County=="Budi")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+budi_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Budi")
+
+budi_married <- bind_rows(budi12_18, budi_femearlymar)
+
+budi_married_flx <- budi_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Budi")
+
+#budi_hhsize_flx
+budi_married_flx
+
+```
+
+
+
 ## Education
 
 ```{r}
@@ -1075,10 +1343,34 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_budi <- hhs_sev_cnty %>%
+  filter(County=="Budi") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_budi_flx <- hhs_sev_budi %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_budi_flx
+
 ```
 
 ## Health
@@ -1334,6 +1626,76 @@ ggsave(here("output/viz/Kapoeta North/age pyramid, Kapoeta North.png"),
 include_graphics(here("output/viz/Kapoeta North/age pyramid, Kapoeta North.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+kapo_hhsize <-hhsize_cnty %>%
+  filter(County=="Kapoeta North")
+
+kapo_hhsize_flx <- kapo_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Kapoeta North")
+
+kapo_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+kapo12_18 <- yth12_18_cnty %>%
+  filter(County=="Kapoeta North")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+kapo_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Kapoeta North")
+
+kapo_married <- bind_rows(kapo12_18, kapo_femearlymar)
+
+kapo_married_flx <- kapo_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Kapoeta North")
+
+#kapo_hhsize_flx
+kapo_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -1473,10 +1835,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_kapo <- hhs_sev_cnty %>%
+  filter(County=="Kapoeta North") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_kapo_flx <- hhs_sev_kapo %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_kapo_flx
 ```
 
 ## Health
@@ -1732,6 +2117,76 @@ ggsave(here("output/viz/Akobo/age pyramid, Akobo.png"),
 include_graphics(here("output/viz/Akobo/age pyramid, Akobo.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+akobo_hhsize <-hhsize_cnty %>%
+  filter(County=="Akobo")
+
+akobo_hhsize_flx <- akobo_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Akobo")
+
+akobo_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+akobo12_18 <- yth12_18_cnty %>%
+  filter(County=="Akobo")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+akobo_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Akobo")
+
+akobo_married <- bind_rows(akobo12_18, akobo_femearlymar)
+
+akobo_married_flx <- akobo_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Akobo")
+
+#akobo_hhsize_flx
+akobo_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -1871,10 +2326,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_akobo <- hhs_sev_cnty %>%
+  filter(County=="Akobo") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_akobo_flx <- hhs_sev_akobo %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_akobo_flx
 ```
 
 ## Health
@@ -2129,6 +2607,76 @@ ggsave(here("output/viz/Duk/age pyramid, Duk.png"),
 include_graphics(here("output/viz/Duk/age pyramid, Duk.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+duk_hhsize <-hhsize_cnty %>%
+  filter(County=="Duk")
+
+duk_hhsize_flx <- duk_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Duk")
+
+duk_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+duk12_18 <- yth12_18_cnty %>%
+  filter(County=="Duk")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+duk_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Duk")
+
+duk_married <- bind_rows(duk12_18, duk_femearlymar)
+
+duk_married_flx <- duk_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Duk")
+
+#duk_hhsize_flx
+duk_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -2268,10 +2816,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_duk <- hhs_sev_cnty %>%
+  filter(County=="Duk") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_duk_flx <- hhs_sev_duk %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_duk_flx
 ```
 
 ## Health
@@ -2528,6 +3099,74 @@ ggsave(here("output/viz/Pibor/age pyramid, Pibor.png"),
 include_graphics(here("output/viz/Pibor/age pyramid, Pibor.png"))
 ```
 
+```{r}
+
+# hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+# 
+# pibor_hhsize <-hhsize_cnty %>%
+#   filter(County=="Pibor")
+# 
+# pibor_hhsize_flx <- pibor_hhsize %>%
+#   select(4:5, `Confidence interval`=ci2,
+#          `County rank`=cnty_rnk) %>%
+#   flextable() %>%
+#   #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#   colformat_double(j=2, digits=1) %>%
+#   set_table_properties(layout="autofit") %>%
+# #  width(j=1:2, width=1.4, unit="in") %>%
+# #  width(j=3, width=1.3, unit="in") %>%
+# #  width(j=2, width=2, unit="in") %>%
+# #  width(j=4, width=2, unit="in") %>%
+# #  width(j=5:6, width=.9, unit="in") %>%
+#   align(align="center",
+#         part="header") %>%
+#   align(j=3:4,
+#         align="center") %>%
+#   set_caption("Household size, Pibor")
+# 
+# pibor_hhsize_flx
+
+```
+
+  
+```{r}
+
+# yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+# 
+# pibor12_18 <- yth12_18_cnty %>%
+#   filter(County=="Pibor")
+# 
+# femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+# 
+# pibor_femearlymar <- femearlymar_cnty %>%
+#   filter(County=="Pibor")
+# 
+# pibor_married <- bind_rows(pibor12_18, pibor_femearlymar)
+# 
+# pibor_married_flx <- pibor_married %>%
+#   select(4:5,
+#          `Confidence interval`=ci,
+#          `County rank`=cnty_rnk) %>%
+#   flextable() %>%
+#   set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#   #colformat_double(j=5, digits=1) %>%
+#   set_table_properties(layout="autofit") %>%
+# #  width(j=1:2, width=1.4, unit="in") %>%
+# #  width(j=3, width=1.3, unit="in") %>%
+# #  width(j=2, width=2, unit="in") %>%
+# #  width(j=4, width=2.4, unit="in") %>%
+# #  width(j=5:6, width=.9, unit="in") %>%
+#   align(align="center",
+#         part="header") %>%
+#   align(j=3:4,
+#         align="center") %>%
+#   set_caption("Proportion females 12-18 married, Pibor")
+# 
+# #pibor_hhsize_flx
+# pibor_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -2667,10 +3306,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_pibor <- hhs_sev_cnty %>%
+  filter(County=="Pibor") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_pibor_flx <- hhs_sev_pibor %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_pibor_flx
 ```
 
 ## Health
@@ -2926,6 +3588,76 @@ ggsave(here("output/viz/Uror/age pyramid, Uror.png"),
 include_graphics(here("output/viz/Uror/age pyramid, Uror.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+uror_hhsize <-hhsize_cnty %>%
+  filter(County=="Uror")
+
+uror_hhsize_flx <- uror_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Uror")
+
+uror_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+uror12_18 <- yth12_18_cnty %>%
+  filter(County=="Uror")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+uror_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Uror")
+
+uror_married <- bind_rows(uror12_18, uror_femearlymar)
+
+uror_married_flx <- uror_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Uror")
+
+#uror_hhsize_flx
+uror_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -3065,10 +3797,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_uror <- hhs_sev_cnty %>%
+  filter(County=="Uror") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_uror_flx <- hhs_sev_uror %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_uror_flx
 ```
 
 ## Health
@@ -3324,6 +4079,76 @@ ggsave(here("output/viz/Leer/age pyramid, Leer.png"),
 include_graphics(here("output/viz/Leer/age pyramid, Leer.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+leer_hhsize <-hhsize_cnty %>%
+  filter(County=="Leer")
+
+leer_hhsize_flx <- leer_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Leer")
+
+leer_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+leer12_18 <- yth12_18_cnty %>%
+  filter(County=="Leer")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+leer_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Leer")
+
+leer_married <- bind_rows(leer12_18, leer_femearlymar)
+
+leer_married_flx <- leer_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Leer")
+
+#leer_hhsize_flx
+leer_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -3463,10 +4288,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_leer <- hhs_sev_cnty %>%
+  filter(County=="Leer") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_leer_flx <- hhs_sev_leer %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_leer_flx
 ```
 
 ## Health
@@ -3722,6 +4570,76 @@ ggsave(here("output/viz/Mayendit/age pyramid, Mayendit.png"),
 include_graphics(here("output/viz/Mayendit/age pyramid, Mayendit.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+mayendit_hhsize <-hhsize_cnty %>%
+  filter(County=="Mayendit")
+
+mayendit_hhsize_flx <- mayendit_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Mayendit")
+
+mayendit_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+mayendit12_18 <- yth12_18_cnty %>%
+  filter(County=="Mayendit")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+mayendit_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Mayendit")
+
+mayendit_married <- bind_rows(mayendit12_18, mayendit_femearlymar)
+
+mayendit_married_flx <- mayendit_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Mayendit")
+
+#mayendit_hhsize_flx
+mayendit_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -3861,10 +4779,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_mayendit <- hhs_sev_cnty %>%
+  filter(County=="Mayendit") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_mayendit_flx <- hhs_sev_mayendit %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_mayendit_flx
 ```
 
 ## Health
@@ -4026,20 +4967,20 @@ save_as_docx(out_flx, path=here("output/tables/Mayendit/health service with sati
 
 ```
 
-# Paynijar (Unity)
+# Panyijar (Unity)
 
 ```{r}
 payn <- dat %>%
-  filter(county=="Paynijar")
+  filter(county=="Panyijar")
 
 payn_svyr <- svyrdat %>%
-  filter(county=="Paynijar")
+  filter(county=="Panyijar")
 
 payn_hh_svyr <- hh_srvyr %>%
-  filter(county=="Paynijar")
+  filter(county=="Panyijar")
 
 hhpayn <- hh %>%
-  filter(county=="Paynijar")
+  filter(county=="Panyijar")
 ```
 
 ## Age
@@ -4062,12 +5003,12 @@ age_dens <- ggplot(hhpayn, aes(age)) +
         axis.ticks.y=element_blank()) +
   labs(x="",
        y="",
-       title="Age, Paynijar",
+       title="Age, Panyijar",
        caption=paste("Mean age", round(payn_age,1), sep=" ")) 
 
 #  annotate("text", x=33, y=.06, label=paste("Mean age", round(payn_age,1), sep=" "))
 
-ggsave(here("output/viz/Paynijar/age density, Paynijar.png"),
+ggsave(here("output/viz/Panyijar/age density, Panyijar.png"),
        age_dens,
        device="png",
        type="cairo",
@@ -4075,8 +5016,8 @@ ggsave(here("output/viz/Paynijar/age density, Paynijar.png"),
        width=7)
 ```
 
-```{r echo=T, fig.cap="Age distribution of all household members, Paynijar"}
-include_graphics(here("output/viz/Paynijar/age density, Paynijar.png"))
+```{r echo=T, fig.cap="Age distribution of all household members, Panyijar"}
+include_graphics(here("output/viz/Panyijar/age density, Panyijar.png"))
 ```
 
 ```{r}
@@ -4104,10 +5045,10 @@ pyr <-  ggplot(age_payn, aes(age_lab, count, fill=sex_lab)) +
          axis.text.x=element_blank()) +
    labs(x="",
         y="",
-        title="Age pyramid\nPaynijar", 
+        title="Age pyramid\nPanyijar", 
         caption="Source: Household roster")
 
-ggsave(here("output/viz/Paynijar/age pyramid, Paynijar.png"),
+ggsave(here("output/viz/Panyijar/age pyramid, Panyijar.png"),
        pyr,
        device="png",
        type="cairo",
@@ -4117,7 +5058,77 @@ ggsave(here("output/viz/Paynijar/age pyramid, Paynijar.png"),
 ```
 
 ```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
-include_graphics(here("output/viz/Paynijar/age pyramid, Paynijar.png"))
+include_graphics(here("output/viz/Panyijar/age pyramid, Panyijar.png"))
+```
+
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+payn_hhsize <-hhsize_cnty %>%
+  filter(County=="Panyijar")
+
+payn_hhsize_flx <- payn_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Panyijar")
+
+payn_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+payn12_18 <- yth12_18_cnty %>%
+  filter(County=="Panyijar")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+payn_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Panyijar")
+
+payn_married <- bind_rows(payn12_18, payn_femearlymar)
+
+payn_married_flx <- payn_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Panyijar")
+
+#payn_hhsize_flx
+payn_married_flx
+
 ```
 
 ## Education
@@ -4134,7 +5145,7 @@ sec_ed <- ov_tab(filter(payn_hh_svyr, age>17), sec_ed, "sec_ed", "Secondary educ
 
 ed <- bind_rows(no_ed, lit, prim_ed, sec_ed)
 
-write_csv(ed, here("output/tables/Paynijar/education hh Paynijar.csv"))
+write_csv(ed, here("output/tables/Panyijar/education hh Panyijar.csv"))
 
 ed_flx <- ed %>%
   select(`Education`=2, Number, Percent, `Confidence interval`=ci) %>%
@@ -4150,7 +5161,7 @@ ed_flx <- ed %>%
 
 ed_flx
 
-save_as_docx(ed_flx, path=here("output/tables/Paynijar/education hh Paynijar.docx"))
+save_as_docx(ed_flx, path=here("output/tables/Panyijar/education hh Panyijar.docx"))
 
 ```
 
@@ -4162,7 +5173,7 @@ save_as_docx(ed_flx, path=here("output/tables/Paynijar/education hh Paynijar.doc
 
 ec_act_cnty_lst <- read_rds(here("output/tables/economic activity by county.rds"))
 
-payn_ec <-ec_act_cnty_lst$`Paynijar` %>%
+payn_ec <-ec_act_cnty_lst$`Panyijar` %>%
   arrange(desc(freq))
 
 payn_ec_flx <- payn_ec %>%
@@ -4187,7 +5198,7 @@ payn_ec_flx <- payn_ec %>%
 
 inc_cnty_lst <- read_rds(here("output/tables/income sources by county.rds"))
 
-payn_inc <- inc_cnty_lst$`Paynijar`
+payn_inc <- inc_cnty_lst$`Panyijar`
 
 payn_inc_flx <- payn_inc %>%
   ungroup() %>%
@@ -4219,13 +5230,13 @@ payn_inc_flx
 fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
 
 fies_payn <- fies_cnty %>%
-  filter(County=="Paynijar") %>%
+  filter(County=="Panyijar") %>%
   select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
 
 hhs_cnty <- read_csv(here("output/tables/food insecurity/hhs by county.csv"))
 
 hhs_payn <- hhs_cnty %>%
-  filter(County=="Paynijar") %>%
+  filter(County=="Panyijar") %>%
   select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
 
 #hhs_payn
@@ -4233,7 +5244,7 @@ hhs_payn <- hhs_cnty %>%
 hdds_cnty <- read_csv(here("output/tables/food insecurity/hdds by county.csv"))
 
 hdds_payn <- hdds_cnty %>%
-  filter(County=="Paynijar") %>%
+  filter(County=="Panyijar") %>%
   select(4, Range, Score, `Confidence interval`=ci2, `County rank`=cnty_rnk)
 
 #hdds_payn
@@ -4241,7 +5252,7 @@ hdds_payn <- hdds_cnty %>%
 insec <- bind_rows(fies_payn, hhs_payn, hdds_payn)
 #insec
 
-write_csv(insec, here("output/tables/Paynijar/food insecurity indicators Paynijar.csv"))
+write_csv(insec, here("output/tables/Panyijar/food insecurity indicators Panyijar.csv"))
 
 ```
 
@@ -4259,10 +5270,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_payn <- hhs_sev_cnty %>%
+  filter(County=="Panyijar") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_payn_flx <- hhs_sev_payn %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_payn_flx
 ```
 
 ## Health
@@ -4283,13 +5317,13 @@ hlth <- bind_rows(list(meas, visit_clin, hlth_rating, hlth_satis))
 
 #hlth
 
-write_csv(hlth, here("output/tables/Paynijar/health table Paynijar.csv"))
+write_csv(hlth, here("output/tables/Panyijar/health table Panyijar.csv"))
 
 ```
 
 ```{r}
 
-#hlth <- read_csv(here("output/tables/Paynijar/health table Paynijar.csv"))
+#hlth <- read_csv(here("output/tables/Panyijar/health table Panyijar.csv"))
 
 hlth_flx <- hlth %>%
   select(`Indicator`=2, Number, Percent, `Confidence interval`=ci) %>%
@@ -4306,7 +5340,7 @@ hlth_flx <- hlth %>%
 
 hlth_flx
 
-save_as_docx(hlth_flx, path=here("output/tables/Paynijar/health table Paynijar.docx"))
+save_as_docx(hlth_flx, path=here("output/tables/Panyijar/health table Panyijar.docx"))
 
 
 ```
@@ -4315,7 +5349,7 @@ save_as_docx(hlth_flx, path=here("output/tables/Paynijar/health table Paynijar.d
 
 ```{r}
 hlth_service_payn <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
-  filter(county=="Paynijar") %>%
+  filter(county=="Panyijar") %>%
   arrange(label)
 
 #hlth_service_payn
@@ -4347,7 +5381,7 @@ hlth_service_payn_flx <- hlth_service_payn %>%
 satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
 
 satis_service_payn_flx <- satis_service_cnty %>%
-  filter(County=="Paynijar") %>%
+  filter(County=="Panyijar") %>%
   arrange(desc(Percent)) %>%
   flextable() %>%
   set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
@@ -4369,7 +5403,7 @@ satis_service_payn_flx <- satis_service_cnty %>%
 #names(hlth_service_payn)
 
 satis_service_payn <- satis_service_cnty %>%
-  filter(County=="Paynijar") %>%
+  filter(County=="Panyijar") %>%
   rename(Service=Indicator,
          Satisfied=Percent) %>%
   arrange(Service) %>%
@@ -4389,7 +5423,7 @@ satis_service_payn <- satis_service_cnty %>%
 
 out <- bind_cols(satis_service_payn[,4], hlth_service_payn[,c(2,9)], satis_service_payn[,5:6])
 #out
-write_csv(out, here("output/tables/Paynijar/health service and satisfaction, Paynijar.csv"))
+write_csv(out, here("output/tables/Panyijar/health service and satisfaction, Panyijar.csv"))
 ```
 
 ```{r}
@@ -4415,12 +5449,12 @@ out_flx <- out %>%
   align(j=c(3, 5:6),
         align="center",
         part="all") %>%
-  set_caption("Health clinic satisfaction by service, Paynijar")
+  set_caption("Health clinic satisfaction by service, Panyijar")
 #  add_footer_lines(values="Health clinic satisfaction by service")
 
 out_flx  
 
-save_as_docx(out_flx, path=here("output/tables/Paynijar/health service with satisfaction Paynijar.docx"))
+save_as_docx(out_flx, path=here("output/tables/Panyijar/health service with satisfaction Panyijar.docx"))
 
 ```
 
@@ -4516,6 +5550,76 @@ ggsave(here("output/viz/Baliet/age pyramid, Baliet.png"),
 
 ```{r echo=T, fig.cap="Pyramid plot of age groups by sex, all household members"}
 include_graphics(here("output/viz/Baliet/age pyramid, Baliet.png"))
+```
+
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+baliet_hhsize <-hhsize_cnty %>%
+  filter(County=="Baliet")
+
+baliet_hhsize_flx <- baliet_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Baliet")
+
+baliet_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+baliet12_18 <- yth12_18_cnty %>%
+  filter(County=="Baliet")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+baliet_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Baliet")
+
+baliet_married <- bind_rows(baliet12_18, baliet_femearlymar)
+
+baliet_married_flx <- baliet_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Baliet")
+
+#baliet_hhsize_flx
+baliet_married_flx
+
 ```
 
 ## Education
@@ -4657,10 +5761,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_baliet <- hhs_sev_cnty %>%
+  filter(County=="Baliet") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_baliet_flx <- hhs_sev_baliet %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_baliet_flx
 ```
 
 ## Health
@@ -4932,6 +6059,76 @@ ggsave(here("output/viz/Ulang/age pyramid, Ulang.png"),
 include_graphics(here("output/viz/Ulang/age pyramid, Ulang.png"))
 ```
 
+## Household 
+
+```{r}
+
+hhsize_cnty <- read_csv(here("output/tables/household size by county.csv"))
+
+ulang_hhsize <-hhsize_cnty %>%
+  filter(County=="Ulang")
+
+ulang_hhsize_flx <- ulang_hhsize %>%
+  select(4:5, `Confidence interval`=ci2,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  #set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  colformat_double(j=2, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Household size, Ulang")
+
+ulang_hhsize_flx
+
+```
+
+  
+```{r}
+
+yth12_18_cnty <- read_csv(here("output/tables/proportion of household 12-18 by county.csv"))
+
+ulang12_18 <- yth12_18_cnty %>%
+  filter(County=="Ulang")
+
+femearlymar_cnty <- read_csv(here("output/tables/proportion females 12-18 married by county.csv"))
+
+ulang_femearlymar <- femearlymar_cnty %>%
+  filter(County=="Ulang")
+
+ulang_married <- bind_rows(ulang12_18, ulang_femearlymar)
+
+ulang_married_flx <- ulang_married %>%
+  select(4:5,
+         `Confidence interval`=ci,
+         `County rank`=cnty_rnk) %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+  #colformat_double(j=5, digits=1) %>%
+  set_table_properties(layout="autofit") %>%
+#  width(j=1:2, width=1.4, unit="in") %>%
+#  width(j=3, width=1.3, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+#  width(j=4, width=2.4, unit="in") %>%
+#  width(j=5:6, width=.9, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=3:4,
+        align="center") %>%
+  set_caption("Proportion females 12-18 married, Ulang")
+
+#ulang_hhsize_flx
+ulang_married_flx
+
+```
+
 ## Education
 
 ```{r}
@@ -5071,10 +6268,33 @@ insec_flx <- insec %>%
         part="header") %>%
   align(j=2:5,
         align="center") %>%
-  set_caption("Food security indicators")
-#  add_footer_lines(values="Food security indicators")
+  set_caption("Food security indicators") %>%
+  add_footer_lines(values="Food insecurity experience scale divided into moderate (3-5) and severe (6-8) insecurity") %>%
+  add_footer_lines(values="Household hunger divided into moderate (2-3) and severe (4-6) hunger")
+
+hhs_sev_ulang <- hhs_sev_cnty %>%
+  filter(County=="Ulang") %>%
+  select(Indicator, Range, Percent, `Confidence interval`=ci, `County rank`=cnty_rnk)
+
+hhs_sev_ulang_flx <- hhs_sev_ulang %>%
+  flextable() %>%
+  set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3,
+#                   digits=1) %>%
+  width(j=1, width=2.2, unit="in") %>%
+#  width(j=2, width=2, unit="in") %>%
+  width(j=4, width=1.4, unit="in") %>%
+  width(j=5, width=1.2, unit="in") %>%
+  align(align="center",
+        part="header") %>%
+  align(j=2:5,
+        align="center") %>%
+  set_caption("Severe household hunger") 
+  #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
+  
 
 insec_flx
+hhs_sev_ulang_flx
 ```
 
 ## Health

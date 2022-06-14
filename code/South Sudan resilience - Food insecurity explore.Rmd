@@ -642,7 +642,7 @@ gtsave(ltm_diet_gt, here("output/tables/food insecurity/diet irt.rtf"))
 fa.parallel(diet)
 ```
 
-6 factors, 3 components
+### 6 factors, 3 components
 
 ```{r}
 
@@ -696,17 +696,23 @@ ML6: oil/fats, milk products
 
 ML1: Vit A veggies, roots/tubers
 
-ML2: seafood
+ML2: Fish
 
 ML4: spices, cereals, other veggies
 
 ```{r}
-fa_diet_6_scores <- data.frame(fa_diet_6$scores) 
+fa_diet_6_scores <- data.frame(fa_diet_6$scores) %>%
+  set_names(nm=c("diet_fac_meats",
+                 "diet_fac_vitAfruits",
+                 "diet_fac_oilfats",
+                 "diet_fac_vitAveggies",
+                 "diet_fac_fish",
+                 "diet_fac_spicecereals"))
 
-dat2 <- dat %>%
+dat <- dat %>%
 cbind(fa_diet_6_scores)
 
-ggplot(dat2, aes(ML3, hdds)) + 
+ggplot(dat, aes(ML3, hdds)) + 
 #geom_point() + 
 stat_smooth(se=F, color="dodgerblue2") +
   stat_smooth(aes(y=ML5), se=F, color=light_grey) +
@@ -729,6 +735,55 @@ ggsave(here("output/viz/food security/HHDS factors.png"),
        width=7)
 
 ```
+
+### 5 factors
+
+```{r}
+
+fa_diet_5 <- fa(diet,
+                nfactors=5,
+                scores="tenBerge",
+                fm="ml",
+                cor="tet")
+
+fa_diet_5
+```
+
+```{r}
+fa_diet_5_ldngs <- fa_diet_5$loadings %>%
+  unclass() %>%
+  as.data.frame() %>%
+  rownames_to_column("item") %>%
+  mutate(food=diet_labs,
+         difficulty=ltm_diet_out$difficulty,
+         discrimination=ltm_diet_out$discrimination) 
+%>%
+  select(1,8,2:7,9, 10)
+
+fa_diet_5_ldngs
+
+write_csv(fa_diet_6_ldngs, here("output/tables/food insecurity/hdds factor loadings.csv"))
+
+diet6_ldngs <- fa_diet_6_ldngs %>%
+  gt() %>%
+  fmt_number(3:8, decimals=3) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue")
+    ),
+    locations = cells_body(
+      columns = ML3,
+      rows = ML3 > .3999
+    ))
+
+diet6_ldngs
+
+
+gtsave(diet6_ldngs, here("output/tables/food insecurity/hhds factor loadings.rtf"))
+
+```
+
+
 
 ```{r}
 l1 <- lm(fies_raw ~ MR1 + MR2 + MR3 + MR4 + MR5 + MR6,

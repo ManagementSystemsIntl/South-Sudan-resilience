@@ -200,7 +200,7 @@ inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
                   "Duk",
                   "Leer",
                   "Mayendit",
-                  "Paynijar",
+                  "Panyijar",
                   "Pibor",
                   "Uror",
                   "Wau")
@@ -210,7 +210,7 @@ inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
                   "Duk (Nile)",
                   "Leer (Nile)",
                   "Mayendit (Nile)",
-                  "Paynijar (Nile)",
+                  "Panyijar (Nile)",
                   "Pibor (Nile)",
                   "Uror (Nile)",
                   "Wau (Ghazel)")
@@ -220,7 +220,7 @@ inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
                        "Greater Upper Nile - Duk",
                        "Greater Upper Nile - Leer",
                        "Greater Upper Nile - Mayendit",
-                       "Greater Upper Nile - Paynijar",
+                       "Greater Upper Nile - Panyijar",
                        "Greater Upper Nile - Pibor",
                        "Greater Upper Nile - Uror",
                        "Bahr El Ghazel - Wau")
@@ -238,7 +238,9 @@ inc_key <- read_csv(here("output/tables/keys/inc key.csv"))
    group_by(region, state, county) %>%
    summarize(n=n()) %>%
    select(-n)
- 
+
+reg_state_cnty_key 
+
 geo_key <- read_csv(here("output/tables/geo key.csv"))
  
  
@@ -253,7 +255,7 @@ geo_key <- read_csv(here("output/tables/geo key.csv"))
                 "Domesticated meat",
                 "Bush meat",
                 "Eggs",
-                "Seafood",
+                "Fish",
                 "Legumes",
                 "Milk products",
                 "Oil and fats",
