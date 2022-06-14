@@ -242,58 +242,59 @@ unnamed-chunk-241	$	%>%	flextable	here	inc_lab	Percent	read_rds	select	set_capti
 unnamed-chunk-242	payn_ec_flx	payn_inc_flx
 unnamed-chunk-243	%>%	==	bind_rows	ci2	cnty_rnk	County	filter	here	Range	read_csv	Score	select	write_csv
 unnamed-chunk-244	%>%	==	add_footer_lines	align	ci	cnty_rnk	colformat_double	County	filter	flextable	hhs_sev_cnty	Indicator	insec	Percent	Range	select	set_caption	set_formatter	sprintf	width
-unnamed-chunk-245	!	bind_rows	filter	here	is.na	list	measles_vacc	ov_tab	payn_hh_svyr	payn_svyr	visited_clinic	write_csv
-unnamed-chunk-246	%>%	align	ci	flextable	here	hlth	Number	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width
-unnamed-chunk-247	%>%	==	arrange	county	filter	here	label	read_csv
-unnamed-chunk-248	%>%	add_footer_lines	align	ci	flextable	hlth_service_payn	label	select	set_formatter	sprintf	Value	width
-unnamed-chunk-249	%>%	==	add_footer_lines	align	arrange	County	desc	filter	flextable	here	Percent	read_csv	set_formatter	sprintf	width
+unnamed-chunk-245	hhs_sev_payn_flx
+unnamed-chunk-246	!	bind_rows	filter	here	is.na	list	measles_vacc	ov_tab	payn_hh_svyr	payn_svyr	visited_clinic	write_csv
+unnamed-chunk-247	%>%	align	ci	flextable	here	hlth	Number	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width
+unnamed-chunk-248	%>%	==	arrange	county	filter	here	label	read_csv
+unnamed-chunk-249	%>%	add_footer_lines	align	ci	flextable	hlth_service_payn	label	select	set_formatter	sprintf	Value	width
 unnamed-chunk-250	%>%	==	arrange	County	filter	Indicator	mutate	Percent	rename	satis_service_cnty	Service
-unnamed-chunk-251	
-unnamed-chunk-252	bind_cols	c	here	hlth_service_payn	satis_service_payn	write_csv
-unnamed-chunk-253	%>%	align	arrange	c	ci	Confidence interval	desc	flextable	here	mutate	out	Percent	rank	rename	Satisfied	save_as_docx	Service	set_caption	set_formatter	set_table_properties	sprintf	Value
-unnamed-chunk-254	%>%	==	county	dat	filter	hh	hh_srvyr	svyrdat
-unnamed-chunk-255	$	%>%	.	aes	age	baliet_hh_svyr	element_blank	geom_vline	ggplot	ggsave	group_by	here	hhbaliet	labs	mean	paste	round	scale_x_continuous	seq	stat_density	summarise	survey_mean	T	theme	unlist
-unnamed-chunk-256	here	include_graphics
-unnamed-chunk-257	%>%	==	age_dec	age_dec_key	group_by	hhbaliet	ifelse	left_join	mutate	n	na.omit	sex	sex_count	sex_key	sex_lab	summarize
-unnamed-chunk-258	aes	age_baliet	age_lab	c	coord_flip	count	element_blank	geom_bar	ggplot	ggsave	here	labs	scale_fill_manual	sex_lab	theme
-unnamed-chunk-259	here	include_graphics
-unnamed-chunk-260	%>%	==	align	ci2	cnty_rnk	colformat_double	County	filter	flextable	here	read_csv	select	set_caption	set_table_properties
-unnamed-chunk-261	%>%	==	align	bind_rows	ci	cnty_rnk	County	filter	flextable	here	read_csv	select	set_caption	set_formatter	set_table_properties	sprintf
-unnamed-chunk-262	%>%	>	age	align	baliet_hh_svyr	bind_rows	c	ci	filter	flextable	here	literate	no_educ	Number	ov_tab	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width	write_csv
-unnamed-chunk-263	$	%>%	activity_lab	align	arrange	desc	flextable	freq	here	Number	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
-unnamed-chunk-264	$	%>%	flextable	here	inc_lab	Percent	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
-unnamed-chunk-265	baliet_ec_flx	baliet_inc_flx
-unnamed-chunk-266	%>%	==	bind_rows	ci2	cnty_rnk	County	filter	here	Range	read_csv	Score	select	write_csv
-unnamed-chunk-267	%>%	==	add_footer_lines	align	ci	cnty_rnk	colformat_double	County	filter	flextable	hhs_sev_cnty	Indicator	insec	Percent	Range	select	set_caption	set_formatter	sprintf	width
-unnamed-chunk-268	!	baliet_hh_svyr	baliet_svyr	bind_rows	filter	here	is.na	list	measles_vacc	ov_tab	visited_clinic	write_csv
-unnamed-chunk-269	%>%	align	ci	flextable	here	hlth	Number	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width
-unnamed-chunk-270	%>%	==	arrange	county	filter	here	label	read_csv
-unnamed-chunk-271	%>%	add_footer_lines	align	ci	flextable	hlth_service_baliet	label	select	set_formatter	sprintf	Value	width
-unnamed-chunk-272	%>%	==	add_footer_lines	align	arrange	County	desc	filter	flextable	here	Percent	read_csv	set_formatter	sprintf	width
-unnamed-chunk-273	%>%	==	arrange	County	filter	Indicator	mutate	Percent	rename	satis_service_cnty	Service
-unnamed-chunk-274	
-unnamed-chunk-275	bind_cols	c	here	hlth_service_baliet	satis_service_baliet	write_csv
-unnamed-chunk-276	%>%	align	arrange	c	ci	Confidence interval	desc	flextable	here	mutate	out	Percent	rank	rename	Satisfied	save_as_docx	Service	set_caption	set_formatter	set_table_properties	sprintf	Value
-unnamed-chunk-277	%>%	==	county	dat	filter	hh	hh_srvyr	svyrdat
-unnamed-chunk-278	$	%>%	.	aes	age	element_blank	geom_vline	ggplot	ggsave	group_by	here	hhulang	labs	mean	paste	round	scale_x_continuous	seq	stat_density	summarise	survey_mean	T	theme	ulang_hh_svyr	unlist
-unnamed-chunk-279	here	include_graphics
-unnamed-chunk-280	%>%	==	age_dec	age_dec_key	group_by	hhulang	ifelse	left_join	mutate	n	na.omit	sex	sex_count	sex_key	sex_lab	summarize
-unnamed-chunk-281	aes	age_lab	age_ulang	c	coord_flip	count	element_blank	geom_bar	ggplot	ggsave	here	labs	scale_fill_manual	sex_lab	theme
-unnamed-chunk-282	here	include_graphics
-unnamed-chunk-283	%>%	==	align	ci2	cnty_rnk	colformat_double	County	filter	flextable	here	read_csv	select	set_caption	set_table_properties
-unnamed-chunk-284	%>%	==	align	bind_rows	ci	cnty_rnk	County	filter	flextable	here	read_csv	select	set_caption	set_formatter	set_table_properties	sprintf
-unnamed-chunk-285	%>%	>	age	align	bind_rows	c	ci	filter	flextable	here	literate	no_educ	Number	ov_tab	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	ulang_hh_svyr	width	write_csv
-unnamed-chunk-286	$	%>%	activity_lab	align	arrange	desc	flextable	freq	here	Number	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
-unnamed-chunk-287	$	%>%	flextable	here	inc_lab	Percent	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
-unnamed-chunk-288	ulang_ec_flx	ulang_inc_flx
-unnamed-chunk-289	%>%	==	bind_rows	ci2	cnty_rnk	County	filter	here	Range	read_csv	Score	select	write_csv
-unnamed-chunk-290	%>%	==	add_footer_lines	align	ci	cnty_rnk	colformat_double	County	filter	flextable	hhs_sev_cnty	Indicator	insec	Percent	Range	select	set_caption	set_formatter	sprintf	width
-unnamed-chunk-291	!	bind_rows	filter	here	is.na	list	measles_vacc	ov_tab	ulang_hh_svyr	ulang_svyr	visited_clinic	write_csv
-unnamed-chunk-292	%>%	align	ci	flextable	here	hlth	Number	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width
-unnamed-chunk-293	%>%	==	arrange	county	filter	here	label	read_csv
-unnamed-chunk-294	%>%	add_footer_lines	align	ci	flextable	hlth_service_ulang	label	select	set_formatter	sprintf	Value	width
-unnamed-chunk-295	%>%	==	add_footer_lines	align	arrange	County	desc	filter	flextable	here	Percent	read_csv	set_formatter	sprintf	width
-unnamed-chunk-296	%>%	==	arrange	County	filter	Indicator	mutate	Percent	rename	satis_service_cnty	Service
-unnamed-chunk-297	
-unnamed-chunk-298	bind_cols	c	here	hlth_service_ulang	satis_service_ulang	write_csv
-unnamed-chunk-299	%>%	align	arrange	c	ci	Confidence interval	desc	flextable	here	mutate	out	Percent	rank	rename	Satisfied	save_as_docx	Service	set_caption	set_formatter	set_table_properties	sprintf	Value
+unnamed-chunk-251	%>%	==	arrange	County	filter	Indicator	mutate	Percent	rename	satis_service_cnty	Service
+unnamed-chunk-252	
+unnamed-chunk-253	bind_cols	c	here	hlth_service_payn	satis_service_payn	write_csv
+unnamed-chunk-254	%>%	align	arrange	c	ci	Confidence interval	desc	flextable	here	mutate	out	Percent	rank	rename	Satisfied	save_as_docx	Service	set_caption	set_formatter	set_table_properties	sprintf	Value
+unnamed-chunk-255	%>%	==	county	dat	filter	hh	hh_srvyr	svyrdat
+unnamed-chunk-256	$	%>%	.	aes	age	baliet_hh_svyr	element_blank	geom_vline	ggplot	ggsave	group_by	here	hhbaliet	labs	mean	paste	round	scale_x_continuous	seq	stat_density	summarise	survey_mean	T	theme	unlist
+unnamed-chunk-257	here	include_graphics
+unnamed-chunk-258	%>%	==	age_dec	age_dec_key	group_by	hhbaliet	ifelse	left_join	mutate	n	na.omit	sex	sex_count	sex_key	sex_lab	summarize
+unnamed-chunk-259	aes	age_baliet	age_lab	c	coord_flip	count	element_blank	geom_bar	ggplot	ggsave	here	labs	scale_fill_manual	sex_lab	theme
+unnamed-chunk-260	here	include_graphics
+unnamed-chunk-261	%>%	==	align	ci2	cnty_rnk	colformat_double	County	filter	flextable	here	read_csv	select	set_caption	set_table_properties
+unnamed-chunk-262	%>%	==	align	bind_rows	ci	cnty_rnk	County	filter	flextable	here	read_csv	select	set_caption	set_formatter	set_table_properties	sprintf
+unnamed-chunk-263	%>%	>	age	align	baliet_hh_svyr	bind_rows	c	ci	filter	flextable	here	literate	no_educ	Number	ov_tab	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width	write_csv
+unnamed-chunk-264	$	%>%	activity_lab	align	arrange	desc	flextable	freq	here	Number	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
+unnamed-chunk-265	$	%>%	flextable	here	inc_lab	Percent	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
+unnamed-chunk-266	baliet_ec_flx	baliet_inc_flx
+unnamed-chunk-267	%>%	==	bind_rows	ci2	cnty_rnk	County	filter	here	Range	read_csv	Score	select	write_csv
+unnamed-chunk-268	%>%	==	add_footer_lines	align	ci	cnty_rnk	colformat_double	County	filter	flextable	hhs_sev_cnty	Indicator	insec	Percent	Range	select	set_caption	set_formatter	sprintf	width
+unnamed-chunk-269	!	baliet_hh_svyr	baliet_svyr	bind_rows	filter	here	is.na	list	measles_vacc	ov_tab	visited_clinic	write_csv
+unnamed-chunk-270	%>%	align	ci	flextable	here	hlth	Number	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width
+unnamed-chunk-271	%>%	==	arrange	county	filter	here	label	read_csv
+unnamed-chunk-272	%>%	add_footer_lines	align	ci	flextable	hlth_service_baliet	label	select	set_formatter	sprintf	Value	width
+unnamed-chunk-273	%>%	==	add_footer_lines	align	arrange	County	desc	filter	flextable	here	Percent	read_csv	set_formatter	sprintf	width
+unnamed-chunk-274	%>%	==	arrange	County	filter	Indicator	mutate	Percent	rename	satis_service_cnty	Service
+unnamed-chunk-275	
+unnamed-chunk-276	bind_cols	c	here	hlth_service_baliet	satis_service_baliet	write_csv
+unnamed-chunk-277	%>%	align	arrange	c	ci	Confidence interval	desc	flextable	here	mutate	out	Percent	rank	rename	Satisfied	save_as_docx	Service	set_caption	set_formatter	set_table_properties	sprintf	Value
+unnamed-chunk-278	%>%	==	county	dat	filter	hh	hh_srvyr	svyrdat
+unnamed-chunk-279	$	%>%	.	aes	age	element_blank	geom_vline	ggplot	ggsave	group_by	here	hhulang	labs	mean	paste	round	scale_x_continuous	seq	stat_density	summarise	survey_mean	T	theme	ulang_hh_svyr	unlist
+unnamed-chunk-280	here	include_graphics
+unnamed-chunk-281	%>%	==	age_dec	age_dec_key	group_by	hhulang	ifelse	left_join	mutate	n	na.omit	sex	sex_count	sex_key	sex_lab	summarize
+unnamed-chunk-282	aes	age_lab	age_ulang	c	coord_flip	count	element_blank	geom_bar	ggplot	ggsave	here	labs	scale_fill_manual	sex_lab	theme
+unnamed-chunk-283	here	include_graphics
+unnamed-chunk-284	%>%	==	align	ci2	cnty_rnk	colformat_double	County	filter	flextable	here	read_csv	select	set_caption	set_table_properties
+unnamed-chunk-285	%>%	==	align	bind_rows	ci	cnty_rnk	County	filter	flextable	here	read_csv	select	set_caption	set_formatter	set_table_properties	sprintf
+unnamed-chunk-286	%>%	>	age	align	bind_rows	c	ci	filter	flextable	here	literate	no_educ	Number	ov_tab	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	ulang_hh_svyr	width	write_csv
+unnamed-chunk-287	$	%>%	activity_lab	align	arrange	desc	flextable	freq	here	Number	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
+unnamed-chunk-288	$	%>%	flextable	here	inc_lab	Percent	read_rds	select	set_caption	set_formatter	sprintf	ungroup	width
+unnamed-chunk-289	ulang_ec_flx	ulang_inc_flx
+unnamed-chunk-290	%>%	==	bind_rows	ci2	cnty_rnk	County	filter	here	Range	read_csv	Score	select	write_csv
+unnamed-chunk-291	%>%	==	add_footer_lines	align	ci	cnty_rnk	colformat_double	County	filter	flextable	hhs_sev_cnty	Indicator	insec	Percent	Range	select	set_caption	set_formatter	sprintf	width
+unnamed-chunk-292	!	bind_rows	filter	here	is.na	list	measles_vacc	ov_tab	ulang_hh_svyr	ulang_svyr	visited_clinic	write_csv
+unnamed-chunk-293	%>%	align	ci	flextable	here	hlth	Number	Percent	save_as_docx	select	set_caption	set_formatter	sprintf	width
+unnamed-chunk-294	%>%	==	arrange	county	filter	here	label	read_csv
+unnamed-chunk-295	%>%	add_footer_lines	align	ci	flextable	hlth_service_ulang	label	select	set_formatter	sprintf	Value	width
+unnamed-chunk-296	%>%	==	add_footer_lines	align	arrange	County	desc	filter	flextable	here	Percent	read_csv	set_formatter	sprintf	width
+unnamed-chunk-297	%>%	==	arrange	County	filter	Indicator	mutate	Percent	rename	satis_service_cnty	Service
+unnamed-chunk-298	
+unnamed-chunk-299	bind_cols	c	here	hlth_service_ulang	satis_service_ulang	write_csv
+unnamed-chunk-300	%>%	align	arrange	c	ci	Confidence interval	desc	flextable	here	mutate	out	Percent	rank	rename	Satisfied	save_as_docx	Service	set_caption	set_formatter	set_table_properties	sprintf	Value

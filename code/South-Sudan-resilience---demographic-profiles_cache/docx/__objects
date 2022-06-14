@@ -243,57 +243,58 @@ unnamed-chunk-242
 unnamed-chunk-243	fies_cnty	fies_payn	hdds_cnty	hdds_payn	hhs_cnty	hhs_payn	insec
 unnamed-chunk-244	hhs_sev_payn	hhs_sev_payn_flx	insec_flx
 unnamed-chunk-245	
-unnamed-chunk-246	hlth_flx
-unnamed-chunk-247	hlth_service_payn
-unnamed-chunk-248	hlth_service_payn_flx
-unnamed-chunk-249	satis_service_cnty	satis_service_payn_flx
+unnamed-chunk-246	
+unnamed-chunk-247	hlth_flx
+unnamed-chunk-248	hlth_service_payn
+unnamed-chunk-249	hlth_service_payn_flx
 unnamed-chunk-250	satis_service_payn
-unnamed-chunk-251	
-unnamed-chunk-252	out
-unnamed-chunk-253	out_flx
-unnamed-chunk-254	baliet	baliet_hh_svyr	baliet_svyr	hhbaliet
-unnamed-chunk-255	age_dens	baliet_age
-unnamed-chunk-256	
-unnamed-chunk-257	age_baliet
-unnamed-chunk-258	pyr
-unnamed-chunk-259	
-unnamed-chunk-260	baliet_hhsize	baliet_hhsize_flx	hhsize_cnty
-unnamed-chunk-261	baliet_femearlymar	baliet_married	baliet_married_flx	baliet12_18	femearlymar_cnty	yth12_18_cnty
-unnamed-chunk-262	ed	ed_flx	lit	no_ed	prim_ed	sec_ed
-unnamed-chunk-263	baliet_ec	baliet_ec_flx	ec_act_cnty_lst
-unnamed-chunk-264	baliet_inc	baliet_inc_flx	inc_cnty_lst
-unnamed-chunk-265	
-unnamed-chunk-266	fies_baliet	fies_cnty	hdds_baliet	hdds_cnty	hhs_baliet	hhs_cnty	insec
-unnamed-chunk-267	hhs_sev_baliet	hhs_sev_baliet_flx	insec_flx
-unnamed-chunk-268	
-unnamed-chunk-269	hlth_flx
-unnamed-chunk-270	hlth_service_baliet
-unnamed-chunk-271	hlth_service_baliet_flx
-unnamed-chunk-272	satis_service_baliet_flx	satis_service_cnty
-unnamed-chunk-273	satis_service_baliet
-unnamed-chunk-274	
-unnamed-chunk-275	out
-unnamed-chunk-276	out_flx
-unnamed-chunk-277	hhulang	ulang	ulang_hh_svyr	ulang_svyr
-unnamed-chunk-278	age_dens	ulang_age
-unnamed-chunk-279	
-unnamed-chunk-280	age_ulang
-unnamed-chunk-281	pyr
-unnamed-chunk-282	
-unnamed-chunk-283	hhsize_cnty	ulang_hhsize	ulang_hhsize_flx
-unnamed-chunk-284	femearlymar_cnty	ulang_femearlymar	ulang_married	ulang_married_flx	ulang12_18	yth12_18_cnty
-unnamed-chunk-285	ed	ed_flx	lit	no_ed	prim_ed	sec_ed
-unnamed-chunk-286	ec_act_cnty_lst	ulang_ec	ulang_ec_flx
-unnamed-chunk-287	inc_cnty_lst	ulang_inc	ulang_inc_flx
-unnamed-chunk-288	
-unnamed-chunk-289	fies_cnty	fies_ulang	hdds_cnty	hdds_ulang	hhs_cnty	hhs_ulang	insec
-unnamed-chunk-290	hhs_sev_ulang	hhs_sev_ulang_flx	insec_flx
-unnamed-chunk-291	
-unnamed-chunk-292	hlth_flx
-unnamed-chunk-293	hlth_service_ulang
-unnamed-chunk-294	hlth_service_ulang_flx
-unnamed-chunk-295	satis_service_cnty	satis_service_ulang_flx
-unnamed-chunk-296	satis_service_ulang
-unnamed-chunk-297	
-unnamed-chunk-298	out
-unnamed-chunk-299	out_flx
+unnamed-chunk-251	satis_service_payn
+unnamed-chunk-252	
+unnamed-chunk-253	out
+unnamed-chunk-254	out_flx
+unnamed-chunk-255	baliet	baliet_hh_svyr	baliet_svyr	hhbaliet
+unnamed-chunk-256	age_dens	baliet_age
+unnamed-chunk-257	
+unnamed-chunk-258	age_baliet
+unnamed-chunk-259	pyr
+unnamed-chunk-260	
+unnamed-chunk-261	baliet_hhsize	baliet_hhsize_flx	hhsize_cnty
+unnamed-chunk-262	baliet_femearlymar	baliet_married	baliet_married_flx	baliet12_18	femearlymar_cnty	yth12_18_cnty
+unnamed-chunk-263	ed	ed_flx	lit	no_ed	prim_ed	sec_ed
+unnamed-chunk-264	baliet_ec	baliet_ec_flx	ec_act_cnty_lst
+unnamed-chunk-265	baliet_inc	baliet_inc_flx	inc_cnty_lst
+unnamed-chunk-266	
+unnamed-chunk-267	fies_baliet	fies_cnty	hdds_baliet	hdds_cnty	hhs_baliet	hhs_cnty	insec
+unnamed-chunk-268	hhs_sev_baliet	hhs_sev_baliet_flx	insec_flx
+unnamed-chunk-269	
+unnamed-chunk-270	hlth_flx
+unnamed-chunk-271	hlth_service_baliet
+unnamed-chunk-272	hlth_service_baliet_flx
+unnamed-chunk-273	satis_service_baliet_flx	satis_service_cnty
+unnamed-chunk-274	satis_service_baliet
+unnamed-chunk-275	
+unnamed-chunk-276	out
+unnamed-chunk-277	out_flx
+unnamed-chunk-278	hhulang	ulang	ulang_hh_svyr	ulang_svyr
+unnamed-chunk-279	age_dens	ulang_age
+unnamed-chunk-280	
+unnamed-chunk-281	age_ulang
+unnamed-chunk-282	pyr
+unnamed-chunk-283	
+unnamed-chunk-284	hhsize_cnty	ulang_hhsize	ulang_hhsize_flx
+unnamed-chunk-285	femearlymar_cnty	ulang_femearlymar	ulang_married	ulang_married_flx	ulang12_18	yth12_18_cnty
+unnamed-chunk-286	ed	ed_flx	lit	no_ed	prim_ed	sec_ed
+unnamed-chunk-287	ec_act_cnty_lst	ulang_ec	ulang_ec_flx
+unnamed-chunk-288	inc_cnty_lst	ulang_inc	ulang_inc_flx
+unnamed-chunk-289	
+unnamed-chunk-290	fies_cnty	fies_ulang	hdds_cnty	hdds_ulang	hhs_cnty	hhs_ulang	insec
+unnamed-chunk-291	hhs_sev_ulang	hhs_sev_ulang_flx	insec_flx
+unnamed-chunk-292	
+unnamed-chunk-293	hlth_flx
+unnamed-chunk-294	hlth_service_ulang
+unnamed-chunk-295	hlth_service_ulang_flx
+unnamed-chunk-296	satis_service_cnty	satis_service_ulang_flx
+unnamed-chunk-297	satis_service_ulang
+unnamed-chunk-298	
+unnamed-chunk-299	out
+unnamed-chunk-300	out_flx

@@ -14,6 +14,7 @@ format:
 tbl-cap-location: top
 execute: 
   echo: false
+  cache: false
 project: 
   execute-dir: project
 editor: visual
@@ -306,7 +307,7 @@ jur_inc_flx
 
 ## Food security
 
-```{r}
+```{r cach=F}
 
 fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
 
@@ -342,7 +343,7 @@ insec <- bind_rows(fies_jur, hhs_jur, hdds_jur)
 
 ```
 
-```{r}
+```{r cach=F}
 
 insec_flx <- insec %>%
   flextable() %>%
@@ -369,6 +370,7 @@ hhs_sev_jur <- hhs_sev_cnty %>%
 hhs_sev_jur_flx <- hhs_sev_jur %>%
   flextable() %>%
   set_formatter(Percent=function(x) sprintf("%.1f%%", x*100)) %>%
+#  colformat_double(j=3, suffix="%", digits=3) %>%
 #  colformat_double(j=3,
 #                   digits=1) %>%
   width(j=1, width=2.2, unit="in") %>%
@@ -5282,8 +5284,10 @@ hhs_sev_payn_flx <- hhs_sev_payn %>%
   set_caption("Severe household hunger") 
   #add_footer_lines(values="Household Hunger Scale value of 4-6 is considered severe household hunger")
   
-
 insec_flx
+```
+
+```{r cach=F}
 hhs_sev_payn_flx
 ```
 
@@ -5335,7 +5339,7 @@ save_as_docx(hlth_flx, path=here("output/tables/Panyijar/health table Panyijar.d
 
 ### Purpose of visit, with satisfaction rates
 
-```{r}
+```{r cach=F}
 hlth_service_payn <- read_csv(here("output/tables/health clinic care by county.csv")) %>%
   filter(county=="Panyijar") %>%
   arrange(label)
@@ -5344,7 +5348,7 @@ hlth_service_payn <- read_csv(here("output/tables/health clinic care by county.c
 
 ```
 
-```{r}
+```{r cach=F}
 
 hlth_service_payn_flx <- hlth_service_payn %>%
   select(Service=label,
@@ -5364,7 +5368,7 @@ hlth_service_payn_flx <- hlth_service_payn %>%
 #hlth_service_payn_flx
 ```
 
-```{r}
+```{r cache=F}
 
 satis_service_cnty <- read_csv(here("output/tables/satisfaction by health service and county.csv"))
 
@@ -5385,7 +5389,7 @@ satis_service_payn_flx <- satis_service_cnty %>%
 #satis_service_payn_flx
 ```
 
-```{r}
+```{r cach=F}
 
 #names(satis_service_payn)
 #names(hlth_service_payn)
@@ -5407,7 +5411,7 @@ satis_service_payn <- satis_service_cnty %>%
 
 ```
 
-```{r}
+```{r cach=F}
 
 out <- bind_cols(satis_service_payn[,4], hlth_service_payn[,c(2,9)], satis_service_payn[,5:6])
 #out
@@ -5830,7 +5834,7 @@ hlth_service_baliet <- read_csv(here("output/tables/health clinic care by county
   filter(county=="Baliet") %>%
   arrange(label)
 
-#hlth_service_baliet
+hlth_service_baliet
 
 ```
 
