@@ -5834,7 +5834,7 @@ hlth_service_baliet <- read_csv(here("output/tables/health clinic care by county
   filter(county=="Baliet") %>%
   arrange(label)
 
-hlth_service_baliet
+#hlth_service_baliet
 
 ```
 
