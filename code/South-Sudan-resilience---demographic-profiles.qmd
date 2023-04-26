@@ -307,6 +307,8 @@ jur_inc_flx
 
 ## Food security
 
+### Food insecurity experience scale (FIES)
+
 ```{r cach=F}
 
 fies_cnty <- read_csv(here("output/tables/food insecurity/fies by county.csv"))
@@ -388,6 +390,13 @@ hhs_sev_jur_flx <- hhs_sev_jur %>%
 insec_flx
 hhs_sev_jur_flx
 ```
+
+### Household hunger scale
+
+```{r}
+
+```
+
 
 ## Health
 
