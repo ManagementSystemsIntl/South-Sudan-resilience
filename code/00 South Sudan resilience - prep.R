@@ -50,7 +50,7 @@ lapply(bayes_packages, library, character.only=T)
 ie_packages <- c("gsynth", "MatchIt", "did", "bacondecomp")
 lapply(ie_packages, library, character.only=T)
 
-map_packages <- c("rgeoboundaries", "ggmap", "sf","rnaturalearth","rnaturalearthdata",
+map_packages <- c("rgeoboundaries", "ggmap", "sf","sfheaders", "rnaturalearth","rnaturalearthdata",
                   "mapview", "spData", "spDataLarge", "tmap", "crsuggest")
 
 lapply(map_packages, library, character.only=T)
