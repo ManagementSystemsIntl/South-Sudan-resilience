@@ -185,8 +185,12 @@ dat <- dat %>%
 
 ## aspirations comp ---- 
 
+frq(dat$asp1)
+
 asp <- dat %>%
   select(asp1:asp6)
+
+lapply(asp, frq)
 
 asp_pc <- principal(asp,
                     cor="tet")
@@ -635,7 +639,7 @@ dat <- dat %>%
 
 ## Gender-based violence ---- 
 
-frq(dat$q_820)
+frq(dat$q_812_bin)
 
 
 ## Girls' education ---- 
