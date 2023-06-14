@@ -13,6 +13,12 @@
 #               "plm", "brms", "rstan", "rstanarm","tidybayes","texreg","gt","gtsummary","huxtable","stargazer", "gsynth",
 #               "panelView", "assertr", "pointblank", "validate", "sandwich", "workflowr", "here", "missForest", "ltm", "crosstalk", "reactable", "flextable", "officer")
 # 
+# Install packages not yet installed
+#installed_packages <- packages %in% rownames(installed.packages())
+#if (any(installed_packages == FALSE)) {
+ # install.packages(packages[!installed_packages])
+#}
+
 # lapply(packages, library, character.only=T)
 # 
 # # formatting ---- 
